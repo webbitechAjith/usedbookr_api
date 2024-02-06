@@ -1,0 +1,79 @@
+/* footer css start  */
+
+.footer-section {
+    /* height: 100%; */
+    background-image: url('../image/footer-bg.png');
+    background-color: #cccccc;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+}
+
+.footer-section .icon-section img {
+    padding: 11px !important;
+    font-size: 20px;
+}
+
+.footer-section h6 {
+    margin: 10px 0px;
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.footer-section p {
+    margin: 10px 0px;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.icon-content span {
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    padding: 10px 0px;
+    background: rgba(36, 29, 96, 0.75);
+    backdrop-filter: blur(5.5px);
+}
+
+.footer-list ul li {
+    display: inline-block;
+    padding: 0px 15px;
+    border-right: 2px solid #FFF;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.footer-list h4 {
+    margin: 20px 0px;
+    color: #3B3B3B;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+
+.footer-list ul li:last-child {
+    border-right: none !important;
+}
+
+
+@media only screen and (min-width: 556px) and (max-width: 767px) {
+    
+    .footer-list ul li {
+        padding: 0px 10px;
+    }
+
+}

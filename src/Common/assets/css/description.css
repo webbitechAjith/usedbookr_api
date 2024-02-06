@@ -1,0 +1,419 @@
+.description-section {
+    background: #F8F8F8;
+}
+
+.buynow {
+    margin-top: 50px;
+    margin-left: 20px;
+    padding: 15px 50px;
+    border-radius: 43px;
+    background: #241D60;
+    border: none;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+.description-details h1 {
+    color: #1A1A1A;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 40px !important;
+}
+
+.description-details p {
+    color: #1A1A1A;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px !important;
+}
+
+.like-btn {
+    margin-left: 10px;
+    padding: 15px;
+    border-radius: 50%;
+    background: rgba(36, 29, 96, 0.10);
+}
+
+.condition-level h1 {
+    margin-bottom: 20px;
+    color: #241D60;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px !important;
+}
+
+.condition-level span {
+    color: #000;
+}
+
+.condition-level .very {
+    padding: 20px 30px;
+    border-radius: 5px;
+    background: #241D60;
+    color: #FFF;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px !important;
+}
+
+.condition-level .good {
+    padding: 20px 30px;
+    margin: 0px 20px;
+    border-radius: 5px;
+    border: 1px solid #BFBFBF;
+    color: #BFBFBF;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px !important;
+}
+
+.condition-level .well {
+    padding: 20px 30px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #5C5C5C;
+    color: #5C5C5C;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px !important;
+}
+
+.description-details .stock {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: rgba(32, 181, 38, 0.20);
+    color: #EA4B48;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.description-details .review {
+    margin-left: 10px;
+    color: #666;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.description-details .price {
+    color: #056839;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.description-details .rate {
+    color: #B3B3B3;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+    text-decoration-line: strikethrough;
+}
+
+.description-details .sales-offer {
+    margin-left: 10px;
+    padding: 2px 5px;
+    border-radius: 30px;
+    background: rgba(234, 75, 72, 0.10);
+    color: #EA4B48;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.description-details p {
+    margin-bottom: 20px;
+    color: #808080;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.count-btn {
+    padding: 15px 5px;
+    margin: 20px 0px;
+    border-radius: 170px;
+    border: 1px solid #E6E6E6;
+    background: #FFF;
+}
+
+.count-btn .sum-btn {
+    border-radius: 170px;
+    background: #F2F2F2;
+}
+
+.count-value {
+    color: #1A1A1A;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.add-card {
+    margin-left: 20px;
+    padding: 8px 100px;
+    border-radius: 43px;
+    background: #056839;
+    border: none;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+.shop-card {
+    margin-left: 10px;
+    padding: 10px 50px;
+    border-radius: 43px;
+    background: var(--Btn3, #FFD731);
+    border: none;
+    color: #241D60;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+.cate {
+    color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.cate span {
+    color: #808080;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.icon-plant {
+    padding: 30px 0px;
+    color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.nav-tabs .nav-link.active {
+    border-bottom: 2px solid #056839 !important;
+    background: #241D60 !important;
+    border-color: none !important;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px
+}
+
+.nav-tabs .nav-link {
+    color: #808080;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+}
+
+
+/* tab-details css start  */
+.tab-details {
+    margin: 100px;
+}
+
+.tab-details .nav li {
+    cursor: pointer !important;
+}
+
+.tab-details .tab-content h1 {
+    color: #626262;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 32px;
+}
+
+.tab-details .tab-content p {
+    margin-top: 20px;
+    color: #626262;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+.tab-details .nav {
+    justify-content: center !important;
+}
+
+.plant-content {
+    /* width: 20%; */
+    text-align: center;
+}
+
+.nav-item .active {
+    border: none !important;
+}
+
+.tab-content .additional li {
+    list-style: none;
+    margin-bottom: 20px;
+    color: var(--Gray-Scale-Gray-600, #666);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 28px !important;
+}
+
+.additional li label {
+    width: 30%;
+    color: var(--Gray-Scale-Gray-900, #1A1A1A);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px !important;
+}
+
+.additional li span {
+    color: var(--Gray-Scale-Gray-600, #666);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 28px;
+}
+
+.review h6 {
+    color: var(--Gray-Scale-Gray-900, #1A1A1A);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 28px;
+}
+
+.review p {
+    color: var(--Gray-Scale-Gray-500, #808080);
+    font-size: 16px !important;
+    font-weight: 400;
+    line-height: 26px !important;
+}
+
+.show-more {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 43px;
+    background: rgba(255, 215, 49, 0.10);
+    box-shadow: 0px 1px 7px 0px rgba(139, 139, 139, 0.25);
+    color: #241D60;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px !important;
+}
+
+/* .tab-content .additional tr td label{
+    margin-bottom: 20px;
+    color: var(--Gray-Scale-Gray-900, #1A1A1A);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 28px !important;
+}
+.tab-content .additional tr td span{
+    margin-bottom: 20px;
+    color: var(--Gray-Scale-Gray-600, #666);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 28px !important;
+} */
+
+
+
+/* placement css start  */
+
+.price-card {
+    border-radius: 8px;
+    border: 1px solid var(--gray-scale-gray-100, #E6E6E6);
+    background: var(--gray-scale-white, #FFF);
+}
+
+.product-order {
+    background: #F8F8F8;
+}
+
+.orderplace-section .input-section {
+    padding: 10px !important;
+}
+
+.orderplace-section {
+    margin: 50px 0px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-scale-gray-100, #E6E6E6);
+    background: var(--gray-scale-white, #FFF);
+}
+
+.btn-color {
+    background: #056839;
+    color: #FFF;
+}
+
+.btn-color:hover {
+    background: #056839;
+    color: #FFF;
+}
+
+.order-confirm button {
+    margin-top: 30px;
+    border: none;
+    padding: 10px 50px;
+    border-radius: 32px;
+    background: #056839;
+    box-shadow: 0px 4px 26px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+
+/* mobile responsive css start  */
+@media only screen and (min-width:576px) and (max-width: 776px) {
+
+    .shop-card {
+        margin-left: 10px;
+        padding: 10px 10px;
+        border-radius: 50%;
+    }
+    .like-btn {
+        margin-left: 10px;
+        padding: 10px;
+        border-radius: 50%;
+        background: rgba(36, 29, 96, 0.10);
+    }
+    .tab-details {
+        margin: 0px;
+    }
+}
+@media only screen and (min-width: 300px) and (max-width: 576px) {
+    .description-details h1 {
+        font-size: 22px;
+        line-height: 32px !important;
+    }
+    .condition-level .very {
+        padding: 10px 5px;
+    }
+    .shop-card {
+        margin-left: 10px;
+        padding: 10px 10px;
+        border-radius: 50%;
+    }
+    .like-btn {
+        margin-left: 10px;
+        padding: 10px;
+        border-radius: 50%;
+        background: rgba(36, 29, 96, 0.10);
+    }
+    .tab-details {
+        margin: 0px;
+    }
+    .tab-details .tab-content p {
+        font-size: 14px;
+        line-height: 24px !important;
+    }
+}

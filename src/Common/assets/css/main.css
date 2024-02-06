@@ -1,0 +1,891 @@
+/* section start  */
+body {
+    background: #F8F8F8;
+}
+
+.slide-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.slide-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.visible.slide-left,
+.visible.slide-right {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* model css start  */
+
+.handleclose {
+    position: 'absolute';
+    top: '10%';
+    left: '85%'
+}
+
+.handleclose .close-btn {
+    cursor: pointer;
+}
+
+.popup h1 {
+    color: var(--Gray-Scale-Gray-900, #1A1A1A);
+    text-align: center;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 50px;
+}
+
+.popup p {
+    color: #999;
+    text-align: center;
+    font-size: 18px !important;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+.popup span {
+    color: #30844A;
+}
+
+.contact-box .popup .input-set button {
+    width: 30% !important;
+    border-radius: 43px !important;
+    background: var(--Btn3, #FFD731);
+    color: #30844A;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.popup .check-content {
+    color: var(--Gray-Scale-Gray-600, #666);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+/* price fliter css start  */
+/* .slider {
+    height: 5px;
+    position: relative;
+    background: #ddd;
+    border-radius: 5px;
+  }
+  .slider .progress {
+    height: 100%;
+    left: 25%;
+    right: 25%;
+    position: absolute;
+    border-radius: 5px;
+    background: #17a2b8;
+  }
+  .range-input {
+    position: relative;
+  }
+  .range-input input {
+    margin-bottom: 10px;
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: -5px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  }
+  input[type="range"]::-moz-range-thumb {
+    height: 17px;
+    width: 17px;
+    border: none;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -moz-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  } */
+
+
+
+.MuiSlider-rail {
+    height: 5px !important;
+}
+
+.MuiSlider-track {
+    height: 5px !important;
+    color: #241D60;
+}
+
+.MuiSlider-thumb {
+    color: #241D60;
+}
+
+
+.cards {
+    border-radius: 10px;
+}
+
+.product-img .img-bg {
+    background: url('../image/card_bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card-content {
+    padding: 70px 55px;
+}
+
+.img-bg h5 {
+    color: #FFF;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.42px;
+    text-transform: uppercase;
+}
+
+.img-bg h4 {
+    color: #FFF;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 38px;
+}
+
+.sell_now {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 24.709px;
+    border: 1px solid var(--Btn3, #FFD731);
+    background: transparent;
+    color: #FFD731;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.offer-card {
+    height: 100%;
+    background-image: url('../image/offer-card.png');
+    background-color: #cccccc;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+}
+
+.card-border {
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #FFF;
+    backdrop-filter: blur(4.5px);
+}
+
+.card-border h2 {
+    color: #FFF;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 38px;
+}
+
+.card-border p {
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.28px;
+    text-transform: uppercase;
+}
+
+.card-border .code {
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.card-border .copy {
+    color: #FFF;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 22px;
+}
+
+.card-border .flash {
+    padding-top: 10px;
+    padding: 10px 5px;
+    border-radius: 5px;
+    background: var(--Btn3, #FFD731);
+}
+
+.flash .sale {
+    color: var(--Btn_in, #30844A);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px;
+}
+
+.offer-card ul li {
+    padding-top: 5px;
+    color: #FFF !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+/* author css start  */
+.author-card h2 {
+    margin: 0px !important;
+    padding: 0px !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    line-height: 30px !important;
+    /* letter-spacing: 0em; */
+    text-align: center;
+
+}
+
+.author-card {
+    width: 85% !important;
+}
+
+.author1 {
+    padding: 50px 20px;
+    background-image: url("../image/author1.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+.author2 {
+    padding: 50px 20px;
+    background-image: url("../image/author2.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+.author3 {
+    padding: 50px 20px;
+    background-image: url("../image/author3.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+.author4 {
+    padding: 50px 20px;
+    background-image: url("../image/author4.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+.author5 {
+    width: 15% !important;
+    margin-left: 10px;
+    margin: auto 10px;
+}
+
+.author5 button {
+    width: 100%;
+    /* height: 70%; */
+    padding: 30px 20px;
+    background: #FFD731 !important;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    line-height: 30px !important;
+    letter-spacing: 0em;
+    text-align: center;
+    text-transform: uppercase;
+
+
+}
+
+
+/* .owlcarousel css start  */
+
+.card-design img {
+    height: 350px !important;
+}
+
+.education {
+    border-radius: 10px;
+    background: #291D8E;
+    ;
+}
+
+.magazine {
+    border-radius: 10px;
+    background: #574AC9 !important;
+}
+
+.philosophy {
+    border-radius: 10px;
+    background: #7E6FFF;
+}
+
+.economic {
+    border-radius: 10px;
+    background: #585190;
+}
+
+.political {
+    border-radius: 10px;
+    background: #180E6C;
+}
+
+.owl-theme h2 {
+    padding: 0px 0px 20px;
+    color: #FFF;
+    font-family: Poppins !important;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+}
+
+/* auto carousel css start  */
+.carousel-indicators button {
+    width: 10px !important;
+    height: 10px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    background-color: #FFF !important;
+    opacity: 1 !important;
+}
+
+.carousel-indicators .active {
+    width: 20px !important;
+    height: 10px !important;
+    border: none !important;
+    border-radius: 20px !important;
+    background-color: #241D60 !important;
+}
+
+.arrow-section {
+    padding: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #FFF;
+}
+
+/* product-list css start  */
+.product-title {
+    color: #1A1A1A;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 50px;
+}
+
+.view-all {
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+}
+
+.viewall {
+    padding: 10px 20px;
+    border-radius: 43px;
+    background: var(--Btn3, #FFD731);
+    color: #241D60;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 16px;
+    cursor: pointer;
+}
+
+.view-all:hover {
+    cursor: pointer;
+}
+
+.normal-box {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #056839;
+    background: #FFF;
+}
+
+.box-view {
+    padding: 0px;
+    border-radius: 10px;
+    border: 1px solid #E6E6E6;
+    background: #FFF;
+}
+
+.heart-position {
+    position: absolute;
+    left: 72%;
+    margin-top: 10px;
+}
+
+.sales-position {
+    position: absolute;
+    margin-top: 10px;
+}
+
+.sales-offer {
+    border-radius: 4px;
+    background: #EA4B48;
+    border: none;
+    padding: 5px;
+    margin: 8px 0px;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.product-details h5 {
+    color: #4D4D4D;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+
+.product-details .price {
+    color: #1A1A1A;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+}
+
+.product-details .rate {
+    color: #999;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+/* plant store css start  */
+.plant-store {
+    height: 100%;
+    background-image: url('../image/trust-book.png');
+    background-color: #cccccc;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+    overflow-y: hidden;
+}
+
+.plant-store .image-1 {
+    width: 30%;
+    height: 80%;
+    vertical-align: top;
+}
+
+.plant-store .image-2 {
+    width: 70%;
+    height: 100%;
+}
+
+.plant-store h3 {
+    color: #FFF;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 46px;
+}
+
+.plant-store h4 {
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+.plant-store p {
+    color: #E0E0E0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px !important;
+}
+
+.plant-store .circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    background: #FFF;
+}
+
+.plant-store button {
+    color: #241D60;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+    border-radius: 43px;
+    background: var(--Btn3, #FFD731);
+    border: none;
+    padding: 15px 40px;
+}
+
+/* .best-seller css start  */
+.seller-book {
+    border-radius: 10px;
+    border: 1px solid #E6E6E6;
+}
+
+.like-position .unlikes {
+    padding: 10px;
+    border-radius: 50%;
+    background: #FFF;
+    position: absolute;
+    top: 2%;
+    right: 10px;
+}
+/* .product-list .like-position .unlikes {
+    padding: 0px;
+    border-radius: 50%;
+    background: #FFF;
+    position: absolute;
+    top: 2%;
+    right: 10px;
+} */
+.like-position .likes {
+    padding: 10px;
+    border-radius: 50%;
+    background: #EBE8FF;
+    position: absolute;
+    top: 2%;
+    right: 10px;
+}
+
+/* .like-position {
+    position: absolute;
+    top: 0%;
+    left: 75%;
+} */
+
+.selles-offer {
+    padding: 5px;
+    border-radius: 4px;
+    background: #EA4B48;
+    position: absolute;
+    top: 3%;
+    left: 5%;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.book-details h1 {
+    color: #4D4D4D;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+.book-details h5 {
+    color: #6E6E6E;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.book-details .rate-details .new-rate {
+    color: #1A1A1A;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 28px;
+}
+
+.book-details .rate-details .old-rate {
+    color: #999;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+    /* text-decoration-line: strikethrough; */
+    text-decoration: line-through;
+}
+
+/* contact section css start  */
+.contact-info {
+    border-radius: 10px;
+    background: rgba(48, 132, 74, 0.12);
+}
+
+.contact-box {
+    padding: 20px;
+    border-radius: 10px;
+    background: #FFF;
+}
+
+.contact-box h4 {
+    margin: 10px 0px !important;
+    color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.42px;
+    text-transform: uppercase;
+}
+
+.contact-box p {
+    color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+}
+
+.contact-box .number {
+    color: #1A1A1A;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 34px;
+}
+
+.contact-box .input-set {
+    /* width: 100%; */
+    border-radius: 500px;
+    border: 1px solid #E6E6E6;
+    background: #FFF;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.contact-box .input-set input {
+    padding: 12px;
+    border-radius: 500px;
+    border-right: none !important;
+    border: 1px solid #E6E6E6;
+    background: #FFF;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.contact-box .input-set input::placeholder {
+    color: #999;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.contact-box .input-set button {
+    width: 20% !important;
+    border-radius: 43px !important;
+    background: var(--Btn3, #FFD731);
+    color: #241D60;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.owl-theme {
+    cursor: pointer;
+}
+
+/* .bestseller .owl-theme .active{
+    width: auto !important;
+    max-width: 100%;
+}
+.owl-theme .cloned{
+    display: none;
+} */
+.owl-item .active{
+    width: auto !important;
+}
+
+/* authorname css start  */
+.author-search {
+    padding: 20px;
+    background: #4F45A1;
+    margin-bottom: 10px;
+}
+
+.author-search label {
+    color: #FFF !important;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px !important;
+    letter-spacing: 0.01em;
+    text-align: left;
+
+}
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    padding: 7px 5px;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 767px) and (max-width: 992px) {
+    .container-90 {
+        max-width: 98% !important;
+    }
+
+    /* Home page css start  */
+    .product-title {
+        font-size: 35px;
+        line-height: 45px !important;
+    }
+
+    /* author css start  */
+    .author-card {
+        width: 100% !important;
+    }
+
+    .author5 {
+        width: 20% !important;
+        margin: 0 auto;
+    }
+
+    .author5 button {
+        padding: 10px;
+    }
+    .product-list .like-position .unlikes {
+        padding: 0px;
+        border-radius: 50%;
+        background: #FFF;
+        position: absolute;
+        top: 2%;
+        right: 10px;
+    }
+
+}
+
+@media only screen and (min-width: 556px) and (max-width: 767px) {
+
+    /* home css start  */
+    .product-title {
+        font-size: 30px;
+        line-height: 40px !important;
+    }
+
+    /* author css start  */
+    .author-card {
+        width: 100% !important;
+    }
+
+    .author5 {
+        width: 25% !important;
+        margin: 0 auto;
+    }
+
+    .author5 button {
+        padding: 10px;
+    }
+
+    .plant-store h3 {
+        color: #FFF;
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 40px !important;
+    }
+
+    .contact-box .input-set button {
+        width: 40% !important;
+    }
+
+    .product-list .like-position .unlikes {
+        padding: 0px;
+        border-radius: 50%;
+        background: #FFF;
+        position: absolute;
+        top: 2%;
+        right: 10px;
+    }
+    .product-list .like-position .unlikes {
+        padding: 0px;
+        border-radius: 50%;
+        background: #FFF;
+        position: absolute;
+        top: 2%;
+        right: 10px;
+    }
+}
+
+@media only screen and (min-width: 300px) and (max-width: 556px) {
+
+    /* home css start  */
+    .product-title {
+        font-size: 22px;
+        line-height: 32px !important;
+    }
+
+    /* author css start  */
+    .author-card {
+        width: 100% !important;
+    }
+
+    .author5 {
+        width: 30% !important;
+        margin: 0 auto;
+    }
+
+    .author5 button {
+        padding: 10px;
+        font-size: 14px !important;
+        line-height: 24px !important;
+    }
+
+    .plant-store h3 {
+        color: #FFF;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 34px !important;
+    }
+
+    .viewall {
+        padding: 5px 15px;
+        font-size: 14px;
+        line-height: 24px !important;
+    }
+
+    .contact-box .input-set button {
+        width: 40% !important;
+    }
+    .product-list .like-position .unlikes {
+        padding: 0px;
+        border-radius: 50%;
+        background: #FFF;
+        position: absolute;
+        top: 2%;
+        right: 10px;
+    }
+}
