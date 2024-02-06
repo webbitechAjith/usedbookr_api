@@ -18,13 +18,13 @@ import { faArrowRight, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallplantDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setClass1Hide } from '../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setClass1Hide } from '../Redux/CreateSlice';
 import { Link, useNavigate } from 'react-router-dom'
 import Authorname from '../Common/pages/Authorname';
 
 function Autherfliter() {
 
-  const { isLiked, isAdded, allplantsDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield } = useSelector((state) => state.usedbookr_product)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -70,15 +70,15 @@ function Autherfliter() {
   }
   const plantproduct = async () => {
     // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-    // dispatch(setallplantDetails(data.data))
+    // dispatch(setallBookDetails(data.data))
     const { data } = await axios.get('https://fakestoreapi.com/products');
-    dispatch(setallplantDetails(data.data))
+    dispatch(setallBookDetails(data.data))
 
   }
   // useEffect(() => {
   //   plantproduct();
   // }, []);
-  console.log(allplantsDetails)
+  console.log(allbookDetails)
   const pass = (data) => {
     const updatedData = [data];
     dispatch(setproductIdDetails(updatedData))
@@ -102,7 +102,7 @@ function Autherfliter() {
                 <div className='row m-0  py-4'>
                   {searchfield ?
                     <>
-                      {allplantsDetails && allplantsDetails && filteredProducts.map((data, index) => {
+                      {allbookDetails && allbookDetails && filteredProducts.map((data, index) => {
                         return (
                           <div className='col-lg-4 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
                             <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>
@@ -168,7 +168,7 @@ function Autherfliter() {
                 <div className='row m-0  py-4'>
                   {searchfield ?
                     <>
-                      {allplantsDetails && allplantsDetails && filteredProducts.map((data, index) => {
+                      {allbookDetails && allbookDetails && filteredProducts.map((data, index) => {
                         return (
                           <div className='col-lg-4 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
                             <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>

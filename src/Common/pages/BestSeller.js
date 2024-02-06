@@ -8,7 +8,7 @@ import Rating from 'react-rating';
 
 import '../assets/css/main.css'
 
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallplantDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount } from '../../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount } from '../../Redux/CreateSlice';
 
 
 // image path 

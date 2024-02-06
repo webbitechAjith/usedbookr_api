@@ -10,7 +10,7 @@ import 'font-awesome/css/font-awesome.min.css';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setFilteredProducts, setallplantDetails, setpriceFilter } from '../../Redux/CreateSlice'
+import { setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faFilter } from '@fortawesome/free-solid-svg-icons';
 
@@ -71,10 +71,10 @@ function Aside() {
                     innerdoor.push(data)
                 }
             })
-            dispatch(setallplantDetails(innerdoor))
+            dispatch(setallBookDetails(innerdoor))
         } else {
             const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            dispatch(setallplantDetails(data.data))
+            dispatch(setallBookDetails(data.data))
         }
     }
     const outdoor = async () => {
@@ -88,10 +88,10 @@ function Aside() {
                     outdoor.push(data)
                 }
             })
-            dispatch(setallplantDetails(outdoor))
+            dispatch(setallBookDetails(outdoor))
         } else {
             const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            dispatch(setallplantDetails(data.data))
+            dispatch(setallBookDetails(data.data))
             console.log('kumar')
 
         }

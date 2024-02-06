@@ -33,12 +33,12 @@ import arrive1 from '../Common/assets/image/arrive1.png'
 import seller1 from '../Common/assets/image/seller1.png'
 
 import { useNavigate, useParams } from 'react-router-dom';
-import { setallplantDetails, setproductIdDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleItemCount, setClass1Hide } from '../Redux/CreateSlice';
+import { setallBookDetails, setproductIdDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleItemCount, setClass1Hide } from '../Redux/CreateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import BestSeller from '../Common/pages/BestSeller';
 
 function Description() {
-    const { isLiked, isAdded, likedProducts, likescount, shopProducts, shopcount, productIdDetails, singleItemCount } = useSelector((state) => state.usedbookr_product)
+    const { isLiked, isAdded, likedProducts, likescount, singleProductView, shopProducts, shopcount, productIdDetails, singleItemCount } = useSelector((state) => state.usedbookr_product)
     const [value, setValue] = useState(0);
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
@@ -153,9 +153,9 @@ function Description() {
     }
     const plantproduct = async () => {
         // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-        //   dispatch(setallplantDetails(data.data))
+        //   dispatch(setallBookDetails(data.data))
         const { data } = await axios.get('https://fakestoreapi.com/products');
-        dispatch(setallplantDetails(data.data))
+        dispatch(setallBookDetails(data.data))
 
     }
     const [activeTab, setActiveTab] = useState('tab1');
@@ -171,116 +171,133 @@ function Description() {
         dispatch(setproductIdDetails(productIdDetails))
         dispatch(setClass1Hide(false))
         window.scrollTo(0, 0);
+        console.log(2, singleProductView)
     }, [])
 
     return (
         <div className='description-section'>
             <Header />
-            <section className='description container-100 py-5'>
+            <section className='description container-100 pb-5'>
                 <div className='d-lg-block d-none'>
-                    <div className='row m-0'>
-                        <div className='col-6'>
-                            <div className='row m-0'>
-                                <div className='col-12'>
-                                    <img src={description4} className='w-100 h-100' />
-                                </div>
-                            </div>
-                            <div className='text-center'>
-                                {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
-                                <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
-                            </div>
-                        </div>
-                        <div className='col-6 description-details'>
-                            <>
-                                <h1>Sudha Murty English Text Guide - A <span className='stock'>In Stock</span></h1>
-                                <p>By Lisa Jewall</p>
-                                <img src={star} alt='star' />
-                                <span className='review'>4 Reviews</span>
-                                <br />
-                                <span className='price pe-2'>AED 14.99</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                                <button className='sales-offer'>50% off</button>
-                                <hr />
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis nunc a molestie dictum. Mauris venenatis, felis scelerisque aliquet lacinia, nulla nisi venenatis odio, id blandit mauris ipsum id sapien.</p>
-                                <div className='condition-level my-3'>
-                                    <h1><span>Binding type</span></h1>
-                                    <button className='very'>Paperback</button>
-                                    <button className='very mx-2'>Hardcover</button>
-                                </div>
-                                <div className='condition-level my-3'>
-                                    <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                    <button className='very'>Very good</button>
-                                    <button className='very mx-2'>Good</button>
-                                    <button className='very'>Well Read</button>
-                                    <button className='very ms-2'>Bad</button>
-                                </div>
-                                <span className="mb-3 count-btn">
-                                    <button
-                                        className="btn sum-btn"
-                                        type="button"
-                                        onClick={handleDecrement}
-                                    >
-                                        -
-                                    </button>
-                                    <span onChange={(e) => setValue(parseInt(e.target.value, 10) || 0)} className='mx-4 count-value'>{value}</span>
-                                    <button
-                                        className="btn sum-btn"
-                                        type="button"
-                                        onClick={handleIncrement}
-                                    >
-                                        +
-                                    </button>
-                                </span>
-                                <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
-                                <span className='like-btn'><img src={totallikes.includes(1) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(1)} /></span>
-                                <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
-                                {/* <div className='my-3'>
-                                    <span className='icon-plant'>Book Info : </span>
-                                    <img src={icon1} className='me-3' />
-                                    <img src={icon2} className='me-3' />
-                                    <img src={icon3} className='me-3' />
-                                    <img src={icon4} className='me-3' />
-                                </div> */}
-                            </>
+                    <div className='row m-0 bg-white p-3'>
+                        {singleProductView && singleProductView.map((data) => {
+                            return (
+                                <>
+                                    <div className='col-6'>
+                                        <div className='row m-0'>
+                                            <div className='col-12 w-75 h-25 mx-auto'>
+                                                <img src={data.image} className='w-100' />
+                                            </div>
+                                        </div>
+                                        <div className='text-center'>
+                                            {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
+                                            <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
+                                        </div>
+                                    </div>
+                                    <div className='col-6 description-details'>
+                                        <>
+                                            <h1>{data.title}<span className='stock'>In Stock</span></h1>
+                                            <p>{data.authors[0]}</p>
+                                            <img src={star} alt='star' />
+                                            <span className='review'>4 Reviews</span>
+                                            <br />
+                                            <span className='price pe-2'>INR {data.msrp}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
+                                            <button className='sales-offer'>50% off</button>
+                                            <hr />
+                                            <p>{data.synopsis}</p>
+                                            <div className='condition-level my-3'>
+                                                <h1><span>Binding type</span></h1>
+                                                <button className='very'>{data.binding}</button>
+                                            </div>
+                                            <div className='condition-level my-3'>
+                                                <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
+                                                <button className='very'>Very good</button>
+                                                <button className='very mx-2'>Good</button>
+                                                <button className='very'>Well Read</button>
+                                                <button className='very ms-2'>Bad</button>
+                                            </div>
+                                            <div className='my-5'>
+                                                <span className="mb-4 count-btn">
+                                                    <button
+                                                        className="btn sum-btn"
+                                                        type="button"
+                                                        onClick={handleDecrement}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <span onChange={(e) => setValue(parseInt(e.target.value, 10) || 0)} className='mx-4 count-value'>{value}</span>
+                                                    <button
+                                                        className="btn sum-btn"
+                                                        type="button"
+                                                        onClick={handleIncrement}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </span>
+                                                <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
+                                                <span className='like-btn'><img src={totallikes.includes(1) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(1)} /></span>
+                                                <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
+                                            </div>
+                                        </>
+                                    </div>
+                                </>
+                            )
+                        })}
 
-
-                        </div>
                     </div>
                 </div>
-                <div className='d-lg-none d-md-block d-none'>
+                <div className='d-lg-none d-md-block d-none pt-5'>
                     <div className='row m-0'>
-                        <div className='col-5'>
-                            <div className='row m-0'>
-                                <div className='col-12'>
-                                    <img src={description4} className='w-100 h-100' />
-                                </div>
-                            </div>
-                            <div className='text-center'>
-                                {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
-                                <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
-                            </div>
-                        </div>
-                        <div className='col-7 description-details'>
-                            <h1>Sudha Murty English Text Guide - A <span className='stock'>In Stock</span></h1>
-                            <p>By Lisa Jewall</p>
-                            <img src={star} alt='star' />
-                            <span className='review'>4 Reviews</span>
-                            <br />
-                            <span className='price pe-2'>AED 14.99</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                            <button className='sales-offer'>50% off</button>
-                            <hr />
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis nunc a molestie dictum. Mauris venenatis, felis scelerisque aliquet lacinia, nulla nisi venenatis odio, id blandit mauris ipsum id sapien.</p>
-                            <div className='condition-level my-3'>
-                                <h1><span>Binding type</span></h1>
-                                <button className='very'>Paperback</button>
-                                <button className='very mx-2'>Hardcover</button>
-                            </div>
-                            <div className='condition-level my-3'>
-                                <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                <button className='very'>Very good</button>
-                                <button className='very mx-2'>Good</button>
-                                <button className='very'>Well Read</button>
-                            </div>
-                        </div>
+                        {singleProductView && singleProductView.map((data) => {
+                            return (
+                                <>
+                                    <div className='col-5'>
+                                        <div className='row m-0'>
+                                            <div className='col-12'>
+                                                <img src={data.image} className='w-100 h-100' />
+                                            </div>
+                                        </div>
+                                        <div className='text-center'>
+                                            {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
+                                            <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
+                                        </div>
+                                    </div>
+                                    <div className='col-7 description-details'>
+                                        <h1>{data.title} <span className='stock'>In Stock</span></h1>
+                                        <p>{data.authors[0]}</p>
+                                        <img src={star} alt='star' />
+                                        <span className='review'>4 Reviews</span>
+                                        <br />
+                                        <span className='price pe-2'>INR {data.msrp}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
+                                        <button className='sales-offer'>50% off</button>
+                                        <hr />
+                                        <p>{data.synopsis}</p>
+
+                                    </div>
+                                    <div className='col-12 pt-1'>
+                                        <div className='row m-0'>
+                                            <div className='col-3'>
+                                                <div className='condition-level my-3'>
+                                                    <h1><span>Binding type</span></h1>
+                                                    <button className='very'>{data.binding}</button>
+                                                </div>
+                                            </div>
+                                            <div className='col-9'>
+                                                <div className='condition-level my-3'>
+                                                    <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
+                                                    <button className='very'>Very good</button>
+                                                    <button className='very mx-2'>Good</button>
+                                                    <button className='very'>Well Read</button>
+                                                    <button className='very ms-2'>Bad</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )
+                        })}
+
+
                         <div className='col-12 description-details text-center mt-5'>
                             <>
                                 <span className="mb-3 count-btn">
@@ -303,96 +320,84 @@ function Description() {
                                 <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
                                 <span className='like-btn'><img src={totallikes.includes(1) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(1)} /></span>
                                 <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
-                                <div className='my-3'>
-                                    <span className='icon-plant'>Book Info : </span>
-                                    <img src={icon1} className='me-3' />
-                                    <img src={icon2} className='me-3' />
-                                    <img src={icon3} className='me-3' />
-                                    <img src={icon4} className='me-3' />
-                                </div>
                             </>
-
-
                         </div>
                     </div>
 
                 </div>
-                <div className='d-lg-none d-md-none d-block'>
+                <div className='d-lg-none d-md-none d-block pt-5'>
                     <div className='row m-0'>
-                        <div className='col-12'>
-                            <div className='row m-0'>
-                                <div className='col-12'>
-                                    <img src={description4} className='w-100 h-100' />
-                                </div>
-                            </div>
-
-                        </div>
-                        <div className='col-12 description-details mt-4'>
-                            <h1>Sudha Murty English Text Guide - A <span className='stock'>In Stock</span></h1>
-                            <p>By Lisa Jewall</p>
-                            <img src={star} alt='star' />
-                            <span className='review'>4 Reviews</span>
-                            <br />
-                            <span className='price pe-2'>AED 14.99</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                            <button className='sales-offer'>50% off</button>
-                            <hr />
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis nunc a molestie dictum. Mauris venenatis, felis scelerisque aliquet lacinia, nulla nisi venenatis odio, id blandit mauris ipsum id sapien.</p>
-                            <div className='condition-level my-3'>
-                                <h1><span>Binding type</span></h1>
-                                <button className='very'>Paperback</button>
-                                <button className='very mx-2'>Hardcover</button>
-                            </div>
-                            <div className='condition-level my-4'>
-                                <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                <button className='very'>Very good</button>
-                                <button className='very mx-2'>Good</button>
-                                <button className='very'>Well Read</button>
-                                <button className='very'>Bad</button>
-                            </div>
-                            <>
-                                <span className="mb-3 count-btn">
-                                    <button
-                                        className="btn sum-btn"
-                                        type="button"
-                                        onClick={handleDecrement}
-                                    >
-                                        -
-                                    </button>
-                                    <span onChange={(e) => setValue(parseInt(e.target.value, 10) || 0)} className='mx-4 count-value'>{value}</span>
-                                    <button
-                                        className="btn sum-btn"
-                                        type="button"
-                                        onClick={handleIncrement}
-                                    >
-                                        +
-                                    </button>
-                                </span>
-                                <span className='d-md-block d-none'>
-                                    <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
-                                </span>
-                                <span className='d-md-none d-inline-block'>
-                                    <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}><img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
-                                </span>
-                                {/* <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button> */}
-                                <span className='like-btn'><img src={totallikes.includes(1) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(1)} /></span>
-                                <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
-                                {/* <div className='my-3'>
-                                    <span className='icon-plant'>Book Info : </span>
-                                    <img src={icon1} className='me-3' />
-                                    <img src={icon2} className='me-3' />
-                                    <img src={icon3} className='me-3' />
-                                    <img src={icon4} className='me-3' />
-                                </div> */}
-                                <div className='text-center'>
-                                    {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
-                                    <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
-                                </div>
-                            </>
-                        </div>
+                        {singleProductView && singleProductView.map((data) => {
+                            return (
+                                <>
+                                    <div className='col-12'>
+                                        <div className='row m-0'>
+                                            <div className='col-12 h-75'>
+                                                <img src={data.image} className='w-100' />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='col-12 description-details mt-5'>
+                                        <h1>{data.title}<span className='stock'>In Stock</span></h1>
+                                        <p>{data.authors[0]}</p>
+                                        <img src={star} alt='star' />
+                                        <span className='review'>4 Reviews</span>
+                                        <br />
+                                        <span className='price pe-2'>INR {data.msrp}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
+                                        <button className='sales-offer'>50% off</button>
+                                        <hr />
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis nunc a molestie dictum. Mauris venenatis, felis scelerisque aliquet lacinia, nulla nisi venenatis odio, id blandit mauris ipsum id sapien.</p>
+                                        <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
+                                        <div className='condition-level my-3'>
+                                            <h1><span>Binding type</span></h1>
+                                            <button className='very'>{data.binding}</button>
+                                        </div>
+                                        <div className='condition-level my-4'>
+                                            <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
+                                            <button className='very'>Very good</button>
+                                            <button className='very mx-2'>Good</button>
+                                            <button className='very'>Well Read</button>
+                                            <button className='very ms-2'>Bad</button>
+                                        </div>
+                                        <>
+                                            <span className="mb-3 count-btn">
+                                                <button
+                                                    className="btn sum-btn"
+                                                    type="button"
+                                                    onClick={handleDecrement}
+                                                >
+                                                    -
+                                                </button>
+                                                <span onChange={(e) => setValue(parseInt(e.target.value, 10) || 0)} className='mx-4 count-value'>{value}</span>
+                                                <button
+                                                    className="btn sum-btn"
+                                                    type="button"
+                                                    onClick={handleIncrement}
+                                                >
+                                                    +
+                                                </button>
+                                            </span>
+                                            <span className='d-md-block d-none'>
+                                                <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
+                                            </span>
+                                            <span className='d-md-none d-inline-block'>
+                                                <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}><img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
+                                            </span>
+                                            {/* <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button> */}
+                                            <span className='like-btn'><img src={totallikes.includes(1) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(1)} /></span>
+                                            <div className='text-center my-5'>
+                                                {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
+                                                <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
+                                            </div>
+                                        </>
+                                    </div>
+                                </>
+                            )
+                        })}
                     </div>
 
                 </div>
-                <div className='container-90 tab-details mt-lg-5 mt-md-4 mt-3'>
+                <div className='tab-details mt-lg-5 mt-md-4 mt-3'>
                     <Nav tabs>
                         <NavItem className='plant-content'>
                             <NavLink
@@ -422,14 +427,22 @@ function Description() {
                     </Nav>
                     <TabContent activeTab={activeTab} className='mt-3'>
                         <TabPane tabId="tab1">
-                            <div className='row m-0 tab-content'>
-                                <div className='col-lg-6 col-md-6 col-12 mt-5'>
-                                    <h1>Sudha Murthy English Text Guide</h1>
-                                    <p>This CGP Text Guide contains everything you need to write top-grade essays about 'A Christmas Carol' by Charles Dickens. It's suitable for all GCSE English exams, including the new ones starting in summer 2017. Inside, you'll find clear, thorough notes on the novel's context, plot, characters, themes and the writer's techniques - with quick questions, in-depth questions and exam-style questions included at the end of every section. There's also detailed exam advice to help you improve your grades, plus a cartoon-strip summary to remind you of all the important plot points!</p>
-                                </div>
-                                <div className='col-lg-6 col-md-6 col-12 mt-5'>
-                                    <iframe className='rounded' width="100%" height="315" src="https://www.youtube.com/embed/jp4xdxcc7WU?si=bUpj3Gg3QC0u5uLK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                </div>
+                            <div className='row m-0 tab-content flex-wrap-reverse'>
+                                {singleProductView.map((data) => {
+                                    return (
+                                        <>
+                                            <div className='col-lg-6 col-md-6 col-12 mt-5'>
+                                                <h1>{data.title}</h1>
+                                                <p>{data.synopsis}</p>
+                                            </div>
+                                            <div className='col-lg-6 col-md-6 col-12 mt-5'>
+                                                <img className='w-100 ' height={500} src={data.image} />
+                                                {/* <iframe className='rounded' width="100%" height="500" src={data.image} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
+                                            </div>
+                                        </>
+                                    )
+                                })}
+
                             </div>
                         </TabPane>
                         <TabPane tabId="tab2">
@@ -445,52 +458,118 @@ function Description() {
                                             <li className='nav-item'><label>CONDITION :</label> <span>Used - Very Good</span></li>
                                             <li className='nav-item'><label>BINDING TYPE :</label> <span>Hardback</span></li>
                                         </ul> */}
-                                        <div className='col-4'>
-                                            <label>SKU :</label>
-                                        </div>
-                                        <div className='col-8'>
-                                            <span>GOR007119845</span>
-                                        </div>
-                                        <div className='col-4 mt-4'>
-                                            <label>ISBN 13 :</label>
-                                        </div>
-                                        <div className='col-8 mt-4'>
-                                            <span>GOR007119845</span>
-                                        </div>
-                                        <div className='col-4 mt-4'>
-                                            <label>ISBN 10 :</label>
-                                        </div>
-                                        <div className='col-8 mt-4'>
-                                            <span>GOR007119845</span>
-                                        </div>
-                                        <div className='col-4 mt-4'>
-                                            <label>TITLE :</label>
-                                        </div>
-                                        <div className='col-8 mt-4'>
-                                            <span>Grade 9-1 GCSE English Text Guide</span>
-                                        </div>
-                                        <div className='col-4 mt-4'>
-                                            <label>AUTHOR :</label>
-                                        </div>
-                                        <div className='col-8 mt-4'>
-                                            <span>CGP Books</span>
-                                        </div>
-                                        <div className='col-4 mt-4'>
-                                            <label>CONDITION TYPE:</label>
-                                        </div>
-                                        <div className='col-8 mt-4'>
-                                            <span>Used - Very Good</span>
-                                        </div>
-                                        <div className='col-4 mt-4'>
-                                            <label>BINDING TYPE :</label>
-                                        </div>
-                                        <div className='col-8 mt-4'>
-                                            <span>Hardback</span>
-                                        </div>
+                                        {singleProductView.map((data) => {
+                                            return (
+                                                <>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>TITLE :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.title}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>DATE OF PUBLISHED :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.date_published}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>PUBLISHER :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.publisher}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>AUTHOR :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.authors[0]}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>MSRP :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.msrp}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>EDITION :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.edition}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>CONDITION TYPE:</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>good</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>BINDING TYPE :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.binding}</span>
+                                                    </div>
+
+                                                </>
+                                            )
+                                        })}
+
                                     </div>
                                 </div>
-                                <div className='col-lg-6 col-md-6 col-12 mt-5'>
-                                    <iframe className='rounded' width="100%" height="315" src="https://www.youtube.com/embed/jp4xdxcc7WU?si=bUpj3Gg3QC0u5uLK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                <div className='col-lg-6 col-md-6 col-12 mt-lg-5 mt-md-5 mt-sm-0 mt-0'>
+                                    {/* <iframe className='rounded' width="100%" height="315" src="https://www.youtube.com/embed/jp4xdxcc7WU?si=bUpj3Gg3QC0u5uLK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
+                                    <div className='row m-0 additional'>
+                                        {singleProductView.map((data) => {
+                                            return (
+                                                <>
+                                                    
+                                                    <div className='col-4 mt-4'>
+                                                        <label>ISBN:</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.isbn}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>ISBN 13 :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.isbn13}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>ISBN 10 :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.isbn10}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>LANGUAGE :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.language}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>DIMENSION :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.dimensions}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>WEIGHT :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.dimensions_structured.height.value}</span>
+                                                    </div>
+                                                    <div className='col-4 mt-4'>
+                                                        <label>PAGES :</label>
+                                                    </div>
+                                                    <div className='col-8 mt-4'>
+                                                        <span>{data.pages}</span>
+                                                    </div>
+                                                </>
+                                            )
+                                        })}
+
+                                    </div>
                                 </div>
                             </div>
                         </TabPane>

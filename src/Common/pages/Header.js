@@ -24,14 +24,14 @@ import whiteshop from '../assets/image/white_shop.png'
 import whitenav from '../assets/image/whitenav.png'
 import heartShop from '../assets/image/heart-shop.png'
 
-import { setClass1Hide, setallplantDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield } from '../../Redux/CreateSlice'
+import { setClass1Hide, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield } from '../../Redux/CreateSlice'
 import axios from 'axios';
 
 
 function Header() {
-    const { isClass1Show, likescount, shopcount, searchProduct, allplantsDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
+    const { isClass1Show, likescount, shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
     const [searchTerm, setSearchTerm] = useState('');
-    const [products, setProducts] = useState(allplantsDetails);
+    const [products, setProducts] = useState(allbookDetails);
     const [isSticky, setIsSticky] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
@@ -71,13 +71,13 @@ function Header() {
             );
 
             if (newSearchItem === '') {
-                dispatch(setallplantDetails(data.data));
+                dispatch(setallBookDetails(data.data));
                 dispatch(setsearchfield(true))
             } else if (searchResults.length === 0) {
                 dispatch(setsearchfield(false))
 
             } else {
-                dispatch(setallplantDetails(searchResults));
+                dispatch(setallBookDetails(searchResults));
                 dispatch(setsearchfield(true))
 
             }
@@ -90,7 +90,7 @@ function Header() {
         dispatch(setnavListDetails(data.data))
     }
     useEffect(() => {
-        dispatch(setallplantDetails(allplantsDetails))
+        dispatch(setallBookDetails(allbookDetails))
         dispatch(setsearchProduct(searchProduct))
         navlist()
         const handleScroll = () => {

@@ -10,13 +10,13 @@ import 'font-awesome/css/font-awesome.min.css';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setFilteredProducts, setallplantDetails, setpriceFilter } from '../../Redux/CreateSlice'
+import { setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 
 function Authorname() {
-    const { allplantsDetails, priceFilter, filteredProducts } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, priceFilter, filteredProducts } = useSelector((state) => state.usedbookr_product)
     const [sliderValue, setSliderValue] = useState(0); // Initial value
     const [topDetails, setTopDetails] = useState(0); // Initial value
     const [outDoor, setoutDoor] = useState(0); // Initial value
@@ -50,15 +50,15 @@ function Authorname() {
         console.log("onvalue", topDetails)
         if (topDetails === 0) {
             const innerdoor = [];
-            allplantsDetails && allplantsDetails.map((data, index) => {
+            allbookDetails && allbookDetails.map((data, index) => {
                 if (data.category_id == 1) {
                     innerdoor.push(data)
                 }
             })
-            dispatch(setallplantDetails(innerdoor))
+            dispatch(setallBookDetails(innerdoor))
         } else {
             const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            dispatch(setallplantDetails(data.data))
+            dispatch(setallBookDetails(data.data))
         }
     }
     const outdoor = async () => {
@@ -67,15 +67,15 @@ function Authorname() {
         if (outDoor === 0) {
             console.log("ajith")
             const outdoor = [];
-            allplantsDetails && allplantsDetails.map((data, index) => {
+            allbookDetails && allbookDetails.map((data, index) => {
                 if (data.category_id == 3) {
                     outdoor.push(data)
                 }
             })
-            dispatch(setallplantDetails(outdoor))
+            dispatch(setallBookDetails(outdoor))
         } else {
             const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            dispatch(setallplantDetails(data.data))
+            dispatch(setallBookDetails(data.data))
             console.log('kumar')
 
         }
@@ -86,9 +86,9 @@ function Authorname() {
     };
     // useEffect(() => {
     //     // Filter products based on the max price
-    //     const filtered = allplantsDetails.filter(product => product.total_price <= maxPrice);
+    //     const filtered = allbookDetails.filter(product => product.total_price <= maxPrice);
     //     dispatch(setFilteredProducts(filtered));
-    // }, [maxPrice, allplantsDetails]);
+    // }, [maxPrice, allbookDetails]);
 
     return (
         <>

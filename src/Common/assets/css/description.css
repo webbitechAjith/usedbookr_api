@@ -224,7 +224,7 @@
 
 /* tab-details css start  */
 .tab-details {
-    margin: 100px;
+    margin: 50px;
 }
 
 .tab-details .nav li {
@@ -373,45 +373,63 @@
 
 
 /* mobile responsive css start  */
+@media only screen and (min-width:768px) and (max-width: 992px) {
+    .description-details h1 {
+        font-size: 20px;
+        line-height: 30px !important;
+    }
+    .tab-details {
+        margin: 10px;
+    }
+}
+
 @media only screen and (min-width:576px) and (max-width: 776px) {
+
+    /* .shop-card {
+        margin-left: 10px;
+        padding: 10px 50px;
+        border-radius: 50%;
+    } */
+
+    .like-btn {
+        margin-left: 10px;
+        padding: 10px;
+        border-radius: 50%;
+        background: rgba(36, 29, 96, 0.10);
+    }
+
+    .tab-details {
+        margin: 0px;
+    }
+}
+
+@media only screen and (min-width: 300px) and (max-width: 576px) {
+    .description-details h1 {
+        font-size: 22px;
+        line-height: 32px !important;
+    }
+
+    .condition-level .very {
+        padding: 10px 5px;
+    }
 
     .shop-card {
         margin-left: 10px;
         padding: 10px 10px;
         border-radius: 50%;
     }
+
     .like-btn {
         margin-left: 10px;
         padding: 10px;
         border-radius: 50%;
         background: rgba(36, 29, 96, 0.10);
     }
+
     .tab-details {
         margin: 0px;
     }
-}
-@media only screen and (min-width: 300px) and (max-width: 576px) {
-    .description-details h1 {
-        font-size: 22px;
-        line-height: 32px !important;
-    }
-    .condition-level .very {
-        padding: 10px 5px;
-    }
-    .shop-card {
-        margin-left: 10px;
-        padding: 10px 10px;
-        border-radius: 50%;
-    }
-    .like-btn {
-        margin-left: 10px;
-        padding: 10px;
-        border-radius: 50%;
-        background: rgba(36, 29, 96, 0.10);
-    }
-    .tab-details {
-        margin: 0px;
-    }
+
     .tab-details .tab-content p {
         font-size: 14px;
         line-height: 24px !important;

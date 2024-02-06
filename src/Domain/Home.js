@@ -6,6 +6,12 @@ import Popup from '../Common/pages/Popup';
 
 import '../Common/assets/css/main.css'
 
+
+// apiservice include path 
+import { allbooks } from '../Common/pages/apiBaseurl'
+
+
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faCheck, faHeart } from '@fortawesome/free-solid-svg-icons';
 
@@ -32,17 +38,24 @@ import flash from '../Common/assets/image/flash.png'
 import discount from '../Common/assets/image/discount-card.png'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallplantDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setClass1Hide } from '../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setClass1Hide } from '../Redux/CreateSlice';
 import { useNavigate } from 'react-router-dom';
 import SimpleSlider from '../Common/pages/SimpleSlider';
 import BestSeller from '../Common/pages/BestSeller';
 import Authors from '../Common/pages/Authors';
+import Allbooks from '../Common/pages/Allbooks';
 
 function Home() {
-  const { isLiked, isAdded, allplantsDetails, likedProducts, searchItemDetails, likescount, shopProducts, shopcount, searchfield } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, likedProducts, searchItemDetails, likescount, shopProducts, shopcount, searchfield } = useSelector((state) => state.usedbookr_product)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const bookproduct = async () => {
+    // const { data } = await axios.get('https://usedbookr.com/demo/usedbookr/api/books');
+    const data = await allbooks();
+    dispatch(setallBookDetails(data.response.books))
 
+  }
+  console.log(1, allbookDetails)
   // like product click fn 
   const totallikes = likedProducts.map((data) => data.id);
 
@@ -91,20 +104,14 @@ function Home() {
   const all_product = () => {
     navigate('/Allproduct')
   }
-  const plantproduct = async () => {
-    // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-    //   dispatch(setallplantDetails(data.data))
-    const { data } = await axios.get('https://fakestoreapi.com/products');
-    dispatch(setallplantDetails(data.data))
-
-  }
+  
   // const [showPopUp, setShowPopUp] = useState(false);
   // const showPopupHandler = () => setShowPopUp(true)
 
   // no.of product view on array 
-  // const firstThreeProducts = allplantsDetails.slice(0, 3);
+  // const firstThreeProducts = allbookDetails.slice(0, 3);
   useEffect(() => {
-    plantproduct();
+    bookproduct();
     dispatch(setClass1Hide(false))
     window.scrollTo(0, 0);
   }, [])
@@ -274,7 +281,7 @@ function Home() {
               {/* <div className='row m-0 py-5'>
                 {searchfield ?
                   <>
-                    {allplantsDetails && allplantsDetails.map((data, index) => {
+                    {allbookDetails && allbookDetails.map((data, index) => {
                       return (
                         <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
                           <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>
@@ -319,7 +326,7 @@ function Home() {
                 }
 
               </div> */}
-              <BestSeller />
+              <Allbooks />
             </div>
           </div>
           <div className='d-lg-none d-block'>
@@ -328,7 +335,7 @@ function Home() {
               {/* <div className='row m-0 py-5'>
                 {searchfield ?
                   <>
-                    {allplantsDetails && allplantsDetails.map((data, index) => {
+                    {allbookDetails && allbookDetails.map((data, index) => {
                       return (
                         <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
                           <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>
@@ -373,7 +380,7 @@ function Home() {
                 }
 
               </div> */}
-              <BestSeller />
+              <Allbooks />
               <div className='author5'>
                 <button onClick={() => all_product()}>View All</button>
               </div>
