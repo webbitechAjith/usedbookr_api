@@ -23,6 +23,8 @@ import { setregisterDetails } from '../Redux/CreateSlice';
 import Header from '../Common/pages/Header';
 import Footer from '../Common/pages/Footer';
 
+// api call fn path 
+import { userRegister } from '../Common/pages/apiBaseurl'
 
 function Register() {
     const { registerDetails } = useSelector((state) => state.usedbookr_product)
@@ -42,25 +44,14 @@ function Register() {
     }
 
     const signup = async () => {
-        if (registerDetails.password == registerDetails.password_confirm) {
-            axios.get(`https://webbitech.co.in/ecommerce/public/api/register`, {
-                params: {
-                    name: registerDetails.name,
-                    email: registerDetails.email,
-                    mobile: registerDetails.mobile,
-                    password: registerDetails.password,
-                    password_confirm: registerDetails.password_confirm,
-                },
-            })
-                .then(response => {
-                    // Handle the API response
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    // Handle errors
-                    alert("The mobile has already been taken.")
-                });
-
+        if (registerDetails.password == registerDetails.password_confirmation) {
+            try {
+                const response = await userRegister(registerDetails);
+                // Handle the API response
+            } catch (error) {
+                // Handle errors
+                alert(error);
+            }
         } else {
             console.log(registerDetails)
             alert("don't match password and confirm password")
@@ -84,7 +75,7 @@ function Register() {
                                         <span className="pe-2">
                                             <img src={mail} />
                                         </span>
-                                        <input type="email" className="form-control border-0 border-bottom" id="email" name='email' value={registerDetails.email} placeholder="Enter your Email / Phone Number" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, email: e.target.value }))} />
+                                        <input type="text" className="form-control border-0 border-bottom" id="email" name='email' value={registerDetails.email} placeholder="Enter your Email / Phone Number" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, email: e.target.value }))} />
                                     </div>
                                 </div>
                                 <div className="my-3">
@@ -123,7 +114,7 @@ function Register() {
                                         <span className="pe-2">
                                             <img src={lock} />
                                         </span>
-                                        <input type={confirm ? 'text' : 'password'} className="form-control border-0 border-bottom" id="password" placeholder="Confrim your Password" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, password_confirm: e.target.value }))} />
+                                        <input type={confirm ? 'text' : 'password'} className="form-control border-0 border-bottom" id="password" placeholder="Confrim your Password" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, password_confirmation: e.target.value }))} />
                                         <button
                                             className="btn "
                                             type="button"

@@ -49,13 +49,8 @@ function Home() {
   const { isLiked, isAdded, allbookDetails, likedProducts, searchItemDetails, likescount, shopProducts, shopcount, searchfield } = useSelector((state) => state.usedbookr_product)
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const bookproduct = async () => {
-    // const { data } = await axios.get('https://usedbookr.com/demo/usedbookr/api/books');
-    const data = await allbooks();
-    dispatch(setallBookDetails(data.response.books))
 
-  }
-  console.log(1, allbookDetails)
+
   // like product click fn 
   const totallikes = likedProducts.map((data) => data.id);
 
@@ -105,6 +100,12 @@ function Home() {
     navigate('/Allproduct')
   }
   
+  const bookproduct = async () => {
+    const data = await allbooks();
+    dispatch(setallBookDetails(data))
+
+  }
+  // console.log(1, allbookDetails)
   // const [showPopUp, setShowPopUp] = useState(false);
   // const showPopupHandler = () => setShowPopUp(true)
 
@@ -115,6 +116,7 @@ function Home() {
     dispatch(setClass1Hide(false))
     window.scrollTo(0, 0);
   }, [])
+  console.log(allbookDetails)
   return (
     <div>
       {/* {popup} */}
@@ -278,54 +280,6 @@ function Home() {
             <div className='container-90 product-list mt-5 mb-3'>
               <span className='product-title'>Best Sellers in Education Books</span>
               <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
-              {/* <div className='row m-0 py-5'>
-                {searchfield ?
-                  <>
-                    {allbookDetails && allbookDetails.map((data, index) => {
-                      return (
-                        <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
-                          <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>
-                            <button className='sales-offer'>Sale {data.discount_price}</button>
-                            <span
-                              className='float-end'
-                              onClick={() => handleLikeClick(data)}
-                            >
-                              <img
-                                src={totallikes.includes(data.id) ? likes : unlike}
-                                alt="Like Button"
-                              />
-                            </span>
-                            <img src={plant3} className='w-100' />
-                            <div class="row m-0 product-details">
-                              <div class="col-9">
-                                <h5>{data.title}</h5>
-                                <span className='price pe-2'>{data.total_price}</span><span className='text-decoration-line-through rate'>{data.actual_price}</span>
-                                <img src={rating} className='ms-2' />
-                              </div>
-                              <div class="col-3">
-                                <span
-                                  className='float-end'
-                                  id={data.id} value={data.id}
-                                  onClick={() => handleShopClick(data, data.id, data.total_price)}
-                                >
-                                  <img
-                                    src={totalshops.includes(data.id) ? add : remove}
-                                    alt="Shop Button"
-                                  />
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </> :
-                  <>
-                    <h1 className='text-center product-title'>No items</h1>
-                  </>
-                }
-
-              </div> */}
               <Allbooks />
             </div>
           </div>

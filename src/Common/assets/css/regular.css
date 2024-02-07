@@ -153,11 +153,13 @@
 .drop-width {
     position: static;
 }
-.space-item{
+
+.space-item {
     display: grid !important;
     justify-content: space-between;
     grid-template-columns: repeat(4, 1fr);
 }
+
 .drop-width .list-group .list-group-item:hover {
     background: #241D60 !important;
     color: #FFF !important;
@@ -240,10 +242,12 @@ nav .custom-active {
 .nav-section .collapse:not(.show) {
     display: block !important;
 }
+
 [aria-expanded="true"] {
     /* Styles for when aria-expanded is true */
-   display: block !important;
+    display: block !important;
 }
+
 .sidebar .nav-content {
     margin-top: 50px;
 }
@@ -258,6 +262,58 @@ nav .custom-active {
 }
 
 
+
+/* @media (min-width: 768px) {
+    
+} */
+
+.otp-form .input-section {
+    height: auto !important;
+    position: absolute;
+    top: 25%;
+    left: 7%;
+}
+
+.otp-container input {
+    width: 75%;
+    height: 50px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.otp-container button {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* @media screen and (max-width: 600px) {
+    .otp-container input {
+      height: 40px;
+      font-size: 1.2rem;
+    }
+  
+    .otp-container button {
+      height: 40px;
+      font-size: 1.2rem;
+    }
+  } */
+
+
+
 @media only screen and (min-width: 300px) and (max-width: 768px) {
     .like-count {
         top: 0px !important;
@@ -267,6 +323,12 @@ nav .custom-active {
     .item-count {
         top: 0px !important;
         left: 30px !important;
+    }
+
+    .otp-input {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
     }
 
 }

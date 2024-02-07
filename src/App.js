@@ -26,6 +26,7 @@ import Forgetpassword from './Domain/Forgetpassword';
 import Resetpassword from './Domain/Resetpassword';
 import Fdfd from './Domain/Fdfd';
 import Autherfliter from './Domain/Authorfliter';
+import OTPForm from './Domain/OTPForm';
 
 function App() {
    
@@ -59,6 +60,7 @@ function App() {
         <Route path='/Forgetpassword' element={<Forgetpassword />} />
         <Route path='/Resetpassword' element={<Resetpassword />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/otpform' element={<OTPForm />} />
         <Route path='/Allproduct' element={<Product />} />
         <Route path='/Description' element={<Description />}/>
         <Route path='/Profile' element={<Profile />} />

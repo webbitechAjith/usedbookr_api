@@ -146,7 +146,6 @@ function Description() {
 
     }
     const product_like = () => {
-        console.log("ajith")
     }
     const all_product = () => {
         navigate('/Allproduct')
@@ -522,7 +521,7 @@ function Description() {
                                         {singleProductView.map((data) => {
                                             return (
                                                 <>
-                                                    
+
                                                     <div className='col-4 mt-4'>
                                                         <label>ISBN:</label>
                                                     </div>
