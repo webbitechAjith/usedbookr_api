@@ -27,6 +27,7 @@ import Resetpassword from './Domain/Resetpassword';
 import Fdfd from './Domain/Fdfd';
 import Autherfliter from './Domain/Authorfliter';
 import OTPForm from './Domain/OTPForm';
+import Contact from './Domain/Contact';
 
 function App() {
    
@@ -47,7 +48,6 @@ function App() {
 
     window.addEventListener('scroll', handleScroll);
     handleScroll(); // Initial check
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -63,6 +63,7 @@ function App() {
         <Route path='/otpform' element={<OTPForm />} />
         <Route path='/Allproduct' element={<Product />} />
         <Route path='/Description' element={<Description />}/>
+        <Route path='/contact' element={<Contact />}/>
         <Route path='/Profile' element={<Profile />} />
         <Route path='/History' element={<History />} />
         <Route path='/Wishlist' element={<Wishlist />} />

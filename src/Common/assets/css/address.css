@@ -1,0 +1,97 @@
+.contact{
+    padding: 60px 0px 0px;
+    background: #f8f8f8;
+}
+.contact .contact-left  {
+    padding: 0px 30px;
+}
+.contact .contact-title{
+    font-weight: 600;
+    line-height: 1.25em;
+    margin: 0 0 20px 0;
+    color: #222;
+    font-size: 30px;
+}
+.contact .contact-text{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.75em;
+    color: #8E8E8E;
+    margin-bottom: 30px;
+}
+.contact .contact-detail{
+    display: flex;
+    margin-bottom: 35px;
+}
+.contact .contact-detail .icon{
+    font-size: 16px;
+    color: #241D60;
+    background: #FFD731;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    position: relative;
+}
+.contact .contact-detail .text{
+    margin-left: 10px;
+}
+.contact .contact-detail .text .reservation-text{
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.contact .contact-detail .text .reservation-title{
+    margin: 0;
+    line-height: inherit;
+}
+.contact .contact-detail .text .reservation-title a{
+    font-size: 14px;
+    color: #8E8E8E;
+    margin-right: 10px;
+}
+.contact .contact-right{
+    background: #fff;
+    box-shadow: 0px 2px 11px 0px #B5B5B540;
+   padding:30px 25px;
+}
+.contact .get-title{
+    font-weight: 600;
+    line-height: 1.25em;
+    margin: 0 0 25px 0;
+    color: #222;
+    font-size: 24px;
+}
+.contact form .form-label{
+    color: #1D66A7;
+    font-weight: 600;
+}
+.contact form .form-control{
+    max-width: 100%;
+    padding: 15px;
+    height: auto;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-width: 0 0 1px;
+    border-style: solid;
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    line-height: 1.5em;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+    background-image: none;
+    border: 1px solid #E5E5E5;
+    border-color: ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.contact form .form-control:focus{
+    border-color: #241D60;
+}
+.contact form .form-control::placeholder{
+    color: #BCBCBC;
+}

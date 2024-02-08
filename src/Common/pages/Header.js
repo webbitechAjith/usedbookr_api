@@ -348,7 +348,7 @@ function Header() {
                                                         </NavLink>
                                                     </li>
                                                     <li className='d-flex align-items-center'>
-                                                        <NavLink exact to="/faq" className={`${pathname === '/faq' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                        <NavLink exact to="/contact" className={`${pathname === '/contact' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                             Contact Us
                                                         </NavLink>
                                                     </li>
@@ -443,7 +443,7 @@ function Header() {
                                                     </NavLink>
                                                 </li>
                                                 <li className='d-flex align-items-center'>
-                                                    <NavLink exact to="/faq" className={`${pathname === '/faq' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                    <NavLink exact to="/contact" className={`${pathname === '/contact' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                         Contact Us
                                                     </NavLink>
                                                 </li>

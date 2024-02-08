@@ -51,42 +51,42 @@ function Home() {
   const navigate = useNavigate();
 
 
-  // like product click fn 
-  const totallikes = likedProducts.map((data) => data.id);
+  // // like product click fn 
+  // const totallikes = likedProducts.map((data) => data.id);
 
-  const handleLikeClick = (product) => {
-    const isLikeds = product.id;
+  // const handleLikeClick = (product) => {
+  //   const isLikeds = product.id;
 
-    // Check if the product ID is in the likedProducts array
-    if (totallikes.includes(isLikeds)) {
-      // If it's already liked, remove it from the likedProducts array
-      dispatch(setLikedProducts(likedProducts.filter((likedProduct) => likedProduct.id !== isLikeds)));
-      dispatch(setlikescount(likescount - 1))
-    } else {
-      // If it's not liked, add it to the likedProducts array
-      dispatch(setLikedProducts([...likedProducts, product]));
-      dispatch(setlikescount(likescount + 1))
+  //   // Check if the product ID is in the likedProducts array
+  //   if (totallikes.includes(isLikeds)) {
+  //     // If it's already liked, remove it from the likedProducts array
+  //     dispatch(setLikedProducts(likedProducts.filter((likedProduct) => likedProduct.id !== isLikeds)));
+  //     dispatch(setlikescount(likescount - 1))
+  //   } else {
+  //     // If it's not liked, add it to the likedProducts array
+  //     dispatch(setLikedProducts([...likedProducts, product]));
+  //     dispatch(setlikescount(likescount + 1))
 
-    }
-  };
+  //   }
+  // };
 
-  // shop product click fn 
-  const totalshops = shopProducts.map((data) => data.id);
+  // // shop product click fn 
+  // const totalshops = shopProducts.map((data) => data.id);
 
-  const handleShopClick = (product, id, price) => {
-    const isShops = product.id;
-    // Check if the product ID is in the likedProducts array
-    if (totalshops.includes(isShops)) {
-      // If it's already liked, remove it from the likedProducts array
-      dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== isShops)));
-      dispatch(setshopcount(shopcount - 1))
-    } else {
-      // If it's not liked, add it to the likedProducts array
-      // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
-      dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
-      dispatch(setshopcount(shopcount + 1))
-    }
-  };
+  // const handleShopClick = (product, id, price) => {
+  //   const isShops = product.id;
+  //   // Check if the product ID is in the likedProducts array
+  //   if (totalshops.includes(isShops)) {
+  //     // If it's already liked, remove it from the likedProducts array
+  //     dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== isShops)));
+  //     dispatch(setshopcount(shopcount - 1))
+  //   } else {
+  //     // If it's not liked, add it to the likedProducts array
+  //     // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
+  //     dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
+  //     dispatch(setshopcount(shopcount + 1))
+  //   }
+  // };
   const product_add = () => {
 
   }
@@ -99,11 +99,14 @@ function Home() {
   const all_product = () => {
     navigate('/Allproduct')
   }
-  
+
   const bookproduct = async () => {
     const data = await allbooks();
-    dispatch(setallBookDetails(data))
-
+    const productsWithIds = data.map((product, index) => ({
+      id: index + 1,
+      ...product
+    }));
+    dispatch(setallBookDetails(productsWithIds))
   }
   // console.log(1, allbookDetails)
   // const [showPopUp, setShowPopUp] = useState(false);
@@ -112,7 +115,9 @@ function Home() {
   // no.of product view on array 
   // const firstThreeProducts = allbookDetails.slice(0, 3);
   useEffect(() => {
-    bookproduct();
+    if (allbookDetails == "") {
+      bookproduct();
+    }
     dispatch(setClass1Hide(false))
     window.scrollTo(0, 0);
   }, [])
@@ -268,19 +273,12 @@ function Home() {
               <Authors />
             </div>
           </div>
-          {/* <div className='row m-0'>
-              <div className='col-lg-10 col-md-9 col-8'>
-                <span className='product-title'>Best Sellers in Education Books</span>
-              </div>
-              <div className='col-lg-2 col-md-3 col-4 p-0 '>
-                <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#056839' }} className='ps-2 d-lg-block d-md-block d-sm-block d-none' /></span>
-              </div>
-            </div> */}
+
           <div className='d-lg-block d-none'>
             <div className='container-90 product-list mt-5 mb-3'>
               <span className='product-title'>Best Sellers in Education Books</span>
               <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
-              <Allbooks />
+              {allbookDetails == '' ? <><h1>noitems</h1></> : <><Allbooks /></>}
             </div>
           </div>
           <div className='d-lg-none d-block'>

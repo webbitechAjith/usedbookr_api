@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../Common/assets/css/auth.css'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
@@ -44,23 +44,31 @@ function Register() {
     }
 
     const signup = async () => {
-        if (registerDetails.password == registerDetails.password_confirmation) {
-            try {
-                const response = await userRegister(registerDetails);
-                if(response.success == true){
-                    alert(response.message);
-                    navigate('/otpform')
-                }
-                // Handle the API response
-            } catch (error) {
-                // Handle errors
-                alert("check your mail and mobilenumber");
-            }
+        const isEmpty = Object.values(registerDetails).some(value => value === "");
+        if (isEmpty) {
+            alert("Please fill in all the fields.");
+            return;
         } else {
-            alert("don't match password and confirm password")
+            if (registerDetails.password == registerDetails.password_confirmation) {
+                try {
+                    const response = await userRegister(registerDetails);
+                    if (response.success == true) {
+                        alert(response.message);
+                        navigate('/otpform')
+                    }
+                    // Handle the API response
+                } catch (error) {
+                    // Handle errors
+                    alert("check your mail and mobilenumber");
+                }
+            } else {
+                alert("don't match password and confirm password")
+            }
         }
-
     }
+    useEffect(()=>{
+        window.scrollTo(0, 0);
+    },[])
     return (
         <>
             <Header />
@@ -91,14 +99,14 @@ function Register() {
                                     </div>
                                 </div>
                                 <div className="my-3">
-                                <label htmlFor="text" className="form-label">Mobile Number</label>
-                                <div className="input-group">
-                                    <span className="pe-2">
-                                        <img src={phone} />
-                                    </span>
-                                    <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your mobile number" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, phone_number: e.target.value }))} />
+                                    <label htmlFor="text" className="form-label">Mobile Number</label>
+                                    <div className="input-group">
+                                        <span className="pe-2">
+                                            <img src={phone} />
+                                        </span>
+                                        <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your mobile number" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, phone_number: e.target.value }))} />
+                                    </div>
                                 </div>
-                            </div>
                                 <div className="my-3">
                                     <label htmlFor="password" className="form-label">Password</label>
                                     <div className="input-group">
@@ -169,7 +177,7 @@ function Register() {
                                 <span className="pe-2">
                                     <img src={phone} />
                                 </span>
-                                <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your mobile number" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, mobile: e.target.value }))} />
+                                <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your mobile number" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, phone_number: e.target.value }))} />
                             </div>
                         </div>
                         <div className="my-3">
@@ -190,7 +198,7 @@ function Register() {
                                 <span className="pe-2">
                                     <img src={lock} />
                                 </span>
-                                <input type={confirm ? 'text' : 'password'} className="form-control border-0 border-bottom" id="password" placeholder="Confrim your Password" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, password_confirm: e.target.value }))} />
+                                <input type={confirm ? 'text' : 'password'} className="form-control border-0 border-bottom" id="password" placeholder="Confrim your Password" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, password_confirmation: e.target.value }))} />
                                 <button
                                     className="btn "
                                     type="button"

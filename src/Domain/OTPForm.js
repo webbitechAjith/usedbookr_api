@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../Common/assets/css/regular.css'; // Import CSS for styling
 import Header from '../Common/pages/Header';
 import Footer from '../Common/pages/Footer';
@@ -11,6 +11,7 @@ import mail from '../Common/assets/image/mail.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { setOtpVerify } from '../Redux/CreateSlice';
 import { otpVerify } from '../Common/pages/apiBaseurl';
+import { useNavigate } from 'react-router-dom';
 
 const OTPForm = () => {
     const { registerDetails, otpNumber } = useSelector((state) => state.usedbookr_product)
@@ -24,8 +25,9 @@ const OTPForm = () => {
             otp6: ''
         }
     )
-    const dispatch = useDispatch()
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     // onchange value 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -40,26 +42,36 @@ const OTPForm = () => {
                 nextInput.focus();
             }
         }
-    };
 
+    };
+   
     // verify fn  
     const verifyOTP = async () => {
-        const otpValue = Object.values(otpCheck);
-        const joinString = otpValue.join('')
-        dispatch(setOtpVerify({ email: registerDetails.email, otp: joinString }));
         try {
             const response = await otpVerify(otpNumber);
             console.log(response);
             if (response.status == '200') {
                 alert("SuccessFully Registered")
-            } else {
+                navigate('/Profile')
+                
+            }else {
                 alert("OTP error or Invaild OTP")
             }
         } catch {
             alert("Invaild OTP");
         }
     };
-    console.log(otpNumber)
+    useEffect(() => {
+        // Combine OTP values into a single string
+        const joinString = Object.values(otpCheck).join('');
+
+        // Check if all OTP fields are filled
+        if (joinString.length === 6) {
+            // Dispatch action to verify OTP
+            dispatch(setOtpVerify({ email: registerDetails.email, otp: joinString }));
+        }
+    }, [otpCheck, registerDetails.email]);
+    
     return (
         <>
             <Header />
@@ -76,7 +88,7 @@ const OTPForm = () => {
                                         <span className="pe-2">
                                             <img src={mail} />
                                         </span>
-                                        <input type="email" className="form-control border-0 border-bottom" id="name" value={registerDetails.email} placeholder="Enter Your Register email" required />
+                                        <input type="email" className="form-control border-0 border-bottom" id="name" value={registerDetails.email} placeholder="Enter Your Register email" required onChange={(e) => dispatch(setOtpVerify({ ...otpNumber, email: registerDetails.email }))} />
                                     </div>
                                 </div>
                                 <div class="otp-container">
