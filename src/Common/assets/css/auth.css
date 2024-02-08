@@ -136,7 +136,7 @@
 
 .btn-section button {
     width: 100%;
-    margin-top: 50px;
+    margin-top: 15px;
     border: none;
     padding: 10px 50px;
     border-radius: 32px;
@@ -195,6 +195,13 @@
         width: 30%;
         margin: 25px 0px;
     }
+    .otp-btn{
+        text-align: center;
+    }
+    .otp-btn button{
+        width: 50%;
+        margin: 25px 0px;
+    }
 }
 
 @media only screen and (min-width: 300px) and (max-width: 566px){
@@ -206,6 +213,12 @@
         width: 50%;
         margin: 25px 0px;
     }
-    
+    .otp-btn{
+        text-align: center;
+    }
+    .otp-btn button{
+        width: 80%;
+        margin: 25px 0px;
+    }
 
 }

@@ -29,12 +29,23 @@ export const userRegister = async (registerDetails) => {
         'Accept': 'application/json',
       }
     });
-    if (data.success == true) {
-      alert(data.message);
-    } 
+    return data;
+
   } catch (error) {
-     alert(error.response.data.errors.email[0]);
-    // throw error;
+    alert(error.response.data.errors.email[0]);
+  }
+}
+
+export const otpVerify = async (otpNumber) => {
+  try {
+    const { data } = await apiBaseurl.post('/api/verify-otp', otpNumber, {
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
+    return data
+  } catch (error) {
+    alert(error)
   }
 }
 

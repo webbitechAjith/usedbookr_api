@@ -22,17 +22,13 @@ export const CrateSlice = createSlice({
         registerDetails: {
             name: "",
             email: "",
-            // mobile: "",
+            phone_number: "",
             password: "",
             password_confirmation: ""
         },
-        otp : {
-            otp1: '',
-            otp2: '',
-            otp3: '',
-            otp4: '',
-            otp5: '',
-            otp6: ''
+        otpNumber : {
+            email:'',
+            otp:'' 
         },
         allbookDetails: "",
         navListDetails:'',
@@ -82,7 +78,7 @@ export const CrateSlice = createSlice({
             state.registerDetails = action.payload
         },
         setOtpVerify: (state, action) => {
-            state.setOtp = action.payload
+            state.otpNumber = action.payload
         },
         
         setnavListDetails: (state, action) => {

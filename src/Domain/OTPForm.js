@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import OtpInput from 'react-otp-input'; import '../Common/assets/css/regular.css'; // Import CSS for styling
+import '../Common/assets/css/regular.css'; // Import CSS for styling
 import Header from '../Common/pages/Header';
 import Footer from '../Common/pages/Footer';
 
@@ -8,33 +8,58 @@ import Footer from '../Common/pages/Footer';
 // image path
 import loginImg from '../Common/assets/image/login_img.png'
 import mail from '../Common/assets/image/mail.png'
-import usericon from '../Common/assets/image/usericon.png'
-import lock from '../Common/assets/image/lock.png'
-import phone from '../Common/assets/image/phone.png'
 import { useDispatch, useSelector } from 'react-redux';
+import { setOtpVerify } from '../Redux/CreateSlice';
+import { otpVerify } from '../Common/pages/apiBaseurl';
 
 const OTPForm = () => {
-    const { otp } = useSelector((state) => state.usedbookr_product)
-    const [otpNumber,setOtp] = useState('')
+    const { registerDetails, otpNumber } = useSelector((state) => state.usedbookr_product)
+    const [otpCheck, setOtp] = useState(
+        {
+            otp1: '',
+            otp2: '',
+            otp3: '',
+            otp4: '',
+            otp5: '',
+            otp6: ''
+        }
+    )
     const dispatch = useDispatch()
 
+    // onchange value 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setOtp(prevState => ({
             ...prevState,
             [name]: value
         }));
+        // automove value next input 
+        if (value && name !== 'otp6') {
+            const nextInput = document.getElementById(`otp${parseInt(name.charAt(3)) + 1}`);
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
     };
 
-    const verifyOTP = () => {
-        // e.preventDefault();
-        const otpValue = Object.values(otp).join('');
-        console.log('OTP:', otpValue);
-
-        // Verify the OTP with the backend API
-        // ...
+    // verify fn  
+    const verifyOTP = async () => {
+        const otpValue = Object.values(otpCheck);
+        const joinString = otpValue.join('')
+        dispatch(setOtpVerify({ email: registerDetails.email, otp: joinString }));
+        try {
+            const response = await otpVerify(otpNumber);
+            console.log(response);
+            if (response.status == '200') {
+                alert("SuccessFully Registered")
+            } else {
+                alert("OTP error or Invaild OTP")
+            }
+        } catch {
+            alert("Invaild OTP");
+        }
     };
-
+    console.log(otpNumber)
     return (
         <>
             <Header />
@@ -45,44 +70,88 @@ const OTPForm = () => {
                             <div className='input-section'>
                                 <h4>OTP Form</h4>
                                 <p>Enter the OTP sent to your mobile number or email address:</p>
-                                {/* <form onSubmit={handleSubmit}>
-                                    <input type="text" name="otp1" maxLength={1} value={otp.otp1} onChange={handleChange} />
-                                    <input type="text" name="otp2" maxLength={1} value={otp.otp2} onChange={handleChange} />
-                                    <input type="text" name="otp3" maxLength={1} value={otp.otp3} onChange={handleChange} />
-                                    <input type="text" name="otp4" maxLength={1} value={otp.otp4} onChange={handleChange} />
-                                    <input type="text" name="otp5" maxLength={1} value={otp.otp5} onChange={handleChange} />
-                                    <input type="text" name="otp6" maxLength={1} value={otp.otp6} onChange={handleChange} />
-                                    <button type="submit">Verify OTP</button>
-                                </form> */}
+                                <div className="my-5">
+                                    <label htmlFor="text" className="form-label">Email</label>
+                                    <div className="input-group">
+                                        <span className="pe-2">
+                                            <img src={mail} />
+                                        </span>
+                                        <input type="email" className="form-control border-0 border-bottom" id="name" value={registerDetails.email} placeholder="Enter Your Register email" required />
+                                    </div>
+                                </div>
                                 <div class="otp-container">
+                                    <label htmlFor="text" className="form-label mb-3">Otp Number</label>
                                     <div className='d-flex'>
                                         <div>
-                                            <input type="text" name="otp1" id="otp1" maxlength="1" value={otp.otp1} onChange={handleChange} />
+                                            <input type="text" name="otp1" id="otp1" maxLength={1} value={otpCheck.otp1} onChange={handleChange} />
                                         </div>
                                         <div>
-                                            <input type="text" name="otp2" id="otp2" maxlength="1" value={otp.otp2} onChange={handleChange} />
+                                            <input type="text" name="otp2" id="otp2" maxLength={1} value={otpCheck.otp2} onChange={handleChange} />
                                         </div>
                                         <div>
-                                            <input type="text" name="otp3" id="otp3" maxlength="1" value={otp.otp3} onChange={handleChange} />
+                                            <input type="text" name="otp3" id="otp3" maxLength={1} value={otpCheck.otp3} onChange={handleChange} />
                                         </div>
                                         <div>
-                                            <input type="text" name="otp4" id="otp4" maxlength="1" value={otp.otp4} onChange={handleChange} />
+                                            <input type="text" name="otp4" id="otp4" maxLength={1} value={otpCheck.otp4} onChange={handleChange} />
                                         </div>
                                         <div>
-                                            <input type="text" name="otp5" id="otp5" maxlength="1" value={otp.otp5} onChange={handleChange} />
+                                            <input type="text" name="otp5" id="otp5" maxLength={1} value={otpCheck.otp5} onChange={handleChange} />
                                         </div>
                                         <div>
-                                            <input type="text" name="otp6" id="otp6" maxlength="1" value={otp.otp6} onChange={handleChange} />
+                                            <input type="text" name="otp6" id="otp6" maxLength={1} value={otpCheck.otp6} onChange={handleChange} />
                                         </div>
                                     </div>
                                 </div>
                                 <div className='btn-section'>
-                                    <button className='button' onClick={()=>verifyOTP()}>OTP Verify</button>
+                                    <button className='button' onClick={() => verifyOTP()}>OTP Verify</button>
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-8 col-md-12 col-12 bg-color p-4 text-center mt-lg-0 mt-5'>
+                        <div className='col-lg-8 bg-color p-4 text-center mt-lg-0 mt-5'>
                             <img src={loginImg} className='w-75' />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='d-lg-none d-block'>
+                <div className='login-section position-relative my-3'>
+                    <div className='input-section'>
+                        <h4>OTP Form</h4>
+                        <p>Enter the OTP sent to your mobile number or email address:</p>
+                        <div className="my-5">
+                            <label htmlFor="text" className="form-label">Email</label>
+                            <div className="input-group">
+                                <span className="pe-2">
+                                    <img src={mail} />
+                                </span>
+                                <input type="email" className="form-control border-0 border-bottom" id="name" value={registerDetails.email} placeholder="Enter Your Register email" required />
+                            </div>
+                        </div>
+                        <div class="otp-container">
+                            <label htmlFor="text" className="form-label mb-3">Otp Number</label>
+                            <div className='d-flex'>
+                                <div>
+                                    <input type="text" name="otp1" id="otp1" maxLength={1} value={otpCheck.otp1} onChange={handleChange} />
+                                </div>
+                                <div>
+                                    <input type="text" name="otp2" id="otp2" maxLength={1} value={otpCheck.otp2} onChange={handleChange} />
+                                </div>
+                                <div>
+                                    <input type="text" name="otp3" id="otp3" maxLength={1} value={otpCheck.otp3} onChange={handleChange} />
+                                </div>
+                                <div>
+                                    <input type="text" name="otp4" id="otp4" maxLength={1} value={otpCheck.otp4} onChange={handleChange} />
+                                </div>
+                                <div>
+                                    <input type="text" name="otp5" id="otp5" maxLength={1} value={otpCheck.otp5} onChange={handleChange} />
+                                </div>
+                                <div>
+                                    <input type="text" name="otp6" id="otp6" maxLength={1} value={otpCheck.otp6} onChange={handleChange} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='btn-section otp-btn'>
+                            <button className='button' onClick={() => verifyOTP()}>OTP Verify</button>
                         </div>
                     </div>
                 </div>

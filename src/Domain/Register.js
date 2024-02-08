@@ -16,7 +16,7 @@ import loginImg from '../Common/assets/image/login_img.png'
 import mail from '../Common/assets/image/mail.png'
 import usericon from '../Common/assets/image/usericon.png'
 import lock from '../Common/assets/image/lock.png'
-import phone from '../Common/assets/image/phone.png'
+import phone from '../Common/assets/image/phone1.png'
 
 import axios from 'axios';
 import { setregisterDetails } from '../Redux/CreateSlice';
@@ -47,13 +47,16 @@ function Register() {
         if (registerDetails.password == registerDetails.password_confirmation) {
             try {
                 const response = await userRegister(registerDetails);
+                if(response.success == true){
+                    alert(response.message);
+                    navigate('/otpform')
+                }
                 // Handle the API response
             } catch (error) {
                 // Handle errors
-                alert(error);
+                alert("check your mail and mobilenumber");
             }
         } else {
-            console.log(registerDetails)
             alert("don't match password and confirm password")
         }
 
@@ -70,15 +73,6 @@ function Register() {
                                 <h5>If you already have an account register</h5>
                                 <h5>You can <span className='register-hover' onClick={() => login()}>Login here !</span></h5>
                                 <div className="my-3">
-                                    <label htmlFor="text" className="form-label">Email / Phone Number</label>
-                                    <div className="input-group">
-                                        <span className="pe-2">
-                                            <img src={mail} />
-                                        </span>
-                                        <input type="text" className="form-control border-0 border-bottom" id="email" name='email' value={registerDetails.email} placeholder="Enter your Email / Phone Number" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, email: e.target.value }))} />
-                                    </div>
-                                </div>
-                                <div className="my-3">
                                     <label htmlFor="text" className="form-label">Username</label>
                                     <div className="input-group">
                                         <span className="pe-2">
@@ -87,22 +81,31 @@ function Register() {
                                         <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your name" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, name: e.target.value }))} />
                                     </div>
                                 </div>
-                                {/* <div className="my-3">
+                                <div className="my-3">
+                                    <label htmlFor="text" className="form-label">Email</label>
+                                    <div className="input-group">
+                                        <span className="pe-2">
+                                            <img src={mail} />
+                                        </span>
+                                        <input type="email" className="form-control border-0 border-bottom" id="email" name='email' value={registerDetails.email} placeholder="Enter your Email" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, email: e.target.value }))} />
+                                    </div>
+                                </div>
+                                <div className="my-3">
                                 <label htmlFor="text" className="form-label">Mobile Number</label>
                                 <div className="input-group">
                                     <span className="pe-2">
                                         <img src={phone} />
                                     </span>
-                                    <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your mobile number" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, mobile: e.target.value }))} />
+                                    <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your mobile number" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, phone_number: e.target.value }))} />
                                 </div>
-                            </div> */}
+                            </div>
                                 <div className="my-3">
                                     <label htmlFor="password" className="form-label">Password</label>
                                     <div className="input-group">
                                         <span className="pe-2">
                                             <img src={lock} />
                                         </span>
-                                        <input type={showPassword ? 'text' : 'password'} className="form-control border-0 border-bottom" id="password" placeholder="Enter your password" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, password: e.target.value }))} />
+                                        <input type={showPassword ? 'text' : 'password'} className="form-control border-0 border-bottom" id="password" placeholder="Enter the 8 Character minimum" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, password: e.target.value }))} />
                                         <button className="btn " type="button" onClick={togglePasswordVisibility}>
                                             <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                                         </button>
@@ -114,7 +117,7 @@ function Register() {
                                         <span className="pe-2">
                                             <img src={lock} />
                                         </span>
-                                        <input type={confirm ? 'text' : 'password'} className="form-control border-0 border-bottom" id="password" placeholder="Confrim your Password" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, password_confirmation: e.target.value }))} />
+                                        <input type={confirm ? 'text' : 'password'} className="form-control border-0 border-bottom" id="password" placeholder="Enter the Confrim Password" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, password_confirmation: e.target.value }))} />
                                         <button
                                             className="btn "
                                             type="button"
@@ -143,6 +146,15 @@ function Register() {
                         <h5>If you already have an account register</h5>
                         <h5>You can <span className='register-hover' onClick={() => login()}>Login here !</span></h5>
                         <div className="my-3">
+                            <label htmlFor="text" className="form-label">Username</label>
+                            <div className="input-group">
+                                <span className="pe-2">
+                                    <img src={usericon} />
+                                </span>
+                                <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your name" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, name: e.target.value }))} />
+                            </div>
+                        </div>
+                        <div className="my-3">
                             <label htmlFor="text" className="form-label">Email / Phone Number</label>
                             <div className="input-group">
                                 <span className="pe-2">
@@ -152,23 +164,14 @@ function Register() {
                             </div>
                         </div>
                         <div className="my-3">
-                            <label htmlFor="text" className="form-label">Username</label>
+                            <label htmlFor="text" className="form-label">Mobile Number</label>
                             <div className="input-group">
                                 <span className="pe-2">
-                                    <img src={usericon} />
+                                    <img src={phone} />
                                 </span>
-                                <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your name" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, name: e.target.value }))} />
+                                <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your mobile number" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, mobile: e.target.value }))} />
                             </div>
                         </div>
-                        {/* <div className="my-3">
-                                <label htmlFor="text" className="form-label">Mobile Number</label>
-                                <div className="input-group">
-                                    <span className="pe-2">
-                                        <img src={phone} />
-                                    </span>
-                                    <input type="text" className="form-control border-0 border-bottom" id="name" placeholder="Enter your mobile number" required onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, mobile: e.target.value }))} />
-                                </div>
-                            </div> */}
                         <div className="my-3">
                             <label htmlFor="password" className="form-label">Password</label>
                             <div className="input-group">
