@@ -36,6 +36,8 @@ export const userRegister = async (registerDetails) => {
   }
 }
 
+//otp api verify
+
 export const otpVerify = async (otpNumber) => {
   try {
     const { data } = await apiBaseurl.post('/api/verify-otp', otpNumber, {
@@ -48,5 +50,29 @@ export const otpVerify = async (otpNumber) => {
     alert(error)
   }
 }
+
+//otp token api verify
+
+export const otpToken = async (registerToken) => {
+  console.log(registerToken)
+  try {
+    const { data } = await apiBaseurl.get('/api/user', {
+      headers: {
+        Authorization: `Bearer ${registerToken}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    return data
+  } catch (error) {
+    alert(error)
+  }
+}
+
+
+
+
+
+
+// https://usedbookr.com/demo/usedbookr/api/user
 
 export default apiBaseurl; // Exporting the axios instance for general use

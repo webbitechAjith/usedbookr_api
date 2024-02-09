@@ -9,12 +9,12 @@ import Footer from '../Common/pages/Footer';
 import loginImg from '../Common/assets/image/login_img.png'
 import mail from '../Common/assets/image/mail.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { setOtpVerify } from '../Redux/CreateSlice';
-import { otpVerify } from '../Common/pages/apiBaseurl';
+import { setOtpVerify, setRegisterToken } from '../Redux/CreateSlice';
+import { otpToken, otpVerify } from '../Common/pages/apiBaseurl';
 import { useNavigate } from 'react-router-dom';
 
 const OTPForm = () => {
-    const { registerDetails, otpNumber } = useSelector((state) => state.usedbookr_product)
+    const { registerDetails, otpNumber,registerToken } = useSelector((state) => state.usedbookr_product)
     const [otpCheck, setOtp] = useState(
         {
             otp1: '',
@@ -49,13 +49,15 @@ const OTPForm = () => {
     const verifyOTP = async () => {
         try {
             const response = await otpVerify(otpNumber);
-            console.log(response);
             if (response.status == '200') {
-                alert("SuccessFully Registered")
-                navigate('/Profile')
-                
+                const token_get = localStorage.setItem('usedbookrtoken', response.access_token);
+                const localRegisterToken = localStorage.getItem('usedbookrtoken');
+                const response_token = await otpToken(localRegisterToken)
+                dispatch(setRegisterToken(response_token));
+                alert("SuccessFully Registered");
+                navigate('/profile')
             }else {
-                alert("OTP error or Invaild OTP")
+                alert("OTP error")
             }
         } catch {
             alert("Invaild OTP");

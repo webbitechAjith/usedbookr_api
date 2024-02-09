@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../Common/pages/Header'
 import Footer from '../Common/pages/Footer'
 import Useraside from '../Common/pages/Useraside'
@@ -10,8 +10,24 @@ import { faArrowRight, faEdit, faPencil } from '@fortawesome/free-solid-svg-icon
 
 import edit from '../Common/assets/image/edit.png';
 import profile from '../Common/assets/image/profile.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { otpToken } from '../Common/pages/apiBaseurl'
+import { setRegisterToken } from '../Redux/CreateSlice'
 
 function Profile() {
+    const { registerToken } = useSelector((state) => state.usedbookr_product)
+    const dispatch = useDispatch();
+
+    const tokenGet = async () => {
+        const localRegisterToken = localStorage.getItem('usedbookrtoken');
+        const response_token = await otpToken(localRegisterToken);
+        dispatch(setRegisterToken(response_token));
+    }
+    useEffect(() => {
+        tokenGet()
+        window.scrollTo(0, 0);
+    }, [])
+    console.log(registerToken)
     return (
         <div className='profile-section'>
             <Header />
@@ -45,28 +61,34 @@ function Profile() {
                                         <div className='row m-0'>
                                             <div className='col-6'>
                                                 <div class="mb-3">
-                                                    <label for="exampleInputFull name" class="form-label">Full name</label>
-                                                    <input type="text" class="form-control" placeholder='Victoria Nowak' />
+                                                    <label for="exampleInputFull name" class="form-label">Username</label>
+                                                    <input type="text" class="form-control" placeholder='Victoria Nowak' value={registerToken.user.username}/>
+                                                </div>
+                                            </div>
+                                            <div className='col-6'>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputFull name" class="form-label">Username</label>
+                                                    <input type="text" class="form-control" placeholder='Victoria Nowak' value={registerToken.user.name}/>
                                                 </div>
                                             </div>
                                             <div className='col-6'>
                                                 <div class="mb-3">
                                                     <label for="exampleInputFull name" class="form-label">Your email</label>
-                                                    <input type="email" class="form-control" placeholder='victoria@gmail.com' />
+                                                    <input type="email" class="form-control" placeholder='victoria@gmail.com' value={registerToken.user.email}/>
                                                 </div>
                                             </div>
                                             <div className='col-6'>
                                                 <div class="mb-3">
                                                     <label for="exampleInputFull name" class="form-label">Phone Number</label>
-                                                    <input type="text" class="form-control" placeholder='09675 65623' />
+                                                    <input type="text" class="form-control" placeholder='09675 65623' value={registerToken.user.phone_number}/>
                                                 </div>
                                             </div>
-                                            <div className='col-6'>
+                                            {/* <div className='col-6'>
                                                 <div class="mb-3">
                                                     <label for="exampleInputFull name" class="form-label">Password</label>
-                                                    <input type="password" class="form-control" placeholder='*****************' />
+                                                    <input type="password" class="form-control" placeholder='*****************' value={registerToken.name}/>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                     <div className='text-end'>
