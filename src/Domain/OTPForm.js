@@ -53,9 +53,10 @@ const OTPForm = () => {
                 const token_get = localStorage.setItem('usedbookrtoken', response.access_token);
                 const localRegisterToken = localStorage.getItem('usedbookrtoken');
                 const response_token = await otpToken(localRegisterToken)
-                dispatch(setRegisterToken(response_token));
+                const data_value = response_token.user;
+                dispatch(setRegisterToken({username:data_value.username,email:data_value.email,name:data_value.name,phone:data_value.phone_number}));
                 alert("SuccessFully Registered");
-                navigate('/profile')
+                navigate('/Profile')
             }else {
                 alert("OTP error")
             }

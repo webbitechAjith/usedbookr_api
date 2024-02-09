@@ -140,8 +140,8 @@ function Register() {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-8 col-md-12 col-12 bg-color p-4 text-center mt-lg-0 mt-5'>
-                            <img src={loginImg} className='w-75' />
+                        <div className='col-lg-8 col-md-12 col-12 bg-color p-4 text-center mt-lg-0'>
+                            <img src={loginImg} className='' />
                         </div>
                     </div>
                 </div>

@@ -270,8 +270,9 @@ nav .custom-active {
 .otp-form .input-section {
     height: auto !important;
     position: absolute;
-    top: 15%;
-    left: 7%;
+    top: 50%;
+    left: 100px;
+    transform: translateY(-50%);
 }
 
 .otp-container input {

@@ -30,7 +30,12 @@ export const CrateSlice = createSlice({
             email:'',
             otp:'' 
         },
-        registerToken : '',
+        registerToken : {
+            username : '',
+            email :'',
+            name : '',
+            phonenumber : ''
+        },
         allbookDetails: "",
         navListDetails:'',
         searchProduct:{

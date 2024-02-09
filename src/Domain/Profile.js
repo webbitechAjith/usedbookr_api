@@ -19,15 +19,31 @@ function Profile() {
     const dispatch = useDispatch();
 
     const tokenGet = async () => {
-        const localRegisterToken = localStorage.getItem('usedbookrtoken');
-        const response_token = await otpToken(localRegisterToken);
-        dispatch(setRegisterToken(response_token));
+        try {
+            const localRegisterToken = localStorage.getItem('usedbookrtoken');
+            const response_token = await otpToken(localRegisterToken);
+            const data_value = response_token.user;
+            dispatch(setRegisterToken({username:data_value.username,email:data_value.email,name:data_value.name,phonenumber:data_value.phone_number}));
+        } catch (error) {
+            console.log('error', error)
+        }
     }
+
+
     useEffect(() => {
         tokenGet()
         window.scrollTo(0, 0);
-    }, [])
-    console.log(registerToken)
+    }, []);
+    window.addEventListener("beforeunload", (event) => {
+        tokenGet();
+        console.log("API call before page reload",registerToken);
+    });
+
+    window.addEventListener("unload", (event) => {
+        tokenGet();
+        console.log("API call after page reload",registerToken);
+    });
+    console.log(1, registerToken)
     return (
         <div className='profile-section'>
             <Header />
@@ -36,7 +52,6 @@ function Profile() {
                     <div className='container-90 pt-5'>
                         <span className='profile-head'>Profile</span>
                         <div className='row m-0 py-3'>
-
                             <div className='col-3'>
                                 <Useraside />
                             </div>
@@ -62,25 +77,25 @@ function Profile() {
                                             <div className='col-6'>
                                                 <div class="mb-3">
                                                     <label for="exampleInputFull name" class="form-label">Username</label>
-                                                    <input type="text" class="form-control" placeholder='Victoria Nowak' value={registerToken.user.username}/>
+                                                    <input type="text" class="form-control" placeholder='Victoria Nowak' value={registerToken.username} />
                                                 </div>
                                             </div>
                                             <div className='col-6'>
                                                 <div class="mb-3">
                                                     <label for="exampleInputFull name" class="form-label">Username</label>
-                                                    <input type="text" class="form-control" placeholder='Victoria Nowak' value={registerToken.user.name}/>
+                                                    <input type="text" class="form-control" placeholder='Victoria Nowak' value={registerToken.name} />
                                                 </div>
                                             </div>
                                             <div className='col-6'>
                                                 <div class="mb-3">
                                                     <label for="exampleInputFull name" class="form-label">Your email</label>
-                                                    <input type="email" class="form-control" placeholder='victoria@gmail.com' value={registerToken.user.email}/>
+                                                    <input type="email" class="form-control" placeholder='victoria@gmail.com' value={registerToken.email} />
                                                 </div>
                                             </div>
                                             <div className='col-6'>
                                                 <div class="mb-3">
                                                     <label for="exampleInputFull name" class="form-label">Phone Number</label>
-                                                    <input type="text" class="form-control" placeholder='09675 65623' value={registerToken.user.phone_number}/>
+                                                    <input type="text" class="form-control" placeholder='09675 65623' value={registerToken.phonenumber} />
                                                 </div>
                                             </div>
                                             {/* <div className='col-6'>
@@ -148,28 +163,29 @@ function Profile() {
                                         <div className='row m-0'>
                                             <div className='col-lg-6 col-md-6 col-12'>
                                                 <div class="mb-3">
-                                                    <label for="exampleInputFull name" class="form-label">Full name</label>
-                                                    <input type="text" class="form-control" placeholder='Victoria Nowak' />
+                                                    <label for="exampleInputFull name" class="form-label">User name</label>
+                                                    <input type="text" class="form-control" placeholder='Victoria Nowak' value={registerToken.username}/>
+                                                </div>
+                                            </div>
+                                            <div className='col-lg-6 col-md-6 col-12'>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputFull name" class="form-label">Name</label>
+                                                    <input type="text" class="form-control" placeholder='name' value={registerToken.name}/>
                                                 </div>
                                             </div>
                                             <div className='col-lg-6 col-md-6 col-12'>
                                                 <div class="mb-3">
                                                     <label for="exampleInputFull name" class="form-label">Your email</label>
-                                                    <input type="email" class="form-control" placeholder='victoria@gmail.com' />
+                                                    <input type="email" class="form-control" placeholder='victoria@gmail.com' value={registerToken.email}/>
                                                 </div>
                                             </div>
                                             <div className='col-lg-6 col-md-6 col-12'>
                                                 <div class="mb-3">
                                                     <label for="exampleInputFull name" class="form-label">Phone Number</label>
-                                                    <input type="text" class="form-control" placeholder='09675 65623' />
+                                                    <input type="text" class="form-control" placeholder='09675 65623' value={registerToken.phonenumber}/>
                                                 </div>
                                             </div>
-                                            <div className='col-lg-6 col-md-6 col-12'>
-                                                <div class="mb-3">
-                                                    <label for="exampleInputFull name" class="form-label">Password</label>
-                                                    <input type="password" class="form-control" placeholder='*****************' />
-                                                </div>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div className='text-end'>

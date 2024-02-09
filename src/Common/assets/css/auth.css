@@ -65,30 +65,47 @@
     font-weight: 400;
 }
 
-.input-section {
-    width: 40% ;
-    height: 70%;
+
+.register-section .input-section {
+    width: 35% !important;
     border-radius: 10px;
     background: #FFF;
     box-shadow: 0px 4px 6px 0px rgba(170, 170, 170, 0.25);
-    padding: 40px;
+    padding: 20px;
     position: absolute;
-    top: 12%;
-    left: 5%;
-    
+    /* top: 30px;
+    left: 100px; */
+    top: 50%;
+    left: 100px;
+    transform: translateY(-50%);
 }
 
-.register-section .input-section{
-    width: 35% !important;
-    height: 90% !important;
+.input-section {
+    width: 40%;
+    /* height: 70%; */
     border-radius: 10px;
     background: #FFF;
     box-shadow: 0px 4px 6px 0px rgba(170, 170, 170, 0.25);
-    padding: 40px;
+    padding: 20px;
     position: absolute;
-    top: 5%;
-    left: 7%;
+    top: 50%;
+    left: 100px;
+    transform: translateY(-50%);
+
 }
+
+.login-page .input-section {
+    width: 40%;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 4px 6px 0px rgba(170, 170, 170, 0.25);
+    padding: 20px;
+    position: absolute;
+    left: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .login-section h4 {
     margin-bottom: 22px;
     color: #000;
@@ -158,6 +175,32 @@
     .input-section {
         padding: 15px;
     }
+
+    .input-section {
+        width: 40%;
+        /* height: 70%; */
+        border-radius: 10px;
+        background: #FFF;
+        box-shadow: 0px 4px 6px 0px rgba(170, 170, 170, 0.25);
+        padding: 20px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        transform: translateY(0%);
+    }
+
+    .login-page .input-section {
+        width: 90%;
+        border-radius: 10px;
+        background: #FFF;
+        box-shadow: 0px 4px 6px 0px rgba(170, 170, 170, 0.25);
+        padding: 20px;
+        position: absolute;
+        top: 15%;
+        left: 0px;
+        transform: translateY(0%);
+    }
+
     /* .input-section {
         width: 40%;
         height: 100%;
@@ -169,54 +212,62 @@
         top: 0%;
         left: 5%;
     } */
-    .input-section{
+    .input-section {
         width: 95%;
         height: 100%;
         margin: 0 auto;
         left: 0;
         position: relative;
     }
+
     .btn-section button {
         width: 25%;
         margin: 25px 0px;
     }
 }
 
-@media only screen and (min-width: 566px) and (max-width: 992px){
+@media only screen and (min-width: 566px) and (max-width: 992px) {
     .input-section {
         padding: 50px;
     }
-    .input-section{
+
+    .input-section {
         width: 95%;
         margin: 0 auto;
         left: 0;
     }
+
     .btn-section button {
         width: 30%;
         margin: 25px 0px;
     }
-    .otp-btn{
+
+    .otp-btn {
         text-align: center;
     }
-    .otp-btn button{
+
+    .otp-btn button {
         width: 50%;
         margin: 25px 0px;
     }
 }
 
-@media only screen and (min-width: 300px) and (max-width: 566px){
+@media only screen and (min-width: 300px) and (max-width: 566px) {
 
     .input-section {
         padding: 10px;
     }
+
     .btn-section button {
         width: 50%;
         margin: 25px 0px;
     }
-    .otp-btn{
+
+    .otp-btn {
         text-align: center;
     }
-    .otp-btn button{
+
+    .otp-btn button {
         width: 80%;
         margin: 25px 0px;
     }

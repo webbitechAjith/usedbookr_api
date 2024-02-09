@@ -54,25 +54,34 @@ export const otpVerify = async (otpNumber) => {
 //otp token api verify
 
 export const otpToken = async (registerToken) => {
-  console.log(registerToken)
   try {
     const { data } = await apiBaseurl.get('/api/user', {
       headers: {
         Authorization: `Bearer ${registerToken}`,
-        'Content-Type': 'application/json',
+        'Accept': 'application/json',
       }
     });
     return data
   } catch (error) {
-    alert(error)
+    alert("error")
   }
 }
 
 
 
-
-
-
-// https://usedbookr.com/demo/usedbookr/api/user
+//login api 
+export const authLogin = async (loginDetails) => {
+  try {
+    const { data } = await apiBaseurl.post('/api/login',loginDetails, {
+      headers: {
+        'Accept': 'application/json',
+      }
+    }
+    );
+    return data
+  } catch (error) {
+    alert("email or password incorrect")
+  }
+}
 
 export default apiBaseurl; // Exporting the axios instance for general use
