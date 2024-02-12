@@ -10,13 +10,13 @@ import 'font-awesome/css/font-awesome.min.css';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
+import { setAuthorsName, setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 
 function Authorname() {
-    const { allbookDetails, priceFilter, filteredProducts } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, priceFilter, filteredProducts, authorsDetails, authorsName } = useSelector((state) => state.usedbookr_product)
     const [sliderValue, setSliderValue] = useState(0); // Initial value
     const [topDetails, setTopDetails] = useState(0); // Initial value
     const [outDoor, setoutDoor] = useState(0); // Initial value
@@ -25,8 +25,6 @@ function Authorname() {
     const dispatch = useDispatch();
 
     // language state 
-    const language = ['William Shakespeare', 'Shubhra Gupta', 'Shashi Tharoor', 'Tamal Bandyopadhyay', 'Dr. Ashwin Fernandes', 'Dr. Ashwin Fernandes']
-    const [items, setItems] = useState(language);
     const [filterOption, setFilterOption] = useState(false);
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
@@ -45,50 +43,18 @@ function Authorname() {
             setFilterOption(false)
         }
     }
-    const indoor = async () => {
-        const onvalue = setTopDetails((prevValue) => (prevValue === 0 ? 1 : 0));
-        console.log("onvalue", topDetails)
-        if (topDetails === 0) {
-            const innerdoor = [];
-            allbookDetails && allbookDetails.map((data, index) => {
-                if (data.category_id == 1) {
-                    innerdoor.push(data)
-                }
-            })
-            dispatch(setallBookDetails(innerdoor))
-        } else {
-            const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            dispatch(setallBookDetails(data.data))
-        }
+    const handleChange = (event) => {
+        dispatch(setAuthorsName(event))
     }
-    const outdoor = async () => {
-        const onvalue = setoutDoor((prevValue) => (prevValue === 0 ? 1 : 0));
-        console.log("onvalue", topDetails)
-        if (outDoor === 0) {
-            console.log("ajith")
-            const outdoor = [];
-            allbookDetails && allbookDetails.map((data, index) => {
-                if (data.category_id == 3) {
-                    outdoor.push(data)
-                }
-            })
-            dispatch(setallBookDetails(outdoor))
-        } else {
-            const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            dispatch(setallBookDetails(data.data))
-            console.log('kumar')
-
-        }
-    }
-    const handlePriceChange = (minPrice, maxPrice) => {
-        // Handle the price change logic here
-        console.log('Selected Price Range:', minPrice, maxPrice);
-    };
     // useEffect(() => {
     //     // Filter products based on the max price
     //     const filtered = allbookDetails.filter(product => product.total_price <= maxPrice);
     //     dispatch(setFilteredProducts(filtered));
     // }, [maxPrice, allbookDetails]);
+    useEffect(() => {
+        if(authUser.length)
+        console.log(authorsDetails)
+    },[])
 
     return (
         <>
@@ -118,7 +84,7 @@ function Authorname() {
                                         <div class="form-group has-search">
                                             <FontAwesomeIcon icon={faSearch} className='form-control-feedback' />
                                             {/* <span class="fa fa-search form-control-feedback"></span> */}
-                                            <input type="text" class="form-control" placeholder="Search Author" />
+                                            {authorsName.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder="search authorsName" onChange={handleChange} /></>}
                                         </div>
                                     </div>
                                     <hr className='m-0' />
@@ -131,13 +97,13 @@ function Authorname() {
                                             </h2>
                                             <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    {items.slice(0, showAll ? items.length : 3).map((item, index) => (
-                                                        <div className="mb-3 form-check">
-                                                            <label className="form-check-label" for="exampleCheck1">{item}</label>
+                                                    {authorsDetails.map((data) => {
+                                                        <div className="mb-3 p-0 form-check">
+                                                            <label className="form-check-label" for="exampleCheck1">{data.author}</label>
                                                         </div>
-                                                    ))}
+                                                    })}
                                                     {!showAll && (
-                                                        <span className='text-primary hover' onClick={handleShowMore}>{language.length - 3} More </span>
+                                                        <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 1} More </span>
                                                     )}
                                                     {showLess && (
                                                         <span className='text-primary hover' onClick={handleLessMore}>Less</span>
@@ -163,7 +129,7 @@ function Authorname() {
                             <div class="form-group has-search">
                                 <FontAwesomeIcon icon={faSearch} className='form-control-feedback' />
                                 {/* <span class="fa fa-search form-control-feedback"></span> */}
-                                <input type="text" class="form-control" placeholder="Search Author" />
+                                {authorsName.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder='search author name' onChange={handleChange} /></>}
                             </div>
                         </div>
                         <div className="accordion" id="accordionExample">
@@ -177,19 +143,23 @@ function Authorname() {
                                     </h2>
                                     <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            {items.slice(0, showAll ? items.length : 3).map((item, index) => (
+                                            {/* {items.slice(0, showAll ? items.length : 3).map((item, index) => (
                                                 <div className="mb-3 p-0 form-check">
                                                     <label className="form-check-label" for="exampleCheck1">{item}</label>
                                                 </div>
-                                            ))}
+                                            ))} */}
+                                            {authorsDetails && authorsDetails.map((items) => {
+                                                <div className="mb-3 p-0 form-check">
+                                                    <label className="form-check-label" for="exampleCheck1">{items.author}</label>
+                                                </div>
+                                            })}
                                             {!showAll && (
-                                                <span className='text-primary hover' onClick={handleShowMore}>{language.length - 3} More </span>
+                                                <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 1} More </span>
                                             )}
                                             {showLess && (
                                                 <span className='text-primary hover' onClick={handleLessMore}>Less</span>
                                             )}
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

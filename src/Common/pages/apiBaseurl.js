@@ -72,7 +72,7 @@ export const otpToken = async (registerToken) => {
 //login api 
 export const authLogin = async (loginDetails) => {
   try {
-    const { data } = await apiBaseurl.post('/api/login',loginDetails, {
+    const { data } = await apiBaseurl.post('/api/login', loginDetails, {
       headers: {
         'Accept': 'application/json',
       }
@@ -81,6 +81,23 @@ export const authLogin = async (loginDetails) => {
     return data
   } catch (error) {
     alert("email or password incorrect")
+  }
+}
+
+
+// author name api 
+export const authUser = async () => {
+  try {
+    const { data } = await apiBaseurl.get('/api/authors',{
+      headers: {
+        'Accept': 'application/json',
+      }
+    }
+    )
+    const final_allAuthor = data.authors
+    return final_allAuthor
+  } catch (error) {
+    alert("error")
   }
 }
 

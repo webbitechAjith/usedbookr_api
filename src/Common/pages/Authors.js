@@ -9,16 +9,25 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import '../assets/css/main.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { authUser } from './apiBaseurl';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAuthorsName } from '../../Redux/CreateSlice';
 
 
 const Authors = () => {
-
+    const { authorsDetails, authorsName } = useSelector((state) => state.usedbookr_product)
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const author = () => {
-        navigate('authors')
+    const author = (authName) => {
+        authUser();
+        if (authName) {
+            dispatch(setAuthorsName(authName))
+            navigate('authors')
+        } else {
+            navigate('authors')
+        }
     }
-
     const owlOptions = {
         items: 4,
         dots: false,
@@ -47,18 +56,15 @@ const Authors = () => {
             <div className='d-lg-block d-none'>
                 <div className='d-flex '>
                     <OwlCarousel className="owl-theme card-design author-card" {...owlOptions}>
-                        <div className='author1 text-center' onClick={author}>
-                            <h2>Leo Tolstoy</h2>
-                        </div>
-                        <div className='author2 text-center' onClick={author}>
-                            <h2>J. K. Rowling</h2>
-                        </div>
-                        <div className='author3 text-center' onClick={author}>
-                            <h2>George Orwell</h2>
-                        </div>
-                        <div className='author4 text-center' onClick={author}>
-                            <h2>Lewis Carroll</h2>
-                        </div>
+                        {authorsDetails && authorsDetails.map((data) => {
+                            return (
+                                <>
+                                    <div className='author1 text-center' onClick={() => author(data.author)}>
+                                        <h2>{data.author}</h2>
+                                    </div>
+                                </>
+                            )
+                        })}
                     </OwlCarousel>
                     <div className='author5'>
                         <button onClick={author}>View All</button>
@@ -67,18 +73,15 @@ const Authors = () => {
             </div>
             <div className='d-lg-none d-block'>
                 <OwlCarousel className="owl-theme card-design author-card" {...owlOptions}>
-                    <div className='author1 text-center' onClick={author}>
-                        <h2>Leo Tolstoy</h2>
-                    </div>
-                    <div className='author2 text-center' onClick={author}>
-                        <h2>J. K. Rowling</h2>
-                    </div>
-                    <div className='author3 text-center' onClick={author}>
-                        <h2>George Orwell</h2>
-                    </div>
-                    <div className='author4 text-center' onClick={author}>
-                        <h2>Lewis Carroll</h2>
-                    </div>
+                    {authorsDetails && authorsDetails.map((data) => {
+                        return (
+                            <>
+                                <div className='author1 text-center' onClick={() => author(data.author)}>
+                                    <h2>{data.author}</h2>
+                                </div>
+                            </>
+                        )
+                    })}
                 </OwlCarousel>
                 <div className='author5 d-block text-center mt-4'>
                     <button onClick={author}>View All</button>

@@ -8,7 +8,7 @@ import '../Common/assets/css/main.css'
 
 
 // apiservice include path 
-import { allbooks } from '../Common/pages/apiBaseurl'
+import { allbooks, authLogin, authUser } from '../Common/pages/apiBaseurl'
 
 
 
@@ -38,7 +38,7 @@ import flash from '../Common/assets/image/flash.png'
 import discount from '../Common/assets/image/discount-card.png'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setClass1Hide } from '../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setClass1Hide, setAuthorsDetails } from '../Redux/CreateSlice';
 import { useNavigate } from 'react-router-dom';
 import SimpleSlider from '../Common/pages/SimpleSlider';
 import BestSeller from '../Common/pages/BestSeller';
@@ -46,7 +46,7 @@ import Authors from '../Common/pages/Authors';
 import Allbooks from '../Common/pages/Allbooks';
 
 function Home() {
-  const { isLiked, isAdded, allbookDetails, likedProducts, searchItemDetails, likescount, shopProducts, shopcount, searchfield } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, likedProducts, searchItemDetails, likescount, shopProducts, shopcount, searchfield, authorsDetails } = useSelector((state) => state.usedbookr_product)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -108,6 +108,12 @@ function Home() {
     }));
     dispatch(setallBookDetails(productsWithIds))
   }
+
+  const all_authors = async () => {
+    const data = await authUser();
+    dispatch(setAuthorsDetails(data))
+  }
+
   // console.log(1, allbookDetails)
   // const [showPopUp, setShowPopUp] = useState(false);
   // const showPopupHandler = () => setShowPopUp(true)
@@ -118,10 +124,11 @@ function Home() {
     if (allbookDetails == "") {
       bookproduct();
     }
+    all_authors();
     dispatch(setClass1Hide(false))
     window.scrollTo(0, 0);
   }, [])
-  console.log(allbookDetails)
+  console.log(444,authorsDetails)
   return (
     <div>
       {/* {popup} */}
@@ -175,63 +182,16 @@ function Home() {
                     </div>
                   </div>
                   <div className='h-50 pt-1'>
-                    {/* <div className='offer-card'>
-                      <div className='p-1'>
-                        <div className='card-border'>
-                          <h2>30% OFF</h2>
-                          <p>For everything</p>
-                          <span className='code'>Code: BOOKLOVER</span>
-                          <span className='float-end copy'><img src={copy} />copy</span>
-                          <div className='flash mt-2'>
-                            <img src={flash} />
-                            <span className='sale'>Flash sale</span>
-                            <span className='float-end sale'>Ends in 01 h 08 m 59 s</span>
-                          </div>
-                          <div>
-                            <ul>
-                              <li>Cannot be combined with other coupons or promotions</li>
-                              <li>Only on full priced items</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div> */}
+
                     <img src={discount} className='w-100' />
                   </div>
                 </div>
                 <div className='d-lg-none d-block'>
                   <div className='row m-0'>
-                    {/* <div className='col-md-6 col-12'>
-                      <div className="cards h-100 img-bg" >
-                        <div className="card-body card-content text-center">
-                          <h5>Best Deal</h5>
-                          <h4>Sell your book for best price</h4>
-                          <button className='sell_now'>Sell Now <FontAwesomeIcon icon={faArrowRight} style={{ color: '#FFD731' }} className='ps-2' /></button>
-                        </div>
-                      </div>
-                    </div> */}
                     <div className='col-12 mt-md-0 mt-2 p-0'>
                       <div className='h-100 pt-1'>
                         <div className='offer-card'>
-                          {/* <div className='p-1'>
-                            <div className='card-border'>
-                              <h2>30% OFF</h2>
-                              <p>For everything</p>
-                              <span className='code'>Code: BOOKLOVER</span>
-                              <span className='float-end copy'><img src={copy} />copy</span>
-                              <div className='flash mt-2'>
-                                <img src={flash} />
-                                <span className='sale'>Flash sale</span>
-                                <span className='float-end sale'>Ends in 01 h 08 m 59 s</span>
-                              </div>
-                              <div>
-                                <ul>
-                                  <li>Cannot be combined with other coupons or promotions</li>
-                                  <li>Only on full priced items</li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div> */}
+                          
                           <img src={discount} className='w-100' />
                         </div>
                       </div>
@@ -241,26 +201,6 @@ function Home() {
               </div>
             </div>
           </div>
-
-          {/* <div className='d-lg-none d-block'>
-            <div className='row m-0 product-img '>
-              <div className='col-md-6 col-6 p-0'>
-                <img src={book1} className='w-100 h-100' />
-              </div>
-              <div className='col-md-6 col-6 px-2'>
-                <img src={book2} className='w-100 h-100' />
-              </div>
-              <div className='col-12 p-0 mt-lg-0 mt-2'>
-                <div className="cards h-100 img-bg" >
-                  <div className="card-body card-content">
-                    <h5>Best Deal</h5>
-                    <h4>Special Products Deal of the Month</h4>
-                    <p>Shop Now <FontAwesomeIcon icon={faArrowRight} style={{ color: '#00AF07' }} className='ps-2' /></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
           {/* <header section end  */}
           {/* Best sellers in indoor plants start  */}
           <div className='container-95 pt-5'>
@@ -270,7 +210,7 @@ function Home() {
           <div className='container-95 pt-5'>
             <h1 className='product-title'>Browse your book on Authors</h1>
             <div className='mt-4'>
-              <Authors />
+              {authorsDetails == "" ? <><h1>noitems</h1></> : <><Authors /></>}
             </div>
           </div>
 

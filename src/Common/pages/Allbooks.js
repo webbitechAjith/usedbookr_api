@@ -8,6 +8,7 @@ import Rating from 'react-rating';
 
 import '../assets/css/main.css'
 
+
 import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleProductView, settotallikes } from '../../Redux/CreateSlice';
 
 // function call 
@@ -96,7 +97,6 @@ const Allbooks = () => {
         dispatch(setallBookDetails(allbookDetails))
         dispatch(setsingleProductView(allbookDetails))
     }, [likedProducts]);
-    console.log(totallikes)
     // console.log(likedProducts)
     return (
         <div className='py-lg-5 py-4 bestseller'>

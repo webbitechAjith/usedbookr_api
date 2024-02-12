@@ -24,7 +24,7 @@ import Authorname from '../Common/pages/Authorname';
 
 function Autherfliter() {
 
-  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield,authorsName } = useSelector((state) => state.usedbookr_product)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
