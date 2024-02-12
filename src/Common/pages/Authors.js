@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { authUser } from './apiBaseurl';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthorsName } from '../../Redux/CreateSlice';
+import { setAuthorsName, setClickauthorName } from '../../Redux/CreateSlice';
 
 
 const Authors = () => {

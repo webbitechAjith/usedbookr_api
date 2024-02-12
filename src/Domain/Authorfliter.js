@@ -6,8 +6,8 @@ import axios from "axios";
 
 // image path 
 
-import likes from '../Common/assets/image/like.png'
-import unlike from '../Common/assets/image/unlike.png'
+import likes from '../Common/assets/image/heart-like.png'
+import unlike from '../Common/assets/image/heart-unlike.png'
 import plant3 from '../Common/assets/image/plant_3.png'
 import rating from '../Common/assets/image/Rating.png'
 import add from '../Common/assets/image/addcard.png'
@@ -24,7 +24,7 @@ import Authorname from '../Common/pages/Authorname';
 
 function Autherfliter() {
 
-  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield,authorsName } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield,authorsName,authorsDetails } = useSelector((state) => state.usedbookr_product)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -78,7 +78,7 @@ function Autherfliter() {
   // useEffect(() => {
   //   plantproduct();
   // }, []);
-  console.log(allbookDetails)
+  // console.log(allbookDetails)
   const pass = (data) => {
     const updatedData = [data];
     dispatch(setproductIdDetails(updatedData))
@@ -102,7 +102,7 @@ function Autherfliter() {
                 <div className='row m-0  py-4'>
                   {searchfield ?
                     <>
-                      {allbookDetails && allbookDetails && filteredProducts.map((data, index) => {
+                      {authorsDetails && authorsDetails.map((data, index) => {
                         return (
                           <div className='col-lg-4 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
                             <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>
@@ -119,7 +119,7 @@ function Autherfliter() {
                               <img src={plant3} className='w-100' />
                               <div class="row m-0 product-details">
                                 <div class="col-9">
-                                  <h5>{data.title}</h5>
+                                  <h5>{data.author}</h5>
                                   <span className='price pe-2'>{data.total_price}</span><span className='text-decoration-line-through rate'>{data.actual_price}</span>
                                   <img src={rating} className='ms-2' />
                                 </div>

@@ -10,9 +10,10 @@ import 'font-awesome/css/font-awesome.min.css';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setAuthorsName, setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
+import { setAuthorsDetails, setAuthorsName, setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { authUser } from './apiBaseurl';
 
 
 function Authorname() {
@@ -20,14 +21,13 @@ function Authorname() {
     const [sliderValue, setSliderValue] = useState(0); // Initial value
     const [topDetails, setTopDetails] = useState(0); // Initial value
     const [outDoor, setoutDoor] = useState(0); // Initial value
-
-
-    const dispatch = useDispatch();
-
-    // language state 
     const [filterOption, setFilterOption] = useState(false);
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
+
+    const dispatch = useDispatch();
+
+
     const handleShowMore = () => {
         setShowAll(!showAll);
         setShowLess(!showLess)
@@ -43,18 +43,24 @@ function Authorname() {
             setFilterOption(false)
         }
     }
-    const handleChange = (event) => {
-        dispatch(setAuthorsName(event))
-    }
-    // useEffect(() => {
-    //     // Filter products based on the max price
-    //     const filtered = allbookDetails.filter(product => product.total_price <= maxPrice);
-    //     dispatch(setFilteredProducts(filtered));
-    // }, [maxPrice, allbookDetails]);
-    useEffect(() => {
-        if(authUser.length)
-        console.log(authorsDetails)
-    },[])
+
+    const handleChange = async (event) => {
+        try {
+            const newSearchAuthor = event.target.value;
+            // First, update the searchProduct state
+            dispatch(setAuthorsName(newSearchAuthor))
+            const data = await authUser();
+            // Access the updated searchItem from the state
+            const searchResults = data.filter((bookauthor) => bookauthor.author.toLowerCase().includes(newSearchAuthor.toLowerCase()) || bookauthor.author.toLowerCase().includes(authorsName.toLowerCase()));
+            if (newSearchAuthor == '') {
+                dispatch(setAuthorsDetails(data));
+            }else {
+                dispatch(setAuthorsDetails(searchResults));
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     return (
         <>
@@ -84,7 +90,7 @@ function Authorname() {
                                         <div class="form-group has-search">
                                             <FontAwesomeIcon icon={faSearch} className='form-control-feedback' />
                                             {/* <span class="fa fa-search form-control-feedback"></span> */}
-                                            {authorsName.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder="search authorsName" onChange={handleChange} /></>}
+                                            {authorsName.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder="search authorsName" onChange={(val) => { dispatch(setAuthorsName({ searchItem: val.target.value })); handleChange(val) }} /></>}
                                         </div>
                                     </div>
                                     <hr className='m-0' />
@@ -97,10 +103,15 @@ function Authorname() {
                                             </h2>
                                             <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    {authorsDetails.map((data) => {
-                                                        <div className="mb-3 p-0 form-check">
-                                                            <label className="form-check-label" for="exampleCheck1">{data.author}</label>
-                                                        </div>
+                                                    {authorsDetails.slice(0, showAll ? authorsDetails.length : 1).map((items) => {
+                                                        return (
+                                                            <>
+                                                                <div className="mb-3 p-0 form-check">
+                                                                    <label className="form-check-label" for="exampleCheck1">{items.author}</label>
+                                                                </div>
+                                                            </>
+                                                        )
+
                                                     })}
                                                     {!showAll && (
                                                         <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 1} More </span>
@@ -143,21 +154,39 @@ function Authorname() {
                                     </h2>
                                     <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            {/* {items.slice(0, showAll ? items.length : 3).map((item, index) => (
-                                                <div className="mb-3 p-0 form-check">
-                                                    <label className="form-check-label" for="exampleCheck1">{item}</label>
-                                                </div>
-                                            ))} */}
-                                            {authorsDetails && authorsDetails.map((items) => {
-                                                <div className="mb-3 p-0 form-check">
-                                                    <label className="form-check-label" for="exampleCheck1">{items.author}</label>
-                                                </div>
-                                            })}
-                                            {!showAll && (
-                                                <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 1} More </span>
-                                            )}
-                                            {showLess && (
-                                                <span className='text-primary hover' onClick={handleLessMore}>Less</span>
+                                            {/* {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 1).map((items) => {
+                                                return (
+                                                    <>
+                                                        <div className="mb-3 p-0 form-check">
+                                                            <label className="form-check-label" for="exampleCheck1">{items.author}</label>
+                                                        </div>
+                                                    </>
+                                                )
+
+                                            })} */}
+                                            {authorsDetails.length > 0 ? (
+                                                <>
+                                                    {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 1).map((items, index) => (
+                                                        <div className="mb-3 p-0 form-check" key={index}>
+                                                            <label className="form-check-label" htmlFor="exampleCheck1">{items.author}</label>
+                                                        </div>
+                                                    ))}
+                                                    {!showAll && (
+                                                        <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 1} More </span>
+                                                    )}
+                                                    {showLess && (
+                                                        <span className='text-primary hover' onClick={handleLessMore}>Less</span>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div className="mb-3 p-0 form-check">
+                                                        <label className="form-check-label" htmlFor="exampleCheck1">NO author</label>
+                                                    </div>
+                                                    {!showAll && (
+                                                        <span className='text-primary hover'>Total - {authorsDetails.length}</span>
+                                                    )}
+                                                </>
                                             )}
                                         </div>
                                     </div>

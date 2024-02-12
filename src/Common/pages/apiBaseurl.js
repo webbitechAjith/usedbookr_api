@@ -97,7 +97,7 @@ export const authUser = async () => {
     const final_allAuthor = data.authors
     return final_allAuthor
   } catch (error) {
-    alert("error")
+    console.log("error")
   }
 }
 
