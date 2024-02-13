@@ -128,7 +128,6 @@ function Home() {
     dispatch(setClass1Hide(false))
     window.scrollTo(0, 0);
   }, [])
-  console.log(444,authorsDetails)
   return (
     <div>
       {/* {popup} */}

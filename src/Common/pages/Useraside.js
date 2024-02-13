@@ -45,7 +45,7 @@ function Useraside() {
     }
     useEffect(() => {
         const handleScrolls = () => {
-            if (window.scrollY >= 3) {
+            if (window.scrollY >= 50) {
                 setNavSticky(true);
             } else {
                 setNavSticky(false);
@@ -56,10 +56,10 @@ function Useraside() {
             window.removeEventListener('scroll', handleScrolls);
         };
     }, [])
-    // console.log(navSticky)
+    console.log(navSticky)
     return (
         <>
-            <div className='d-lg-block d-none'>
+            <div className='d-lg-block d-md-none d-sm-none d-none'>
                 <div className='account-details'>
                     <div className='user_aside'>
                         <ul className="list-group">
@@ -85,7 +85,7 @@ function Useraside() {
                     </div>
                 </div>
             </div>
-            <div className='d-lg-none d-block'>
+            <div className='d-lg-none d-md-block d-sm-block d-block'>
                 <div className={navSticky ? 'user-element' : 'user-fixed'}>
                     <div className='user_aside'>
                         <ul className="nav mobile-nav">

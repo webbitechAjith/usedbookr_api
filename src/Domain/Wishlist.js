@@ -67,10 +67,11 @@ function Wishlist() {
                                                             <td className='wish-product'>
                                                                 <div className='row m-0 pt-2'>
                                                                     <div className='col-4 p-0'>
-                                                                        <img src={plant1} alt='plant1' className='w-100' />
+                                                                        <img src={data.image} alt='plant1' className='w-100' />
                                                                     </div>
                                                                     <div className='col-8 py-4'>
-                                                                        <h5>Book</h5>
+                                                                        <h5>{data.title.slice(0.10)}...</h5>
+                                                                        <p>{data.authors}</p>
                                                                         <Rating
                                                                             initialRating={4}
                                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -80,7 +81,7 @@ function Wishlist() {
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td className='py-5'><h6>INR 100</h6></td>
+                                                            <td className='py-5'><h6>INR {data.msrp}</h6></td>
                                                             <td className='py-5'><h3>In Stock</h3></td>
                                                             <td className='py-5'><button>Move to Cart</button><img src={cancel} className='ms-2' onClick={() => deleteitem(data.id)} /></td>
                                                         </tr>
@@ -99,7 +100,7 @@ function Wishlist() {
                         </div>
                     </div>
                 </div>
-                <div className='d-md-block d-none'>
+                <div className='d-lg-none d-md-block d-sm-none d-none'>
                     <Useraside />
                     <div className='container-90 pt-5'>
                         <div className='row m-0 py-3 wishlist-product'>
@@ -125,10 +126,10 @@ function Wishlist() {
                                                             <td className='wish-product'>
                                                                 <div className='row m-0 pt-2'>
                                                                     <div className='col-4 p-0'>
-                                                                        <img src={plant1} alt='plant1' className='w-100' />
+                                                                        <img src={data.image} alt='plant1' className='w-100' />
                                                                     </div>
                                                                     <div className='col-8 py-4'>
-                                                                        <h5>Book</h5>
+                                                                        <h5>{data.title}</h5>
                                                                         <Rating
                                                                             initialRating={4}
                                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -138,7 +139,7 @@ function Wishlist() {
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td className='py-5'><h6>INR 100</h6></td>
+                                                            <td className='py-5'><h6>INR {data.msrp}</h6></td>
                                                             <td className='py-5'><h3>In Stock</h3></td>
                                                             <td className='py-5'><button>Move to Cart</button><img src={cancel} className='ms-2' onClick={() => deleteitem(data.id)} /></td>
                                                         </tr>
@@ -147,6 +148,7 @@ function Wishlist() {
                                             })}
                                         </tbody>
                                     </table>
+                                    <hr/>
                                 </>
                                     :
                                     <>
@@ -154,6 +156,8 @@ function Wishlist() {
                                     </>
                                 }
                             </div>
+                            
+                            <hr/>
                         </div>
                     </div>
                 </div>
@@ -169,10 +173,10 @@ function Wishlist() {
                                     {likedProducts && likedProducts.map((data, index) => {
                                         return (
                                             <>
-                                                <div className='row m-0'>
+                                                <div className='row m-0 border-bottom py-4'>
                                                     <div className='col-4'>
-                                                        <img src={plant1} alt='plant1' className='w-100' />
-                                                        <h5 className=''>Book</h5>
+                                                        <img src={data.image} alt='plant1' className='w-100' />
+                                                        <h5 className=''>{data.title.slice(0, 10)}...</h5>
                                                         <Rating
                                                             initialRating={4}
                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -182,7 +186,7 @@ function Wishlist() {
                                                     </div>
                                                     <div className='col-4 rate_details'>
                                                         <label>Price</label>
-                                                        <h6>INR 100</h6>
+                                                        <h6>INR {data.msrp}</h6>
                                                         <label>stock status</label><br />
                                                         <h3>In Stock</h3>
                                                     </div>
@@ -217,13 +221,13 @@ function Wishlist() {
                                     {likedProducts && likedProducts.map((data, index) => {
                                         return (
                                             <>
-                                                <div className='row m-0'>
+                                                <div className='row m-0 border-bottom py-4'>
                                                     <div className='col-6'>
-                                                        <img src={plant1} alt='plant1' className='w-100' />
+                                                        <img src={data.image} alt='plant1' className='w-100' />
 
                                                     </div>
                                                     <div className='col-6 p-0'>
-                                                        <h5 className=''>Book</h5>
+                                                        <h5 className=''>{data.title.slice(0,10)}...</h5>
                                                         <Rating
                                                             initialRating={4}
                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -240,7 +244,7 @@ function Wishlist() {
                                                                 <label>stock status</label><br />
                                                             </div>
                                                             <div className='col-7'>
-                                                                <h6>INR 100</h6>
+                                                                <h6>INR {data.msrp}</h6>
                                                                 <h3>In Stock</h3>
                                                             </div>
                                                         </div>

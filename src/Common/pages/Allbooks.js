@@ -31,6 +31,50 @@ const Allbooks = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+
+    const author = () => {
+
+    }
+    const product_add = () => {
+
+    }
+    // like product click fn 
+    const totallikes = likedProducts.map((data) => data.id);
+
+    const handleLikeClick = (product) => {
+        const productId = product.id;
+        if (totallikes.includes(productId)) {
+            // If it's already liked, remove it from the likedProducts array
+            dispatch(setLikedProducts(likedProducts.filter((likedProduct) => likedProduct.id !== productId)));
+            dispatch(settotallikes(totallikes.filter((likedProductId) => likedProductId !== productId)));
+            dispatch(setlikescount(likescount - 1));
+        } else {
+            // If it's not liked, add it to the likedProducts array
+            dispatch(setLikedProducts([...likedProducts, product]));
+            dispatch(settotallikes([...totallikes, productId]));
+            dispatch(setlikescount(likescount + 1));
+        }
+    }
+
+    console.log(totalLikes)
+    const product_remove = (id) => {
+    }
+
+    const author_name = () => {
+        navigate('/authors')
+    }
+    const click_view = (id) => {
+        dispatch(setsingleProductView([allbookDetails[id]]))
+        navigate('Description')
+    }
+    // useEffect(() => {
+    //     if (likedProducts.length > 0) {
+    //         dispatch(settotallikes(likedProducts.map((data) => data.id)));
+    //     }
+    //     dispatch(setallBookDetails(allbookDetails))
+    //     dispatch(setsingleProductView(allbookDetails))
+    // }, [likedProducts]);
+    console.log(likedProducts)
     const owlOption = {
         dots: false,
         // autoplay: true,
@@ -55,72 +99,33 @@ const Allbooks = () => {
             },
         },
     };
-    const author = () => {
 
-    }
-    const product_add = () => {
-
-    }
-    // like product click fn 
-    const totallikes = likedProducts.map((data) => data.id);
-
-    const handleLikeClick = (product) => {
-        const isLikeds = totallikes.includes(product.id);
-        // Check if the product ID is in the likedProducts array
-        if (totallikes.includes(product.id)) {
-            // If it's already liked, remove it from the likedProducts array
-            dispatch(setLikedProducts(likedProducts.filter((likedProduct) => likedProduct.id !== product.id)));
-            dispatch(settotallikes(totallikes.filter((id) => id !== product.id)));
-            dispatch(setlikescount(likescount - 1));
-        } else {
-            // If it's not liked, add it to the likedProducts array
-            dispatch(setLikedProducts([...likedProducts, product]));
-            dispatch(settotallikes([...totallikes, product.id]));
-            dispatch(setlikescount(likescount + 1));
-        }
-    };
-    // console.log('sai',likedProducts);
-    const product_remove = (id) => {
-    }
-
-    const author_name = () => {
-        navigate('/authors')
-    }
-    const click_view = (id) => {
-        dispatch(setsingleProductView([allbookDetails[id]]))
-        navigate('Description')
-    }
-    useEffect(() => {
-        if (likedProducts.length > 0) {
-            dispatch(settotallikes(likedProducts.map((data) => data.id)));
-        }
-        dispatch(setallBookDetails(allbookDetails))
-        dispatch(setsingleProductView(allbookDetails))
-    }, [likedProducts]);
-    // console.log(likedProducts)
+    const MemoizedOwlCarousel = React.memo(OwlCarousel);
     return (
         <div className='py-lg-5 py-4 bestseller'>
-            <OwlCarousel className="owl-theme" {...owlOption}>
-                {allbookDetails && allbookDetails.map((book, index) => {
+
+            <MemoizedOwlCarousel className="owl-theme" {...owlOption}>
+                {allbookDetails && allbookDetails.map((book) => {
                     return (
                         <>
                             <div className='seller-book position-relative'>
-                                <div className='best-seller' key={index}>
+                                <div className='best-seller'>
                                     <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                     <span className='selles-offer'>offer 60%</span>
-                                    <span className='like-position float-end m-2'  onClick={() => handleLikeClick(book)}>
+                                    {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
                                         <span className={` ${isLiked ? 'likes' : 'unlikes'} `} ><img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" /></span>
-                                    </span>
-                                    {/* <span
+                                    </span> */}
+                                    <span
                                         className='like-position float-end m-2'
                                         onClick={() => handleLikeClick(book)}
                                     >
-                                        <span><img
-                                            src={totallikes.includes(book.id) ? likes : unlike}
-                                            alt="Like Button"
-                                        />
+                                        <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
+                                            <img
+                                                src={totallikes.includes(book.id) ? likes : unlike}
+                                                alt="Like Button"
+                                            />
                                         </span>
-                                    </span> */}
+                                    </span>
                                     <div className='book-details p-3'>
                                         <h1 className='w-100' title={book.title}>{book.title.slice(0, 10)}</h1>
                                         {book.authors[0] === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.authors[0]} onClick={() => author_name()}>{book.authors[0].slice(0, 10)}</h5></>}
@@ -149,7 +154,7 @@ const Allbooks = () => {
                     )
 
                 })}
-            </OwlCarousel>
+            </MemoizedOwlCarousel>
         </div>
 
     );

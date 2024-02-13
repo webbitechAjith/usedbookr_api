@@ -24,7 +24,7 @@ import Authorname from '../Common/pages/Authorname';
 
 function Autherfliter() {
 
-  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield,authorsName,authorsDetails } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield, authorsName, authorsDetails } = useSelector((state) => state.usedbookr_product)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,7 +33,6 @@ function Autherfliter() {
 
   const handleLikeClick = (product) => {
     const isLikeds = product.id;
-
     // Check if the product ID is in the likedProducts array
     if (totallikes.includes(isLikeds)) {
       // If it's already liked, remove it from the likedProducts array
@@ -43,10 +42,9 @@ function Autherfliter() {
       // If it's not liked, add it to the likedProducts array
       dispatch(setLikedProducts([...likedProducts, product]));
       dispatch(setlikescount(likescount + 1))
-
     }
   };
-
+  console.log(likedProducts)
   // shop product click fn 
   const totalshops = shopProducts.map((data) => data.id);
 
@@ -99,10 +97,10 @@ function Autherfliter() {
             </div>
             <div className='col-9'>
               <div className='product-list mt-5'>
-                <div className='row m-0  py-4'>
-                  {searchfield ?
+                <div className='row m-0 '>
+                  {allbookDetails.length > 0 ?
                     <>
-                      {authorsDetails && authorsDetails.map((data, index) => {
+                      {allbookDetails && allbookDetails.map((data) => {
                         return (
                           <div className='col-lg-4 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
                             <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>
@@ -116,14 +114,28 @@ function Autherfliter() {
                                   alt="Like Button"
                                 />
                               </span>
-                              <img src={plant3} className='w-100' />
+                              <div style={{ width: '100%', height: '200px' }}>
+                                <img src={data.image} style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
+                              </div>
                               <div class="row m-0 product-details">
-                                <div class="col-9">
-                                  <h5>{data.author}</h5>
-                                  <span className='price pe-2'>{data.total_price}</span><span className='text-decoration-line-through rate'>{data.actual_price}</span>
-                                  <img src={rating} className='ms-2' />
+                                <div class="col-12 mt-3">
+                                  <h4 title={data.title}>{data.title.slice(0, 10)}...</h4>
+                                  {data.authors[0] && (
+                                    <a href='#' className='text-decoration-none' title={data.authors[0]}>
+                                      {data.authors[0].slice(0, 10)}...
+                                    </a>
+                                  )}<br />
+                                  {/* <a href='#' className='text-decoration-none' title={data.authors[0]}>{data.authors[0].slice(0, 10)}</a><br /> */}
+                                  <span className='price pe-2'>INR {data.msrp}</span><span className='text-decoration-line-through rate'>{data.actual_price}</span><br />
+                                  <img src={rating} className='' />
                                 </div>
-                                <div class="col-3">
+                              </div>
+                              <div className='row m-0 pt-2'>
+                                <div className='col-6'>
+                                  <button className='float-start sales-offer' onClick={() => pass(data)}>view all</button>
+
+                                </div>
+                                <div className="col-6">
                                   <span
                                     className='float-end'
                                     id={data.id} value={data.id}
@@ -135,11 +147,9 @@ function Autherfliter() {
                                     />
                                   </span>
                                 </div>
-                              </div>
-                              <div className='col-12 d-flex align-items-center justify-content-end mt-3'>
-                                <button className='float-end sales-offer' onClick={() => pass(data)}>view all</button>
 
                               </div>
+
                             </div>
                           </div>
                         )
@@ -156,73 +166,74 @@ function Autherfliter() {
           </div>
         </div>
         <div className='d-lg-none d-block'>
-          <div className='row m-0'>
-            {/* <div className='col-3'>
-              <Aside />
-            </div> */}
-            <div className='col-12'>
-              <Authorname />
-            </div>
-            <div className='col-12'>
-              <div className='product-list mt-5'>
-                <div className='row m-0  py-4'>
-                  {searchfield ?
-                    <>
-                      {allbookDetails && allbookDetails && filteredProducts.map((data, index) => {
-                        return (
-                          <div className='col-lg-4 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
-                            <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>
-                              <button className='sales-offer'>Sale {data.discount_price}</button>
-                              <span
-                                className='float-end'
-                                onClick={() => handleLikeClick(data)}
-                              >
-                                <img
-                                  src={totallikes.includes(data.id) ? likes : unlike}
-                                  alt="Like Button"
-                                />
-                              </span>
-                              <img src={plant3} className='w-100' />
-                              <div class="row m-0 product-details">
-                                <div class="col-9">
-                                  <h5>{data.title}</h5>
-                                  <span className='price pe-2'>{data.total_price}</span><span className='text-decoration-line-through rate'>{data.actual_price}</span>
-                                  <img src={rating} className='ms-2' />
-                                </div>
-                                <div class="col-3">
-                                  <span
-                                    className='float-end'
-                                    id={data.id} value={data.id}
-                                    onClick={() => handleShopClick(data, data.id, data.total_price)}
-                                  >
-                                    <img
-                                      src={totalshops.includes(data.id) ? add : remove}
-                                      alt="Shop Button"
-                                    />
-                                  </span>
-                                </div>
-                              </div>
-                              <div className='col-12 d-flex align-items-center justify-content-end mt-3'>
-                                <button className='float-end sales-offer' onClick={() => pass(data)}>view all</button>
-
-                              </div>
-                            </div>
+          <div className='row m-0 '>
+            {allbookDetails.length > 0 ?
+              <>
+                {allbookDetails && allbookDetails.map((data) => {
+                  return (
+                    <div className='col-lg-4 col-md-4 col-sm-6 col-12 ps-1 mt-2 d-flex align-self-stretch'>
+                      <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>
+                        <button className='sales-offer'>Sale {data.discount_price}</button>
+                        <span
+                          className='float-end'
+                          onClick={() => handleLikeClick(data)}
+                        >
+                          <img
+                            src={totallikes.includes(data.id) ? likes : unlike}
+                            alt="Like Button"
+                          />
+                        </span>
+                        <div style={{ width: '100%', height: '200px' }}>
+                          <img src={data.image} style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
+                        </div>
+                        <div class="row m-0 product-details">
+                          <div class="col-12 mt-3">
+                            <h4 title={data.title}>{data.title.slice(0, 10)}</h4>
+                            {data.authors[0] && (
+                              <a href='#' className='text-decoration-none' title={data.authors[0]}>
+                                {data.authors[0].slice(0, 10)}
+                              </a>
+                            )}<br />
+                            {/* <a href='#' className='text-decoration-none' title={data.authors[0]}>{data.authors[0].slice(0, 10)}</a><br /> */}
+                            <span className='price pe-2'>INR {data.msrp}</span><span className='text-decoration-line-through rate'>{data.actual_price}</span><br />
+                            <img src={rating} className='' />
                           </div>
-                        )
-                      })}
-                    </> :
-                    <>
-                      <h1 className='text-center product-title'>No items</h1>
-                    </>}
+                        </div>
+                        <div className='row m-0 pt-2'>
+                          <div className='col-6'>
+                            <button className='float-start sales-offer' onClick={() => pass(data)}>view all</button>
 
-                </div>
+                          </div>
+                          <div className="col-6">
+                            <span
+                              className='float-end'
+                              id={data.id} value={data.id}
+                              onClick={() => handleShopClick(data, data.id, data.total_price)}
+                            >
+                              <img
+                                src={totalshops.includes(data.id) ? add : remove}
+                                alt="Shop Button"
+                              />
+                            </span>
+                          </div>
 
-              </div>
-            </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  )
+                })}
+              </> :
+              <>
+                <h1 className='text-center product-title'>No items</h1>
+              </>}
+
           </div>
         </div>
       </div>
-      <Footer />
+      <div className='mt-2'>
+        <Footer />
+      </div>
     </div>
   )
 }

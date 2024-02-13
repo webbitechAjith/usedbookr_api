@@ -155,22 +155,18 @@
     height: 10% !important;
     position: fixed;
     top: 26%;
-    left: 0;
-    height: 100%;
+    z-index: 100;
     background: #FFF;
   }
 
   .user-fixed {
     width: 100%;
     height: 10% !important;
-    position: absolute;
-    top: 28%;
-    left: 0;
-    height: 100%;
     background: #FFF;
   }
 
   .user_aside {
+    border-radius: 0px;
     background: none;
     border: none
   }
@@ -193,21 +189,16 @@
 
   .user-element {
     width: 100%;
-    height: 10% !important;
+    padding: 15px 0px;
     position: fixed;
-    top: 8%;
-    left: 0;
-    height: 100%;
+    top: 29%;
+    z-index: 100;
     background: #FFF;
   }
 
   .user-fixed {
     width: 100%;
-    height: 10% !important;
-    position: absolute;
-    top: 10%;
-    left: 0;
-    height: 100%;
+    height: 15% !important;
     background: #FFF;
   }
 
@@ -219,9 +210,7 @@
 
 }
 
-@media only screen and (min-width: 300px) and (max-width: 480px) {}
-
-@media only screen and (min-width: 300px) and (max-width: 576px) {
+@media only screen and (min-width: 450px) and (max-width: 576px) {
   .user_aside .active {
     background: none;
     box-shadow: none;
@@ -233,20 +222,58 @@
 
   .user-element {
     width: 100%;
-    height: 10% !important;
+    padding: 15px 0px;
     position: fixed;
-    top: 11%;
-    left: 0;
-    height: 100%;
+    top: 28%;
     background: #FFF;
   }
 
   .user-fixed {
     width: 100%;
     height: 10% !important;
-    position: absolute;
-    top: 13%;
-    left: 0;
+    height: 100%;
+    background: #FFF;
+  }
+
+  .profile-section .profile-container {
+    position: unset !important;
+    width: unset !important;
+    height: unset !important;
+  }
+
+  .profile-section .profile-image {
+    width: 100% !important;
+  }
+
+  .mobile-nav li {
+    text-align: center;
+    margin: 20px 15px 10px 15px;
+
+  }
+
+}
+
+@media only screen and (min-width: 300px) and (max-width: 450px) {
+  .user_aside .active {
+    background: none;
+    box-shadow: none;
+  }
+
+  .user_aside {
+    border: none !important;
+  }
+
+  .user-element {
+    width: 100%;
+   padding: 15px 0px;
+    position: fixed;
+    top: 25%;
+    background: #FFF;
+  }
+
+  .user-fixed {
+    width: 100%;
+    height: 10% !important;
     height: 100%;
     background: #FFF;
   }

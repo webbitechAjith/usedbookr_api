@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setAuthorsDetails, setAuthorsName, setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { authUser } from './apiBaseurl';
+import { allbooks, authUser } from './apiBaseurl';
 
 
 function Authorname() {
@@ -50,18 +50,32 @@ function Authorname() {
             // First, update the searchProduct state
             dispatch(setAuthorsName(newSearchAuthor))
             const data = await authUser();
+            const overall_books = await allbooks();
             // Access the updated searchItem from the state
             const searchResults = data.filter((bookauthor) => bookauthor.author.toLowerCase().includes(newSearchAuthor.toLowerCase()) || bookauthor.author.toLowerCase().includes(authorsName.toLowerCase()));
+            const allbookSearch = allbookDetails.filter((bookDetails) => {
+                if (bookDetails.authors && bookDetails.authors.length > 0) {
+                    const searchAuthorLower = newSearchAuthor.toLowerCase();
+                    const authorsNameLower = authorsName.toLowerCase();
+
+                    const firstAuthorLower = bookDetails.authors[0].toLowerCase();
+                    return firstAuthorLower.includes(searchAuthorLower) || firstAuthorLower.includes(authorsNameLower);
+                }
+                return false;
+            }); 
+            console.log("allbookSearch",allbookSearch)
+            dispatch(setallBookDetails(allbookSearch));
             if (newSearchAuthor == '') {
                 dispatch(setAuthorsDetails(data));
-            }else {
+                dispatch(setallBookDetails(overall_books))
+            } else {
                 dispatch(setAuthorsDetails(searchResults));
+                dispatch(setallBookDetails(allbookSearch));
             }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
-
     return (
         <>
             <aside className='my-lg-5 my-2'>

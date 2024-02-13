@@ -432,6 +432,7 @@ body {
 }
 
 .box-view {
+    width: 100%;
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #E6E6E6;

@@ -12,8 +12,12 @@ const apiBaseurl = axios.create({
 export const allbooks = async () => {
   try {
     const { data } = await apiBaseurl.get('/api/books');
-    const allBook = data.response.books
-    return allBook;
+    const allBook = data.response.books;
+    const productsWithIds = allBook.map((product, index) => ({
+      id: index + 1,
+      ...product
+    }));
+    return productsWithIds;
   } catch (error) {
     console.error('Error fetching overall books:', error);
     throw error;
@@ -88,7 +92,7 @@ export const authLogin = async (loginDetails) => {
 // author name api 
 export const authUser = async () => {
   try {
-    const { data } = await apiBaseurl.get('/api/authors',{
+    const { data } = await apiBaseurl.get('/api/authors', {
       headers: {
         'Accept': 'application/json',
       }
