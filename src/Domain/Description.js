@@ -164,7 +164,7 @@ function Description() {
         }
     };
 
-    const removecards = ()=>{
+    const removecards = () => {
         alert("Remove this Book in  Shoplist")
     }
 
@@ -189,10 +189,10 @@ function Description() {
                                                 <img src={data.image} className='w-100' />
                                             </div>
                                         </div>
-                                        <div className='text-center'>
-                                            {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
+                                        {/* <div className='text-center'>
+                                            <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button>
                                             <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className='col-6 description-details'>
                                         <>
@@ -217,13 +217,17 @@ function Description() {
                                                 <button className='very ms-2'>Bad</button>
                                             </div>
                                             <div className='my-5'>
-                                                <span className="mb-4 count-btn">
+                                                {/* <span className="mb-4 count-btn">
                                                     {value == 1 ? <><button className="btn sum-btn" type="button" disabled>-</button></> : <><button className="btn sum-btn" type="button" onClick={handleDecrement}>-</button></>}
                                                     <span onChange={(e) => setValue(parseInt(e.target.value, 10) || 0)} className='mx-4 count-value'>{value}</span>
                                                     {totalshops.includes(data.id) ? <><button className="btn sum-btn" type="button" onClick={()=>removecards()}>+</button></> : <><button className="btn sum-btn" type="button" onClick={handleIncrement}>+</button></>}
+                                                </span> */}
+                                                <span className='text-center'>
+                                                    {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
+                                                    <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
                                                 </span>
-                                                {value == 1 ? <><button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.total_price)}>{totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>} <FontAwesomeIcon icon={faBagShopping} className='ms-2'/></button></> : <><button className="disabled-shop" disabled>Add to card <FontAwesomeIcon icon={faBagShopping} /></button></>}
-                                                <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data)} /></span>
+                                                {value == 1 ? <><button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.total_price)}>{totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>} <FontAwesomeIcon icon={faBagShopping} className='ms-2' /></button></> : <><button className="disabled-shop" disabled>Add to card <FontAwesomeIcon icon={faBagShopping} /></button></>}
+                                                {/* <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data)} /></span> */}
                                                 <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
                                             </div>
                                         </>
@@ -245,10 +249,10 @@ function Description() {
                                                 <img src={data.image} className='w-100 h-100' />
                                             </div>
                                         </div>
-                                        <div className='text-center'>
-                                            {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
+                                        {/* <div className='text-center'>
+                                            <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button>
                                             <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className='col-7 description-details'>
                                         <h1>{data.title} <span className='stock'>In Stock</span></h1>

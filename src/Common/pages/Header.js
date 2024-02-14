@@ -318,7 +318,7 @@ function Header() {
                                                     </li>
 
                                                     <li className='d-flex align-items-center'>
-                                                        <NavLink exact to="/Description" className={`${pathname === '/Description' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                        <NavLink exact to="/aaa" className={`${pathname === '/aaa' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                             New Arrivals
                                                         </NavLink>
                                                     </li>
@@ -413,7 +413,7 @@ function Header() {
                                                 </li>
 
                                                 <li className='d-flex align-items-center'>
-                                                    <NavLink exact to="/Description" className={`${pathname === '/Description' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                    <NavLink exact to="/aaa" className={`${pathname === '/aaa' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                         New Arrivals
                                                     </NavLink>
                                                 </li>

@@ -378,7 +378,7 @@ function Purchase() {
                                                                                     <button onClick={() => itemIncrement(data.id)}>+</button>
                                                                                 </span>
                                                                             </td>
-                                                                            <td className='py-5 text-center'><a className='text-decoration-none price-count'>{data.amount}</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(data.id, data.qty, data.title)} /></td>
+                                                                            <td className='py-5 text-start'><a className='text-decoration-none price-count'>{data.amount}</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(data.id, data.qty, data.title)} /></td>
                                                                         </tr>
                                                                     )
                                                                 })}
