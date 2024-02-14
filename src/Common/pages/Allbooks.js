@@ -20,14 +20,16 @@ import book2 from '../assets/image/sales2.png'
 import likes from '../assets/image/heart-like.png'
 import unlike from '../assets/image/heart-unlike.png'
 import add from '../assets/image/addcard.png'
-import remove from '../assets/image/removecard.png'
+import remove from '../assets/image/bag-shop.png'
+
 
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
+import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 const Allbooks = () => {
-    const { allbookDetails, isLiked, isAdded, likescount, likedProducts, totalLikes } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, isLiked, isAdded, likescount, likedProducts, totalLikes,shopProducts, shopcount,singleProductView } = useSelector((state) => state.usedbookr_product)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -57,8 +59,23 @@ const Allbooks = () => {
     }
 
     console.log(totalLikes)
-    const product_remove = (id) => {
-    }
+    // shop product click fn 
+    const totalshops = shopProducts.map((data) => data.id);
+
+    const handleShopClick = (product, id, price) => {
+        const isShops = product.id;
+        // Check if the product ID is in the likedProducts array
+        if (totalshops.includes(isShops)) {
+            // If it's already liked, remove it from the likedProducts array
+            dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== isShops)));
+            dispatch(setshopcount(shopcount - 1))
+        } else {
+            // If it's not liked, add it to the likedProducts array
+            // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
+            dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
+            dispatch(setshopcount(shopcount + 1))
+        }
+    };
 
     const author_name = () => {
         navigate('/authors')
@@ -103,12 +120,11 @@ const Allbooks = () => {
     const MemoizedOwlCarousel = React.memo(OwlCarousel);
     return (
         <div className='py-lg-5 py-4 bestseller'>
-
             <MemoizedOwlCarousel className="owl-theme" {...owlOption}>
-                {allbookDetails && allbookDetails.map((book) => {
+                {allbookDetails && allbookDetails.map((book,index) => {
                     return (
                         <>
-                            <div className='seller-book position-relative'>
+                            <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
                                 <div className='best-seller'>
                                     <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                     <span className='selles-offer'>offer 60%</span>
@@ -140,12 +156,22 @@ const Allbooks = () => {
                                                 />
                                             </div>
                                             <div className='ms-auto'>
-                                                {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)}
-
+                                                {/* {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)} */}
+                                                <span
+                                                    className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                    id={book.id} value={book.id}
+                                                    onClick={() => handleShopClick(book, book.id, book.msrp)}
+                                                >
+                                                    {/* <img
+                                                        src={totalshops.includes(book.id) ? add : remove}
+                                                        alt="Shop Button"
+                                                    /> */}
+                                                    {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed'/></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed'/></>}
+                                                </span>
                                             </div>
                                         </div>
                                         <div className='text-center'>
-                                            <button className='viewall mt-5 border-0 rounded-2' onClick={(id) => click_view(book.id)}>view</button>
+                                            <button className='viewall mt-4 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
                                         </div>
                                     </div>
                                 </div>

@@ -425,9 +425,10 @@ body {
 }
 
 .normal-box {
+    width: 100%;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid #056839;
+    border: 1px solid #180E6C !important;
     background: #FFF;
 }
 
@@ -438,7 +439,24 @@ body {
     border: 1px solid #E6E6E6;
     background: #FFF;
 }
+.normal-box1 {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-align: center;
+    background: #FFD731;
+}
 
+.box-view1 {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    background: #F2F2F2;
+}
+.mr-fixed{
+    margin: 10px;
+}
 .heart-position {
     position: absolute;
     left: 72%;

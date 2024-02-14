@@ -20,7 +20,7 @@ function Footer() {
             <footer className='footer-section'>
                 <div className='container-60 pt-5 pb-2'>
                     <div className='text-center'>
-                        <img src={logo} className='w-100'/>
+                        <img src={logo} className='footer-logo'/>
                         <h6>Contact Us</h6>
                         <hr style={{ width: '20px', margin: '0 auto', border: '5px soild #FFF', color: '#FFF' }} />
                         <p>PO BOX:115786 - Al Warsan3, Dubai, UAE.</p>

@@ -21,13 +21,14 @@ import deletes from '../Common/assets/image/delete.png'
 
 // state value action process 
 import { setshopcount, settotalItemShop, setShopProducts, setfinalItemPrice } from '../Redux/CreateSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Purchase() {
     // state value declear 
-    const { shopProducts, shopcount, totalItemShop, finalItemPrice } = useSelector((state) => state.usedbookr_product)
+    const { shopProducts, shopcount, totalItemShop, finalItemPrice, userLogin } = useSelector((state) => state.usedbookr_product)
 
     const dispatch = useDispatch();
-
+    const navigate = useNavigate()
     // total amount declear 
     const total_amount = shopProducts.map((data) => { return data.amount })
     const final_amount = total_amount.reduce((accumulator, currentValue) => {
@@ -40,7 +41,7 @@ function Purchase() {
         const updatedProductItems = shopProducts.map(item => {
             if (item.id === id) {
                 const updatedQty = item.qty + 1;
-                const updatedAmount = item.total_price * updatedQty;
+                const updatedAmount = Math.round(item.msrp * updatedQty);
                 const quatity = { ...item, qty: item.qty + 1, amount: updatedAmount };
                 return quatity
             }
@@ -55,7 +56,7 @@ function Purchase() {
         const updatedProductItems = shopProducts.map(item => {
             if (item.id === id) {
                 const updatedQty = item.qty - 1;
-                const updatedAmount = item.total_price * updatedQty;
+                const updatedAmount = Math.round(item.msrp * updatedQty);
                 const quatity = { ...item, qty: item.qty - 1, amount: updatedAmount };
                 return quatity
             }
@@ -69,12 +70,25 @@ function Purchase() {
     const deleteitem = (id, qty, title) => {
         const updatedItems = shopProducts.filter(item =>
             item.id !== id
-
         );
         dispatch(setShopProducts(updatedItems))
         dispatch(settotalItemShop(totalItemShop - qty + 1))
         dispatch(setshopcount(shopcount - 1))
     };
+
+    // payment process
+    const paymentProcess = () => {
+        if (shopProducts.length > 0) {
+            if (userLogin == true) {
+                navigate('/Login')
+            } else {
+                navigate('/Orderprocess')
+            }
+        }else{
+            alert("No Any Book Shop")
+        }
+
+    }
 
     return (
         <div className='purchase-section'>
@@ -84,11 +98,10 @@ function Purchase() {
                     <div className='container-90 pt-5'>
                         <span className='profile-head'>My Shopping Cart</span>
                         <div className='row m-0 py-3'>
-
-                            <div className='col-3'>
+                            {/* <div className='col-3'>
                                 <Useraside />
-                            </div>
-                            <div className='col-6'>
+                            </div> */}
+                            <div className='col-9'>
                                 <div className='profile-card order-card'>
                                     {shopProducts.length > 0 ?
                                         <>
@@ -107,10 +120,11 @@ function Purchase() {
                                                                 <td className='wish-product'>
                                                                     <div className='row m-0 pt-2'>
                                                                         <div className='col-4 py-4'>
-                                                                            <img src={plant1} alt='plant1' className='w-100' />
+                                                                            <img src={data.image} alt='plant1' className='w-100' />
                                                                         </div>
                                                                         <div className='col-8 py-4'>
-                                                                            <h5>{data.title}</h5>
+                                                                            <h5>{data.title.slice(0, 20)}...</h5>
+                                                                            <h5>{data.authors[0].slice(0, 10)}...</h5>
                                                                             <Rating
                                                                                 initialRating={4}
                                                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -137,7 +151,6 @@ function Purchase() {
                                         </> :
                                         <><h1 className='text-center'>No Shop Product</h1></>
                                     }
-
                                 </div>
                             </div>
                             <div className='col-3'>
@@ -188,7 +201,7 @@ function Purchase() {
                                             </div>
                                         </div>
                                         <div className='text-center'>
-                                            <button className='process-check'>Proceed to checkout</button>
+                                            <button className='process-check' onClick={paymentProcess}>Proceed to checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -197,8 +210,8 @@ function Purchase() {
                     </div>
                 </div>
                 <div className='d-lg-none d-md-block d-none'>
-                    <Useraside />
-                    <div className='pt-5'>
+                    {/* <Useraside /> */}
+                    <div className=''>
                         <div className='row m-0 py-3'>
                             <div className='col-12 py-5'>
                                 <span className='profile-head'>My Shopping Cart</span>
@@ -222,8 +235,9 @@ function Purchase() {
                                                                 <td className='wish-product'>
                                                                     <div className='row m-0 pt-2'>
                                                                         <div className='col-12 py-4'>
-                                                                            <img src={plant1} alt='plant1' className='w-100' />
-                                                                            <h5>Book</h5>
+                                                                            <img src={data.image} alt='plant1' className='' width={150} />
+                                                                            <h5>{data.title.slice(0, 10)}...</h5>
+                                                                            <h5>{data.authors[0].slice(0, 10)}...</h5>
                                                                             <Rating
                                                                                 initialRating={4}
                                                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -313,8 +327,8 @@ function Purchase() {
                     </div>
                 </div>
                 <div className='d-lg-none d-md-none d-sm-block d-none'>
-                    <Useraside />
-                    <div className='pt-5'>
+                    {/* <Useraside /> */}
+                    <div className=''>
                         <div className='row m-0 py-3'>
                             <div className='col-12 py-5'>
                                 <span className='profile-head'>My Shopping Cart</span>
@@ -341,8 +355,9 @@ function Purchase() {
                                                                             <td className='wish-product'>
                                                                                 <div className='row m-0 pt-2'>
                                                                                     <div className='col-12 py-4'>
-                                                                                        <img src={plant1} alt='plant1' className='w-100' />
-                                                                                        <h5>Book</h5>
+                                                                                        <img src={data.image} alt='plant1' className='' width={150} />
+                                                                                        <h5>Title : {data.title.slice(0, 10)}...</h5>
+                                                                                        <h5>Author : {data.authors[0].slice(0, 10)}...</h5>
                                                                                         <Rating
                                                                                             initialRating={4}
                                                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -437,35 +452,41 @@ function Purchase() {
                     </div>
                 </div>
                 <div className='d-lg-none d-md-none d-sm-none d-block'>
-                    <Useraside />
+                    {/* <Useraside /> */}
                     <div className='pt-5'>
                         <div className='row m-0 py-3'>
                             <div className='col-12 py-5'>
                                 <span className='profile-head'>My Shopping Cart</span>
                             </div>
-                            <div className='col-12'>
-                                <div class="card" >
-                                    <img src={plant1} class="card-img-top" alt="..." />
-                                    <div class="card-body">
-                                        <h5 class="card-title">Book</h5>
-                                        <div className='py-3 px-0 sum-product'>
-                                            <span>
-                                                <button onClick={() => itemDecrement(1)}>-</button>
-                                                <a className='mx-2 text-decoration-none'>{1}</a>
-                                                <button onClick={() => itemIncrement(1)}>+</button>
-                                            </span>
-                                        </div>
-                                        <Rating
-                                            initialRating={4}
-                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                            readonly={true}
-                                        />
-                                        <span className='py-5 text-center'><a className='text-decoration-none price-count'>{ }</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(1, 1, 1)} /></span>
+                            {shopProducts && shopProducts.map((data) => {
+                                return (
+                                    <div className='col-12'>
+                                        <div class="card" >
+                                            <img src={data.image} class="card-img-top" alt="..." />
+                                            <div class="card-body">
+                                                <h5 class="card-title">Title : {data.title.slice(0.10)}...</h5>
+                                                <h5 class="card-title">Author : {data.authors[0].slice(0, 10)}...</h5>
+                                                <div className='py-3 px-0 sum-product'>
+                                                    <span>
+                                                        <button onClick={() => itemDecrement(1)}>-</button>
+                                                        <a className='mx-2 text-decoration-none'>{1}</a>
+                                                        <button onClick={() => itemIncrement(1)}>+</button>
+                                                    </span>
+                                                </div>
+                                                <Rating
+                                                    initialRating={4}
+                                                    emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                    fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                    readonly={true}
+                                                />
+                                                <span className='py-5 text-center'><a className='text-decoration-none price-count'>{ }</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(1, 1, 1)} /></span>
 
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                )
+                            })}
+
                             <div className='col-12 py-5'>
                                 <div className='purchase-list'>
                                     <p>Coupon Code</p>

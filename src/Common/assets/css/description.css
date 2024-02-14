@@ -180,7 +180,16 @@
     font-weight: 600;
     line-height: 26px;
 }
-
+.disabled-shop {
+    margin-left: 10px;
+    padding: 10px 50px;
+    border-radius: 43px;
+    border: none;
+    color: #241D60;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+}
 .cate {
     color: #1A1A1A;
     font-size: 14px;

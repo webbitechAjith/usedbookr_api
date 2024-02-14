@@ -316,6 +316,13 @@ nav .custom-active {
 
 
 @media only screen and (min-width: 300px) and (max-width: 768px) {
+    .container-60{
+        max-width: 70%;
+        margin: 0 auto;
+    }
+    .logo-fixed {
+        display: none !important
+    }
     .like-count {
         top: 0px !important;
         left: 30px !important;
@@ -336,12 +343,13 @@ nav .custom-active {
 
 
 @media only screen and (min-width: 300px) and (max-width: 400px) {
-    .logo-fixed {
-        display: none !important
+  
+    .footer-logo{
+        width: 100%;
     }
 }
 
-@media only screen and (min-width: 0px) and (max-width: 576px) {
+/* @media only screen and (min-width: 0px) and (max-width: 576px) {
     .nav-section {
         padding: 10px 0px;
     }
@@ -354,4 +362,4 @@ nav .custom-active {
         margin-top: 0px;
     }
 
-}
+} */

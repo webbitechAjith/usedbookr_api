@@ -16,15 +16,31 @@ import plant1 from '../Common/assets/image/description4.png'
 import cancel from '../Common/assets/image/cancel.png'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setClass1Hide, setLikedProducts, setlikescount } from '../Redux/CreateSlice';
+import { setClass1Hide, setLikedProducts, setShopProducts, setlikescount, setshopcount } from '../Redux/CreateSlice';
 
 
 function Wishlist() {
-    const { likedProducts, likescount } = useSelector((state) => state.usedbookr_product);
+    const { likedProducts, likescount,shopcount,shopProducts } = useSelector((state) => state.usedbookr_product);
     const dispatch = useDispatch();
 
     const [statuslevel, setStatusLevel] = useState(true)
+    // shop product click fn 
+    const totalshops = shopProducts.map((data) => data.id);
 
+    const handleShopClick = (product, id, price) => {
+        const isShops = product.id;
+        // Check if the product ID is in the likedProducts array
+        if (totalshops.includes(isShops)) {
+            // If it's already liked, remove it from the likedProducts array
+            dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== isShops)));
+            dispatch(setshopcount(shopcount - 1))
+        } else {
+            // If it's not liked, add it to the likedProducts array
+            // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
+            dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
+            dispatch(setshopcount(shopcount + 1))
+        }
+    };
     const deleteitem = (id) => {
         const updatedItems = likedProducts.filter(item =>
             item.id !== id
@@ -83,7 +99,7 @@ function Wishlist() {
                                                             </td>
                                                             <td className='py-5'><h6>INR {data.msrp}</h6></td>
                                                             <td className='py-5'><h3>In Stock</h3></td>
-                                                            <td className='py-5'><button>Move to Cart</button><img src={cancel} className='ms-2' onClick={() => deleteitem(data.id)} /></td>
+                                                            <td className='py-5'><button onClick={() => handleShopClick(data, data.id, data.total_price)}>{totalshops.includes(data.id) ? 'Remove to Cart' : 'Move to Cart'}</button><img src={cancel} className='ms-2' onClick={() => deleteitem(data.id)} /></td>
                                                         </tr>
                                                     </>
                                                 )
@@ -148,7 +164,7 @@ function Wishlist() {
                                             })}
                                         </tbody>
                                     </table>
-                                    <hr/>
+                                    <hr />
                                 </>
                                     :
                                     <>
@@ -156,8 +172,8 @@ function Wishlist() {
                                     </>
                                 }
                             </div>
-                            
-                            <hr/>
+
+                            <hr />
                         </div>
                     </div>
                 </div>
@@ -227,7 +243,7 @@ function Wishlist() {
 
                                                     </div>
                                                     <div className='col-6 p-0'>
-                                                        <h5 className=''>{data.title.slice(0,10)}...</h5>
+                                                        <h5 className=''>{data.title.slice(0, 10)}...</h5>
                                                         <Rating
                                                             initialRating={4}
                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}

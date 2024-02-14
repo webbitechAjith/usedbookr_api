@@ -73,8 +73,8 @@ function Aside() {
             })
             dispatch(setallBookDetails(innerdoor))
         } else {
-            const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            dispatch(setallBookDetails(data.data))
+            // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
+            // dispatch(setallBookDetails(data.data))
         }
     }
     const outdoor = async () => {
@@ -90,8 +90,8 @@ function Aside() {
             })
             dispatch(setallBookDetails(outdoor))
         } else {
-            const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            dispatch(setallBookDetails(data.data))
+            // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
+            // dispatch(setallBookDetails(data.data))
             console.log('kumar')
 
         }

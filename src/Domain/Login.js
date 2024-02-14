@@ -15,13 +15,13 @@ import twitter from '../Common/assets/image/twitter.png'
 import google from '../Common/assets/image/google.png'
 import Header from '../Common/pages/Header';
 import Footer from '../Common/pages/Footer';
-import { setRegisterToken, setloginDetails, setlogoutDetails } from '../Redux/CreateSlice';
+import { setRegisterToken, setUserLogin, setloginDetails, setlogoutDetails } from '../Redux/CreateSlice';
 import axios from 'axios';
 import { authLogin, otpToken } from '../Common/pages/apiBaseurl';
 
 
 function Login() {
-    const { loginDetails, logoutDetails } = useSelector((state) => state.usedbookr_product)
+    const { loginDetails, logoutDetails,userLogin } = useSelector((state) => state.usedbookr_product)
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
@@ -50,6 +50,7 @@ function Login() {
                 console.log('data_value',data_value)
                 dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phone: data_value.phone_number }));
                 alert('Login Successfully');
+                dispatch(setUserLogin(true))
                 navigate('/Profile')
             } else {
                 alert('Login failed:');

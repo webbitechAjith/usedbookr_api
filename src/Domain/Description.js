@@ -9,7 +9,7 @@ import Rating from 'react-rating';
 import '../Common/assets/css/description.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShop } from '@fortawesome/free-solid-svg-icons';
+import { faBagShopping, faShop } from '@fortawesome/free-solid-svg-icons';
 
 // image path 
 import description1 from '../Common/assets/image/description1.png'
@@ -39,7 +39,7 @@ import BestSeller from '../Common/pages/BestSeller';
 
 function Description() {
     const { isLiked, isAdded, likedProducts, likescount, singleProductView, shopProducts, shopcount, productIdDetails, singleItemCount } = useSelector((state) => state.usedbookr_product)
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(1);
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
     const navigate = useNavigate();
@@ -103,7 +103,6 @@ function Description() {
 
     const handleLikeClick = (product) => {
         const isLikeds = product.id;
-
         // Check if the product ID is in the likedProducts array
         if (totallikes.includes(isLikeds)) {
             // If it's already liked, remove it from the likedProducts array
@@ -153,8 +152,8 @@ function Description() {
     const plantproduct = async () => {
         // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
         //   dispatch(setallBookDetails(data.data))
-        const { data } = await axios.get('https://fakestoreapi.com/products');
-        dispatch(setallBookDetails(data.data))
+        // const { data } = await axios.get('https://fakestoreapi.com/products');
+        // dispatch(setallBookDetails(data.data))
 
     }
     const [activeTab, setActiveTab] = useState('tab1');
@@ -165,14 +164,16 @@ function Description() {
         }
     };
 
+    const removecards = ()=>{
+        alert("Remove this Book in  Shoplist")
+    }
 
     useEffect(() => {
         dispatch(setproductIdDetails(productIdDetails))
         dispatch(setClass1Hide(false))
         window.scrollTo(0, 0);
-        console.log(2, singleProductView)
     }, [])
-
+    console.log(22, likedProducts)
     return (
         <div className='description-section'>
             <Header />
@@ -217,24 +218,12 @@ function Description() {
                                             </div>
                                             <div className='my-5'>
                                                 <span className="mb-4 count-btn">
-                                                    <button
-                                                        className="btn sum-btn"
-                                                        type="button"
-                                                        onClick={handleDecrement}
-                                                    >
-                                                        -
-                                                    </button>
+                                                    {value == 1 ? <><button className="btn sum-btn" type="button" disabled>-</button></> : <><button className="btn sum-btn" type="button" onClick={handleDecrement}>-</button></>}
                                                     <span onChange={(e) => setValue(parseInt(e.target.value, 10) || 0)} className='mx-4 count-value'>{value}</span>
-                                                    <button
-                                                        className="btn sum-btn"
-                                                        type="button"
-                                                        onClick={handleIncrement}
-                                                    >
-                                                        +
-                                                    </button>
+                                                    {totalshops.includes(data.id) ? <><button className="btn sum-btn" type="button" onClick={()=>removecards()}>+</button></> : <><button className="btn sum-btn" type="button" onClick={handleIncrement}>+</button></>}
                                                 </span>
-                                                <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
-                                                <span className='like-btn'><img src={totallikes.includes(1) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(1)} /></span>
+                                                {value == 1 ? <><button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.total_price)}>{totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>} <FontAwesomeIcon icon={faBagShopping} className='ms-2'/></button></> : <><button className="disabled-shop" disabled>Add to card <FontAwesomeIcon icon={faBagShopping} /></button></>}
+                                                <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data)} /></span>
                                                 <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
                                             </div>
                                         </>
@@ -556,7 +545,7 @@ function Description() {
                                                         <label>WEIGHT :</label>
                                                     </div>
                                                     <div className='col-8 mt-4'>
-                                                        <span>{data.dimensions_structured.height.value}</span>
+                                                        <span>{data.dimensions_structured.weight.value}</span>
                                                     </div>
                                                     <div className='col-4 mt-4'>
                                                         <label>PAGES :</label>

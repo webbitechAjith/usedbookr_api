@@ -57,33 +57,8 @@ function Header() {
     }
     const handleChange = async (event) => {
         const newSearchItem = event.target.value;
-
-        // First, update the searchProduct state
-        // dispatch(setsearchProduct({ ...searchProduct, searchItem: newSearchItem }));
         dispatch(setsearchProduct(newSearchItem))
-        try {
-            const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-
-            // Access the updated searchItem from the state
-            const searchResults = data.data.filter((product) =>
-                product.title.toLowerCase().includes(newSearchItem) ||
-                (product.total_price >= 0 && product.total_price <= parseFloat(newSearchItem))
-            );
-
-            if (newSearchItem === '') {
-                dispatch(setallBookDetails(data.data));
-                dispatch(setsearchfield(true))
-            } else if (searchResults.length === 0) {
-                dispatch(setsearchfield(false))
-
-            } else {
-                dispatch(setallBookDetails(searchResults));
-                dispatch(setsearchfield(true))
-
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+        
     };
     const navlist = async () => {
         const { data } = await axios.get("https://webbitech.co.in/ecommerce/public/api/mainMenu")
@@ -138,13 +113,13 @@ function Header() {
                                     </div>
                                 </div> */}
                                 <div className='col-lg-6 col-md-6 d-lg-block d-md-block d-none'>
-                                    <img src={logo} />
+                                    <img src={logo} width={175}/>
                                 </div>
                                 <div className='col-lg-6 col-md-6 col-5 d-flex align-items-center justify-content-end icon-section'>
                                     <div className='d-lg-block d-md-block d-none'>
                                         <span className='position-relative'>
-                                            <img src={heart} alt='heart' className='view-all' onClick={() => hearts()} />
-                                            <span className='like-count'>{likescount}</span>
+                                            <img src={heart} alt='heart' className='view-all' onClick={() => hearts()} title={likescount}/>
+                                            {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>}
                                         </span>
                                         <span className='position-relative'>
                                             <img src={shop} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
@@ -162,7 +137,7 @@ function Header() {
                 </div>
                 <div className='d-lg-none d-md-none d-block'>
                     <div className='text-center bg-white py-3'>
-                        <img src={logo} className='w-50' />
+                        <img src={logo} width={175} />
                     </div>
                 </div>
                 <div className='nav-section'>
@@ -226,7 +201,7 @@ function Header() {
                                             <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faHeart} className='mx-3 view-all' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} onClick={() => hearts()} />
                                                 {/* <img src={whiteheart} width='50px' alt='heart' className='mx-3 mobile-margin' onClick={() => hearts()} /> */}
-                                                <span className='like-count'>{likescount}</span>
+                                                {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>}
                                             </span>
                                             <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faBagShopping} className='mx-3 view-all' onClick={() => shops()} style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} />

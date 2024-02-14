@@ -10,6 +10,7 @@ export const CrateSlice = createSlice({
             email: '',
             password: ''
         },
+        userLogin : false,
         logoutDetails: false,
         forgetDetails: {
             email: ''
@@ -74,6 +75,9 @@ export const CrateSlice = createSlice({
         },
         setloginDetails: (state, action) => {
             state.loginDetails = action.payload
+        },
+        setUserLogin: (state, action) => {
+            state.userLogin = action.payload
         },
         setlogoutDetails: (state, action) => {
             state.logoutDetails = action.payload
@@ -179,6 +183,6 @@ export const CrateSlice = createSlice({
     }
 })
 
-export const { setClass1Hide, setprofileDetails, setloginDetails,setsingleProductView,setOtpVerify,setRegisterToken,setforgetDetails,setresetpasswordDetails, setlogoutDetails,setnavListDetails,setClickauthorName, setregisterDetails,setsearchProduct,setsearchItemDetails,setsearchfield,setFilteredProducts, setisLiked, setisAdded, setisIncrement, setisDecrement, setActiveItem, setallBookDetails,setAuthorsDetails,setAuthorsName, setLikedProducts,settotallikes ,setlikescount, setShopProducts, setshopcount, settotalItemShop, setfinalItemPrice,setpriceFilter,setminPirce,setproductIdDetails,setsingleItemCount,setsingleItemPrice } = CrateSlice.actions
+export const { setClass1Hide, setprofileDetails, setloginDetails,setUserLogin,setsingleProductView,setOtpVerify,setRegisterToken,setforgetDetails,setresetpasswordDetails, setlogoutDetails,setnavListDetails,setClickauthorName, setregisterDetails,setsearchProduct,setsearchItemDetails,setsearchfield,setFilteredProducts, setisLiked, setisAdded, setisIncrement, setisDecrement, setActiveItem, setallBookDetails,setAuthorsDetails,setAuthorsName, setLikedProducts,settotallikes ,setlikescount, setShopProducts, setshopcount, settotalItemShop, setfinalItemPrice,setpriceFilter,setminPirce,setproductIdDetails,setsingleItemCount,setsingleItemPrice } = CrateSlice.actions
 export default CrateSlice.reducer
 
