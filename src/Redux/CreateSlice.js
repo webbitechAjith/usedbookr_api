@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const CrateSlice = createSlice({
     name: "usedbookr_product",
     initialState: {
-        isClass1Show: false,
+        isClass1Show: true,
         profileDetails: '',
         loginDetails: {
             email: '',

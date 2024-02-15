@@ -29,7 +29,7 @@ import { useNavigate } from 'react-router-dom';
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 const Allbooks = () => {
-    const { allbookDetails, isLiked, isAdded, likescount, likedProducts, totalLikes,shopProducts, shopcount,singleProductView } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, isLiked, isAdded, likescount, likedProducts, totalLikes, shopProducts, shopcount, singleProductView } = useSelector((state) => state.usedbookr_product)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -102,11 +102,11 @@ const Allbooks = () => {
         responsive: {
             0: {
                 items: 1,
-                autoWidth: true,
+                // autoWidth: true,
             },
             600: {
                 items: 2,
-                autoWidth: true,
+                // autoWidth: true,
             },
             800: {
                 items: 2,
@@ -121,65 +121,71 @@ const Allbooks = () => {
     return (
         <div className='py-lg-5 py-4 bestseller'>
             <MemoizedOwlCarousel className="owl-theme" {...owlOption}>
-                {allbookDetails && allbookDetails.map((book,index) => {
-                    return (
-                        <>
-                            <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
-                                <div className='best-seller'>
-                                    <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                                    <span className='selles-offer'>offer 60%</span>
-                                    {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
+                {allbookDetails.length < 0 ?
+                    <><h1>No items...</h1></>
+                    :
+                    <>
+                        {allbookDetails && allbookDetails.map((book, index) => {
+                            return (
+                                <>
+                                    <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                        <div className='best-seller'>
+                                            <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                            <span className='selles-offer'>offer 60%</span>
+                                            {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
                                         <span className={` ${isLiked ? 'likes' : 'unlikes'} `} ><img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" /></span>
                                     </span> */}
-                                    <span
-                                        className='like-position float-end m-2'
-                                        onClick={() => handleLikeClick(book)}
-                                    >
-                                        <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                            <img
-                                                src={totallikes.includes(book.id) ? likes : unlike}
-                                                alt="Like Button"
-                                            />
-                                        </span>
-                                    </span>
-                                    <div className='book-details p-3'>
-                                        <h1 className='w-100' title={book.title}>{book.title.slice(0, 10)}</h1>
-                                        {book.authors[0] === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.authors[0]} onClick={() => author_name()}>{book.authors[0].slice(0, 10)}</h5></>}
-                                        <div className='d-flex '>
-                                            <div className='rate-details'>
-                                                <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
-                                                <Rating
-                                                    initialRating={5}
-                                                    emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                    fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                    readonly={true}
-                                                />
-                                            </div>
-                                            <div className='ms-auto'>
-                                                {/* {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)} */}
-                                                <span
-                                                    className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                                    id={book.id} value={book.id}
-                                                    onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                                >
-                                                    {/* <img
+                                            <span
+                                                className='like-position float-end m-2'
+                                                onClick={() => handleLikeClick(book)}
+                                            >
+                                                <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
+                                                    <img
+                                                        src={totallikes.includes(book.id) ? likes : unlike}
+                                                        alt="Like Button"
+                                                    />
+                                                </span>
+                                            </span>
+                                            <div className='book-details px-3'>
+                                                <h1 className='w-100' title={book.title}>{book.title.slice(0, 20)}...</h1>
+                                                {book.authors[0] === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.authors[0]} onClick={() => author_name()}>{book.authors[0].slice(0, 10)}</h5></>}
+                                                <div className='d-flex '>
+                                                    <div className='rate-details'>
+                                                        <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                        <Rating
+                                                            initialRating={5}
+                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                            readonly={true}
+                                                        />
+                                                    </div>
+                                                    <div className='ms-auto'>
+                                                        {/* {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)} */}
+                                                        <span
+                                                            className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                            id={book.id} value={book.id}
+                                                            onClick={() => handleShopClick(book, book.id, book.msrp)}
+                                                        >
+                                                            {/* <img
                                                         src={totalshops.includes(book.id) ? add : remove}
                                                         alt="Shop Button"
                                                     /> */}
-                                                    {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed'/></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed'/></>}
-                                                </span>
+                                                            {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className='text-end'>
+                                                    <button className='viewall mt-4 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className='text-center'>
-                                            <button className='viewall mt-4 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </>
-                    )
+                                </>
+                            )
 
-                })}
+                        })}
+                    </>
+                }
             </MemoizedOwlCarousel>
         </div>
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Rating from 'react-rating';
+
 import Header from '../Common/pages/Header'
 import Footer from '../Common/pages/Footer'
 import Useraside from '../Common/pages/Useraside'
-import { useSelector, useDispatch } from 'react-redux';
 
-import Rating from 'react-rating';
 
 
 // css file include path 
@@ -12,12 +13,8 @@ import '../Common/assets/css/profile.css'
 
 // fontawesome 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-// image path 
-import plant1 from '../Common/assets/image/description4.png'
-import Ratings from '../Common/assets/image/Rating.png'
-import deletes from '../Common/assets/image/delete.png'
 
 // state value action process 
 import { setshopcount, settotalItemShop, setShopProducts, setfinalItemPrice } from '../Redux/CreateSlice';
@@ -84,11 +81,15 @@ function Purchase() {
             } else {
                 navigate('/Orderprocess')
             }
-        }else{
+        } else {
             alert("No Any Book Shop")
         }
 
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
 
     return (
         <div className='purchase-section'>
@@ -137,12 +138,15 @@ function Purchase() {
                                                                 </td>
                                                                 <td className='py-5 px-0 sum-product'>
                                                                     <span>
-                                                                        <button onClick={() => itemDecrement(data.id)}>-</button>
+                                                                        {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
                                                                         <a className='mx-2 text-decoration-none'>{data.qty}</a>
                                                                         <button onClick={() => itemIncrement(data.id)}>+</button>
                                                                     </span>
                                                                 </td>
-                                                                <td className='py-5 text-center'><a className='text-decoration-none price-count'>{data.amount}</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(data.id, data.qty, data.title)} /></td>
+                                                                <td className='py-5 text-start'>
+                                                                    <a className='text-decoration-none price-count'>{data.amount}</a>
+                                                                    <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(data.id, data.qty, data.title)} />
+                                                                </td>
                                                             </tr>
                                                         )
                                                     })}
@@ -253,7 +257,7 @@ function Purchase() {
                                                                 </td>
                                                                 <td className='py-5 px-0 sum-product'>
                                                                     <span>
-                                                                        <button onClick={() => itemDecrement(data.id)}>-</button>
+                                                                        {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
                                                                         <a className='mx-2 text-decoration-none'>{data.qty}</a>
                                                                         <button onClick={() => itemIncrement(data.id)}>+</button>
                                                                     </span>
@@ -373,7 +377,7 @@ function Purchase() {
                                                                             </td>
                                                                             <td className='py-5 px-0 sum-product'>
                                                                                 <span>
-                                                                                    <button onClick={() => itemDecrement(data.id)}>-</button>
+                                                                                    {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
                                                                                     <a className='mx-2 text-decoration-none'>{data.qty}</a>
                                                                                     <button onClick={() => itemIncrement(data.id)}>+</button>
                                                                                 </span>
@@ -468,7 +472,7 @@ function Purchase() {
                                                 <h5 class="card-title">Author : {data.authors[0].slice(0, 10)}...</h5>
                                                 <div className='py-3 px-0 sum-product'>
                                                     <span>
-                                                        <button onClick={() => itemDecrement(1)}>-</button>
+                                                        {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
                                                         <a className='mx-2 text-decoration-none'>{1}</a>
                                                         <button onClick={() => itemIncrement(1)}>+</button>
                                                     </span>

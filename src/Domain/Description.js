@@ -131,6 +131,7 @@ function Description() {
             // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
             dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
             dispatch(setshopcount(shopcount + 1))
+            navigate('/Purchase')
         }
     };
 
@@ -173,7 +174,6 @@ function Description() {
         dispatch(setClass1Hide(false))
         window.scrollTo(0, 0);
     }, [])
-    console.log(22, likedProducts)
     return (
         <div className='description-section'>
             <Header />
@@ -226,7 +226,7 @@ function Description() {
                                                     {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
                                                     <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
                                                 </span>
-                                                {value == 1 ? <><button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.total_price)}>{totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>} <FontAwesomeIcon icon={faBagShopping} className='ms-2' /></button></> : <><button className="disabled-shop" disabled>Add to card <FontAwesomeIcon icon={faBagShopping} /></button></>}
+                                                {value == 1 ? <><button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.msrp)}>{totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>} <FontAwesomeIcon icon={faBagShopping} className='ms-2' /></button></> : <><button className="disabled-shop" disabled>Add to card <FontAwesomeIcon icon={faBagShopping} /></button></>}
                                                 {/* <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data)} /></span> */}
                                                 <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
                                             </div>

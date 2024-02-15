@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useSpring, animated } from 'react-spring';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScript
 
 import '../assets/css/regular.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faChevronDown, faHeart, faBagShopping, faXmark, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faChevronDown, faHeart, faBagShopping, faXmark, faUser, faShop } from '@fortawesome/free-solid-svg-icons';
 
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 
@@ -26,18 +29,31 @@ import heartShop from '../assets/image/heart-shop.png'
 
 import { setClass1Hide, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield } from '../../Redux/CreateSlice'
 import axios from 'axios';
+import { allbooks } from './apiBaseurl';
 
 
 function Header() {
     const { isClass1Show, likescount, shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
     const [searchTerm, setSearchTerm] = useState('');
+    const [showMenu, setShowMenu] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
     const [products, setProducts] = useState(allbookDetails);
     const [isSticky, setIsSticky] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+
     const { pathname, search, hash } = location;
+    const handleToggle = () => {
+        setIsOpen(!isOpen);
+    };
+    const dropdownAnimation = useSpring({
+        opacity: isOpen ? 1 : 0,
+        transform: isOpen ? 'translateY(0)' : 'translateY(-10px)',
+        display: isOpen ? 'block' : 'none',
+    });
 
     const hearts = () => {
         navigate('/Wishlist')
@@ -48,26 +64,60 @@ function Header() {
     const userProfile = () => {
         navigate('/Profile')
     }
-    const navButton = () => {
-        if (isClass1Show == false) {
-            dispatch(setClass1Hide(true))
-        } else {
-            dispatch(setClass1Hide(false))
-        }
+    const signup = () => {
+        navigate('/Register')
     }
+    const navButton = () => {
+        // dispatch(setClass1Hide(true))
+    }
+    const toggleMenu = () => {
+        setShowMenu(!showMenu);
+    };
+    const toggleDropdown = () => {
+        setIsExpanded(!isExpanded);
+    };
     const handleChange = async (event) => {
         const newSearchItem = event.target.value;
+
+        // First, update the searchProduct state
+        // dispatch(setsearchProduct({ ...searchProduct, searchItem: newSearchItem }));
         dispatch(setsearchProduct(newSearchItem))
-        
+        try {
+            const allbookSearch = await allbooks();
+
+            // Access the updated searchItem from the state
+            const searchResults = allbookSearch.filter((book) =>
+                book.title.toLowerCase().includes(newSearchItem) || (book.msrp >= 0 && book.msrp <= parseFloat(newSearchItem))
+            );
+            console.log("searchResults", searchResults)
+            if (newSearchItem === '') {
+                dispatch(setallBookDetails(searchResults));
+                dispatch(setsearchfield(true))
+            } else if (searchResults.length === 0) {
+                dispatch(setsearchfield(false))
+
+            } else {
+                dispatch(setallBookDetails(searchResults));
+                dispatch(setsearchfield(true))
+
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     };
     const navlist = async () => {
         const { data } = await axios.get("https://webbitech.co.in/ecommerce/public/api/mainMenu")
         dispatch(setnavListDetails(data.data))
     }
+    const handleNavLinkClick = () => {
+        // Replace the current URL with the new path
+        navigate('/categorybook');
+    };
     useEffect(() => {
         dispatch(setallBookDetails(allbookDetails))
         dispatch(setsearchProduct(searchProduct))
         navlist()
+        // dispatch(setClass1Hide(true))
         const handleScroll = () => {
             if (window.scrollY >= 2) {
                 setIsSticky(true);
@@ -80,9 +130,6 @@ function Header() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
-    // useEffect(() => {
-
-    // }, [])
     return (
         <>
             <div className='top-header'>
@@ -102,37 +149,26 @@ function Header() {
                     <div className='container-90'>
                         <div className='d-lg-block d-md-block d-none'>
                             <div className='row m-0 p-2'>
-                                {/* <div className='col-lg-4 col-md-5 col-6 text-start d-flex align-items-center'>
-                                    <div className="input-group input-set">
-                                        <span className="input-group-text border-0 bg-none bg-white" id="searchIcon">
-                                            <FontAwesomeIcon icon={faSearch} />
-                                        </span>
-                                        <input type="text" className="form-control border-0" placeholder="Search our book" aria-label="Search" aria-describedby="searchButton" onChange={(val) => { dispatch(setsearchProduct({ ...searchProduct, searchItem: val.target.value })); handleChange(val) }} />
-                                        <input type="text" className="form-control border-0" placeholder="Search our shop" aria-label="Search" aria-describedby="searchButton" onChange={handleChange} />
-                                        <button className="btn btn-outline-secondary" type="button" id="searchButton" onClick={() => searchlist()}>search</button>
-                                    </div>
-                                </div> */}
                                 <div className='col-lg-6 col-md-6 d-lg-block d-md-block d-none'>
-                                    <img src={logo} width={175}/>
+                                    <img src={logo} width={175} />
                                 </div>
                                 <div className='col-lg-6 col-md-6 col-5 d-flex align-items-center justify-content-end icon-section'>
                                     <div className='d-lg-block d-md-block d-none'>
                                         <span className='position-relative'>
-                                            <img src={heart} alt='heart' className='view-all' onClick={() => hearts()} title={likescount}/>
+                                            <img src={heart} alt='heart' width={30} className='view-all' onClick={() => hearts()} title={likescount} />
                                             {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>}
                                         </span>
                                         <span className='position-relative'>
-                                            <img src={shop} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
-                                            <span className='item-count'>{shopcount}</span>
+                                            <img src={shop} width={30} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
+                                            {shopcount >= 9 ? <><span className='item-count' title={shopcount}>9<sup>+</sup></span></> : <><span className='item-count'>{shopcount}</span></>}
                                         </span>
                                         <span>
-                                            <img src={profile} className='view-all' onClick={() => userProfile()} />
+                                            <button className='authregister' onClick={signup}>Sign in/sign up</button>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div className='d-lg-none d-md-none d-block'>
@@ -144,9 +180,6 @@ function Header() {
                     <nav className="navbar navbar-expand-lg container-90">
                         <div className="container-fluid p-0">
                             <a className="navbar-brand d-none" href="#"><img src={mobilelogo} /></a>
-                            {/* <button className="navbar-toggler d-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon"></span>
-                            </button> */}
                             <div className='d-lg-block d-none'>
                                 <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                     <span className=""><img src={whitenav} /></span>
@@ -155,24 +188,13 @@ function Header() {
                             <div className='d-lg-none d-md-block d-none w-100'>
                                 <div className='row m-0 w-100'>
                                     <div className='col-4'>
-                                        {isClass1Show ?
-                                            <>
-                                                <button className="navbar-toggler close-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" onClick={() => navButton()}>
-                                                    <FontAwesomeIcon icon={faXmark} style={{ fontSize: '30px', color: '#FFF' }} />
-                                                </button>
-                                            </>
-                                            :
-                                            <>
-                                                <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" onClick={() => navButton()}>
-                                                    <span className=""><img src={whitenav} /></span>
-                                                </button>
-                                            </>
-                                        }
-
+                                        <button className="btn" type="button" onClick={toggleMenu}>
+                                            <span className=""><img src={whitenav} /></span>
+                                        </button>
                                     </div>
                                     <div className='col-8 text-end'>
                                         <div className="input-group">
-                                            <input type="text" className="form-control " placeholder="Search our shop" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ ...searchProduct, searchItem: val.target.value })); handleChange(val) }} />
+                                            <input type="text" className="form-control " placeholder="Search our books" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ searchItem: val.target.value })); handleChange(val) }} />
                                             <span className="input-group-text search-btn" id="basic-addon2">Search</span>
                                         </div>
                                     </div>
@@ -181,70 +203,37 @@ function Header() {
                             <div className='d-lg-none d-md-none d-block w-100'>
                                 <div className='row m-0'>
                                     <div className='col-2 p-0'>
-                                        {isClass1Show ?
-                                            <>
-                                                <button className="navbar-toggler close-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" onClick={() => navButton()}>
-                                                    <FontAwesomeIcon icon={faXmark} style={{ fontSize: '30px', color: '#FFF' }} />
-                                                </button>
-                                            </>
-                                            :
-                                            <>
-                                                <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" onClick={() => navButton()}>
-                                                    <span className=""><img src={whitenav} /></span>
-                                                </button>
-                                            </>
-                                        }
+                                        <button className="btn" type="button" onClick={toggleMenu}>
+                                            <span className=""><img src={whitenav} /></span>
+                                        </button>
                                     </div>
-                                  
                                     <div className='col-10 p-0'>
                                         <div className='icon-section d-lg-none d-md-none space-item align-items-end'>
                                             <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faHeart} className='mx-3 view-all' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} onClick={() => hearts()} />
-                                                {/* <img src={whiteheart} width='50px' alt='heart' className='mx-3 mobile-margin' onClick={() => hearts()} /> */}
                                                 {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>}
                                             </span>
                                             <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faBagShopping} className='mx-3 view-all' onClick={() => shops()} style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} />
-                                                {/* <img src={shop} alt='shop' className='mx-3 view-all' onClick={() => shops()} /> */}
                                                 <span className='item-count'>{shopcount}</span>
                                             </span>
                                             <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faUser} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} onClick={() => userProfile()} />
-                                                {/* <img src={profile} className='view-all' onClick={() => userProfile()} /> */}
                                             </span>
                                             <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faSearch} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} />
-                                                {/* <img src={whitesearch} className='mx-3 mobile-margin' /> */}
                                             </span>
-                                            {/* <span className='item-count'>{shopcount}</span>
-                                            <span className='like-count'>{likescount}</span> */}
+
                                         </div>
                                     </div>
-                                    
-                                </div>
-
-                            </div>
-
-                            <div className="collapse navbar-collapse nav-list" id="navbarNavDropdown">
-                                {/* <ul className="navbar-nav py-2 nav-content">
-                                    {navListDetails && navListDetails.map((data, index) => {
-                                        return (
-                                            <li key={index}>
-                                                <NavLink exact to={{ pathname: `/${data.name.toLowerCase()}`   }} className={`${pathname === `/${data.name.toLowerCase()}` ? 'active' : 'custom-active'} text-decoration-none`}>
-                                                    {data.name}
-                                                </NavLink>
-                                            </li>
-                                        )
-
-                                    })}
-
-                                </ul> */}
-                                {isClass1Show ?
-                                    <>
-                                        <div className="sidebar">
-                                            <div className={`${isClass1Show == true ? 'nav-show' : ''} collapse navbar-collapse navbarNav justify-content-center navlist`} id="navbarSupportedContent">
-                                                <ul className="navbar-nav pb-3 nav-content">
-                                                    <li className='mb-5 mt-2 text-center d-md-none d-sm-none d-block '><img src={mobilelogo} className='w-100' /></li>
+                                    <div className="collapse navbar-collapse nav-list" id="navbarNavDropdown">
+                                        <div className={`offcanvas offcanvas-start ${showMenu ? 'show' : ''}`} tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                                            <div className="offcanvas-header">
+                                                <img src={logo} width={150} />
+                                                <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" onClick={toggleMenu}></button>
+                                            </div>
+                                            <div className="offcanvas-body">
+                                                <ul className="navbar-nav py-2 nav-content">
                                                     <li className='nav-item d-flex align-items-center'>
                                                         <NavLink exact to={{ pathname: '/' }} className={`${pathname === '/' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                             Home
@@ -256,59 +245,84 @@ function Header() {
                                                         </NavLink>
                                                     </li>
                                                     <li className="nav-item dropdown mega-menu-li">
-                                                        <a className="nav-link dropdown-toggle option-list" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                                             SHOP BOOK
                                                             <FontAwesomeIcon icon={faChevronDown} style={{ color: "#fafafa", }} className='ps-2' />
                                                         </a>
-                                                        <div class="dropdown-menu drop-width w-100" aria-labelledby="navbarDropdown">
-                                                            <div class="container">
-                                                                <div class="row my-4">
-                                                                    <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
+                                                        <div class="dropdown-menu drop-width w-100" aria-labelledby="dropdownMenuLink">
+                                                            <div class="container-fluid">
+                                                                <div class="row m-0">
+                                                                    <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
                                                                         <div class="list-group list-group-flush">
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Children
-                                                                            </NavLink>
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Education
-                                                                            </NavLink>
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Political
-                                                                            </NavLink>
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Magazines
-                                                                            </NavLink>
+                                                                            <h5>Children</h5>
+
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Children1
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Children2
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Children3
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Children4
+                                                                            </a>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
+                                                                    <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
                                                                         <div class="list-group list-group-flush">
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Children
-                                                                            </NavLink>
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Education
-                                                                            </NavLink>
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Political
-                                                                            </NavLink>
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Magazines
-                                                                            </NavLink>
+                                                                            <h5>Education</h5>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Education1
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Education2
+                                                                            </a>
+
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Education3
+                                                                            </a>
+
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Education4
+                                                                            </a>
+
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
+                                                                    <div class="col-lg-3 col-md-4 mb-3 mb-lg-0">
                                                                         <div class="list-group list-group-flush">
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Children
-                                                                            </NavLink>
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Education
-                                                                            </NavLink>
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Political
-                                                                            </NavLink>
-                                                                            <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                                Magazines
-                                                                            </NavLink>
+                                                                            <h5>Political</h5>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Political1
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Political2
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Political3
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Political4
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3 col-md-4 mb-3 mb-lg-0">
+                                                                        <div class="list-group list-group-flush">
+                                                                            <h5>Magazines</h5>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Magazines1
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Magazines2
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Magazines3
+                                                                            </a>
+                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                Magazines4
+                                                                            </a>
+
                                                                         </div>
                                                                     </div>
 
@@ -330,12 +344,10 @@ function Header() {
                                                 </ul>
                                             </div>
                                         </div>
-
-                                    </> :
-                                    <>
-
-                                    </>
-                                }
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="collapse navbar-collapse nav-list" id="navbarNavDropdown">
                                 <div className='w-100 d-lg-block d-none'>
                                     <div className='row m-0 w-100'>
                                         <div className='col-lg-8 align-self-center'>
@@ -351,59 +363,83 @@ function Header() {
                                                     </NavLink>
                                                 </li>
                                                 <li className="nav-item dropdown mega-menu-li">
-                                                    <a className="nav-link dropdown-toggle option-list" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        SHOP BOOK
-                                                        <FontAwesomeIcon icon={faChevronDown} style={{ color: "#fafafa", }} className='ps-2' />
+                                                    <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded={isExpanded} onClick={toggleDropdown}>
+                                                        SHOP BOOK<FontAwesomeIcon icon={faChevronDown} style={{ color: '#fafafa' }} className="ps-2" />
                                                     </a>
-                                                    <div class="dropdown-menu drop-width w-100" aria-labelledby="navbarDropdown">
-                                                        <div class="container">
-                                                            <div class="row my-4">
-                                                                <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
+                                                    <div className={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
+                                                        <div class="container-fluid">
+                                                            <div class="row m-0">
+                                                                <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
                                                                     <div class="list-group list-group-flush">
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Children
-                                                                        </NavLink>
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Education
-                                                                        </NavLink>
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Political
-                                                                        </NavLink>
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Magazines
-                                                                        </NavLink>
+                                                                        <h5>Children</h5>
+
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Children1
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Children2
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Children3
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Children4
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
+                                                                <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
                                                                     <div class="list-group list-group-flush">
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Children
-                                                                        </NavLink>
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Education
-                                                                        </NavLink>
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Political
-                                                                        </NavLink>
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Magazines
-                                                                        </NavLink>
+                                                                        <h5>Education</h5>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Education1
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Education2
+                                                                        </a>
+
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Education3
+                                                                        </a>
+
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Education4
+                                                                        </a>
+
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6 col-lg-4 mb-3 mb-lg-0">
+                                                                <div class="col-lg-3 col-md-4 mb-3 mb-lg-0">
                                                                     <div class="list-group list-group-flush">
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Children
-                                                                        </NavLink>
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Education
-                                                                        </NavLink>
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Political
-                                                                        </NavLink>
-                                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'list-group-item list-group-item-action'} text-decoration-none`}>
-                                                                            Magazines
-                                                                        </NavLink>
+                                                                        <h5>Political</h5>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Political1
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Political2
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Political3
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Political4
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-4 mb-3 mb-lg-0">
+                                                                    <div class="list-group list-group-flush">
+                                                                        <h5>Magazines</h5>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Magazines1
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Magazines2
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Magazines3
+                                                                        </a>
+                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                            Magazines4
+                                                                        </a>
+
                                                                     </div>
                                                                 </div>
 

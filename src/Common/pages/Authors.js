@@ -87,13 +87,7 @@ const Authors = () => {
                     <button onClick={author}>View All</button>
                 </div>
             </div>
-
         </>
-        // <div className='ps-lg-5 ps-2 py-5 '>
-
-
-        // </div>
-
     );
 };
 

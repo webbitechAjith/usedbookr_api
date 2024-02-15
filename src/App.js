@@ -28,6 +28,7 @@ import Fdfd from './Domain/Fdfd';
 import Autherfliter from './Domain/Authorfliter';
 import OTPForm from './Domain/OTPForm';
 import Contact from './Domain/Contact';
+import Categorybook from './Common/pages/Categorybook';
 
 function App() {
    
@@ -53,7 +54,7 @@ function App() {
     };
   }, []);
   return (
-    <BrowserRouter basename='/REACT-JS/usedbookr_api'>
+    <BrowserRouter basename='/demo1'>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/Login' element={<Login />} />
@@ -72,6 +73,7 @@ function App() {
         <Route path='/ProductOrderForm' element={<ProductOrderForm />}/>
         <Route path='/Orderprocess' element={<Orderprocess />} />
         <Route path='/authors' element={<Autherfliter />} />
+        <Route path='/categorybook' element={<Categorybook />} />
         <Route path='/Fdfd' element={<Fdfd />} />
       </Routes>
     </BrowserRouter>

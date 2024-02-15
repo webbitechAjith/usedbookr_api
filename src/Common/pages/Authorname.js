@@ -63,7 +63,6 @@ function Authorname() {
                 }
                 return false;
             }); 
-            console.log("allbookSearch",allbookSearch)
             dispatch(setallBookDetails(allbookSearch));
             if (newSearchAuthor == '') {
                 dispatch(setAuthorsDetails(data));

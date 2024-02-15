@@ -264,9 +264,9 @@
     text-align: center;
 }
 
-.nav-item .active {
+/* .nav-item .active {
     border: none !important;
-}
+} */
 
 .tab-content .additional li {
     list-style: none;

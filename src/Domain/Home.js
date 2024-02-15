@@ -202,11 +202,11 @@ function Home() {
           </div>
           {/* <header section end  */}
           {/* Best sellers in indoor plants start  */}
-          <div className='container-95 pt-5'>
+          <div className='pt-5'>
             <h1 className='product-title'>Browse your book on Categories</h1>
             <SimpleSlider />
           </div>
-          <div className='container-95 pt-5'>
+          <div className='pt-5'>
             <h1 className='product-title'>Browse your book on Authors</h1>
             <div className='mt-4'>
               {authorsDetails == "" ? <><h1>noitems</h1></> : <><Authors /></>}
@@ -214,7 +214,7 @@ function Home() {
           </div>
 
           <div className='d-lg-block d-none'>
-            <div className='container-90 product-list mt-5 mb-3'>
+            <div className='product-list mt-5 mb-3'>
               <span className='product-title'>Best Sellers in Education Books</span>
               <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
               {allbookDetails == '' ? <><h1>noitems</h1></> : <><Allbooks /></>}
@@ -309,7 +309,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className='container-90'>
+        <div className='container-fluid'>
           <div className='pots-section mt-5'>
             <div className='d-lg-block d-none'>
               <span className='product-title'>Best Sellers in Comics</span>
