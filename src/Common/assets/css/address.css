@@ -1,29 +1,34 @@
-.contact{
+.contact {
     padding: 60px 0px 0px;
     background: #f8f8f8;
 }
-.contact .contact-left  {
+
+.contact .contact-left {
     padding: 0px 30px;
 }
-.contact .contact-title{
+
+.contact .contact-title {
     font-weight: 600;
     line-height: 1.25em;
     margin: 0 0 20px 0;
     color: #222;
     font-size: 30px;
 }
-.contact .contact-text{
+
+.contact .contact-text {
     font-size: 14px;
     font-weight: 400;
     line-height: 1.75em;
     color: #8E8E8E;
     margin-bottom: 30px;
 }
-.contact .contact-detail{
+
+.contact .contact-detail {
     display: flex;
     margin-bottom: 35px;
 }
-.contact .contact-detail .icon{
+
+.contact .contact-detail .icon {
     font-size: 16px;
     color: #241D60;
     background: #FFD731;
@@ -34,42 +39,50 @@
     text-align: center;
     position: relative;
 }
-.contact .contact-detail .text{
+
+.contact .contact-detail .text {
     margin-left: 10px;
 }
-.contact .contact-detail .text .reservation-text{
+
+.contact .contact-detail .text .reservation-text {
     font-size: 16px;
     color: #000;
     font-weight: 500;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.contact .contact-detail .text .reservation-title{
+
+.contact .contact-detail .text .reservation-title {
     margin: 0;
     line-height: inherit;
 }
-.contact .contact-detail .text .reservation-title a{
+
+.contact .contact-detail .text .reservation-title a {
     font-size: 14px;
     color: #8E8E8E;
     margin-right: 10px;
 }
-.contact .contact-right{
+
+.contact .contact-right {
     background: #fff;
     box-shadow: 0px 2px 11px 0px #B5B5B540;
-   padding:30px 25px;
+    padding: 30px 25px;
 }
-.contact .get-title{
+
+.contact .get-title {
     font-weight: 600;
     line-height: 1.25em;
     margin: 0 0 25px 0;
     color: #222;
     font-size: 24px;
 }
-.contact form .form-label{
+
+.contact form .form-label {
     color: #1D66A7;
     font-weight: 600;
 }
-.contact form .form-control{
+
+.contact form .form-control {
     max-width: 100%;
     padding: 15px;
     height: auto;
@@ -89,9 +102,195 @@
     border: 1px solid #E5E5E5;
     border-color: ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-.contact form .form-control:focus{
+
+.contact form .form-control:focus {
     border-color: #241D60;
 }
-.contact form .form-control::placeholder{
+
+.contact form .form-control::placeholder {
     color: #BCBCBC;
+}
+
+
+
+/* aboutus page css start  */
+.about-us .head-content {
+    padding: 60px 0px;
+}
+
+.about-us .head-content h1 {
+    padding-left: 50px;
+    font-size: 46px;
+    font-weight: 600;
+    line-height: 56px !important;
+}
+
+.about-us .head-content p {
+    padding-top: 20px;
+    padding-left: 50px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 27px !important;
+}
+
+.about-us .team-member h5 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px !important;
+
+}
+
+.about-us .team-member h2 {
+    margin: 20px 0px;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 50px !important;
+}
+
+.about-us .team-member p {
+    width: 75%;
+    margin: 0 auto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px !important;
+}
+
+.teammate-name .name {
+    width: 35%;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background: #241D60;
+    position: absolute;
+    top: 80%;
+    left: 78%;
+    transform: translate(-50%);
+}
+
+.social-media {
+    width: 30%;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background: #FFD731;
+    position: absolute;
+    top: 92%;
+    left: 78%;
+    transform: translate(-50%);
+    z-index: -1;
+}
+
+.teammate-name:hover .name {
+    width: 35%;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background: #241D60;
+    position: absolute;
+    top: 75%;
+    left: 78%;
+    transform: translate(-50%);
+}
+
+.teammate-name:hover~.social-media {
+    position: absolute;
+    top: 95%;
+    left: 78%;
+    z-index: 1 !important;
+}
+
+.teammate-name1 .name1 {
+    width: 35%;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background: #241D60;
+    position: absolute;
+    top: 80%;
+    left: 180px;
+    transform: translate(-50%);
+}
+
+.social-media1 {
+    width: 30%;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background: #FFD731;
+    position: absolute;
+    top: 92%;
+    left: 180px;
+    transform: translate(-50%);
+    z-index: -1;
+}
+
+.teammate-name1:hover .name1 {
+    width: 35%;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background: #241D60;
+    position: absolute;
+    top: 75%;
+    left: 180px;
+    transform: translate(-50%);
+}
+
+.teammate-name1:hover~.social-media1 {
+    position: absolute;
+    top: 95%;
+    left: 180px;
+    z-index: 1 !important;
+}
+
+.team-part h1 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px !important;
+    text-align: center;
+    color: #FFF;
+}
+
+.team-part p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px !important;
+    text-align: center;
+    color: #FFF;
+}
+
+.delivery-section {
+    background: #F2F2F2;
+}
+
+.delivery-section h1 {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 52px !important;
+}
+
+.delivery-section p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px !important;
+}
+
+.delivery-section ul li {
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px !important;
+}
+
+.delivery-section ul li span {
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: #91f295;
+}
+.delivery-section button{
+    background: #FFD731;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 43px;
 }

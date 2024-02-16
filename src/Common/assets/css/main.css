@@ -861,8 +861,8 @@ body {
         border-radius: 50%;
         background: #FFF;
         position: absolute;
-        top: 2%;
-        right: 10px;
+        top: 3%;
+        right: 15px;
     }
 }
 
@@ -908,11 +908,11 @@ body {
     }
 
     .product-list .like-position .unlikes {
-        padding: 0px;
+        padding: 10px;
         border-radius: 50%;
         background: #FFF;
         position: absolute;
-        top: 2%;
-        right: 10px;
+        top: 3%;
+        right: 15px;
     }
 }

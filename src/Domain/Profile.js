@@ -125,7 +125,7 @@ function Profile() {
                     </div>
                 </div>
                 <div className='d-lg-none d-block'>
-                    <div className='pt-5'>
+                    <div className=''>
                         <Useraside />
                         <div className='row m-0 py-5'>
                             <div className='col-12'>

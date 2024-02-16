@@ -6,7 +6,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScri
 import '../assets/css/regular.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faChevronDown, faHeart, faBagShopping, faXmark, faUser, faShop } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faChevronDown, faHeart, faBagShopping, faXmark, faUser, faShop, faPlus, faMinus, faSignIn, faSignOut, faUserAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { NavLink, useNavigate, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,7 +15,8 @@ import { useSelector, useDispatch } from 'react-redux';
 // image path
 import headphone from '../assets/image/Headset.png'
 import locations from '../assets/image/location.png'
-import logo from '../assets/image/logo.png'
+// import logo from '../assets/image/logo.png'
+import logo from '../assets/image/usedbookr-logo.svg'
 import heart from '../assets/image/header1.png'
 import shop from '../assets/image/header2.png'
 import profile from '../assets/image/header3.png'
@@ -37,6 +38,12 @@ function Header() {
     const [searchTerm, setSearchTerm] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isUserexpanded, setIsUserexpanded] = useState(false);
+    const [isSearchexpanded, setIsSearchexpanded] = useState(false);
+    const [isChildrenVisible, setIsChildrenVisible] = useState(false);
+    const [isEducationVisible, setIsEducationVisible] = useState(false);
+    const [isPoliticalVisible, setIspoliticalVisible] = useState(false);
+    const [isMagazinesVisible, setIsmagazinesVisible] = useState(false);
     const [products, setProducts] = useState(allbookDetails);
     const [isSticky, setIsSticky] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -67,15 +74,41 @@ function Header() {
     const signup = () => {
         navigate('/Register')
     }
+    const signin = () =>{
+        navigate('/Login')
+    }
     const navButton = () => {
         // dispatch(setClass1Hide(true))
     }
+
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
     const toggleDropdown = () => {
         setIsExpanded(!isExpanded);
     };
+    const userToggleDropDown = () => {
+        setIsUserexpanded(!isUserexpanded)
+    };
+    const searchToggleDropDown = () => {
+        setIsSearchexpanded(!isSearchexpanded)
+    }
+    
+    const toggleChildren = () => {
+        setIsChildrenVisible(!isChildrenVisible);
+    };
+
+    const toggleEducation = () => {
+        setIsEducationVisible(!isEducationVisible);
+    };
+    const togglePolitical = () => {
+        setIspoliticalVisible(!isPoliticalVisible);
+    };
+
+    const toggleMagazines = () => {
+        setIsmagazinesVisible(!isMagazinesVisible);
+    };
+
     const handleChange = async (event) => {
         const newSearchItem = event.target.value;
 
@@ -106,12 +139,14 @@ function Header() {
         }
     };
     const navlist = async () => {
-        const { data } = await axios.get("https://webbitech.co.in/ecommerce/public/api/mainMenu")
-        dispatch(setnavListDetails(data.data))
+        // const { data } = await axios.get("https://webbitech.co.in/ecommerce/public/api/mainMenu")
+        // dispatch(setnavListDetails(data.data))
     }
     const handleNavLinkClick = () => {
         // Replace the current URL with the new path
+        // window.location.reload();
         navigate('/categorybook');
+        setIsExpanded(!isExpanded);
     };
     useEffect(() => {
         dispatch(setallBookDetails(allbookDetails))
@@ -150,7 +185,7 @@ function Header() {
                         <div className='d-lg-block d-md-block d-none'>
                             <div className='row m-0 p-2'>
                                 <div className='col-lg-6 col-md-6 d-lg-block d-md-block d-none'>
-                                    <img src={logo} width={175} />
+                                    <img src={logo} width={130} />
                                 </div>
                                 <div className='col-lg-6 col-md-6 col-5 d-flex align-items-center justify-content-end icon-section'>
                                     <div className='d-lg-block d-md-block d-none'>
@@ -173,7 +208,7 @@ function Header() {
                 </div>
                 <div className='d-lg-none d-md-none d-block'>
                     <div className='text-center bg-white py-3'>
-                        <img src={logo} width={175} />
+                        <img src={logo} width={130} />
                     </div>
                 </div>
                 <div className='nav-section'>
@@ -185,6 +220,7 @@ function Header() {
                                     <span className=""><img src={whitenav} /></span>
                                 </button>
                             </div>
+                            {/* nav section  */}
                             <div className='d-lg-none d-md-block d-none w-100'>
                                 <div className='row m-0 w-100'>
                                     <div className='col-4'>
@@ -196,6 +232,131 @@ function Header() {
                                         <div className="input-group">
                                             <input type="text" className="form-control " placeholder="Search our books" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ searchItem: val.target.value })); handleChange(val) }} />
                                             <span className="input-group-text search-btn" id="basic-addon2">Search</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* navlist section list  */}
+                            <div className='d-lg-none d-md-block d-none w-100'>
+                                <div className="collapse navbar-collapse nav-list" id="navbarNavDropdown">
+                                    <div className={`offcanvas offcanvas-start ${showMenu ? 'show overflow-auto' : ''}`} tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                                        <div className="offcanvas-header">
+                                            <img src={logo} width={130} />
+                                            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" onClick={toggleMenu}></button>
+                                        </div>
+                                        <div className="offcanvas-body position-sticky">
+                                            <ul className="navbar-nav py-2 nav-content">
+                                                <li className='nav-item d-flex align-items-center'>
+                                                    <NavLink exact to={{ pathname: '/' }} className={`${pathname === '/' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                        Home
+                                                    </NavLink>
+                                                </li>
+                                                <li className='d-flex align-items-center'>
+                                                    <NavLink exact to="/about" className={`${pathname === '/about' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                        About Us
+                                                    </NavLink>
+                                                </li>
+                                                <li className="nav-item dropdown mega-menu-li">
+                                                    <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded={isExpanded} onClick={toggleDropdown}>
+                                                        SHOP BOOK {isExpanded ? <><FontAwesomeIcon icon={faMinus} style={{ color: "#000", }} className='ps-2' /></> : <><FontAwesomeIcon icon={faPlus} style={{ color: "#000", }} className='ps-2' /></>}
+                                                    </a>
+                                                    <div class={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
+                                                        <div class="container-fluid">
+                                                            <div class="row m-0">
+                                                                <div class="col-md-12  mb-3 mb-lg-0">
+                                                                    <div class="list-group list-group-flush">
+                                                                        <h5 onClick={toggleChildren}>Children {isChildrenVisible ? <><FontAwesomeIcon icon={faMinus} /></> : <><FontAwesomeIcon icon={faPlus} /></>}</h5>
+                                                                        {isChildrenVisible &&
+                                                                            <>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Children1
+                                                                                </a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Children2
+                                                                                </a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Children3
+                                                                                </a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Children4
+                                                                                </a>
+                                                                            </>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12  mb-3 mb-lg-0">
+                                                                    <div class="list-group list-group-flush">
+                                                                        <h5 onClick={toggleEducation}>Education <FontAwesomeIcon icon={faPlus} /></h5>
+                                                                        {isEducationVisible &&
+                                                                            <>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education1</a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education2</a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education3</a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education4</a>
+                                                                            </>
+                                                                        }
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 mb-3 mb-lg-0">
+                                                                    <div class="list-group list-group-flush">
+                                                                        <h5 onClick={togglePolitical}>Political <FontAwesomeIcon icon={faPlus} /></h5>
+                                                                        {isPoliticalVisible &&
+                                                                            <>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Political1
+                                                                                </a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Political2
+                                                                                </a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Political3
+                                                                                </a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Political4
+                                                                                </a>
+                                                                            </>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 mb-3 mb-lg-0">
+                                                                    <div class="list-group list-group-flush">
+                                                                        <h5 onClick={toggleMagazines}>Magazines <FontAwesomeIcon icon={faPlus} /></h5>
+                                                                        {isMagazinesVisible &&
+                                                                            <>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Magazines1
+                                                                                </a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Magazines2
+                                                                                </a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Magazines3
+                                                                                </a>
+                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                    Magazines4
+                                                                                </a>
+                                                                            </>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <li className='d-flex align-items-center'>
+                                                    <NavLink exact to="/aaa" className={`${pathname === '/aaa' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                        New Arrivals
+                                                    </NavLink>
+                                                </li>
+                                                <li className='d-flex align-items-center'>
+                                                    <NavLink exact to="/contact" className={`${pathname === '/contact' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                        Contact Us
+                                                    </NavLink>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -217,19 +378,41 @@ function Header() {
                                                 <FontAwesomeIcon icon={faBagShopping} className='mx-3 view-all' onClick={() => shops()} style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} />
                                                 <span className='item-count'>{shopcount}</span>
                                             </span>
-                                            <span className='position-relative'>
+                                            {/* <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faUser} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} onClick={() => userProfile()} />
-                                            </span>
-                                            <span className='position-relative'>
+                                            </span> */}
+                                            {/* <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faSearch} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} />
+                                            </span> */}
+                                            <span className='dropdown user-profiles'>
+                                                <FontAwesomeIcon icon={faSearch} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} onClick={searchToggleDropDown}/>
+                                                <ul className={`dropdown-menu w-100 ${isSearchexpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuButton1">
+                                                    <li className='search-fixed'>
+                                                        <div className="input-group">
+                                                            <input type="text" className="form-control " placeholder="Search our shop" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ ...searchProduct, searchItem: val.target.value })); handleChange(val) }} />
+                                                            <span className="input-group-text search-btn" id="basic-addon2">Search</span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
                                             </span>
+                                            <span className='dropdown user-profiles'>
+                                                <FontAwesomeIcon icon={faUser} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px',paddingTop: '10px' }} onClick={userToggleDropDown} />
+                                                <ul className={`dropdown-menu ${isUserexpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuButton1">
+                                                    <li onClick={signin}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faSignOut} className='pe-2'/>Sign In</a></li>
+                                                    <li onClick={signup}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faSignIn} className='pe-2'/>Sign Up</a></li>
+                                                    <li onClick={userProfile}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faUserAlt} className='pe-2'/>Profile</a></li>
+                                                </ul>
+                                            </span>
+                                            {/* <span className='position-relative'>
+                                                <button className='mobile-register'>Sign in/sign up</button>
+                                            </span> */}
 
                                         </div>
                                     </div>
                                     <div className="collapse navbar-collapse nav-list" id="navbarNavDropdown">
                                         <div className={`offcanvas offcanvas-start ${showMenu ? 'show' : ''}`} tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                                             <div className="offcanvas-header">
-                                                <img src={logo} width={150} />
+                                                <img src={logo} width={130} />
                                                 <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" onClick={toggleMenu}></button>
                                             </div>
                                             <div className="offcanvas-body">
@@ -240,89 +423,92 @@ function Header() {
                                                         </NavLink>
                                                     </li>
                                                     <li className='d-flex align-items-center'>
-                                                        <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                        <NavLink exact to="/about" className={`${pathname === '/about' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                             About Us
                                                         </NavLink>
                                                     </li>
                                                     <li className="nav-item dropdown mega-menu-li">
-                                                        <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            SHOP BOOK
-                                                            <FontAwesomeIcon icon={faChevronDown} style={{ color: "#fafafa", }} className='ps-2' />
+                                                        <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded={isExpanded} onClick={toggleDropdown}>
+                                                            SHOP BOOK {isExpanded ? <><FontAwesomeIcon icon={faMinus} style={{ color: "#000", }} className='ps-2' /></> : <><FontAwesomeIcon icon={faPlus} style={{ color: "#000", }} className='ps-2' /></>}
                                                         </a>
-                                                        <div class="dropdown-menu drop-width w-100" aria-labelledby="dropdownMenuLink">
+                                                        <div class={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                             <div class="container-fluid">
                                                                 <div class="row m-0">
-                                                                    <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
+                                                                    <div class="col-md-12  mb-3 mb-lg-0">
                                                                         <div class="list-group list-group-flush">
-                                                                            <h5>Children</h5>
-
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Children1
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Children2
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Children3
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Children4
-                                                                            </a>
+                                                                            <h5 onClick={toggleChildren}>Children {isChildrenVisible ? <><FontAwesomeIcon icon={faMinus} /></> : <><FontAwesomeIcon icon={faPlus} /></>}</h5>
+                                                                            {isChildrenVisible &&
+                                                                                <>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Children1
+                                                                                    </a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Children2
+                                                                                    </a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Children3
+                                                                                    </a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Children4
+                                                                                    </a>
+                                                                                </>
+                                                                            }
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
+                                                                    <div class="col-md-12  mb-3 mb-lg-0">
                                                                         <div class="list-group list-group-flush">
-                                                                            <h5>Education</h5>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Education1
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Education2
-                                                                            </a>
-
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Education3
-                                                                            </a>
-
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Education4
-                                                                            </a>
+                                                                            <h5 onClick={toggleEducation}>Education <FontAwesomeIcon icon={faPlus} /></h5>
+                                                                            {isEducationVisible &&
+                                                                                <>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education1</a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education2</a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education3</a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education4</a>
+                                                                                </>
+                                                                            }
 
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-lg-3 col-md-4 mb-3 mb-lg-0">
+                                                                    <div class="col-md-12 mb-3 mb-lg-0">
                                                                         <div class="list-group list-group-flush">
-                                                                            <h5>Political</h5>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Political1
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Political2
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Political3
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Political4
-                                                                            </a>
+                                                                            <h5 onClick={togglePolitical}>Political <FontAwesomeIcon icon={faPlus} /></h5>
+                                                                            {isPoliticalVisible &&
+                                                                                <>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Political1
+                                                                                    </a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Political2
+                                                                                    </a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Political3
+                                                                                    </a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Political4
+                                                                                    </a>
+                                                                                </>
+                                                                            }
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-lg-3 col-md-4 mb-3 mb-lg-0">
+                                                                    <div class="col-md-12 mb-3 mb-lg-0">
                                                                         <div class="list-group list-group-flush">
-                                                                            <h5>Magazines</h5>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Magazines1
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Magazines2
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Magazines3
-                                                                            </a>
-                                                                            <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                Magazines4
-                                                                            </a>
-
+                                                                            <h5 onClick={toggleMagazines}>Magazines <FontAwesomeIcon icon={faPlus} /></h5>
+                                                                            {isMagazinesVisible &&
+                                                                                <>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Magazines1
+                                                                                    </a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Magazines2
+                                                                                    </a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Magazines3
+                                                                                    </a>
+                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
+                                                                                        Magazines4
+                                                                                    </a>
+                                                                                </>
+                                                                            }
                                                                         </div>
                                                                     </div>
 
@@ -358,7 +544,7 @@ function Header() {
                                                     </NavLink>
                                                 </li>
                                                 <li className='d-flex align-items-center'>
-                                                    <NavLink exact to="/package" className={`${pathname === '/package' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                    <NavLink exact to="/about" className={`${pathname === '/about' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                         About Us
                                                     </NavLink>
                                                 </li>
@@ -372,7 +558,6 @@ function Header() {
                                                                 <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
                                                                     <div class="list-group list-group-flush">
                                                                         <h5>Children</h5>
-
                                                                         <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
                                                                             Children1
                                                                         </a>

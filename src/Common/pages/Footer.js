@@ -2,10 +2,7 @@ import React from 'react'
 import '../assets/css/footer.css'
 
 // image path
-import logo from '../assets/image/white-logo.png'
-import global from '../assets/image/globe.png'
-import email from '../assets/image/email.png'
-import phone from '../assets/image/phone.png'
+import logo from '../assets/image/white-footer.png'
 import icon1 from '../assets/image/facebook_1.png'
 import icon2 from '../assets/image/instagram 1.png'
 import icon3 from '../assets/image/twitter 1.png'
@@ -20,7 +17,7 @@ function Footer() {
             <footer className='footer-section'>
                 <div className='container-60 pt-5 pb-2'>
                     <div className='text-center'>
-                        <img src={logo} className='footer-logo'/>
+                        <img src={logo} className='footer-logo' width={200}/>
                         <h6>Contact Us</h6>
                         <hr style={{ width: '20px', margin: '0 auto', border: '5px soild #FFF', color: '#FFF' }} />
                         <p>PO BOX:115786 - Al Warsan3, Dubai, UAE.</p>

@@ -17,10 +17,13 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { setActiveItem } from '../../Redux/CreateSlice'
 import { useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart, faHistory, faPowerOff, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 
 function Useraside() {
     const { activeItem } = useSelector((state) => state.usedbookr_product)
     const [navSticky, setNavSticky] = useState(false);
+    const [isFixed, setIsFixed] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const handleItemClick = (item) => {
@@ -44,17 +47,19 @@ function Useraside() {
         navigate('/')
     }
     useEffect(() => {
-        const handleScrolls = () => {
-            if (window.scrollY >= 50) {
-                setNavSticky(true);
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY;
+            if (scrollPosition >= 50) {
+              setIsFixed(true);
             } else {
-                setNavSticky(false);
+              setIsFixed(false);
             }
-        };
-        window.addEventListener('scroll', handleScrolls);
-        return () => {
-            window.removeEventListener('scroll', handleScrolls);
-        };
+          };
+      
+          window.addEventListener('scroll', handleScroll);
+          return () => {
+            window.removeEventListener('scroll', handleScroll);
+          };
     }, [])
     console.log(navSticky)
     return (
@@ -72,9 +77,9 @@ function Useraside() {
                             <li className={`list-group-item border-0 view-all ${pathname === '/Wishlist' ? 'active' : ''}`} onClick={() => handleItemClick('Wishlist')}>
                                 <img src={pathname === '/Wishlist' ? heart1 : heart} className='pe-2' />Wishlist
                             </li>
-                            <li className={`list-group-item border-0 view-all ${pathname === '/Purchase' ? 'active' : ''}`} onClick={() => handleItemClick('Cart')}>
+                            {/* <li className={`list-group-item border-0 view-all ${pathname === '/Purchase' ? 'active' : ''}`} onClick={() => handleItemClick('Cart')}>
                                 <img src={pathname === '/Purchase' ? user1 : user} className='pe-2' />Cart
-                            </li>
+                            </li> */}
                             <li className={`list-group-item border-0 view-all ${activeItem === 'Log-out' ? 'active' : ''}`} onClick={() => logout()}>
                                 <img src={logouts} className='pe-2' />Log-out
                             </li>
@@ -86,26 +91,28 @@ function Useraside() {
                 </div>
             </div>
             <div className='d-lg-none d-md-block d-sm-block d-block'>
-                <div className={navSticky ? 'user-element' : 'user-fixed'}>
-                    <div className='user_aside'>
-                        <ul className="nav mobile-nav">
-                            <li className={`border-0 nav-item view-all ${pathname === '/Profile' ? 'active' : ''}`} onClick={() => handleItemClick('Account')}>
-                                <img src={pathname === '/Profile' ? profile1 : profile} className='pe-2' />
-                            </li>
-                            <li className={`border-0 nav-item view-all ${pathname === '/History' ? 'active' : ''}`} onClick={() => handleItemClick('History')}>
-                                <img src={pathname === '/History' ? History1 : History} className='pe-2' />
-                            </li>
-                            <li className={`border-0 nav-item view-all ${pathname === '/Wishlist' ? 'active' : ''}`} onClick={() => handleItemClick('Wishlist')}>
-                                <img src={pathname === '/Wishlist' ? heart1 : heart} className='pe-2' />
-                            </li>
-                            <li className={`border-0 nav-item view-all ${pathname === '/Purchase' ? 'active' : ''}`} onClick={() => handleItemClick('Cart')}>
-                                <img src={pathname === '/Purchase' ? user1 : user} className='pe-2' />
-                            </li>
-                            <li className={`border-0 nav-item view-all ${activeItem === 'Log-out' ? 'active' : ''}`} onClick={() => logout()}>
-                                <img src={logouts} className='pe-2' />
-                            </li>
-                        </ul>
-                    </div>
+                <div className={`user-icons ${isFixed ? 'fixed-user' : ''}`}>
+                    <ul id="v-pills-tab1" role="tablist">
+                        <li className={`border-0 nav-item view-all ${pathname === '/Profile' ? 'active' : ''}`} onClick={() => handleItemClick('Account')}>
+                            {/* <img src={pathname === '/Profile' ? profile1 : profile} className='pe-2' /> */}
+                            {pathname === '/Profile' ? <><FontAwesomeIcon icon={faUser} style={{fontSize:'25px',color:'#000'}}/></> : <><FontAwesomeIcon icon={faUser} style={{fontSize:'25px',color:'#FFF'}}/></>}
+                        </li>
+                        <li className={`border-0 nav-item view-all ${pathname === '/History' ? 'active' : ''}`} onClick={() => handleItemClick('History')}>
+                            {/* <img src={pathname === '/History' ? History1 : History} className='pe-2' /> */}
+                            {pathname === '/History' ? <><FontAwesomeIcon icon={faHistory} style={{fontSize:'25px',color:'#000'}}/></> : <><FontAwesomeIcon icon={faHistory} style={{fontSize:'25px',color:'#FFF'}}/></>}
+                        </li>
+                        <li className={`border-0 nav-item view-all ${pathname === '/Wishlist' ? 'active' : ''}`} onClick={() => handleItemClick('Wishlist')}>
+                            {/* <img src={pathname === '/Wishlist' ? heart1 : heart} className='pe-2' /> */}
+                            {pathname === '/Wishlist' ? <><FontAwesomeIcon icon={faHeart} style={{fontSize:'25px',color:'#000'}}/></> : <><FontAwesomeIcon icon={faHeart} style={{fontSize:'25px',color:'#FFF'}}/></>}
+                        </li>
+                        {/* <li className={`border-0 nav-item view-all ${pathname === '/Purchase' ? 'active' : ''}`} onClick={() => handleItemClick('Cart')}>
+                            <img src={pathname === '/Purchase' ? user1 : user} className='pe-2' />
+                        </li> */}
+                        <li className={`border-0 nav-item view-all ${activeItem === 'Log-out' ? 'active' : ''}`} onClick={() => logout()}>
+                            {/* <img src={logouts} className='pe-2' /> */}
+                            <FontAwesomeIcon icon={faPowerOff} style={{fontSize:'25px',color:'#e57e7e'}} />
+                        </li>
+                    </ul>
                 </div>
             </div>
         </>

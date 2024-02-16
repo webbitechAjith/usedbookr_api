@@ -175,6 +175,7 @@
     background-color: #555;
     color: white;
 }
+
 .navbar-expand-lg .navbar-nav .dropdown-menu {
     position: absolute;
     left: 0;
@@ -364,6 +365,49 @@ nav .custom-active {
     }
   } */
 
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .nav-content li {
+        padding-bottom: 20px;
+        padding-right: 0px;
+    }
+
+    nav .active {
+        color: #241D60 !important;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 23px;
+        text-transform: uppercase;
+    }
+
+    nav .custom-active {
+        color: #000 !important;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 23px;
+        text-transform: uppercase;
+    }
+
+    .option-list {
+        color: #000 !important;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 26px !important;
+    }
+
+    .navbar-expand-lg .navbar-nav .dropdown-menu {
+        position: unset;
+        left: 0;
+        top: auto;
+        border: none;
+    }
+
+    .list-group-flush h5 {
+        font-size: 16px;
+        line-height: 26px !important;
+        font-weight: 500;
+    }
+
+}
 
 
 @media only screen and (min-width: 300px) and (max-width: 768px) {
@@ -392,15 +436,74 @@ nav .custom-active {
         font-size: 24px;
     }
 
-}
+    .nav-content li {
+        padding-bottom: 20px;
+        padding-right: 0px;
+    }
 
+    nav .active {
+        color: #241D60 !important;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 23px;
+        text-transform: uppercase;
+    }
 
-@media only screen and (min-width: 300px) and (max-width: 400px) {
+    nav .custom-active {
+        color: #000 !important;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 23px;
+        text-transform: uppercase;
+    }
 
-    .footer-logo {
+    .option-list {
+        color: #000 !important;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 26px !important;
+    }
+
+    .navbar-expand-lg .navbar-nav .dropdown-menu {
+        position: unset;
+        left: 0;
+        top: auto;
+        border: none;
+    }
+
+    .user-profiles .dropdown-menu {
+        margin-left: -48px;
+        margin-top: 8px;
+        min-width: auto !important;
+    }
+
+    .search-fixed {
+        position: fixed;
         width: 100%;
+        top: 160px;
+        left: 0;
+    }
+
+    .list-group-flush h5 {
+        font-size: 16px;
+        line-height: 26px !important;
+        font-weight: 500;
+    }
+
+    .mobile-register {
+        padding: 5px;
+        border: none;
+        border-radius: 10px;
+        background: none;
+        border: 1px solid #ccc;
+        color: #FFF;
+
     }
 }
+
+
+
+
 
 /* @media only screen and (min-width: 0px) and (max-width: 576px) {
     .nav-section {
@@ -416,3 +519,5 @@ nav .custom-active {
     }
 
 } */
+
+/* Circle behind */

@@ -29,6 +29,7 @@ import Autherfliter from './Domain/Authorfliter';
 import OTPForm from './Domain/OTPForm';
 import Contact from './Domain/Contact';
 import Categorybook from './Common/pages/Categorybook';
+import About from './Domain/About';
 
 function App() {
    
@@ -74,6 +75,7 @@ function App() {
         <Route path='/Orderprocess' element={<Orderprocess />} />
         <Route path='/authors' element={<Autherfliter />} />
         <Route path='/categorybook' element={<Categorybook />} />
+        <Route path='/about' element={<About />} />
         <Route path='/Fdfd' element={<Fdfd />} />
       </Routes>
     </BrowserRouter>

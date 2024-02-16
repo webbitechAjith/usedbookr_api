@@ -139,6 +139,21 @@
   justify-content: space-between;
 }
 
+
+
+
+@keyframes swip_down {
+  from {
+      transform: translate(0px, -50px);
+      opacity: 0
+  }
+
+  to {
+      transform: translate(0,0);
+      opacity: 1
+  }
+}
+
 /* useasider css start  */
 @media only screen and (min-width: 767px) and (max-width: 992px) {
   .user_aside .active {
@@ -175,6 +190,36 @@
     text-align: center;
     margin: 20px 60px 10px 60px;
   }
+
+  .user-icons {
+    background: #E6E6E6;
+    padding: 20px 0px;
+    border-radius: 8px;
+    margin-bottom: 0px;
+  }
+
+  .fixed-user {
+    position: fixed;
+    top: 155px;
+    left: 0px;
+    width: 100%;
+    padding: 20px 0px;
+    animation: swip_down .5s linear 1;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+    z-index: 1210;
+    border-radius: 0px;
+  }
+
+  .user-icons ul {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0px;
+    list-style: none;
+  }
+
+  .user-icons ul li a {
+    font-size: 20px;
+  }
 }
 
 @media only screen and (min-width: 576px) and (max-width: 767px) {
@@ -206,6 +251,36 @@
     text-align: center;
     margin: 20px 25px 10px 25px;
 
+  }
+
+  .user-icons {
+    background: #E6E6E6;
+    padding: 20px 0px;
+    border-radius: 8px;
+    margin-bottom: 0px;
+  }
+
+  .fixed-user {
+    position: fixed;
+    top: 155px;
+    left: 0px;
+    width: 100%;
+    padding: 20px 0px;
+    animation: swip_down .5s linear 1;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+    z-index: 1210;
+    border-radius: 0px;
+  }
+
+  .user-icons ul {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0px;
+    list-style: none;
+  }
+
+  .user-icons ul li a {
+    font-size: 20px;
   }
 
 }
@@ -251,6 +326,36 @@
 
   }
 
+  .user-icons {
+    background: #E6E6E6;
+    padding: 20px 0px;
+    border-radius: 8px;
+    margin-bottom: 0px;
+  }
+
+  .fixed-user {
+    position: fixed;
+    top: 155px;
+    left: 0px;
+    width: 100%;
+    padding: 20px 0px;
+    animation: swip_down .5s linear 1;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+    z-index: 1210;
+    border-radius: 0px;
+  }
+
+  .user-icons ul {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0px;
+    list-style: none;
+  }
+
+  .user-icons ul li a {
+    font-size: 20px;
+  }
+
 }
 
 @media only screen and (min-width: 300px) and (max-width: 450px) {
@@ -265,7 +370,7 @@
 
   .user-element {
     width: 100%;
-   padding: 15px 0px;
+    padding: 15px 0px;
     position: fixed;
     top: 25%;
     background: #FFF;
@@ -294,5 +399,37 @@
 
   }
 
+  .user-icons {
+    background: #E6E6E6;
+    padding: 20px 0px;
+    border-radius: 8px;
+    margin-bottom: 0px;
+  }
+
+  .fixed-user {
+    position: fixed;
+    top: 161px;
+    left: 0px;
+    width: 100%;
+    padding: 20px 0px;
+    animation: swip_down .5s linear 1;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+    z-index: 1210;
+    border-radius: 0px;
+    z-index: 1210;
+  }
+
+  .user-icons ul {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0px;
+    list-style: none;
+  }
+
+  .user-icons ul li a {
+    font-size: 20px;
+  }
+
 
 }
+

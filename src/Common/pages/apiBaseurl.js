@@ -67,7 +67,7 @@ export const otpToken = async (registerToken) => {
     });
     return data
   } catch (error) {
-    alert("error")
+    console.log("error")
   }
 }
 
