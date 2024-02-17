@@ -6,7 +6,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScri
 import '../assets/css/regular.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faChevronDown, faHeart, faBagShopping, faXmark, faUser, faShop, faPlus, faMinus, faSignIn, faSignOut, faUserAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faChevronDown, faHeart, faBagShopping, faXmark, faUser, faShop, faPlus, faMinus, faSignIn, faSignOut, faUserAlt, faBars } from '@fortawesome/free-solid-svg-icons';
 
 import { NavLink, useNavigate, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -74,7 +74,7 @@ function Header() {
     const signup = () => {
         navigate('/Register')
     }
-    const signin = () =>{
+    const signin = () => {
         navigate('/Login')
     }
     const navButton = () => {
@@ -93,7 +93,7 @@ function Header() {
     const searchToggleDropDown = () => {
         setIsSearchexpanded(!isSearchexpanded)
     }
-    
+
     const toggleChildren = () => {
         setIsChildrenVisible(!isChildrenVisible);
     };
@@ -223,10 +223,8 @@ function Header() {
                             {/* nav section  */}
                             <div className='d-lg-none d-md-block d-none w-100'>
                                 <div className='row m-0 w-100'>
-                                    <div className='col-4'>
-                                        <button className="btn" type="button" onClick={toggleMenu}>
-                                            <span className=""><img src={whitenav} /></span>
-                                        </button>
+                                    <div className='col-4 align-self-center'>
+                                        <span className="" onClick={toggleMenu}><FontAwesomeIcon icon={faBars} style={{ color: '#FFF', fontSize: '20px' }} /></span>
                                     </div>
                                     <div className='col-8 text-end'>
                                         <div className="input-group">
@@ -347,7 +345,7 @@ function Header() {
                                                 </li>
 
                                                 <li className='d-flex align-items-center'>
-                                                    <NavLink exact to="/aaa" className={`${pathname === '/aaa' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                    <NavLink exact to="/newarrival" className={`${pathname === '/newarrival' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                         New Arrivals
                                                     </NavLink>
                                                 </li>
@@ -363,29 +361,21 @@ function Header() {
                             </div>
                             <div className='d-lg-none d-md-none d-block w-100'>
                                 <div className='row m-0'>
-                                    <div className='col-2 p-0'>
-                                        <button className="btn" type="button" onClick={toggleMenu}>
-                                            <span className=""><img src={whitenav} /></span>
-                                        </button>
+                                    <div className='col-2 p-0 align-self-center'>
+                                        <span className="" onClick={toggleMenu}><FontAwesomeIcon icon={faBars} style={{ color: '#FFF', fontSize: '20px' }} /></span>
                                     </div>
-                                    <div className='col-10 p-0'>
-                                        <div className='icon-section d-lg-none d-md-none space-item align-items-end'>
+                                    <div className='col-10 p-0 align-self-center'>
+                                        <div className='icon-section d-lg-none d-md-none space-item align-items-end float-end'>
                                             <span className='position-relative'>
-                                                <FontAwesomeIcon icon={faHeart} className='mx-3 view-all' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} onClick={() => hearts()} />
+                                                <FontAwesomeIcon icon={faHeart} className='mx-3 view-all' style={{ color: '#FFF', fontSize: '25px', paddingTop: '10px' }} onClick={() => hearts()} />
                                                 {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>}
                                             </span>
                                             <span className='position-relative'>
-                                                <FontAwesomeIcon icon={faBagShopping} className='mx-3 view-all' onClick={() => shops()} style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} />
+                                                <FontAwesomeIcon icon={faBagShopping} className='mx-3 view-all' onClick={() => shops()} style={{ color: '#FFF', fontSize: '25px', paddingTop: '10px' }} />
                                                 <span className='item-count'>{shopcount}</span>
                                             </span>
-                                            {/* <span className='position-relative'>
-                                                <FontAwesomeIcon icon={faUser} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} onClick={() => userProfile()} />
-                                            </span> */}
-                                            {/* <span className='position-relative'>
-                                                <FontAwesomeIcon icon={faSearch} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} />
-                                            </span> */}
                                             <span className='dropdown user-profiles'>
-                                                <FontAwesomeIcon icon={faSearch} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px', paddingTop: '10px' }} onClick={searchToggleDropDown}/>
+                                                <FontAwesomeIcon icon={faSearch} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '25px', paddingTop: '10px' }} onClick={searchToggleDropDown} />
                                                 <ul className={`dropdown-menu w-100 ${isSearchexpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuButton1">
                                                     <li className='search-fixed'>
                                                         <div className="input-group">
@@ -396,11 +386,11 @@ function Header() {
                                                 </ul>
                                             </span>
                                             <span className='dropdown user-profiles'>
-                                                <FontAwesomeIcon icon={faUser} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '30px',paddingTop: '10px' }} onClick={userToggleDropDown} />
+                                                <FontAwesomeIcon icon={faUser} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '25px', paddingTop: '10px' }} onClick={userToggleDropDown} />
                                                 <ul className={`dropdown-menu ${isUserexpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuButton1">
-                                                    <li onClick={signin}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faSignOut} className='pe-2'/>Sign In</a></li>
-                                                    <li onClick={signup}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faSignIn} className='pe-2'/>Sign Up</a></li>
-                                                    <li onClick={userProfile}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faUserAlt} className='pe-2'/>Profile</a></li>
+                                                    <li onClick={signin}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faSignOut} className='pe-2' />Sign In</a></li>
+                                                    <li onClick={signup}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faSignIn} className='pe-2' />Sign Up</a></li>
+                                                    <li onClick={userProfile}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faUserAlt} className='pe-2' />Profile</a></li>
                                                 </ul>
                                             </span>
                                             {/* <span className='position-relative'>
@@ -518,7 +508,7 @@ function Header() {
                                                     </li>
 
                                                     <li className='d-flex align-items-center'>
-                                                        <NavLink exact to="/aaa" className={`${pathname === '/aaa' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                        <NavLink exact to="/newarrival" className={`${pathname === '/newarrival' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                             New Arrivals
                                                         </NavLink>
                                                     </li>
@@ -634,7 +624,7 @@ function Header() {
                                                 </li>
 
                                                 <li className='d-flex align-items-center'>
-                                                    <NavLink exact to="/aaa" className={`${pathname === '/aaa' ? 'active' : 'custom-active'} text-decoration-none`}>
+                                                    <NavLink exact to="/newarrival" className={`${pathname === '/newarrival' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                         New Arrivals
                                                     </NavLink>
                                                 </li>

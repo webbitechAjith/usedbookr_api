@@ -421,13 +421,13 @@ nav .custom-active {
     }
 
     .like-count {
-        top: 0px !important;
+        top: -5px !important;
         left: 30px !important;
     }
 
     .item-count {
-        top: 0px !important;
-        left: 30px !important;
+        top: -5px !important;
+        left: 25px !important;
     }
 
     .otp-input {

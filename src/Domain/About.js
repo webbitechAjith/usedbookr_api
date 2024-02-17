@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+
+import Rating from 'react-rating';
+
+// page include 
 import Header from '../Common/pages/Header'
 import Footer from '../Common/pages/Footer'
 
-
-import '../Common/assets/css/address.css' // mainpage css
+// css file include 
 import '../Common/assets/css/main.css' // some content css apply
+import '../Common/assets/css/address.css' // mainpage css
 
 
 
@@ -21,9 +25,19 @@ import icon1 from '../Common/assets/image/facebook_1.png'
 import icon2 from '../Common/assets/image/instagram 1.png'
 import icon3 from '../Common/assets/image/twitter 1.png'
 import delvery from '../Common/assets/image/delivery.png'
+import semi from '../Common/assets/image/semicolon.png'
+import profile from '../Common/assets/image/review-profile.png'
+import Review from '../Common/pages/Review';
+
+
 
 
 function About() {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
+
     return (
         <div>
             <Header />
@@ -41,7 +55,7 @@ function About() {
                 </div>
                 {/* Best sellers in indoor plants end  */}
                 <div className='plant-store'>
-                    <div className='row m-0 p-lg-5 p-md-5 p-1 flex-wrap-reverse'>
+                    <div className='row m-0 p-lg-5 p-md-5 p-1 flex-wrap-reverse overflow-hidden'>
                         <div className='col-lg-6 col-12 slide-left visible pt-lg-0 pt-4'>
                             <img src={book4} className='image-1 pe-2' />
                             <img src={book5} className='image-2' />
@@ -71,20 +85,40 @@ function About() {
                     </div>
                 </div>
                 {/* teammate profile start  */}
-                <div className='team-member text-center py-5'>
+                <div className='team-member text-center py-5 overflow-hidden'>
                     <h5>Team Member</h5>
                     <h2>Professional Team</h2>
                     <p>Ut suscipit egestas suscipit. Sed posuere pellentesque nunc, ultrices consectetur velit dapibus eu. Mauris sollicitudin dignissim diam, ac mattis eros accumsan rhoncus. Curabitur auctor bibendum nunc eget elementum.</p>
                     <div className=''>
-                        <div className='row m-0 py-5 team-part'>
-                            <div className='col-lg-6 col-12 team-image text-end'>
-                                <div className='position-relative'>
-                                    <img src={teammate2} />
-                                    <div className='teammate-name'>
-                                        <div className='name'>
+                        <div className='row m-0 team-part justify-content-center gy-5 gx-5 '>
+                            <div className='col-lg-4 col-md-5 col-sm-6 slide-left visible'>
+                                <div className='profile-card'>
+                                    <div className='card-image'>
+                                        <img src={teammate2} className='image1' />
+                                    </div>
+                                    <div className='profile-image'>
+                                        <div className='teammate-name'>
                                             <h1>Rohit Gupta</h1>
                                             <p>Founder</p>
                                         </div>
+                                        <div className='social-media'>
+                                            <ul className='nav justify-content-evenly'>
+                                                <li><img src={icon1} /></li>
+                                                <li><img src={icon2} /></li>
+                                                <li><img src={icon3} /></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='col-lg-4 col-md-5 col-sm-6 slide-right visible'>
+                                <div className='profile-card'>
+                                    <div className='card-image'>
+                                        <img src={teammate1} className='image1' />
+                                    </div>
+                                    <div className='teammate-name'>
+                                        <h1>Jay Yadav</h1>
+                                        <p>CEO</p>
                                     </div>
                                     <div className='social-media'>
                                         <ul className='nav justify-content-evenly'>
@@ -95,34 +129,14 @@ function About() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-lg-6 col-12 team-image text-start'>
-                                <div className='position-relative'>
-                                    <img src={teammate1} />
-                                    <div className='teammate-name1'>
-                                        <div className='name1'>
-                                            <h1>Jay Yadav</h1>
-                                            <p>CEO</p>
-                                        </div>
-                                    </div>
-                                    <div className='social-media1'>
-                                        <ul className='nav justify-content-evenly'>
-                                            <li><img src={icon1} /></li>
-                                            <li><img src={icon2} /></li>
-                                            <li><img src={icon3} /></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-
                     </div>
-
                 </div>
                 {/* delivery start  */}
-                <div className='delivery-section'>
+                <div className='delivery-section mt-5'>
                     <div className='container-80'>
-                        <div className='row m-0 flex-wrap-reverse py-5'>
-                            <div className='col-lg-6 col-12 py-5'>
+                        <div className='row m-0 flex-wrap-reverse py-5 overflow-hidden'>
+                            <div className='col-lg-6 col-12 py-5 slide-left visible'>
                                 <h1>We Delivered, You Enjoy Your Order.</h1>
                                 <p>Ut suscipit egestas suscipit. Sed posuere pellentesque nunc, ultrices consectetur velit dapibus eu. Mauris sollicitudin dignissim diam, ac mattis eros accumsan rhoncus. Curabitur auctor bibendum nunc eget elementum.</p>
                                 <ul className='list-unstyled'>
@@ -136,16 +150,24 @@ function About() {
                                         <span><FontAwesomeIcon icon={faCheck} style={{ color: '#2C742F' }} className='' /></span>Maecenas ut nunc fringilla erat varius.
                                     </li>
                                 </ul>
-                                <div className='text-lg-start text-md-start text-center'>
+                                <div className='text-lg-start text-center mt-5'>
                                     <button>Shop Now <FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></button>
                                 </div>
                             </div>
-                            <div className='col-lg-6 col-12'>
-                                <img src={delvery} className='w-100' />
+                            <div className='col-lg-6 col-12 text-center slide-right visible'>
+                                <img src={delvery} className='w-100 delivery-image' />
                             </div>
                         </div>
                     </div>
-
+                </div>
+                {/* review section start  */}
+                <div className='client-test'>
+                    <div className='container-80'>
+                        <h1>Client Testimonials</h1>
+                        <div className='pt-5'>
+                            <Review />
+                        </div>
+                    </div>
                 </div>
             </section>
             <Footer />

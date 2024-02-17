@@ -1,116 +1,63 @@
-.contact {
-    padding: 60px 0px 0px;
-    background: #f8f8f8;
+.contact-details {
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 50px;
 }
 
-.contact .contact-left {
-    padding: 0px 30px;
-}
-
-.contact .contact-title {
-    font-weight: 600;
-    line-height: 1.25em;
-    margin: 0 0 20px 0;
-    color: #222;
-    font-size: 30px;
-}
-
-.contact .contact-text {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.75em;
-    color: #8E8E8E;
-    margin-bottom: 30px;
-}
-
-.contact .contact-detail {
-    display: flex;
-    margin-bottom: 35px;
-}
-
-.contact .contact-detail .icon {
-    font-size: 16px;
-    color: #241D60;
-    background: #FFD731;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    line-height: 45px;
-    text-align: center;
-    position: relative;
-}
-
-.contact .contact-detail .text {
-    margin-left: 10px;
-}
-
-.contact .contact-detail .text .reservation-text {
-    font-size: 16px;
+.contact-details h1 {
     color: #000;
-    font-weight: 500;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 50px !important;
 }
 
-.contact .contact-detail .text .reservation-title {
-    margin: 0;
-    line-height: inherit;
-}
-
-.contact .contact-detail .text .reservation-title a {
-    font-size: 14px;
+.contact-details p {
+    margin-top: 20px;
     color: #8E8E8E;
-    margin-right: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px !important;
 }
 
-.contact .contact-right {
-    background: #fff;
-    box-shadow: 0px 2px 11px 0px #B5B5B540;
-    padding: 30px 25px;
+.contact-card {
+    width: 75%;
+    margin: 0 auto;
 }
 
-.contact .get-title {
-    font-weight: 600;
-    line-height: 1.25em;
-    margin: 0 0 25px 0;
-    color: #222;
-    font-size: 24px;
+.contact-address p {
+    padding: 10px 0px;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px !important;
 }
 
-.contact form .form-label {
-    color: #1D66A7;
-    font-weight: 600;
-}
-
-.contact form .form-control {
-    max-width: 100%;
-    padding: 15px;
-    height: auto;
-    background-color: transparent;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    border-width: 0 0 1px;
-    border-style: solid;
-    display: block;
-    width: 100%;
+.contact-number {
+    width: 90%;
+    margin: 0 auto;
+    padding: 50px 0px;
+    border: none;
     border-radius: 10px;
-    line-height: 1.5em;
-    font-size: 14px;
-    font-weight: 400;
-    color: #000;
-    background-image: none;
-    border: 1px solid #E5E5E5;
-    border-color: ease-in-out .15s, box-shadow ease-in-out .15s;
+    background: #574AC9;
 }
 
-.contact form .form-control:focus {
-    border-color: #241D60;
+.contact-mail {
+    width: 90%;
+    margin: 0 auto;
+    padding: 50px 0px;
+    border: none;
+    border-radius: 10px;
+    background: #7E6FFF;
 }
 
-.contact form .form-control::placeholder {
-    color: #BCBCBC;
+.contact-location {
+    width: 90%;
+    margin: 0 auto;
+    padding: 50px 0px;
+    border: none;
+    border-radius: 10px;
+    background: #585190;
 }
-
 
 
 /* aboutus page css start  */
@@ -155,92 +102,52 @@
     line-height: 26px !important;
 }
 
-.teammate-name .name {
-    width: 35%;
-    padding: 20px;
+.profile-card {
+    position: relative;
+    text-align: center;
+}
+.card-image{
+    width: 100%;
+    height: 400px;
+}
+.card-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
     border-radius: 10px;
-    border: none;
-    background: #241D60;
+}
+
+.teammate-name {
+    width: 80%;
     position: absolute;
-    top: 80%;
-    left: 78%;
-    transform: translate(-50%);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #241D60;
+    padding: 20px 10px;
+    border: none;
+    border-radius: 10px;
+    bottom: -35px;
+    z-index: 1;
+    transition: 0.6s all;
 }
 
 .social-media {
-    width: 30%;
-    padding: 20px;
+    width: 70%;
+    padding: 20px 10px;
     border-radius: 10px;
     border: none;
     background: #FFD731;
     position: absolute;
-    top: 92%;
-    left: 78%;
-    transform: translate(-50%);
-    z-index: -1;
+    left: 50%;
+    bottom: -55px;
+    transform: translateX(-50%);
+    z-index: 0;
+    transition: 0.6s all;
 }
 
-.teammate-name:hover .name {
-    width: 35%;
-    padding: 20px;
-    border-radius: 10px;
-    border: none;
-    background: #241D60;
-    position: absolute;
-    top: 75%;
-    left: 78%;
-    transform: translate(-50%);
-}
-
-.teammate-name:hover~.social-media {
-    position: absolute;
-    top: 95%;
-    left: 78%;
-    z-index: 1 !important;
-}
-
-.teammate-name1 .name1 {
-    width: 35%;
-    padding: 20px;
-    border-radius: 10px;
-    border: none;
-    background: #241D60;
-    position: absolute;
-    top: 80%;
-    left: 180px;
-    transform: translate(-50%);
-}
-
-.social-media1 {
-    width: 30%;
-    padding: 20px;
-    border-radius: 10px;
-    border: none;
-    background: #FFD731;
-    position: absolute;
-    top: 92%;
-    left: 180px;
-    transform: translate(-50%);
-    z-index: -1;
-}
-
-.teammate-name1:hover .name1 {
-    width: 35%;
-    padding: 20px;
-    border-radius: 10px;
-    border: none;
-    background: #241D60;
-    position: absolute;
-    top: 75%;
-    left: 180px;
-    transform: translate(-50%);
-}
-
-.teammate-name1:hover~.social-media1 {
-    position: absolute;
-    top: 95%;
-    left: 180px;
-    z-index: 1 !important;
+.profile-card:hover .teammate-name{
+    bottom: -5px;
 }
 
 .team-part h1 {
@@ -270,6 +177,7 @@
 }
 
 .delivery-section p {
+    padding: 15px 0px;
     font-size: 16px;
     font-weight: 400;
     line-height: 26px !important;
@@ -288,9 +196,385 @@
     border-radius: 50%;
     background: #91f295;
 }
-.delivery-section button{
+
+.delivery-section button {
     background: #FFD731;
     padding: 10px 30px;
     border: none;
     border-radius: 43px;
+}
+
+.client-test {
+    background: #FFF;
+    padding: 100px 0px;
+}
+
+.client-test h1 {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 52px !important;
+}
+
+.semi-colon {
+    width: 30px !important;
+    height: 30px !important;
+}
+
+/* .profile-section {
+    width: 75px !important;
+    height: 75px;
+    display: block;
+    border-radius: 50%;
+} */
+
+.review-card {
+    background: none !important;
+}
+
+.review-card p {
+    padding: 20px 0px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+}
+
+.review-card h5 {
+    color: #1A1A1A;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px !important;
+}
+
+.review-card h6 {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px !important;
+    color: #999999;
+}
+
+
+.client-test .owl-nav {
+    display: block !important;
+}
+
+
+.owl-nav [class*="owl-"] {
+    position: absolute;
+    top: -30%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.owl-prev {
+    right: 35px;
+    background: #FFF !important;
+    border: 1px solid #E6E6E6 !important;
+    border-radius: 50% !important;
+}
+
+.owl-next {
+    right: -20px;
+    background: #FFF !important;
+    border: 1px solid #E6E6E6 !important;
+    border-radius: 50% !important;
+}
+
+.owl-next span {
+    font-size: 25px;
+}
+
+.owl-prev span {
+    font-size: 25px;
+}
+
+.owl-next:hover {
+    background: #FFD731 !important;
+    border: 1px solid none !important;
+    border-radius: 50% !important;
+    color: #241D60 !important;
+}
+
+.owl-prev:hover {
+    background: #FFD731 !important;
+    border: 1px solid none !important;
+    border-radius: 50% !important;
+    color: #241D60 !important;
+}
+
+.owl-prev span::before {
+    content: '' !important;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('../image/right.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-right: 0;
+}
+
+.owl-next span::before {
+    content: '' !important;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('../image/left.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-right: 0;
+}
+
+
+
+
+/* media query css start  */
+
+@media only screen and (min-width: 767px) and (max-width: 992px) {
+
+    .contact-details {
+        width: 90%;
+        margin: 0 auto;
+        padding-top: 0px;
+    }
+
+    .contact-card {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    /* about us css start  */
+    .delivery-section .container-80 {
+        max-width: 98%;
+    }
+
+    .delivery-image {
+        width: auto !important;
+    }
+
+    .delivery-section h1 {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 50px !important;
+    }
+
+    .client-test .container-80 {
+        max-width: 98%;
+    }
+
+    .owl-nav [class*="owl-"] {
+        top: -30%;
+    }
+
+    .owl-prev {
+        right: 60px;
+    }
+
+    .owl-next {
+        right: 15px;
+    }
+
+    /* team-member css start  */
+   
+
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+
+    .contact-details {
+        width: 95%;
+        margin: 0 auto;
+        padding-top: 0px;
+    }
+
+    .contact-card {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+
+
+    /* about us css start  */
+
+    .about-us .head-content {
+        padding: 10px 0px;
+    }
+
+    .about-us .head-content h1 {
+        padding-left: 10px;
+        font-size: 35px;
+        font-weight: 600;
+        line-height: 45px !important;
+    }
+
+    .about-us .head-content p {
+        padding-top: 10px;
+        padding-left: 10px;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 25px !important;
+    }
+
+    .delivery-section .container-80 {
+        max-width: 98%;
+    }
+
+    .delivery-section h1 {
+        font-size: 35px;
+        line-height: 45px !important;
+    }
+
+    .client-test h1 {
+        font-size: 35px;
+        line-height: 45px !important;
+    }
+
+    .client-test .container-80 {
+        max-width: 98%;
+    }
+
+    .owl-nav [class*="owl-"] {
+        top: -30%;
+    }
+
+    .owl-prev {
+        right: 60px;
+    }
+
+    .owl-next {
+        right: 15px;
+    }
+    .about-us .team-member p {
+        width: 95%;
+    }
+    
+
+}
+
+@media only screen and (min-width: 300px) and (max-width: 576px) {
+    .contact .container-90 {
+        max-width: 95%;
+        margin: 0 auto;
+    }
+
+    .contact-details {
+        width: 98%;
+        margin: 0 auto;
+        padding-top: 0px;
+    }
+
+    .contact-card {
+        width: 98%;
+        margin: 0 auto;
+    }
+
+    .contact-details h1 {
+        font-size: 30px;
+        line-height: 40px !important;
+    }
+
+    .contact-details p {
+        font-size: 14px;
+        line-height: 24px !important;
+    }
+
+
+    /* about us css start  */
+    .about-us .container-90 {
+        max-width: 98%;
+        margin: 0 auto;
+    }
+
+    .about-us .head-content {
+        padding: 10px 0px;
+    }
+
+    .about-us .head-content h1 {
+        padding-left: 10px;
+        font-size: 28px;
+        line-height: 38px !important;
+    }
+
+    .about-us .head-content p {
+        padding-top: 10px;
+        padding-left: 10px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px !important;
+    }
+
+    .delivery-section .container-80 {
+        max-width: 98%;
+    }
+
+    .delivery-section h1 {
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 40px !important;
+    }
+
+    .client-test h1 {
+        font-size: 22px;
+        line-height: 32px !important;
+    }
+
+    .client-test .container-80 {
+        max-width: 98%;
+    }
+
+    .owl-nav [class*="owl-"] {
+        top: -30%;
+        width: 30px;
+        height: 30px;
+    }
+
+    .owl-prev {
+        right: 45px;
+    }
+
+    .owl-next {
+        right: 10px;
+    }
+
+    .owl-prev span::before {
+        width: 12px;
+        height: 12px;
+    }
+
+    .owl-prev span {
+        font-size: 20px;
+    }
+
+    .owl-next span::before {
+        width: 12px;
+        height: 12px;
+    }
+
+    .owl-next span {
+        font-size: 20px;
+    }
+
+    .profile-card {
+        margin-bottom: 15px;
+    }
+    .card-image{
+        width: 100%;
+        height: 600px;
+    }
+    .about-us .team-member h2 {
+        font-size: 30px;
+        line-height: 40px !important;
+    }
+    .about-us .team-member p {
+        width: 95%;
+        font-size: 14px;
+        line-height: 24px !important;
+    }
+   
 }

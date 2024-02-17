@@ -30,6 +30,7 @@ import OTPForm from './Domain/OTPForm';
 import Contact from './Domain/Contact';
 import Categorybook from './Common/pages/Categorybook';
 import About from './Domain/About';
+import Newarrival from './Domain/Newarrival';
 
 function App() {
    
@@ -75,6 +76,7 @@ function App() {
         <Route path='/Orderprocess' element={<Orderprocess />} />
         <Route path='/authors' element={<Autherfliter />} />
         <Route path='/categorybook' element={<Categorybook />} />
+        <Route path='/newarrival' element={<Newarrival />} />
         <Route path='/about' element={<About />} />
         <Route path='/Fdfd' element={<Fdfd />} />
       </Routes>
