@@ -57,7 +57,7 @@ const Review = () => {
                             <p class="card-text">Pellentesque eu nibh eget mauris congue mattis mattis nec tellus. Phasellus imperdiet elit eu magna dictum, bibendum cursus velit sodales. Donec sed neque eget</p>
                             <div className='row m-0'>
                                 <div className='col-3 p-0'>
-                                    <span className='profile-section'><img src={item.image} className='h-100' /></span>
+                                    <span className='profile-img-section'><img src={item.image} className='h-100' /></span>
                                 </div>
                                 <div className='col-4 p-0'>
                                     <h5>Robert Fox</h5>

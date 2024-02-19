@@ -8,7 +8,7 @@ import '../Common/assets/css/main.css'
 
 
 // apiservice include path 
-import { allbooks, authLogin, authUser } from '../Common/pages/apiBaseurl'
+import { allbooks, authLogin, authUser, banner } from '../Common/pages/apiBaseurl'
 
 
 
@@ -38,7 +38,7 @@ import flash from '../Common/assets/image/flash.png'
 import discount from '../Common/assets/image/discount-card.png'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setClass1Hide, setAuthorsDetails } from '../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setClass1Hide, setAuthorsDetails, setBannerImage } from '../Redux/CreateSlice';
 import { useNavigate } from 'react-router-dom';
 import SimpleSlider from '../Common/pages/SimpleSlider';
 import BestSeller from '../Common/pages/BestSeller';
@@ -46,7 +46,14 @@ import Authors from '../Common/pages/Authors';
 import Allbooks from '../Common/pages/Allbooks';
 
 function Home() {
-  const { isLiked, isAdded, allbookDetails, likedProducts, searchItemDetails, likescount, shopProducts, shopcount, searchfield, authorsDetails } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded,bannerImage, allbookDetails, likedProducts, searchItemDetails, likescount, shopProducts, shopcount, searchfield, authorsDetails } = useSelector((state) => state.usedbookr_product)
+  const images = [
+    book1,
+    book2,
+    book1,
+    book2,
+    book1
+  ];
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -113,7 +120,10 @@ function Home() {
     const data = await authUser();
     dispatch(setAuthorsDetails(data))
   }
-
+  const all_banners = async () =>{
+    const data = await banner();
+    dispatch(setBannerImage(data))
+  }
   // console.log(1, allbookDetails)
   // const [showPopUp, setShowPopUp] = useState(false);
   // const showPopupHandler = () => setShowPopUp(true)
@@ -125,9 +135,11 @@ function Home() {
       bookproduct();
     }
     all_authors();
+    all_banners();
     dispatch(setClass1Hide(false))
     window.scrollTo(0, 0);
   }, [])
+  console.log(1,allbookDetails)
   return (
     <div>
       {/* {popup} */}
@@ -142,24 +154,28 @@ function Home() {
               <div className='col-lg-7 col-md-12 col-12 p-0 d-lg-flex align-items-stretch'>
                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                   <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    {images.length > 0 && images.map((numLength, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide-to={index}
+                        className={index === 0 ? 'active' : ''}
+                        aria-current={index === 0 ? 'true' : 'false'}
+                        aria-label={`Slide ${index}`}
+                      ></button>
+                    ))}
+                    {/* <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button> */}
                   </div>
-                  <div class="carousel-inner h-100">
-                    <div class="carousel-item active h-100">
-                      <img src={book1} className='w-100 h-100' />
-                    </div>
-                    <div class="carousel-item h-100">
-                      <img src={book2} className='w-100 h-100' />
-                    </div>
-                    <div class="carousel-item h-100">
-                      <img src={book1} className='w-100 h-100' />
-                    </div>
-                    <div class="carousel-item h-100">
-                      <img src={book2} className='w-100 h-100' />
-                    </div>
+                  <div className="carousel-inner h-100">
+                    {images.map((imageUrl, index) => (
+                      <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''} h-100`}>
+                        <img src={imageUrl} className='w-100 h-100' alt={`Image ${index}`} />
+                      </div>
+                    ))}
                   </div>
                   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                     <FontAwesomeIcon icon={faArrowLeft} style={{ color: 'green' }} className='arrow-section' />
@@ -190,7 +206,7 @@ function Home() {
                     <div className='col-12 mt-md-0 mt-2 p-0'>
                       <div className='h-100 pt-1'>
                         <div className='offer-card'>
-                          
+
                           <img src={discount} className='w-100' />
                         </div>
                       </div>
@@ -217,7 +233,7 @@ function Home() {
             <div className='product-list mt-5 mb-3'>
               <span className='product-title'>Best Sellers in Education Books</span>
               <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
-              {allbookDetails == '' ? <><h1>noitems</h1></> : <><Allbooks /></>}
+              {allbookDetails == '' ? <><h1 className='text-center product-title'>No items</h1></> : <><Allbooks /></>}
             </div>
           </div>
           <div className='d-lg-none d-block'>

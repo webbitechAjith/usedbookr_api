@@ -31,6 +31,7 @@ import Contact from './Domain/Contact';
 import Categorybook from './Common/pages/Categorybook';
 import About from './Domain/About';
 import Newarrival from './Domain/Newarrival';
+import Error from './Common/pages/Error';
 
 function App() {
    
@@ -78,7 +79,7 @@ function App() {
         <Route path='/categorybook' element={<Categorybook />} />
         <Route path='/newarrival' element={<Newarrival />} />
         <Route path='/about' element={<About />} />
-        <Route path='/Fdfd' element={<Fdfd />} />
+        <Route path='*' element={<Error />} />
       </Routes>
     </BrowserRouter>
   );

@@ -15,13 +15,13 @@ import logouts from '../assets/image/logout.png'
 
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { setActiveItem } from '../../Redux/CreateSlice'
+import { setActiveItem, setUserLogin } from '../../Redux/CreateSlice'
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faHistory, faPowerOff, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 
 function Useraside() {
-    const { activeItem } = useSelector((state) => state.usedbookr_product)
+    const { activeItem, userLogin } = useSelector((state) => state.usedbookr_product)
     const [navSticky, setNavSticky] = useState(false);
     const [isFixed, setIsFixed] = useState(false);
     const navigate = useNavigate();
@@ -41,6 +41,8 @@ function Useraside() {
     const location = useLocation();
     const { pathname, search, hash } = location;
     const logout = () => {
+        localStorage.setItem('usedbookrtoken', '');
+        dispatch(setUserLogin(false))
         navigate('/Login')
     }
     const home = () => {
@@ -61,7 +63,7 @@ function Useraside() {
             window.removeEventListener('scroll', handleScroll);
           };
     }, [])
-    console.log(navSticky)
+
     return (
         <>
             <div className='d-lg-block d-md-none d-sm-none d-none'>
@@ -92,7 +94,7 @@ function Useraside() {
             </div>
             <div className='d-lg-none d-md-block d-sm-block d-block'>
                 <div className={`user-icons ${isFixed ? 'fixed-user' : ''}`}>
-                    <ul id="v-pills-tab1" role="tablist">
+                    <ul id="v-pills-tab1" className='p-0' role="tablist">
                         <li className={`border-0 nav-item view-all ${pathname === '/Profile' ? 'active' : ''}`} onClick={() => handleItemClick('Account')}>
                             {/* <img src={pathname === '/Profile' ? profile1 : profile} className='pe-2' /> */}
                             {pathname === '/Profile' ? <><FontAwesomeIcon icon={faUser} style={{fontSize:'25px',color:'#000'}}/></> : <><FontAwesomeIcon icon={faUser} style={{fontSize:'25px',color:'#FFF'}}/></>}

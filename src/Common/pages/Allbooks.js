@@ -122,7 +122,9 @@ const Allbooks = () => {
         <div className='py-lg-5 py-4 bestseller'>
             <MemoizedOwlCarousel className="owl-theme" {...owlOption}>
                 {allbookDetails.length < 0 ?
-                    <><h1>No items...</h1></>
+                    <>
+                        <h1 className='text-center product-title'>No items</h1>
+                    </>
                     :
                     <>
                         {allbookDetails && allbookDetails.map((book, index) => {

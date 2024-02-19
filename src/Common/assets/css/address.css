@@ -104,7 +104,7 @@
 
 .profile-card {
     position: relative;
-    text-align: center;
+    /* text-align: center; */
 }
 .card-image{
     width: 100%;
@@ -220,12 +220,12 @@
     height: 30px !important;
 }
 
-/* .profile-section {
+.profile-img-section {
     width: 75px !important;
     height: 75px;
     display: block;
     border-radius: 50%;
-} */
+}
 
 .review-card {
     background: none !important;

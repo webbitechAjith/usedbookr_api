@@ -13,10 +13,12 @@ import profile from '../Common/assets/image/profile.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { otpToken } from '../Common/pages/apiBaseurl'
 import { setRegisterToken } from '../Redux/CreateSlice'
+import { useNavigate } from 'react-router-dom'
 
 function Profile() {
-    const { registerToken } = useSelector((state) => state.usedbookr_product)
+    const { registerToken, userLogin } = useSelector((state) => state.usedbookr_product)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const tokenGet = async () => {
         try {
@@ -33,6 +35,11 @@ function Profile() {
     useEffect(() => {
         tokenGet()
         window.scrollTo(0, 0);
+        if(userLogin){
+            navigate('/profile')
+        }else{
+            navigate('/Login')
+        }
     }, []);
     window.addEventListener("beforeunload", (event) => {
         tokenGet();
@@ -43,7 +50,7 @@ function Profile() {
         tokenGet();
         console.log("API call after page reload",registerToken);
     });
-    console.log(1, registerToken)
+    console.log(userLogin)
     return (
         <div className='profile-section'>
             <Header />

@@ -47,12 +47,53 @@ function Header() {
     const [products, setProducts] = useState(allbookDetails);
     const [isSticky, setIsSticky] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [megaMenu, setMegaMenu] = useState(
+        {
+            "categories": [
+                {
+                    "name": "Children",
+                    "subcategories": [
+                        "Children1",
+                        "Children2",
+                        "Children3",
+                        "Children4"
+                    ]
+                },
+                {
+                    "name": "Education",
+                    "subcategories": [
+                        "Education1",
+                        "Education2",
+                        "Education3",
+                        "Education4"
+                    ]
+                },
+                {
+                    "name": "Political",
+                    "subcategories": [
+                        "Political1",
+                        "Political2",
+                        "Political3",
+                        "Political4"
+                    ]
+                },
+                {
+                    "name": "Magazines",
+                    "subcategories": [
+                        "Magazines1",
+                        "Magazines2",
+                        "Magazines3",
+                        "Magazines4"
+                    ]
+                },
+            ]
+        }
+    )
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-
     const { pathname, search, hash } = location;
+    
     const handleToggle = () => {
         setIsOpen(!isOpen);
     };
@@ -94,19 +135,35 @@ function Header() {
         setIsSearchexpanded(!isSearchexpanded)
     }
 
-    const toggleChildren = () => {
-        setIsChildrenVisible(!isChildrenVisible);
+    const toggleTitle = (title) => {
+        if (title == 'Children') {
+            setIsChildrenVisible(!isChildrenVisible);
+        } else if (title == 'Education') {
+            setIsEducationVisible(!isEducationVisible);
+        } else if (title == 'Political') {
+            setIspoliticalVisible(!isPoliticalVisible);
+        } else if (title == 'Magazines') {
+            setIsmagazinesVisible(!isMagazinesVisible);
+        }
+    }
+
+    const isCategoryVisible = (categoryName) => {
+        switch (categoryName) {
+            case 'Children':
+                return isChildrenVisible;
+            case 'Education':
+                return isEducationVisible;
+            case 'Political':
+                return isPoliticalVisible;
+            case 'Magazines':
+                return isMagazinesVisible;
+            default:
+                return false;
+        }
     };
 
-    const toggleEducation = () => {
-        setIsEducationVisible(!isEducationVisible);
-    };
-    const togglePolitical = () => {
-        setIspoliticalVisible(!isPoliticalVisible);
-    };
 
     const toggleMagazines = () => {
-        setIsmagazinesVisible(!isMagazinesVisible);
     };
 
     const handleChange = async (event) => {
@@ -185,7 +242,7 @@ function Header() {
                         <div className='d-lg-block d-md-block d-none'>
                             <div className='row m-0 p-2'>
                                 <div className='col-lg-6 col-md-6 d-lg-block d-md-block d-none'>
-                                    <img src={logo} width={130} />
+                                    <img src={logo} />
                                 </div>
                                 <div className='col-lg-6 col-md-6 col-5 d-flex align-items-center justify-content-end icon-section'>
                                     <div className='d-lg-block d-md-block d-none'>
@@ -208,7 +265,7 @@ function Header() {
                 </div>
                 <div className='d-lg-none d-md-none d-block'>
                     <div className='text-center bg-white py-3'>
-                        <img src={logo} width={130} />
+                        <img src={logo} />
                     </div>
                 </div>
                 <div className='nav-section'>
@@ -239,7 +296,7 @@ function Header() {
                                 <div className="collapse navbar-collapse nav-list" id="navbarNavDropdown">
                                     <div className={`offcanvas offcanvas-start ${showMenu ? 'show overflow-auto' : ''}`} tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                                         <div className="offcanvas-header">
-                                            <img src={logo} width={130} />
+                                            <img src={logo} />
                                             <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" onClick={toggleMenu}></button>
                                         </div>
                                         <div className="offcanvas-body position-sticky">
@@ -261,84 +318,21 @@ function Header() {
                                                     <div class={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                         <div class="container-fluid">
                                                             <div class="row m-0">
-                                                                <div class="col-md-12  mb-3 mb-lg-0">
-                                                                    <div class="list-group list-group-flush">
-                                                                        <h5 onClick={toggleChildren}>Children {isChildrenVisible ? <><FontAwesomeIcon icon={faMinus} /></> : <><FontAwesomeIcon icon={faPlus} /></>}</h5>
-                                                                        {isChildrenVisible &&
-                                                                            <>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Children1
+                                                                {megaMenu.categories.map((data) => (
+                                                                    <div key={data.name} className="col-12 mb-3 mb-lg-0">
+                                                                        <div className="list-group list-group-flush">
+                                                                            <h5 onClick={() => toggleTitle(data.name)}>
+                                                                                {data.name}
+                                                                                <FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} />
+                                                                            </h5>
+                                                                            {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
+                                                                                <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory)}>
+                                                                                    {subcategory}
                                                                                 </a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Children2
-                                                                                </a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Children3
-                                                                                </a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Children4
-                                                                                </a>
-                                                                            </>
-                                                                        }
+                                                                            ))}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-12  mb-3 mb-lg-0">
-                                                                    <div class="list-group list-group-flush">
-                                                                        <h5 onClick={toggleEducation}>Education <FontAwesomeIcon icon={faPlus} /></h5>
-                                                                        {isEducationVisible &&
-                                                                            <>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education1</a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education2</a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education3</a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education4</a>
-                                                                            </>
-                                                                        }
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12 mb-3 mb-lg-0">
-                                                                    <div class="list-group list-group-flush">
-                                                                        <h5 onClick={togglePolitical}>Political <FontAwesomeIcon icon={faPlus} /></h5>
-                                                                        {isPoliticalVisible &&
-                                                                            <>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Political1
-                                                                                </a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Political2
-                                                                                </a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Political3
-                                                                                </a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Political4
-                                                                                </a>
-                                                                            </>
-                                                                        }
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12 mb-3 mb-lg-0">
-                                                                    <div class="list-group list-group-flush">
-                                                                        <h5 onClick={toggleMagazines}>Magazines <FontAwesomeIcon icon={faPlus} /></h5>
-                                                                        {isMagazinesVisible &&
-                                                                            <>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Magazines1
-                                                                                </a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Magazines2
-                                                                                </a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Magazines3
-                                                                                </a>
-                                                                                <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                    Magazines4
-                                                                                </a>
-                                                                            </>
-                                                                        }
-                                                                    </div>
-                                                                </div>
-
+                                                                ))}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -402,7 +396,7 @@ function Header() {
                                     <div className="collapse navbar-collapse nav-list" id="navbarNavDropdown">
                                         <div className={`offcanvas offcanvas-start ${showMenu ? 'show' : ''}`} tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                                             <div className="offcanvas-header">
-                                                <img src={logo} width={130} />
+                                                <img src={logo} />
                                                 <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" onClick={toggleMenu}></button>
                                             </div>
                                             <div className="offcanvas-body">
@@ -424,84 +418,21 @@ function Header() {
                                                         <div class={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                             <div class="container-fluid">
                                                                 <div class="row m-0">
-                                                                    <div class="col-md-12  mb-3 mb-lg-0">
-                                                                        <div class="list-group list-group-flush">
-                                                                            <h5 onClick={toggleChildren}>Children {isChildrenVisible ? <><FontAwesomeIcon icon={faMinus} /></> : <><FontAwesomeIcon icon={faPlus} /></>}</h5>
-                                                                            {isChildrenVisible &&
-                                                                                <>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Children1
+                                                                    {megaMenu.categories.map((data) => (
+                                                                        <div key={data.name} className="col-12 mb-3 mb-lg-0">
+                                                                            <div className="list-group list-group-flush">
+                                                                                <h5 onClick={() => toggleTitle(data.name)}>
+                                                                                    {data.name}
+                                                                                    <FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} />
+                                                                                </h5>
+                                                                                {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
+                                                                                    <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory)}>
+                                                                                        {subcategory}
                                                                                     </a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Children2
-                                                                                    </a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Children3
-                                                                                    </a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Children4
-                                                                                    </a>
-                                                                                </>
-                                                                            }
+                                                                                ))}
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-12  mb-3 mb-lg-0">
-                                                                        <div class="list-group list-group-flush">
-                                                                            <h5 onClick={toggleEducation}>Education <FontAwesomeIcon icon={faPlus} /></h5>
-                                                                            {isEducationVisible &&
-                                                                                <>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education1</a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education2</a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education3</a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>Education4</a>
-                                                                                </>
-                                                                            }
-
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-12 mb-3 mb-lg-0">
-                                                                        <div class="list-group list-group-flush">
-                                                                            <h5 onClick={togglePolitical}>Political <FontAwesomeIcon icon={faPlus} /></h5>
-                                                                            {isPoliticalVisible &&
-                                                                                <>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Political1
-                                                                                    </a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Political2
-                                                                                    </a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Political3
-                                                                                    </a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Political4
-                                                                                    </a>
-                                                                                </>
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-12 mb-3 mb-lg-0">
-                                                                        <div class="list-group list-group-flush">
-                                                                            <h5 onClick={toggleMagazines}>Magazines <FontAwesomeIcon icon={faPlus} /></h5>
-                                                                            {isMagazinesVisible &&
-                                                                                <>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Magazines1
-                                                                                    </a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Magazines2
-                                                                                    </a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Magazines3
-                                                                                    </a>
-                                                                                    <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                                        Magazines4
-                                                                                    </a>
-                                                                                </>
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-
+                                                                    ))}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -545,79 +476,22 @@ function Header() {
                                                     <div className={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                         <div class="container-fluid">
                                                             <div class="row m-0">
-                                                                <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
-                                                                    <div class="list-group list-group-flush">
-                                                                        <h5>Children</h5>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Children1
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Children2
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Children3
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Children4
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
-                                                                    <div class="list-group list-group-flush">
-                                                                        <h5>Education</h5>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Education1
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Education2
-                                                                        </a>
-
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Education3
-                                                                        </a>
-
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Education4
-                                                                        </a>
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-4 mb-3 mb-lg-0">
-                                                                    <div class="list-group list-group-flush">
-                                                                        <h5>Political</h5>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Political1
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Political2
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Political3
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Political4
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-4 mb-3 mb-lg-0">
-                                                                    <div class="list-group list-group-flush">
-                                                                        <h5>Magazines</h5>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Magazines1
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Magazines2
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Magazines3
-                                                                        </a>
-                                                                        <a className='list-group-item text-decoration-none' onClick={handleNavLinkClick}>
-                                                                            Magazines4
-                                                                        </a>
-
-                                                                    </div>
-                                                                </div>
-
+                                                                {megaMenu.categories.map((data) => {
+                                                                    return (
+                                                                        <>
+                                                                            <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
+                                                                                <div class="list-group list-group-flush">
+                                                                                    <h5>{data.name}</h5>
+                                                                                    {data.subcategories.map((subcategory, index) => (
+                                                                                        <a key={index} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory)}>
+                                                                                            {subcategory}
+                                                                                        </a>
+                                                                                    ))}
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                    )
+                                                                })}
                                                             </div>
                                                         </div>
                                                     </div>

@@ -11,18 +11,31 @@ const apiBaseurl = axios.create({
 // allbooks api 
 export const allbooks = async () => {
   try {
-    const { data } = await apiBaseurl.get('/api/books');
+    const { data } = await apiBaseurl.get('/api/book');
     const allBook = data.response.books;
     const productsWithIds = allBook.map((product, index) => ({
       id: index + 1,
       ...product
     }));
-    return productsWithIds;
+    return allBook;
   } catch (error) {
     console.error('Error fetching overall books:', error);
     throw error;
   }
 }
+
+// export const allbooks = async () => {
+//   try {
+//     const { data } = await apiBaseurl.get('/api/books/all');
+//     const allBook = data.books;
+//     return allBook;
+//   } catch (error) {
+//     console.error('Error fetching overall books:', error);
+//     throw error;
+//   }
+// }
+
+
 
 // register api call 
 
@@ -102,6 +115,18 @@ export const authUser = async () => {
     return final_allAuthor
   } catch (error) {
     console.log("error")
+  }
+}
+
+
+// banner section image api 
+export const  banner = async () =>{
+  try{
+    const { data} = await apiBaseurl.get('/api/banners/all')
+    const banner_image = data.banners
+    return banner_image
+  } catch (error){
+    console.log(error)
   }
 }
 

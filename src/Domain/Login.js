@@ -40,10 +40,8 @@ function Login() {
             console.log(11, login_verify)
             if (login_verify.status == '200') {
                 const authToken = login_verify.access_token;
-                console.log('authToken',authToken)
                 localStorage.setItem('usedbookrtoken', authToken);
                 const token = localStorage.getItem('usedbookrtoken')
-                console.log('token',token)
                 const response_token = await otpToken(token);
                 console.log('response_token',response_token)
                 const data_value = response_token.user;
@@ -62,6 +60,7 @@ function Login() {
     const forgetpasssword = () => {
         navigate('/Forgetpassword')
     }
+    console.log(userLogin)
     return (
         <>
             <Header />
