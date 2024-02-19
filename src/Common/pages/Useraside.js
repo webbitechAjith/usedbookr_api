@@ -42,6 +42,7 @@ function Useraside() {
     const { pathname, search, hash } = location;
     const logout = () => {
         localStorage.setItem('usedbookrtoken', '');
+        localStorage.setItem('isLoginAuth', false);
         dispatch(setUserLogin(false))
         navigate('/Login')
     }

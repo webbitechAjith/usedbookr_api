@@ -21,7 +21,7 @@ import { authLogin, otpToken } from '../Common/pages/apiBaseurl';
 
 
 function Login() {
-    const { loginDetails, logoutDetails,userLogin } = useSelector((state) => state.usedbookr_product)
+    const { loginDetails, logoutDetails, userLogin } = useSelector((state) => state.usedbookr_product)
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
@@ -39,16 +39,17 @@ function Login() {
             const login_verify = await authLogin(loginDetails)
             console.log(11, login_verify)
             if (login_verify.status == '200') {
+                dispatch(setUserLogin(true))
                 const authToken = login_verify.access_token;
                 localStorage.setItem('usedbookrtoken', authToken);
+                localStorage.setItem('isLoginAuth', userLogin)
                 const token = localStorage.getItem('usedbookrtoken')
                 const response_token = await otpToken(token);
-                console.log('response_token',response_token)
+                console.log('response_token', response_token)
                 const data_value = response_token.user;
-                console.log('data_value',data_value)
+                console.log('data_value', data_value)
                 dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phone: data_value.phone_number }));
                 alert('Login Successfully');
-                dispatch(setUserLogin(true))
                 navigate('/Profile')
             } else {
                 alert('Login failed:');
