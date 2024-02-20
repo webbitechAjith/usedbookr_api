@@ -18,23 +18,11 @@ import { faArrowLeft, faArrowRight, faCheck, faHeart } from '@fortawesome/free-s
 // image section 
 import book1 from '../Common/assets/image/book_1.png'
 import book2 from '../Common/assets/image/book_2.png'
-import likes from '../Common/assets/image/like.png'
-import unlike from '../Common/assets/image/shop-heart.png'
-import plant3 from '../Common/assets/image/plant_3.png'
-import rating from '../Common/assets/image/Rating.png'
-import add from '../Common/assets/image/addcard.png'
-import remove from '../Common/assets/image/removecard.png'
 import book4 from '../Common/assets/image/book_4.png'
 import book5 from '../Common/assets/image/book_5.png'
-import check from '../Common/assets/image/Check.png'
-import pots1 from '../Common/assets/image/sales1.png'
-import seller1 from '../Common/assets/image/seller1.png'
 import address from '../Common/assets/image/address.png'
 import message from '../Common/assets/image/message.png'
 import contact from '../Common/assets/image/contact.png'
-import arrive1 from '../Common/assets/image/arrive1.png'
-import copy from '../Common/assets/image/copy.png'
-import flash from '../Common/assets/image/flash.png'
 import discount from '../Common/assets/image/discount-card.png'
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -46,54 +34,17 @@ import Authors from '../Common/pages/Authors';
 import Allbooks from '../Common/pages/Allbooks';
 
 function Home() {
-  const { isLiked, isAdded,bannerImage, allbookDetails, likedProducts, searchItemDetails, likescount, shopProducts, shopcount, searchfield, authorsDetails } = useSelector((state) => state.usedbookr_product)
-  const images = [
-    book1,
-    book2,
-    book1,
-    book2,
-    book1
-  ];
+  const { bannerImage, allbookDetails, authorsDetails } = useSelector((state) => state.usedbookr_product)
+  // const images = [
+  //   book1,
+  //   book2,
+  //   book1,
+  //   book2,
+  //   book1
+  // ];
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-  // // like product click fn 
-  // const totallikes = likedProducts.map((data) => data.id);
-
-  // const handleLikeClick = (product) => {
-  //   const isLikeds = product.id;
-
-  //   // Check if the product ID is in the likedProducts array
-  //   if (totallikes.includes(isLikeds)) {
-  //     // If it's already liked, remove it from the likedProducts array
-  //     dispatch(setLikedProducts(likedProducts.filter((likedProduct) => likedProduct.id !== isLikeds)));
-  //     dispatch(setlikescount(likescount - 1))
-  //   } else {
-  //     // If it's not liked, add it to the likedProducts array
-  //     dispatch(setLikedProducts([...likedProducts, product]));
-  //     dispatch(setlikescount(likescount + 1))
-
-  //   }
-  // };
-
-  // // shop product click fn 
-  // const totalshops = shopProducts.map((data) => data.id);
-
-  // const handleShopClick = (product, id, price) => {
-  //   const isShops = product.id;
-  //   // Check if the product ID is in the likedProducts array
-  //   if (totalshops.includes(isShops)) {
-  //     // If it's already liked, remove it from the likedProducts array
-  //     dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== isShops)));
-  //     dispatch(setshopcount(shopcount - 1))
-  //   } else {
-  //     // If it's not liked, add it to the likedProducts array
-  //     // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
-  //     dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
-  //     dispatch(setshopcount(shopcount + 1))
-  //   }
-  // };
   const product_add = () => {
 
   }
@@ -120,7 +71,7 @@ function Home() {
     const data = await authUser();
     dispatch(setAuthorsDetails(data))
   }
-  const all_banners = async () =>{
+  const all_banners = async () => {
     const data = await banner();
     dispatch(setBannerImage(data))
   }
@@ -139,7 +90,7 @@ function Home() {
     dispatch(setClass1Hide(false))
     window.scrollTo(0, 0);
   }, [])
-  console.log(1,allbookDetails)
+  
   return (
     <div>
       {/* {popup} */}
@@ -154,7 +105,7 @@ function Home() {
               <div className='col-lg-7 col-md-12 col-12 p-0 d-lg-flex align-items-stretch'>
                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                   <div class="carousel-indicators">
-                    {images.length > 0 && images.map((numLength, index) => (
+                    {bannerImage.length > 0 && bannerImage.map((numLength, index) => (
                       <button
                         key={index}
                         type="button"
@@ -171,9 +122,9 @@ function Home() {
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button> */}
                   </div>
                   <div className="carousel-inner h-100">
-                    {images.map((imageUrl, index) => (
+                    {bannerImage.map((imageUrl, index) => (
                       <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''} h-100`}>
-                        <img src={imageUrl} className='w-100 h-100' alt={`Image ${index}`} />
+                        <img src={imageUrl.images} className='w-100 h-100' alt={`Image ${index}`} />
                       </div>
                     ))}
                   </div>
@@ -239,54 +190,6 @@ function Home() {
           <div className='d-lg-none d-block'>
             <div className='container-90 product-list mt-5 mb-3'>
               <span className='product-title'>Best Sellers in Education Books</span>
-              {/* <div className='row m-0 py-5'>
-                {searchfield ?
-                  <>
-                    {allbookDetails && allbookDetails.map((data, index) => {
-                      return (
-                        <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
-                          <div className={totalshops.includes(data.id) ? 'normal-box' : 'box-view'}>
-                            <button className='sales-offer'>Sale {data.discount_price}</button>
-                            <span
-                              className='float-end'
-                              onClick={() => handleLikeClick(data)}
-                            >
-                              <img
-                                src={totallikes.includes(data.id) ? likes : unlike}
-                                alt="Like Button"
-                              />
-                            </span>
-                            <img src={plant3} className='w-100' />
-                            <div class="row m-0 product-details">
-                              <div class="col-9">
-                                <h5>{data.title}</h5>
-                                <span className='price pe-2'>{data.total_price}</span><span className='text-decoration-line-through rate'>{data.actual_price}</span>
-                                <img src={rating} className='ms-2' />
-                              </div>
-                              <div class="col-3">
-                                <span
-                                  className='float-end'
-                                  id={data.id} value={data.id}
-                                  onClick={() => handleShopClick(data, data.id, data.total_price)}
-                                >
-                                  <img
-                                    src={totalshops.includes(data.id) ? add : remove}
-                                    alt="Shop Button"
-                                  />
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </> :
-                  <>
-                    <h1 className='text-center product-title'>No items</h1>
-                  </>
-                }
-
-              </div> */}
               <Allbooks />
               <div className='author5'>
                 <button onClick={() => all_product()}>View All</button>

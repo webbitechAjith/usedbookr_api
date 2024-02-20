@@ -29,7 +29,7 @@ import { useNavigate } from 'react-router-dom';
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 const Allbooks = () => {
-    const { allbookDetails, isLiked, isAdded, likescount, likedProducts, totalLikes, shopProducts, shopcount, singleProductView } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, isLiked, isAdded, likescount, likedProducts, totalLikes, shopProducts, shopcount, singleProductView,singleProductPrice } = useSelector((state) => state.usedbookr_product)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -58,7 +58,6 @@ const Allbooks = () => {
         }
     }
 
-    console.log(totalLikes)
     // shop product click fn 
     const totalshops = shopProducts.map((data) => data.id);
 
@@ -72,26 +71,27 @@ const Allbooks = () => {
         } else {
             // If it's not liked, add it to the likedProducts array
             // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
-            dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
-            dispatch(setshopcount(shopcount + 1))
-        }
-    };
+            if (singleProductPrice) {
+                dispatch(setShopProducts([...shopProducts, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
+                dispatch(setshopcount(shopcount + 1))
+                navigate('/Purchase')
+            } else {
+                dispatch(setShopProducts([...shopProducts, { ...product, id, amount: product.original_price + product.gst_charge, qty: 1 }]));
+                dispatch(setshopcount(shopcount + 1))
+                navigate('/Purchase')
+            }
+        };
+    }
 
     const author_name = () => {
         navigate('/authors')
     }
-    const click_view = (id) => {
-        dispatch(setsingleProductView([allbookDetails[id]]))
+    const click_view = (index) => {
+        console.log(index)
+        dispatch(setsingleProductView([allbookDetails[index]]))
         navigate('Description')
     }
-    // useEffect(() => {
-    //     if (likedProducts.length > 0) {
-    //         dispatch(settotallikes(likedProducts.map((data) => data.id)));
-    //     }
-    //     dispatch(setallBookDetails(allbookDetails))
-    //     dispatch(setsingleProductView(allbookDetails))
-    // }, [likedProducts]);
-    console.log(likedProducts)
+
     const owlOption = {
         dots: false,
         // autoplay: true,
@@ -149,11 +149,11 @@ const Allbooks = () => {
                                                 </span>
                                             </span>
                                             <div className='book-details px-3'>
-                                                <h1 className='w-100' title={book.title}>{book.title.slice(0, 20)}...</h1>
-                                                {book.authors[0] === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.authors[0]} onClick={() => author_name()}>{book.authors[0].slice(0, 10)}</h5></>}
+                                                <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
+                                                {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
                                                 <div className='d-flex '>
                                                     <div className='rate-details'>
-                                                        <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                        <span className='new-rate'>₹{book.original_price}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
                                                         <Rating
                                                             initialRating={5}
                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -166,7 +166,7 @@ const Allbooks = () => {
                                                         <span
                                                             className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
                                                             id={book.id} value={book.id}
-                                                            onClick={() => handleShopClick(book, book.id, book.msrp)}
+                                                            onClick={() => handleShopClick(book, book.id, book.original_price)}
                                                         >
                                                             {/* <img
                                                         src={totalshops.includes(book.id) ? add : remove}

@@ -9,25 +9,14 @@ const apiBaseurl = axios.create({
 });
 
 // allbooks api 
-export const allbooks = async () => {
-  try {
-    const { data } = await apiBaseurl.get('/api/book');
-    const allBook = data.response.books;
-    const productsWithIds = allBook.map((product, index) => ({
-      id: index + 1,
-      ...product
-    }));
-    return allBook;
-  } catch (error) {
-    console.error('Error fetching overall books:', error);
-    throw error;
-  }
-}
-
 // export const allbooks = async () => {
 //   try {
-//     const { data } = await apiBaseurl.get('/api/books/all');
-//     const allBook = data.books;
+//     const { data } = await apiBaseurl.get('/api/book');
+//     const allBook = data.response.books;
+//     const productsWithIds = allBook.map((product, index) => ({
+//       id: index + 1,
+//       ...product
+//     }));
 //     return allBook;
 //   } catch (error) {
 //     console.error('Error fetching overall books:', error);
@@ -35,6 +24,17 @@ export const allbooks = async () => {
 //   }
 // }
 
+
+export const allbooks = async () => {
+  try {
+    const { data } = await apiBaseurl.get('/api/books/all');
+    const allBook = data.books;
+    return allBook;
+  } catch (error) {
+    console.error('Error fetching overall books:', error);
+    throw error;
+  }
+}
 
 
 // register api call 
@@ -129,5 +129,18 @@ export const  banner = async () =>{
     console.log(error)
   }
 }
+
+
+// megamenu api start 
+export const megamenu_list = async () =>{
+  try{
+    const { data } = await apiBaseurl.get('/api/categoryandsubcategory/all')
+    const menu_category = data.categories
+    return menu_category;
+  } catch (error){
+    console.log(error)
+  }
+}
+
 
 export default apiBaseurl; // Exporting the axios instance for general use

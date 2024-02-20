@@ -145,7 +145,7 @@ function Wishlist() {
                                                                         <img src={data.image} alt='plant1' className='w-100' />
                                                                     </div>
                                                                     <div className='col-8 py-4'>
-                                                                        <h5>{data.title}</h5>
+                                                                        <h5>{data.title_long}</h5>
                                                                         <Rating
                                                                             initialRating={4}
                                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}

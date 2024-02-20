@@ -102,10 +102,14 @@
     top: -20px !important;
     left: 12px !important;
     display: inline-block;
-    padding: 3px 10px;
-    border-radius: 16px;
+    border-radius: 50%;
     background: #EA4B48;
     color: #FFF;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 25px !important;
 }
 
 .item-count {
@@ -113,10 +117,14 @@
     top: -20px !important;
     left: 25px !important;
     display: inline-block;
-    padding: 3px 10px;
-    border-radius: 16px;
+    border-radius: 50%;
     background: #EA4B48;
     color: #FFF;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 25px !important;
 }
 
 .authregister {

@@ -33,12 +33,12 @@ import arrive1 from '../Common/assets/image/arrive1.png'
 import seller1 from '../Common/assets/image/seller1.png'
 
 import { useNavigate, useParams } from 'react-router-dom';
-import { setallBookDetails, setproductIdDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleItemCount, setClass1Hide } from '../Redux/CreateSlice';
+import { setallBookDetails, setproductIdDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleItemCount, setClass1Hide, setSingleProductPrice } from '../Redux/CreateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import BestSeller from '../Common/pages/BestSeller';
 
 function Description() {
-    const { isLiked, isAdded, likedProducts, likescount, singleProductView, shopProducts, shopcount, productIdDetails, singleItemCount } = useSelector((state) => state.usedbookr_product)
+    const { isLiked, isAdded, likedProducts, likescount, singleProductView, singleProductPrice, shopProducts, shopcount, productIdDetails, singleItemCount } = useSelector((state) => state.usedbookr_product)
     const [value, setValue] = useState(1);
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
@@ -129,11 +129,17 @@ function Description() {
         } else {
             // If it's not liked, add it to the likedProducts array
             // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
-            dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
-            dispatch(setshopcount(shopcount + 1))
-            navigate('/Purchase')
-        }
-    };
+            if (singleProductPrice) {
+                dispatch(setShopProducts([...shopProducts, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
+                dispatch(setshopcount(shopcount + 1))
+                navigate('/Purchase')
+            } else {
+                dispatch(setShopProducts([...shopProducts, { ...product, id, amount: product.original_price + product.gst_charge, qty: 1 }]));
+                dispatch(setshopcount(shopcount + 1))
+                navigate('/Purchase')
+            }
+        };
+    }
 
     const buynow = () => {
         dispatch(setsingleItemCount(singleItemCount + 1))
@@ -150,13 +156,7 @@ function Description() {
     const all_product = () => {
         navigate('/Allproduct')
     }
-    const plantproduct = async () => {
-        // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-        //   dispatch(setallBookDetails(data.data))
-        // const { data } = await axios.get('https://fakestoreapi.com/products');
-        // dispatch(setallBookDetails(data.data))
-
-    }
+ 
     const [activeTab, setActiveTab] = useState('tab1');
 
     const toggleTab = (tab) => {
@@ -164,6 +164,11 @@ function Description() {
             setActiveTab(tab);
         }
     };
+
+    const priceCheck = (data) => {
+        dispatch(setSingleProductPrice(data.price))
+        console.log(singleProductView)
+    }
 
     const removecards = () => {
         alert("Remove this Book in  Shoplist")
@@ -196,39 +201,44 @@ function Description() {
                                     </div>
                                     <div className='col-6 description-details'>
                                         <>
-                                            <h1>{data.title}<span className='stock'>In Stock</span></h1>
-                                            <p>{data.authors[0]}</p>
+                                            <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
+                                            <p>{data.author[0].author}</p>
                                             <img src={star} alt='star' />
                                             <span className='review'>4 Reviews</span>
                                             <br />
-                                            <span className='price pe-2'>INR {data.msrp}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
+                                            <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
                                             <button className='sales-offer'>50% off</button>
+                                            <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
                                             <hr />
                                             <p>{data.synopsis}</p>
                                             <div className='condition-level my-3'>
                                                 <h1><span>Binding type</span></h1>
-                                                <button className='very'>{data.binding}</button>
+                                                {data.varient.map((data) => {
+                                                    return (
+                                                        <>
+                                                            <button className='very ms-2'>{data.bindings}</button>
+                                                        </>
+                                                    )
+                                                })}
                                             </div>
                                             <div className='condition-level my-3'>
                                                 <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                                <button className='very'>Very good</button>
-                                                <button className='very mx-2'>Good</button>
-                                                <button className='very'>Well Read</button>
-                                                <button className='very ms-2'>Bad</button>
+                                                {data.varient.map((data) => {
+                                                    return (
+                                                        <>
+                                                            <button className='very ms-2' onClick={() => priceCheck(data)}>{data.bookconditions}</button>
+                                                        </>
+                                                    )
+                                                })}
                                             </div>
-                                            <div className='my-5'>
-                                                {/* <span className="mb-4 count-btn">
-                                                    {value == 1 ? <><button className="btn sum-btn" type="button" disabled>-</button></> : <><button className="btn sum-btn" type="button" onClick={handleDecrement}>-</button></>}
-                                                    <span onChange={(e) => setValue(parseInt(e.target.value, 10) || 0)} className='mx-4 count-value'>{value}</span>
-                                                    {totalshops.includes(data.id) ? <><button className="btn sum-btn" type="button" onClick={()=>removecards()}>+</button></> : <><button className="btn sum-btn" type="button" onClick={handleIncrement}>+</button></>}
-                                                </span> */}
+                                            <div className='my-3'>
+
                                                 <span className='text-center'>
                                                     {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
                                                     <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
                                                 </span>
-                                                {value == 1 ? <><button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.msrp)}>{totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>} <FontAwesomeIcon icon={faBagShopping} className='ms-2' /></button></> : <><button className="disabled-shop" disabled>Add to card <FontAwesomeIcon icon={faBagShopping} /></button></>}
+                                                {value == 1 ? <><button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}>{totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>} <FontAwesomeIcon icon={faBagShopping} className='ms-2' /></button></> : <><button className="disabled-shop" disabled>Add to card <FontAwesomeIcon icon={faBagShopping} /></button></>}
                                                 {/* <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data)} /></span> */}
-                                                <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
                                             </div>
                                         </>
                                     </div>
@@ -255,12 +265,12 @@ function Description() {
                                         </div> */}
                                     </div>
                                     <div className='col-7 description-details'>
-                                        <h1>{data.title} <span className='stock'>In Stock</span></h1>
-                                        <p>{data.authors[0]}</p>
+                                        <h1>{data.title_long} <span className='stock'>In Stock</span></h1>
+                                        <p>{data.author[0].author}</p>
                                         <img src={star} alt='star' />
                                         <span className='review'>4 Reviews</span>
                                         <br />
-                                        <span className='price pe-2'>INR {data.msrp}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
+                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
                                         <button className='sales-offer'>50% off</button>
                                         <hr />
                                         <p>{data.synopsis}</p>
@@ -271,51 +281,60 @@ function Description() {
                                             <div className='col-3'>
                                                 <div className='condition-level my-3'>
                                                     <h1><span>Binding type</span></h1>
-                                                    <button className='very'>{data.binding}</button>
+                                                    {data.varient.map((data) => {
+                                                        return (
+                                                            <>
+                                                                <button className='very ms-2'>{data.bindings}</button>
+                                                            </>
+                                                        )
+                                                    })}
                                                 </div>
                                             </div>
                                             <div className='col-9'>
                                                 <div className='condition-level my-3'>
                                                     <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                                    <button className='very'>Very good</button>
-                                                    <button className='very mx-2'>Good</button>
-                                                    <button className='very'>Well Read</button>
-                                                    <button className='very ms-2'>Bad</button>
+                                                    {data.varient.map((data) => {
+                                                        return (
+                                                            <>
+                                                                <button className='very ms-2' onClick={() => priceCheck(data)}>{data.bookconditions}</button>
+                                                            </>
+                                                        )
+                                                    })}
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div className='col-12 description-details text-center mt-5'>
+                                        <>
+                                            <span className="mb-3 count-btn">
+                                                <button
+                                                    className="btn sum-btn"
+                                                    type="button"
+                                                    onClick={handleDecrement}
+                                                >
+                                                    -
+                                                </button>
+                                                <span onChange={(e) => setValue(parseInt(e.target.value, 10) || 0)} className='mx-4 count-value'>{value}</span>
+                                                <button
+                                                    className="btn sum-btn"
+                                                    type="button"
+                                                    onClick={handleIncrement}
+                                                >
+                                                    +
+                                                </button>
+                                            </span>
+                                            <button className={totalshops.includes(data.id) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}>Add to Cart <img src={totalshops.includes(data.id) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
+                                            <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data.id)} /></span>
+                                            <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
+                                        </>
                                     </div>
                                 </>
                             )
                         })}
 
 
-                        <div className='col-12 description-details text-center mt-5'>
-                            <>
-                                <span className="mb-3 count-btn">
-                                    <button
-                                        className="btn sum-btn"
-                                        type="button"
-                                        onClick={handleDecrement}
-                                    >
-                                        -
-                                    </button>
-                                    <span onChange={(e) => setValue(parseInt(e.target.value, 10) || 0)} className='mx-4 count-value'>{value}</span>
-                                    <button
-                                        className="btn sum-btn"
-                                        type="button"
-                                        onClick={handleIncrement}
-                                    >
-                                        +
-                                    </button>
-                                </span>
-                                <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
-                                <span className='like-btn'><img src={totallikes.includes(1) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(1)} /></span>
-                                <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
-                            </>
-                        </div>
-                    </div>
 
+                    </div>
                 </div>
                 <div className='d-lg-none d-md-none d-block pt-5'>
                     <div className='row m-0'>
@@ -330,26 +349,35 @@ function Description() {
                                         </div>
                                     </div>
                                     <div className='col-12 description-details mt-5'>
-                                        <h1>{data.title}<span className='stock'>In Stock</span></h1>
-                                        <p>{data.authors[0]}</p>
+                                        <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
+                                        <p>{data.author[0].author}</p>
                                         <img src={star} alt='star' />
                                         <span className='review'>4 Reviews</span>
                                         <br />
-                                        <span className='price pe-2'>INR {data.msrp}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
+                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
                                         <button className='sales-offer'>50% off</button>
                                         <hr />
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis nunc a molestie dictum. Mauris venenatis, felis scelerisque aliquet lacinia, nulla nisi venenatis odio, id blandit mauris ipsum id sapien.</p>
                                         <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
                                         <div className='condition-level my-3'>
                                             <h1><span>Binding type</span></h1>
-                                            <button className='very'>{data.binding}</button>
+                                            {data.varient.map((data) => {
+                                                return (
+                                                    <>
+                                                        <button className='very ms-2'>{data.bindings}</button>
+                                                    </>
+                                                )
+                                            })}
                                         </div>
                                         <div className='condition-level my-4'>
                                             <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                            <button className='very'>Very good</button>
-                                            <button className='very mx-2'>Good</button>
-                                            <button className='very'>Well Read</button>
-                                            <button className='very ms-2'>Bad</button>
+                                            {data.varient.map((data) => {
+                                                return (
+                                                    <>
+                                                        <button className='very ms-2' onClick={() => priceCheck(data)}>{data.bookconditions}</button>
+                                                    </>
+                                                )
+                                            })}
                                         </div>
                                         <>
                                             <span className="mb-3 count-btn">
@@ -370,13 +398,13 @@ function Description() {
                                                 </button>
                                             </span>
                                             <span className='d-md-block d-none'>
-                                                <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
+                                                <button className={totalshops.includes(data.id) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}>Add to Cart <img src={totalshops.includes(data.id) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
                                             </span>
                                             <span className='d-md-none d-inline-block'>
-                                                <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}><img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
+                                                <button className={totalshops.includes(data.id) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}><img src={totalshops.includes(data.id) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
                                             </span>
-                                            {/* <button className={totalshops.includes(1) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(1) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button> */}
-                                            <span className='like-btn'><img src={totallikes.includes(1) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(1)} /></span>
+                                            {/* <button className={totalshops.includes(data.id) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(1, 2, 3)}>Add to Cart <img src={totalshops.includes(data.id) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button> */}
+                                            <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data.id)} /></span>
                                             <div className='text-center my-5'>
                                                 {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
                                                 <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
@@ -424,7 +452,7 @@ function Description() {
                                     return (
                                         <>
                                             <div className='col-lg-6 col-md-6 col-12 mt-5'>
-                                                <h1>{data.title}</h1>
+                                                <h1>{data.title_long}</h1>
                                                 <p>{data.synopsis}</p>
                                             </div>
                                             <div className='col-lg-6 col-md-6 col-12 mt-5'>
@@ -457,7 +485,7 @@ function Description() {
                                                         <label>TITLE :</label>
                                                     </div>
                                                     <div className='col-8 mt-4'>
-                                                        <span>{data.title}</span>
+                                                        <span>{data.title_long}</span>
                                                     </div>
                                                     <div className='col-4 mt-4'>
                                                         <label>DATE OF PUBLISHED :</label>
@@ -475,7 +503,7 @@ function Description() {
                                                         <label>AUTHOR :</label>
                                                     </div>
                                                     <div className='col-8 mt-4'>
-                                                        <span>{data.authors[0]}</span>
+                                                        <span>{data.author[0].author}</span>
                                                     </div>
                                                     <div className='col-4 mt-4'>
                                                         <label>MSRP :</label>
@@ -549,7 +577,7 @@ function Description() {
                                                         <label>WEIGHT :</label>
                                                     </div>
                                                     <div className='col-8 mt-4'>
-                                                        <span>{data.dimensions_structured.weight.value}</span>
+                                                        <span>{data.pages}</span>
                                                     </div>
                                                     <div className='col-4 mt-4'>
                                                         <label>PAGES :</label>

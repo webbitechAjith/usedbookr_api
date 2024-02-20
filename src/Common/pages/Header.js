@@ -30,7 +30,7 @@ import heartShop from '../assets/image/heart-shop.png'
 
 import { setClass1Hide, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield } from '../../Redux/CreateSlice'
 import axios from 'axios';
-import { allbooks } from './apiBaseurl';
+import { allbooks, megamenu_list } from './apiBaseurl';
 
 
 function Header() {
@@ -40,60 +40,59 @@ function Header() {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isUserexpanded, setIsUserexpanded] = useState(false);
     const [isSearchexpanded, setIsSearchexpanded] = useState(false);
-    const [isChildrenVisible, setIsChildrenVisible] = useState(false);
-    const [isEducationVisible, setIsEducationVisible] = useState(false);
-    const [isPoliticalVisible, setIspoliticalVisible] = useState(false);
-    const [isMagazinesVisible, setIsmagazinesVisible] = useState(false);
+    const [visibleCategories, setVisibleCategories] = useState([]);
     const [products, setProducts] = useState(allbookDetails);
     const [isSticky, setIsSticky] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [megaMenu, setMegaMenu] = useState(
-        {
-            "categories": [
-                {
-                    "name": "Children",
-                    "subcategories": [
-                        "Children1",
-                        "Children2",
-                        "Children3",
-                        "Children4"
-                    ]
-                },
-                {
-                    "name": "Education",
-                    "subcategories": [
-                        "Education1",
-                        "Education2",
-                        "Education3",
-                        "Education4"
-                    ]
-                },
-                {
-                    "name": "Political",
-                    "subcategories": [
-                        "Political1",
-                        "Political2",
-                        "Political3",
-                        "Political4"
-                    ]
-                },
-                {
-                    "name": "Magazines",
-                    "subcategories": [
-                        "Magazines1",
-                        "Magazines2",
-                        "Magazines3",
-                        "Magazines4"
-                    ]
-                },
-            ]
-        }
-    )
+    // const [megaMenu, setMegaMenu] = useState(
+    //     {
+    //         "categories": [
+    //             {
+    //                 "name": "Children",
+    //                 "subcategories": [
+    //                     "Children1",
+    //                     "Children2",
+    //                     "Children3",
+    //                     "Children4"
+    //                 ]
+    //             },
+    //             {
+    //                 "name": "Education",
+    //                 "subcategories": [
+    //                     "Education1",
+    //                     "Education2",
+    //                     "Education3",
+    //                     "Education4"
+    //                 ]
+    //             },
+    //             {
+    //                 "name": "Political",
+    //                 "subcategories": [
+    //                     "Political1",
+    //                     "Political2",
+    //                     "Political3",
+    //                     "Political4"
+    //                 ]
+    //             },
+    //             {
+    //                 "name": "Magazines",
+    //                 "subcategories": [
+    //                     "Magazines1",
+    //                     "Magazines2",
+    //                     "Magazines3",
+    //                     "Magazines4"
+    //                 ]
+    //             },
+    //         ]
+    //     }
+    // )
+    const [megaMenu, setMegaMenu] = useState({})
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { pathname, search, hash } = location;
-    
+
+
     const handleToggle = () => {
         setIsOpen(!isOpen);
     };
@@ -121,7 +120,10 @@ function Header() {
     const navButton = () => {
         // dispatch(setClass1Hide(true))
     }
-
+    const menu_lists = async () => {
+        const data = await megamenu_list();
+        setMegaMenu(data)
+    }
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
@@ -135,35 +137,16 @@ function Header() {
         setIsSearchexpanded(!isSearchexpanded)
     }
 
-    const toggleTitle = (title) => {
-        if (title == 'Children') {
-            setIsChildrenVisible(!isChildrenVisible);
-        } else if (title == 'Education') {
-            setIsEducationVisible(!isEducationVisible);
-        } else if (title == 'Political') {
-            setIspoliticalVisible(!isPoliticalVisible);
-        } else if (title == 'Magazines') {
-            setIsmagazinesVisible(!isMagazinesVisible);
-        }
-    }
-
-    const isCategoryVisible = (categoryName) => {
-        switch (categoryName) {
-            case 'Children':
-                return isChildrenVisible;
-            case 'Education':
-                return isEducationVisible;
-            case 'Political':
-                return isPoliticalVisible;
-            case 'Magazines':
-                return isMagazinesVisible;
-            default:
-                return false;
+    const toggleTitle = (name) => {
+        if (visibleCategories.includes(name)) {
+            setVisibleCategories(visibleCategories.filter(category => category !== name));
+        } else {
+            setVisibleCategories([...visibleCategories, name]);
         }
     };
 
-
-    const toggleMagazines = () => {
+    const isCategoryVisible = (name) => {
+        return visibleCategories.includes(name);
     };
 
     const handleChange = async (event) => {
@@ -200,8 +183,6 @@ function Header() {
         // dispatch(setnavListDetails(data.data))
     }
     const handleNavLinkClick = () => {
-        // Replace the current URL with the new path
-        // window.location.reload();
         navigate('/categorybook');
         setIsExpanded(!isExpanded);
     };
@@ -209,6 +190,7 @@ function Header() {
         dispatch(setallBookDetails(allbookDetails))
         dispatch(setsearchProduct(searchProduct))
         navlist()
+        menu_lists();
         // dispatch(setClass1Hide(true))
         const handleScroll = () => {
             if (window.scrollY >= 2) {
@@ -222,6 +204,8 @@ function Header() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    
     return (
         <>
             <div className='top-header'>
@@ -318,21 +302,35 @@ function Header() {
                                                     <div class={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                         <div class="container-fluid">
                                                             <div class="row m-0">
-                                                                {megaMenu.categories.map((data) => (
-                                                                    <div key={data.name} className="col-12 mb-3 mb-lg-0">
-                                                                        <div className="list-group list-group-flush">
-                                                                            <h5 onClick={() => toggleTitle(data.name)}>
-                                                                                {data.name}
-                                                                                <FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} />
-                                                                            </h5>
-                                                                            {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
-                                                                                <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory)}>
-                                                                                    {subcategory}
-                                                                                </a>
-                                                                            ))}
-                                                                        </div>
-                                                                    </div>
-                                                                ))}
+                                                                {megaMenu.length > 0 ?
+                                                                    <>
+                                                                        {megaMenu.map((data) => {
+                                                                            return (
+
+                                                                                <>
+                                                                                    <div key={data.name} className="col-12 mb-3 mb-lg-0">
+                                                                                        <div className="list-group list-group-flush">
+                                                                                            <h5 onClick={() => toggleTitle(data.name)}>
+                                                                                                {data.name}
+                                                                                                {data.subcategories.length>0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2'/></> : <></>}
+                                                                                            </h5>
+                                                                                            {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
+                                                                                                <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory.name)}>
+                                                                                                    {subcategory.name}
+                                                                                                </a>
+                                                                                            ))}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </>
+                                                                            )
+
+                                                                        })}
+                                                                    </>
+                                                                    :
+                                                                    <>
+                                                                    </>
+                                                                }
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -418,21 +416,34 @@ function Header() {
                                                         <div class={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                             <div class="container-fluid">
                                                                 <div class="row m-0">
-                                                                    {megaMenu.categories.map((data) => (
-                                                                        <div key={data.name} className="col-12 mb-3 mb-lg-0">
-                                                                            <div className="list-group list-group-flush">
-                                                                                <h5 onClick={() => toggleTitle(data.name)}>
-                                                                                    {data.name}
-                                                                                    <FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} />
-                                                                                </h5>
-                                                                                {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
-                                                                                    <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory)}>
-                                                                                        {subcategory}
-                                                                                    </a>
-                                                                                ))}
-                                                                            </div>
-                                                                        </div>
-                                                                    ))}
+                                                                    {megaMenu.length > 0 ?
+                                                                        <>
+                                                                            {megaMenu.map((data) => {
+                                                                                return (
+
+                                                                                    <>
+                                                                                        <div key={data.name} className="col-12 mb-3 mb-lg-0">
+                                                                                            <div className="list-group list-group-flush">
+                                                                                                <h5 onClick={() => toggleTitle(data.name)}>
+                                                                                                    {data.name}
+                                                                                                    {data.subcategories.length>0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2'/></> : <></>}
+                                                                                                </h5>
+                                                                                                {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
+                                                                                                    <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory.name)}>
+                                                                                                        {subcategory.name}
+                                                                                                    </a>
+                                                                                                ))}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </>
+                                                                                )
+
+                                                                            })}
+                                                                        </>
+                                                                        :
+                                                                        <>
+                                                                        </>
+                                                                    }
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -476,22 +487,29 @@ function Header() {
                                                     <div className={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                         <div class="container-fluid">
                                                             <div class="row m-0">
-                                                                {megaMenu.categories.map((data) => {
-                                                                    return (
-                                                                        <>
-                                                                            <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
-                                                                                <div class="list-group list-group-flush">
-                                                                                    <h5>{data.name}</h5>
-                                                                                    {data.subcategories.map((subcategory, index) => (
-                                                                                        <a key={index} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory)}>
-                                                                                            {subcategory}
-                                                                                        </a>
-                                                                                    ))}
-                                                                                </div>
-                                                                            </div>
-                                                                        </>
-                                                                    )
-                                                                })}
+                                                                {megaMenu.length > 0 ?
+                                                                    <>
+                                                                        {megaMenu.map((data) => {
+                                                                            return (
+                                                                                <>
+                                                                                    <div class="col-lg-3 col-md-4  mb-3 mb-lg-0">
+                                                                                        <div class="list-group list-group-flush">
+                                                                                            <h5>{data.name}</h5>
+                                                                                            {data.subcategories.map((subcategory, index) => (
+                                                                                                <a key={index} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory)}>
+                                                                                                    {subcategory.name}
+                                                                                                </a>
+                                                                                            ))}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </>
+                                                                            )
+                                                                        })}
+                                                                    </>
+                                                                    :
+                                                                    <></>
+                                                                }
+
                                                             </div>
                                                         </div>
                                                     </div>

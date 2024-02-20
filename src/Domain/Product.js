@@ -211,7 +211,7 @@ function Product() {
                               <img src={plant3} className='w-100' />
                               <div class="row m-0 product-details">
                                 <div class="col-9">
-                                  <h5>{data.title}</h5>
+                                  <h5>{data.title_long}</h5>
                                   <span className='price pe-2'>{data.total_price}</span><span className='text-decoration-line-through rate'>{data.actual_price}</span>
                                   <img src={rating} className='ms-2' />
                                 </div>

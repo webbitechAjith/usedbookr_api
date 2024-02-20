@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Purchase() {
     // state value declear 
-    const { shopProducts, shopcount, totalItemShop, finalItemPrice, userLogin } = useSelector((state) => state.usedbookr_product)
+    const { shopProducts, shopcount, totalItemShop, singleProductPrice, finalItemPrice, userLogin } = useSelector((state) => state.usedbookr_product)
 
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -38,7 +38,7 @@ function Purchase() {
         const updatedProductItems = shopProducts.map(item => {
             if (item.id === id) {
                 const updatedQty = item.qty + 1;
-                const updatedAmount = Math.round(item.msrp * updatedQty);
+                const updatedAmount = Math.round((item.original_price + item.gst_charge) * updatedQty);
                 const quatity = { ...item, qty: item.qty + 1, amount: updatedAmount };
                 return quatity
             }
@@ -53,7 +53,7 @@ function Purchase() {
         const updatedProductItems = shopProducts.map(item => {
             if (item.id === id) {
                 const updatedQty = item.qty - 1;
-                const updatedAmount = Math.round(item.msrp * updatedQty);
+                const updatedAmount = Math.round((item.original_price + item.gst_charge) * updatedQty);
                 const quatity = { ...item, qty: item.qty - 1, amount: updatedAmount };
                 return quatity
             }
@@ -90,7 +90,7 @@ function Purchase() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [])
-
+    console.log(shopProducts)
     return (
         <div className='purchase-section'>
             <Header />
@@ -121,11 +121,11 @@ function Purchase() {
                                                                 <td className='wish-product'>
                                                                     <div className='row m-0 pt-2'>
                                                                         <div className='col-4 py-4'>
-                                                                            <img src={data.image} alt='plant1' className='w-100' />
+                                                                            <img src={data.image} alt={data.image} className='w-100' />
                                                                         </div>
                                                                         <div className='col-8 py-4'>
-                                                                            <h5>{data.title.slice(0, 20)}...</h5>
-                                                                            <h5>{data.authors[0].slice(0, 10)}...</h5>
+                                                                            <h5>{data.title_long.slice(0, 20)}...</h5>
+                                                                            <h5>{data.author[0].author.slice(0, 10)}...</h5>
                                                                             <Rating
                                                                                 initialRating={4}
                                                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -240,8 +240,8 @@ function Purchase() {
                                                                     <div className='row m-0 pt-2'>
                                                                         <div className='col-12 py-4'>
                                                                             <img src={data.image} alt='plant1' className='' width={150} />
-                                                                            <h5>{data.title.slice(0, 10)}...</h5>
-                                                                            <h5>{data.authors[0].slice(0, 10)}...</h5>
+                                                                            <h5>{data.title_long.slice(0, 10)}...</h5>
+                                                                            <h5>{data.author[0].author.slice(0, 10)}...</h5>
                                                                             <Rating
                                                                                 initialRating={4}
                                                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -360,8 +360,8 @@ function Purchase() {
                                                                                 <div className='row m-0 pt-2'>
                                                                                     <div className='col-12 py-4'>
                                                                                         <img src={data.image} alt='plant1' className='' width={150} />
-                                                                                        <h5>Title : {data.title.slice(0, 10)}...</h5>
-                                                                                        <h5>Author : {data.authors[0].slice(0, 10)}...</h5>
+                                                                                        <h5>Title : {data.title_long.slice(0, 10)}...</h5>
+                                                                                        <h5>Author : {data.author[0].author.slice(0, 10)}...</h5>
                                                                                         <Rating
                                                                                             initialRating={4}
                                                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -468,8 +468,8 @@ function Purchase() {
                                         <div class="card" >
                                             <img src={data.image} class="card-img-top" alt="..." />
                                             <div class="card-body">
-                                                <h5 class="card-title">Title : {data.title.slice(0.10)}...</h5>
-                                                <h5 class="card-title">Author : {data.authors[0].slice(0, 10)}...</h5>
+                                                <h5 class="card-title">Title : {data.title_long.slice(0.10)}...</h5>
+                                                <h5 class="card-title">Author : {data.author[0].author.slice(0, 10)}...</h5>
                                                 <div className='py-3 px-0 sum-product'>
                                                     <span>
                                                         {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}

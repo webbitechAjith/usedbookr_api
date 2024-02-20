@@ -91,7 +91,7 @@ function Placeorder() {
                                     {productIdDetails && productIdDetails.map((data, index) => {
                                         return (
                                             <>
-                                                <h1>{data.title} <span className='stock'>In Stock</span></h1>
+                                                <h1>{data.title_long} <span className='stock'>In Stock</span></h1>
                                                 <img src={Rating} alt='Rating' />
                                                 <span className='review'>4 Reviews</span>
                                                 <br />
