@@ -21,7 +21,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function Categorybook() {
 
-  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield,subCategoryBook } = useSelector((state) => state.usedbookr_product)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -119,8 +119,8 @@ function Categorybook() {
                                   </span>
                                 </span>
                                 <div className='book-details p-3'>
-                                  <h1 className='w-100' title={book.title}>{book.title.slice(0, 35)}...</h1>
-                                  {book.authors[0] === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.authors[0]} onClick={() => author_name()}>{book.authors[0].slice(0, 10)}</h5></>}
+                                  <h1 className='w-100' title={book.title_long}>{book.title_long.slice(0, 35)}...</h1>
+                                  {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
                                   <div className='d-flex '>
                                     <div className='rate-details'>
                                       <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />

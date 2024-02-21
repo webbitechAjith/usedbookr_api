@@ -16,20 +16,30 @@ import { faClose, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 
 function Aside() {
-    const { allplantsDetails, priceFilter, filteredProducts } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, priceFilter, filteredProducts } = useSelector((state) => state.usedbookr_product)
     const [sliderValue, setSliderValue] = useState(0); // Initial value
     const [topDetails, setTopDetails] = useState(0); // Initial value
     const [outDoor, setoutDoor] = useState(0); // Initial value
-    const [value, setValue] = useState([2, 10]);
     const [disCount, setDisCount] = useState([0, 70]);
 
 
     const dispatch = useDispatch();
 
 
+    const sortedBooks = [...allbookDetails].sort((a, b) => a.original_price - b.original_price);
+
+    // Get the book with the lowest original price
+    const lowestPriceBook = sortedBooks[0].original_price;
+
+    // Get the book with the highest original price
+    const highestPriceBook = sortedBooks[sortedBooks.length - 1].original_price;
+    
+    const [value, setValue] = useState([lowestPriceBook, highestPriceBook]);
+
     // Price Changing State when volume increases/decreases 
     const rangeSelector = (event, newValue) => {
         setValue(newValue);
+
     };
     const discountRange = (event, newValue) => {
         setDisCount(newValue)
@@ -64,34 +74,34 @@ function Aside() {
     const indoor = async () => {
         const onvalue = setTopDetails((prevValue) => (prevValue === 0 ? 1 : 0));
         console.log("onvalue", topDetails)
-        if (topDetails === 0) {
-            const innerdoor = [];
-            allplantsDetails && allplantsDetails.map((data, index) => {
-                if (data.category_id == 1) {
-                    innerdoor.push(data)
-                }
-            })
-            dispatch(setallBookDetails(innerdoor))
-        } else {
-            // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            // dispatch(setallBookDetails(data.data))
-        }
+        // if (topDetails === 0) {
+        //     const innerdoor = [];
+        //     allplantsDetails && allplantsDetails.map((data, index) => {
+        //         if (data.category_id == 1) {
+        //             innerdoor.push(data)
+        //         }
+        //     })
+        //     dispatch(setallBookDetails(innerdoor))
+        // } else {
+        //     // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
+        //     // dispatch(setallBookDetails(data.data))
+        // }
     }
     const outdoor = async () => {
         const onvalue = setoutDoor((prevValue) => (prevValue === 0 ? 1 : 0));
         console.log("onvalue", topDetails)
-        if (outDoor === 0) {
-            const outdoor = [];
-            allplantsDetails && allplantsDetails.map((data, index) => {
-                if (data.category_id == 3) {
-                    outdoor.push(data)
-                }
-            })
-            dispatch(setallBookDetails(outdoor))
-        } else {
-            // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-            // dispatch(setallBookDetails(data.data))
-        }
+        // if (outDoor === 0) {
+        //     const outdoor = [];
+        //     allplantsDetails && allplantsDetails.map((data, index) => {
+        //         if (data.category_id == 3) {
+        //             outdoor.push(data)
+        //         }
+        //     })
+        //     dispatch(setallBookDetails(outdoor))
+        // } else {
+        //     // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
+        //     // dispatch(setallBookDetails(data.data))
+        // }
     }
     const handlePriceChange = (minPrice, maxPrice) => {
         // Handle the price change logic here
@@ -534,7 +544,7 @@ function Aside() {
                                         <Slider
                                             value={value}
                                             onChange={rangeSelector}
-                                            valueLabelDisplay="auto"
+                                            // valueLabelDisplay="auto"
                                         />
                                         <h6>Price is between {value[0]} - {value[1]}</h6>
                                     </div>

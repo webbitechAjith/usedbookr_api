@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSpring, animated } from 'react-spring';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScript
@@ -28,7 +28,7 @@ import whiteshop from '../assets/image/white_shop.png'
 import whitenav from '../assets/image/whitenav.png'
 import heartShop from '../assets/image/heart-shop.png'
 
-import { setClass1Hide, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield } from '../../Redux/CreateSlice'
+import { setCategoryBook, setClass1Hide, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield } from '../../Redux/CreateSlice'
 import axios from 'axios';
 import { allbooks, megamenu_list } from './apiBaseurl';
 
@@ -38,54 +38,15 @@ function Header() {
     const [searchTerm, setSearchTerm] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isMobileExpanded, setIsMobileExpanded] = useState(false);
     const [isUserexpanded, setIsUserexpanded] = useState(false);
     const [isSearchexpanded, setIsSearchexpanded] = useState(false);
     const [visibleCategories, setVisibleCategories] = useState([]);
     const [products, setProducts] = useState(allbookDetails);
     const [isSticky, setIsSticky] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    // const [megaMenu, setMegaMenu] = useState(
-    //     {
-    //         "categories": [
-    //             {
-    //                 "name": "Children",
-    //                 "subcategories": [
-    //                     "Children1",
-    //                     "Children2",
-    //                     "Children3",
-    //                     "Children4"
-    //                 ]
-    //             },
-    //             {
-    //                 "name": "Education",
-    //                 "subcategories": [
-    //                     "Education1",
-    //                     "Education2",
-    //                     "Education3",
-    //                     "Education4"
-    //                 ]
-    //             },
-    //             {
-    //                 "name": "Political",
-    //                 "subcategories": [
-    //                     "Political1",
-    //                     "Political2",
-    //                     "Political3",
-    //                     "Political4"
-    //                 ]
-    //             },
-    //             {
-    //                 "name": "Magazines",
-    //                 "subcategories": [
-    //                     "Magazines1",
-    //                     "Magazines2",
-    //                     "Magazines3",
-    //                     "Magazines4"
-    //                 ]
-    //             },
-    //         ]
-    //     }
-    // )
+    const dropdownRef = useRef(null);
+
     const [megaMenu, setMegaMenu] = useState({})
     const location = useLocation();
     const navigate = useNavigate();
@@ -123,12 +84,14 @@ function Header() {
     const menu_lists = async () => {
         const data = await megamenu_list();
         setMegaMenu(data)
+        dispatch(setCategoryBook(data))
     }
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
     const toggleDropdown = () => {
         setIsExpanded(!isExpanded);
+        setIsMobileExpanded(!isMobileExpanded)
     };
     const userToggleDropDown = () => {
         setIsUserexpanded(!isUserexpanded)
@@ -148,7 +111,6 @@ function Header() {
     const isCategoryVisible = (name) => {
         return visibleCategories.includes(name);
     };
-
     const handleChange = async (event) => {
         const newSearchItem = event.target.value;
 
@@ -160,7 +122,7 @@ function Header() {
 
             // Access the updated searchItem from the state
             const searchResults = allbookSearch.filter((book) =>
-                book.title.toLowerCase().includes(newSearchItem) || (book.msrp >= 0 && book.msrp <= parseFloat(newSearchItem))
+                book.title_long.toLowerCase().includes(newSearchItem) || (book.original_price >= 0 && book.original_price <= parseFloat(newSearchItem))
             );
             console.log("searchResults", searchResults)
             if (newSearchItem === '') {
@@ -174,10 +136,17 @@ function Header() {
                 dispatch(setsearchfield(true))
 
             }
+            dispatch(setallBookDetails(searchResults));
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+    console.log("all", allbookDetails)
+
+    const seacrch_product = () => {
+        handleChange({ target: { value: searchProduct } });
+    };
+
     const navlist = async () => {
         // const { data } = await axios.get("https://webbitech.co.in/ecommerce/public/api/mainMenu")
         // dispatch(setnavListDetails(data.data))
@@ -185,6 +154,7 @@ function Header() {
     const handleNavLinkClick = () => {
         navigate('/categorybook');
         setIsExpanded(!isExpanded);
+        setIsMobileExpanded(!isMobileExpanded)
     };
     useEffect(() => {
         dispatch(setallBookDetails(allbookDetails))
@@ -199,47 +169,54 @@ function Header() {
                 setIsSticky(false);
             }
         };
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsExpanded(false);
+            }
+        };
         window.addEventListener('scroll', handleScroll);
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
             window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
-    
+
     return (
         <>
             <div className='top-header'>
                 <div className='container-90 d-lg-block d-none'>
-                    <div className='row m-0 p-2'>
+                    <div className='row m-0 p-1'>
                         <div className='col-lg-6 col-md-12 col-12 text-start p-0'>
-                            <h4><img src={locations} className='mx-2 p-0' />PO BOX:115786 - Al Warsan3, Dubai, UAE.</h4>
+                            <h4 className='mb-0'><img src={locations} className='mx-2 p-0' />PO BOX:115786 - Al Warsan3, Dubai, UAE.</h4>
                         </div>
                         <div className='col-lg-6 col-md-12 col-12 p-0'>
-                            <h4 className='text-lg-end text-center phone_number'><img src={headphone} className='mx-2' />+971 42872900</h4>
+                            <h4 className='text-lg-end text-center phone_number mb-0'><img src={headphone} className='mx-2' />+971 42872900</h4>
                         </div>
                     </div>
                 </div>
             </div>
             <header className='position-sticky top-0 sticky-header'>
-                <div className={isSticky ? 'sticky-element' : 'bottom-header py-lg-2 py-md-2 py-0'}>
+                <div className={isSticky ? 'sticky-element' : 'bottom-header py-0'}>
                     <div className='container-90'>
                         <div className='d-lg-block d-md-block d-none'>
                             <div className='row m-0 p-2'>
                                 <div className='col-lg-6 col-md-6 d-lg-block d-md-block d-none'>
-                                    <img src={logo} />
+                                    <img src={logo} height={80} />
                                 </div>
                                 <div className='col-lg-6 col-md-6 col-5 d-flex align-items-center justify-content-end icon-section'>
                                     <div className='d-lg-block d-md-block d-none'>
                                         <span className='position-relative'>
-                                            <img src={heart} alt='heart' width={30} className='view-all' onClick={() => hearts()} title={likescount} />
+                                            <img src={heart} alt='heart' width={25} className='view-all' onClick={() => hearts()} title={likescount} />
                                             {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>}
                                         </span>
                                         <span className='position-relative'>
-                                            <img src={shop} width={30} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
+                                            <img src={shop} width={25} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
                                             {shopcount >= 9 ? <><span className='item-count' title={shopcount}>9<sup>+</sup></span></> : <><span className='item-count'>{shopcount}</span></>}
                                         </span>
                                         <span>
-                                            <button className='authregister' onClick={signup}>Sign in/sign up</button>
+                                            <button className='authregister' onClick={signup}>Sign in / Sign up</button>
                                         </span>
                                     </div>
                                 </div>
@@ -248,12 +225,12 @@ function Header() {
                     </div>
                 </div>
                 <div className='d-lg-none d-md-none d-block'>
-                    <div className='text-center bg-white py-3'>
-                        <img src={logo} />
+                    <div className='text-center bg-white py-1'>
+                        <img src={logo} height={80} />
                     </div>
                 </div>
                 <div className='nav-section'>
-                    <nav className="navbar navbar-expand-lg container-90">
+                    <nav className="navbar navbar-expand-lg container-90 py-2">
                         <div className="container-fluid p-0">
                             <a className="navbar-brand d-none" href="#"><img src={mobilelogo} /></a>
                             <div className='d-lg-block d-none'>
@@ -264,10 +241,10 @@ function Header() {
                             {/* nav section  */}
                             <div className='d-lg-none d-md-block d-none w-100'>
                                 <div className='row m-0 w-100'>
-                                    <div className='col-4 align-self-center'>
+                                    <div className='col-6 align-self-center'>
                                         <span className="" onClick={toggleMenu}><FontAwesomeIcon icon={faBars} style={{ color: '#FFF', fontSize: '20px' }} /></span>
                                     </div>
-                                    <div className='col-8 text-end'>
+                                    <div className='col-6 text-end'>
                                         <div className="input-group">
                                             <input type="text" className="form-control " placeholder="Search our books" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ searchItem: val.target.value })); handleChange(val) }} />
                                             <span className="input-group-text search-btn" id="basic-addon2">Search</span>
@@ -296,10 +273,10 @@ function Header() {
                                                     </NavLink>
                                                 </li>
                                                 <li className="nav-item dropdown mega-menu-li">
-                                                    <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded={isExpanded} onClick={toggleDropdown}>
-                                                        SHOP BOOK {isExpanded ? <><FontAwesomeIcon icon={faMinus} style={{ color: "#000", }} className='ps-2' /></> : <><FontAwesomeIcon icon={faPlus} style={{ color: "#000", }} className='ps-2' /></>}
+                                                    <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded={isMobileExpanded} onClick={toggleDropdown}>
+                                                        SHOP BOOK {isMobileExpanded ? <><FontAwesomeIcon icon={faMinus} style={{ color: "#000", }} className='ps-2' /></> : <><FontAwesomeIcon icon={faPlus} style={{ color: "#000", }} className='ps-2' /></>}
                                                     </a>
-                                                    <div class={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
+                                                    <div class={`dropdown-menu drop-width w-100 ${isMobileExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                         <div class="container-fluid">
                                                             <div class="row m-0">
                                                                 {megaMenu.length > 0 ?
@@ -312,7 +289,7 @@ function Header() {
                                                                                         <div className="list-group list-group-flush">
                                                                                             <h5 onClick={() => toggleTitle(data.name)}>
                                                                                                 {data.name}
-                                                                                                {data.subcategories.length>0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2'/></> : <></>}
+                                                                                                {data.subcategories.length > 0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2' /></> : <></>}
                                                                                             </h5>
                                                                                             {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
                                                                                                 <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory.name)}>
@@ -410,10 +387,10 @@ function Header() {
                                                         </NavLink>
                                                     </li>
                                                     <li className="nav-item dropdown mega-menu-li">
-                                                        <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded={isExpanded} onClick={toggleDropdown}>
-                                                            SHOP BOOK {isExpanded ? <><FontAwesomeIcon icon={faMinus} style={{ color: "#000", }} className='ps-2' /></> : <><FontAwesomeIcon icon={faPlus} style={{ color: "#000", }} className='ps-2' /></>}
+                                                        <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded={isMobileExpanded} onClick={toggleDropdown}>
+                                                            SHOP BOOK{isMobileExpanded ? <><FontAwesomeIcon icon={faMinus} style={{ color: "#000", }} className='ps-2' /></> : <><FontAwesomeIcon icon={faPlus} style={{ color: "#000", }} className='ps-2' /></>}
                                                         </a>
-                                                        <div class={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
+                                                        <div class={`dropdown-menu drop-width w-100 ${isMobileExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                             <div class="container-fluid">
                                                                 <div class="row m-0">
                                                                     {megaMenu.length > 0 ?
@@ -426,7 +403,7 @@ function Header() {
                                                                                             <div className="list-group list-group-flush">
                                                                                                 <h5 onClick={() => toggleTitle(data.name)}>
                                                                                                     {data.name}
-                                                                                                    {data.subcategories.length>0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2'/></> : <></>}
+                                                                                                    {data.subcategories.length > 0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2' /></> : <></>}
                                                                                                 </h5>
                                                                                                 {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
                                                                                                     <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory.name)}>
@@ -469,7 +446,7 @@ function Header() {
                                 <div className='w-100 d-lg-block d-none'>
                                     <div className='row m-0 w-100'>
                                         <div className='col-lg-8 align-self-center'>
-                                            <ul className="navbar-nav py-2 nav-content">
+                                            <ul className="navbar-nav py-0 nav-content">
                                                 <li className='nav-item d-flex align-items-center'>
                                                     <NavLink exact to={{ pathname: '/' }} className={`${pathname === '/' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                         Home
@@ -484,7 +461,7 @@ function Header() {
                                                     <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded={isExpanded} onClick={toggleDropdown}>
                                                         SHOP BOOK<FontAwesomeIcon icon={faChevronDown} style={{ color: '#fafafa' }} className="ps-2" />
                                                     </a>
-                                                    <div className={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
+                                                    <div className={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink" ref={dropdownRef}>
                                                         <div class="container-fluid">
                                                             <div class="row m-0">
                                                                 {megaMenu.length > 0 ?
@@ -496,7 +473,7 @@ function Header() {
                                                                                         <div class="list-group list-group-flush">
                                                                                             <h5>{data.name}</h5>
                                                                                             {data.subcategories.map((subcategory, index) => (
-                                                                                                <a key={index} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory)}>
+                                                                                                <a key={index} className='list-group-item text-decoration-none sub-category' onClick={() => handleNavLinkClick(subcategory)}>
                                                                                                     {subcategory.name}
                                                                                                 </a>
                                                                                             ))}
@@ -514,7 +491,6 @@ function Header() {
                                                         </div>
                                                     </div>
                                                 </li>
-
                                                 <li className='d-flex align-items-center'>
                                                     <NavLink exact to="/newarrival" className={`${pathname === '/newarrival' ? 'active' : 'custom-active'} text-decoration-none`}>
                                                         New Arrivals
@@ -530,13 +506,12 @@ function Header() {
                                         <div className='col-lg-4 d-flex align-items-center text-end'>
                                             <div className="input-group">
                                                 <input type="text" className="form-control " placeholder="Search our shop" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ ...searchProduct, searchItem: val.target.value })); handleChange(val) }} />
-                                                <span className="input-group-text search-btn" id="basic-addon2">Search</span>
+                                                {/* <input type="text" className="form-control " placeholder="Search our shop" aria-label="Recipient's username" aria-describedby="basic-addon2" value={searchProduct.length > 0 ? searchProduct : ''} onChange={(event) => { dispatch(setsearchProduct(event.target.value)) }} /> */}
+                                                <span className="input-group-text search-btn" id="basic-addon2" onClick={seacrch_product}>Search</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </nav>

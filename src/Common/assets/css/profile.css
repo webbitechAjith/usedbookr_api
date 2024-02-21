@@ -383,7 +383,9 @@ thead th {
 }
 
 .process-check {
-    padding: 20px 50px !important;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
     border-radius: 43px;
     background: #FFD731 !important;
     border: none;
@@ -436,6 +438,18 @@ thead th {
     /* wishlist page css start  */
     .profile-head {
         margin-left: 0%;
+    }
+
+    .process-check {
+        padding: 15px 20px !important;
+        margin-bottom: 10px;
+        border-radius: 43px;
+        background: #FFD731 !important;
+        border: none;
+        color: #241D60 !important;
+        font-size: 16px !important;
+        font-weight: 600;
+        line-height: 26px !important;
     }
 }
 
@@ -509,9 +523,21 @@ thead th {
         font-weight: 400;
         line-height: 24px;
     }
+
+    .process-check {
+        width: unset;
+        padding: 15px 20px !important;
+        margin-bottom: 10px;
+        border-radius: 43px;
+        background: #FFD731 !important;
+        border: none;
+        color: #241D60 !important;
+        font-size: 16px !important;
+        font-weight: 600;
+        line-height: 26px !important;
+    }
 }
 
-@media only screen and (min-width: 300px) and (max-width: 480px) {}
 
 @media only screen and (min-width: 300px) and (max-width: 576px) {
     .profile-section .profile-card {
@@ -587,12 +613,42 @@ thead th {
         font-weight: 400;
         line-height: 24px;
     }
+
     .wishlist-product .order-card {
         padding: 10px 0px !important;
     }
+
     .profile-head {
         font-size: 26px;
         line-height: 36px !important;
+    }
+
+    .process-check {
+        width: unset;
+        padding: 15px 20px !important;
+        margin-bottom: 10px;
+        border-radius: 43px;
+        background: #FFD731 !important;
+        border: none;
+        color: #241D60 !important;
+        font-size: 16px !important;
+        font-weight: 600;
+        line-height: 26px !important;
+    }
+
+    .card-img-hgt {
+        height: 200px;
+    }
+
+    .card-img-hgt img {
+        padding: 10px;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .card-mobile h5{
+        font-size: 16px;
+        line-height: 26px !important;
     }
 
 }

@@ -35,25 +35,11 @@ import Allbooks from '../Common/pages/Allbooks';
 
 function Home() {
   const { bannerImage, allbookDetails, authorsDetails } = useSelector((state) => state.usedbookr_product)
-  // const images = [
-  //   book1,
-  //   book2,
-  //   book1,
-  //   book2,
-  //   book1
-  // ];
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const product_add = () => {
 
-  }
-  const product_remove = () => {
-
-  }
-  const product_like = () => {
-    console.log("ajith")
-  }
   const all_product = () => {
     navigate('/Allproduct')
   }
@@ -102,9 +88,9 @@ function Home() {
           {/* <header section start  */}
           <div className='d-lg-block'>
             <div className='row m-0  product-img'>
-              <div className='col-lg-7 col-md-12 col-12 p-0 d-lg-flex align-items-stretch'>
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                  <div class="carousel-indicators">
+              <div className='col-lg-7 col-md-12 col-12 p-0 align-items-stretch'>
+                <div id="carouselExampleIndicators" className="carousel slide h-100" data-bs-ride="carousel">
+                  <div className="carousel-indicators">
                     {bannerImage.length > 0 && bannerImage.map((numLength, index) => (
                       <button
                         key={index}
@@ -169,11 +155,11 @@ function Home() {
           </div>
           {/* <header section end  */}
           {/* Best sellers in indoor plants start  */}
-          <div className='pt-5'>
+          <div className='pt-5 container-95'>
             <h1 className='product-title'>Browse your book on Categories</h1>
             <SimpleSlider />
           </div>
-          <div className='pt-5'>
+          <div className='container-95'>
             <h1 className='product-title'>Browse your book on Authors</h1>
             <div className='mt-4'>
               {authorsDetails == "" ? <><h1>noitems</h1></> : <><Authors /></>}
@@ -181,10 +167,10 @@ function Home() {
           </div>
 
           <div className='d-lg-block d-none'>
-            <div className='product-list mt-5 mb-3'>
+            <div className='product-list mt-5 mb-3 container-95'>
               <span className='product-title'>Best Sellers in Education Books</span>
               <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
-              {allbookDetails == '' ? <><h1 className='text-center product-title'>No items</h1></> : <><Allbooks /></>}
+              { allbookDetails == '' ? <><h1 className='text-center product-title'>No items</h1></> : <><Allbooks /></>}
             </div>
           </div>
           <div className='d-lg-none d-block'>
@@ -230,12 +216,12 @@ function Home() {
         </div>
         <div className='container-fluid'>
           <div className='pots-section mt-5'>
-            <div className='d-lg-block d-none'>
+            <div className='d-lg-block d-none container-95'>
               <span className='product-title'>Best Sellers in Comics</span>
               <span className='float-end viewall'>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
               <BestSeller />
             </div>
-            <div className='d-lg-none d-block'>
+            <div className='d-lg-none d-block container-95'>
               <span className='product-title'>Best Sellers in Comics</span>
               <BestSeller />
               <div className='author5'>
@@ -245,12 +231,12 @@ function Home() {
             </div>
           </div>
           <div className='best-seller mt-5 mb-4'>
-            <div className='d-lg-block d-none'>
+            <div className='d-lg-block d-none container-95'>
               <span className='product-title'>New Arrivals in Education</span>
               <span className='float-end viewall'>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#30844A' }} className='ps-2' /></span>
               <BestSeller />
             </div>
-            <div className='d-lg-none d-block'>
+            <div className='d-lg-none d-block container-95'>
               <span className='product-title'>New Arrivals in Education</span>
               <BestSeller />
               <div className='author5'>

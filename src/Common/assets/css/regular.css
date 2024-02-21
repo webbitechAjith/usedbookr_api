@@ -99,7 +99,7 @@
 
 .like-count {
     position: absolute;
-    top: -20px !important;
+    top: -12px !important;
     left: 12px !important;
     display: inline-block;
     border-radius: 50%;
@@ -114,8 +114,8 @@
 
 .item-count {
     position: absolute;
-    top: -20px !important;
-    left: 25px !important;
+    top: -12px !important;
+    left: 27px !important;
     display: inline-block;
     border-radius: 50%;
     background: #EA4B48;
@@ -201,7 +201,12 @@
 .navbar-expand-lg .navbar-nav .dropdown-menu {
     position: absolute;
     left: 0;
-    top: 72px;
+    top: 60px;
+}
+.mega-menu-li:hover ~ .dropdown-menu{
+    position: absolute;
+    left: 0;
+    top: 60px;
 }
 
 
@@ -240,11 +245,15 @@
     justify-content: space-between;
     grid-template-columns: repeat(4, 1fr);
 }
-
-.drop-width .list-group .list-group-item:hover {
-    background: #241D60 !important;
-    color: #FFF !important;
+.drop-width .list-group .list-group-item {
+    color: #000 !important;
     border-bottom: 1px solid #FFF;
+    cursor: pointer;
+}
+.drop-width .list-group .list-group-item:hover {
+    color: #241D60 !important;
+    border-bottom: 1px solid #FFF;
+    cursor: pointer;
 }
 
 
@@ -288,7 +297,7 @@ nav .custom-active {
 }
 
 .search-btn {
-    padding: 15px 40px;
+    padding: 10px 40px;
     border-radius: 0px 7px 6px 0px;
     background: var(--Btn3, #FFD731);
     color: #241D60;

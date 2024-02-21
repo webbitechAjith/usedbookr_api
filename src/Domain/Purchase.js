@@ -164,7 +164,7 @@ function Purchase() {
                                         <input type="text" className="form-control" placeholder="Enter code" aria-label="Search" aria-describedby="searchButton" />
                                         <button className="btn" type="button" id="searchButton">Apply Coupon</button>
                                     </div>
-                                    <div className='packing-card p-4'>
+                                    <div className='packing-card p-2'>
                                         <h2>Cart Total</h2>
                                         <div className='money-details'>
                                             <div className='row m-0'>
@@ -360,8 +360,8 @@ function Purchase() {
                                                                                 <div className='row m-0 pt-2'>
                                                                                     <div className='col-12 py-4'>
                                                                                         <img src={data.image} alt='plant1' className='' width={150} />
-                                                                                        <h5>Title : {data.title_long.slice(0, 10)}...</h5>
-                                                                                        <h5>Author : {data.author[0].author.slice(0, 10)}...</h5>
+                                                                                        <h5 className='mt-3'><b>Title</b> : {data.title_long.slice(0, 10)}...</h5>
+                                                                                        <h5><b>Author</b> : {data.author[0].author.slice(0, 10)}...</h5>
                                                                                         <Rating
                                                                                             initialRating={4}
                                                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -458,23 +458,25 @@ function Purchase() {
                 <div className='d-lg-none d-md-none d-sm-none d-block'>
                     {/* <Useraside /> */}
                     <div className='pt-5'>
-                        <div className='row m-0 py-3'>
-                            <div className='col-12 py-5'>
+                        <div className='row m-0'>
+                            <div className='col-12'>
                                 <span className='profile-head'>My Shopping Cart</span>
                             </div>
                             {shopProducts && shopProducts.map((data) => {
                                 return (
-                                    <div className='col-12'>
-                                        <div class="card" >
-                                            <img src={data.image} class="card-img-top" alt="..." />
+                                    <div className='col-12 pt-3'>
+                                        <div class="card card-mobile" >
+                                            <div className='card-img-hgt'>
+                                                <img src={data.image} class="card-img-top" alt="..." />
+                                            </div>
                                             <div class="card-body">
-                                                <h5 class="card-title">Title : {data.title_long.slice(0.10)}...</h5>
-                                                <h5 class="card-title">Author : {data.author[0].author.slice(0, 10)}...</h5>
+                                                <h5 class="card-title"><b>Title</b> : {data.title_long.slice(0,25)}...</h5>
+                                                <h5 class="card-title"><b>Author</b> : {data.author[0].author.slice(0, 10)}...</h5>
                                                 <div className='py-3 px-0 sum-product'>
                                                     <span>
                                                         {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
-                                                        <a className='mx-2 text-decoration-none'>{1}</a>
-                                                        <button onClick={() => itemIncrement(1)}>+</button>
+                                                        <a className='mx-2 text-decoration-none'>{data.qty}</a>
+                                                        <button onClick={() => itemIncrement(data.id)}>+</button>
                                                     </span>
                                                 </div>
                                                 <Rating
@@ -483,8 +485,9 @@ function Purchase() {
                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                     readonly={true}
                                                 />
-                                                <span className='py-5 text-center'><a className='text-decoration-none price-count'>{ }</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(1, 1, 1)} /></span>
-
+                                                <div className='pt-5 pb-3'>
+                                                    <span className='py-5 text-center'><a className='text-decoration-none price-count'>Price  : {data.amount}</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(data.id)} /></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -503,7 +506,7 @@ function Purchase() {
                                         <div className='money-details'>
                                             <div className='row m-0'>
                                                 <div className='col-6'>
-                                                    <h6 className=''>No.of.Item :</h6>
+                                                    <h6 className=''>No.of.Item : </h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
                                                     <h6 className=''>{shopcount + totalItemShop}</h6>

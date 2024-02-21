@@ -9,7 +9,7 @@ import Rating from 'react-rating';
 import '../assets/css/main.css'
 
 
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleProductView, settotallikes } from '../../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleProductView, settotallikes, setCategoryBook } from '../../Redux/CreateSlice';
 
 // function call 
 
@@ -29,17 +29,13 @@ import { useNavigate } from 'react-router-dom';
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 const Allbooks = () => {
-    const { allbookDetails, isLiked, isAdded, likescount, likedProducts, totalLikes, shopProducts, shopcount, singleProductView,singleProductPrice } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, isLiked, isAdded,categoryBook,likescount, likedProducts, totalLikes, shopProducts, shopcount, singleProductView,singleProductPrice } = useSelector((state) => state.usedbookr_product)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
 
-    const author = () => {
+   
 
-    }
-    const product_add = () => {
-
-    }
     // like product click fn 
     const totallikes = likedProducts.map((data) => data.id);
 
@@ -57,7 +53,6 @@ const Allbooks = () => {
             dispatch(setlikescount(likescount + 1));
         }
     }
-
     // shop product click fn 
     const totalshops = shopProducts.map((data) => data.id);
 
@@ -82,12 +77,10 @@ const Allbooks = () => {
             }
         };
     }
-
     const author_name = () => {
         navigate('/authors')
     }
     const click_view = (index) => {
-        console.log(index)
         dispatch(setsingleProductView([allbookDetails[index]]))
         navigate('Description')
     }
@@ -117,6 +110,8 @@ const Allbooks = () => {
         },
     };
 
+   
+
     const MemoizedOwlCarousel = React.memo(OwlCarousel);
     return (
         <div className='py-lg-5 py-4 bestseller'>
@@ -132,8 +127,8 @@ const Allbooks = () => {
                                 <>
                                     <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
                                         <div className='best-seller'>
-                                            <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                                            <span className='selles-offer'>offer 60%</span>
+                                            <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' onClick={(id) => click_view(index)}/>
+                                            <span className='selles-offer'>Offer 60%</span>
                                             {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
                                         <span className={` ${isLiked ? 'likes' : 'unlikes'} `} ><img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" /></span>
                                     </span> */}
@@ -149,7 +144,7 @@ const Allbooks = () => {
                                                 </span>
                                             </span>
                                             <div className='book-details px-3'>
-                                                <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
+                                                <h1 className='w-100' title={book.title} onClick={(id) => click_view(index)}>{book.title_long.slice(0, 20)}...</h1>
                                                 {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
                                                 <div className='d-flex '>
                                                     <div className='rate-details'>
@@ -176,9 +171,9 @@ const Allbooks = () => {
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className='text-end'>
+                                                {/* <div className='text-end'>
                                                     <button className='viewall mt-4 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>

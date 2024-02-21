@@ -129,8 +129,8 @@ function Autherfliter() {
                                   </span>
                                 </span>
                                 <div className='book-details p-3'>
-                                  <h1 className='w-100' title={book.title}>{book.title.slice(0, 35)}...</h1>
-                                  {book.authors[0] === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.authors[0]} onClick={() => author_name()}>{book.authors[0].slice(0, 10)}</h5></>}
+                                  <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                                  {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
                                   <div className='d-flex '>
                                     <div className='rate-details'>
                                       <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
@@ -156,9 +156,9 @@ function Autherfliter() {
                                       </span>
                                     </div>
                                   </div>
-                                  <div className='text-center'>
+                                  {/* <div className='text-center'>
                                     <button className='viewall mt-5 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>
@@ -202,8 +202,8 @@ function Autherfliter() {
                             </span>
                           </span>
                           <div className='book-details p-3'>
-                            <h1 className='w-100' title={book.title}>{book.title.slice(0, 35)}...</h1>
-                            {book.authors[0] === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.authors[0]} onClick={() => author_name()}>{book.authors[0].slice(0, 10)}</h5></>}
+                            <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                            {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
                             <div className='d-flex '>
                               <div className='rate-details'>
                                 <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
