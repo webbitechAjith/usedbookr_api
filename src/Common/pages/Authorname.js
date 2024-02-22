@@ -77,6 +77,9 @@ function Authorname() {
             console.error('Error fetching data:', error);
         }
     };
+    const authorCheck =(dataName) =>{
+        dispatch(setAuthorsName(dataName))
+    }
     console.log("authorBookDetails", authorBookDetails)
     return (
         <>
@@ -175,7 +178,7 @@ function Authorname() {
                                                 <>
                                                     {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 1).map((items, index) => (
                                                         <div className="mb-3 p-0 form-check" key={index}>
-                                                            <label className="form-check-label" htmlFor="exampleCheck1">{items.author}</label>
+                                                            <label className="form-check-label" htmlFor="exampleCheck1" onClick={()=>authorCheck(items.author)}>{items.author}</label>
                                                         </div>
                                                     ))}
                                                     {!showAll && (
