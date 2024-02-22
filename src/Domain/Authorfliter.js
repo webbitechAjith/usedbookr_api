@@ -15,7 +15,7 @@ import add from '../Common/assets/image/addcard.png'
 import remove from '../Common/assets/image/removecard.png'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faHeart, faBagShopping } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faHeart, faBagShopping, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,7 +25,8 @@ import Authorname from '../Common/pages/Authorname';
 
 function Autherfliter() {
 
-  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield, authorsName, authorsDetails } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, authorBookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield, authorsName, authorsDetails } = useSelector((state) => state.usedbookr_product)
+  const [showCategory, setShowCategory] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -89,34 +90,330 @@ function Autherfliter() {
     dispatch(setsingleProductView([allbookDetails[id]]))
     navigate('/Description')
   }
+
+  const toggleAuthor = () => {
+    setShowCategory(!showCategory);
+  };
+
   useEffect(() => {
     dispatch(setClass1Hide(false))
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <div className='product-section'>
       <Header />
-      <div className='product-view container-90'>
+      <div className='product-view container-95'>
         <div className='d-lg-block d-none'>
           <div className='row m-0'>
-            <div className='col-3'>
+            <div className='col-2'>
               <Authorname />
             </div>
-            <div className='col-9'>
+            <div className='col-10'>
               <div className='product-list my-lg-5 my-2'>
                 <div className='row m-0 bestseller'>
-                  {searchfield ?
+                  {allbookDetails.length > 0 && searchfield ?
                     <>
                       {allbookDetails && allbookDetails.map((book, index) => {
                         return (
-                          <div className='col-lg-4 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
+                          <>
+                            {authorsName.length > 0 ?
+                              <>
+                                {book.author[0].author.toLowerCase() === authorsName.toLowerCase() ?
+                                  <>
+                                    {console.log(1, allbookDetails)}
+                                    {console.log(1, book.author[0].author.toLowerCase().replace(/\s/g, '') === authorsName.toLowerCase().replace(/\s/g, ''))}
+                                    <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
+                                      <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                        <div className='best-seller'>
+                                          <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                          <span className='selles-offer'>offer 60%</span>
+
+                                          <span
+                                            className='like-position float-end m-2'
+                                            onClick={() => handleLikeClick(book)}
+                                          >
+                                            <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
+                                              <img
+                                                src={totallikes.includes(book.id) ? likes : unlike}
+                                                alt="Like Button"
+                                              />
+                                            </span>
+                                          </span>
+                                          <div className='book-details p-3'>
+                                            <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                                            {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
+                                            <div className='d-flex '>
+                                              <div className='rate-details'>
+                                                <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                <Rating
+                                                  initialRating={5}
+                                                  emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                  fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                  readonly={true}
+                                                />
+                                              </div>
+                                              <div className='ms-auto'>
+                                                <span
+                                                  className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                  id={book.id} value={book.id}
+                                                  onClick={() => handleShopClick(book, book.id, book.msrp)}
+                                                >
+
+                                                  {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </>
+                                  :
+                                  <>
+                                    {authorBookDetails.length > 0 ?
+                                      <>
+                                        <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
+                                          <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                            <div className='best-seller'>
+                                              <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                              <span className='selles-offer'>offer 60%</span>
+
+                                              <span
+                                                className='like-position float-end m-2'
+                                                onClick={() => handleLikeClick(book)}
+                                              >
+                                                <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
+                                                  <img
+                                                    src={totallikes.includes(book.id) ? likes : unlike}
+                                                    alt="Like Button"
+                                                  />
+                                                </span>
+                                              </span>
+                                              <div className='book-details p-3'>
+                                                <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                                                {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
+                                                <div className='d-flex '>
+                                                  <div className='rate-details'>
+                                                    <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                    <Rating
+                                                      initialRating={5}
+                                                      emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                      fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                      readonly={true}
+                                                    />
+                                                  </div>
+                                                  <div className='ms-auto'>
+                                                    <span
+                                                      className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                      id={book.id} value={book.id}
+                                                      onClick={() => handleShopClick(book, book.id, book.msrp)}
+                                                    >
+
+                                                      {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </>
+                                      :
+                                      <></>
+                                    }
+                                  </>
+                                }
+                              </>
+                              :
+                              <>
+                                <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
+                                  <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                    <div className='best-seller'>
+                                      <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                      <span className='selles-offer'>offer 60%</span>
+
+                                      <span
+                                        className='like-position float-end m-2'
+                                        onClick={() => handleLikeClick(book)}
+                                      >
+                                        <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
+                                          <img
+                                            src={totallikes.includes(book.id) ? likes : unlike}
+                                            alt="Like Button"
+                                          />
+                                        </span>
+                                      </span>
+                                      <div className='book-details p-3'>
+                                        <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                                        {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
+                                        <div className='d-flex '>
+                                          <div className='rate-details'>
+                                            <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                            <Rating
+                                              initialRating={5}
+                                              emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                              fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                              readonly={true}
+                                            />
+                                          </div>
+                                          <div className='ms-auto'>
+                                            <span
+                                              className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                              id={book.id} value={book.id}
+                                              onClick={() => handleShopClick(book, book.id, book.msrp)}
+                                            >
+
+                                              {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            }
+                          </>
+                        )
+                      })}
+                    </>
+                    :
+                    <>
+                      <h1 className='text-center product-title'>No items</h1>
+                    </>}
+
+                </div>
+              </div >
+            </div>
+          </div>
+        </div>
+        <div className='d-lg-none d-block'>
+          <div className='text-end d-lg-none d-block filter-category my-2'>
+            <button onClick={toggleAuthor}><FontAwesomeIcon icon={faFilter} style={{ color: '#FFF' }} className='mx-2' />filter</button>
+          </div>
+          <div className='row m-0 bestseller py-3'>
+            {allbookDetails.length > 0 && searchfield ?
+              <>
+                {allbookDetails && allbookDetails.map((book, index) => {
+                  return (
+                    <>
+                      {authorsName.length > 0 ?
+                        <>
+                          {book.author[0].author.toLowerCase() === authorsName.toLowerCase() ?
+                            <>
+                              {console.log(1, allbookDetails)}
+                              {console.log(1, book.author[0].author.toLowerCase().replace(/\s/g, '') === authorsName.toLowerCase().replace(/\s/g, ''))}
+                              <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
+                                <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                  <div className='best-seller'>
+                                    <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                    <span className='selles-offer'>offer 60%</span>
+
+                                    <span
+                                      className='like-position float-end m-2'
+                                      onClick={() => handleLikeClick(book)}
+                                    >
+                                      <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
+                                        <img
+                                          src={totallikes.includes(book.id) ? likes : unlike}
+                                          alt="Like Button"
+                                        />
+                                      </span>
+                                    </span>
+                                    <div className='book-details p-3'>
+                                      <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                                      {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
+                                      <div className='d-flex '>
+                                        <div className='rate-details'>
+                                          <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                          <Rating
+                                            initialRating={5}
+                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                            readonly={true}
+                                          />
+                                        </div>
+                                        <div className='ms-auto'>
+                                          <span
+                                            className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                            id={book.id} value={book.id}
+                                            onClick={() => handleShopClick(book, book.id, book.msrp)}
+                                          >
+
+                                            {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                            :
+                            <>
+                              {authorBookDetails.length > 0 ?
+                                <>
+                                  <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
+                                    <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                      <div className='best-seller'>
+                                        <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                        <span className='selles-offer'>offer 60%</span>
+
+                                        <span
+                                          className='like-position float-end m-2'
+                                          onClick={() => handleLikeClick(book)}
+                                        >
+                                          <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
+                                            <img
+                                              src={totallikes.includes(book.id) ? likes : unlike}
+                                              alt="Like Button"
+                                            />
+                                          </span>
+                                        </span>
+                                        <div className='book-details p-3'>
+                                          <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                                          {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
+                                          <div className='d-flex '>
+                                            <div className='rate-details'>
+                                              <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                              <Rating
+                                                initialRating={5}
+                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                readonly={true}
+                                              />
+                                            </div>
+                                            <div className='ms-auto'>
+                                              <span
+                                                className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                id={book.id} value={book.id}
+                                                onClick={() => handleShopClick(book, book.id, book.msrp)}
+                                              >
+
+                                                {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </>
+                                :
+                                <></>
+                              }
+                            </>
+                          }
+                        </>
+                        :
+                        <>
+                          <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
                             <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
                               <div className='best-seller'>
                                 <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                 <span className='selles-offer'>offer 60%</span>
-                                {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
-                                        <span className={` ${isLiked ? 'likes' : 'unlikes'} `} ><img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" /></span>
-                                    </span> */}
+
                                 <span
                                   className='like-position float-end m-2'
                                   onClick={() => handleLikeClick(book)}
@@ -142,103 +439,26 @@ function Autherfliter() {
                                       />
                                     </div>
                                     <div className='ms-auto'>
-                                      {/* {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)} */}
                                       <span
                                         className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
                                         id={book.id} value={book.id}
                                         onClick={() => handleShopClick(book, book.id, book.msrp)}
                                       >
-                                        {/* <img
-                                                        src={totalshops.includes(book.id) ? add : remove}
-                                                        alt="Shop Button"
-                                                    /> */}
                                         {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
                                       </span>
                                     </div>
                                   </div>
-                                  {/* <div className='text-center'>
-                                    <button className='viewall mt-5 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
-                                  </div> */}
                                 </div>
                               </div>
                             </div>
                           </div>
-                        )
-                      })}
-                    </> :
-                    <>
-                      <h1 className='text-center product-title'>No items</h1>
-                    </>}
-
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className='d-lg-none d-block'>
-          <div className='row m-0 bestseller py-3'>
-            {searchfield ?
-              <>
-                {allbookDetails && allbookDetails.map((book, index) => {
-                  return (
-                    <div className='col-lg-4 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
-                      <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
-                        <div className='best-seller'>
-                          <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                          <span className='selles-offer'>offer 60%</span>
-                          {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
-                                        <span className={` ${isLiked ? 'likes' : 'unlikes'} `} ><img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" /></span>
-                                    </span> */}
-                          <span
-                            className='like-position float-end m-2'
-                            onClick={() => handleLikeClick(book)}
-                          >
-                            <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                              <img
-                                src={totallikes.includes(book.id) ? likes : unlike}
-                                alt="Like Button"
-                              />
-                            </span>
-                          </span>
-                          <div className='book-details p-3'>
-                            <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
-                            {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
-                            <div className='d-flex '>
-                              <div className='rate-details'>
-                                <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
-                                <Rating
-                                  initialRating={5}
-                                  emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                  fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                  readonly={true}
-                                />
-                              </div>
-                              <div className='ms-auto'>
-                                {/* {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)} */}
-                                <span
-                                  className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                  id={book.id} value={book.id}
-                                  onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                >
-                                  {/* <img
-                                                        src={totalshops.includes(book.id) ? add : remove}
-                                                        alt="Shop Button"
-                                                    /> */}
-                                  {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
-                                </span>
-                              </div>
-                            </div>
-                            <div className='text-center'>
-                              <button className='viewall mt-5 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                        </>
+                      }
+                    </>
                   )
                 })}
-              </> :
+              </>
+              :
               <>
                 <h1 className='text-center product-title'>No items</h1>
               </>}

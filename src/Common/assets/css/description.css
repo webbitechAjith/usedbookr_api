@@ -3,9 +3,9 @@
 }
 
 .buynow {
-    margin-top: 50px;
+    margin-top: 30px;
     margin-left: 20px;
-    padding: 15px 50px;
+    padding: 10px 50px;
     border-radius: 43px;
     background: #241D60;
     border: none;
@@ -17,9 +17,9 @@
 
 .description-details h1 {
     color: #1A1A1A;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 600;
-    line-height: 40px !important;
+    line-height: 35px !important;
 }
 
 .description-details p {
@@ -49,7 +49,7 @@
 }
 
 .condition-level .very {
-    padding: 20px 30px;
+    padding: 5px 25px;
     border-radius: 5px;
     background: #241D60;
     color: #FFF;
@@ -244,17 +244,17 @@
 
 .tab-details .tab-content h1 {
     color: #626262;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
-    line-height: 32px;
+    line-height: 30px !important;
 }
 
 .tab-details .tab-content p {
     margin-top: 20px;
     color: #626262;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 28px;
+    line-height: 26px !important;
 }
 
 .tab-details .nav {

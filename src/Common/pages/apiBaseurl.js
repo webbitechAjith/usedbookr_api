@@ -11,7 +11,7 @@ const apiBaseurl = axios.create({
 // allbooks api 
 // export const allbooks = async () => {
 //   try {
-//     const { data } = await apiBaseurl.get('/api/book');
+//     const { data } = await apiBaseurl.get('/books/api/all');
 //     const allBook = data.response.books;
 //     const productsWithIds = allBook.map((product, index) => ({
 //       id: index + 1,

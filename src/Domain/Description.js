@@ -202,13 +202,13 @@ function Description() {
                                     <div className='col-6 description-details'>
                                         <>
                                             <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
-                                            <p>{data.author[0].author}</p>
+                                            <p className='m-0'>{data.author[0].author}</p>
                                             <img src={star} alt='star' />
                                             <span className='review'>4 Reviews</span>
                                             <br />
                                             <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
                                             <button className='sales-offer'>50% off</button>
-                                            <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
+                                            <h4 className='cate my-2'>Category:<span className='ms-2'>Lifestyle</span></h4>
                                             <hr />
                                             <p>{data.synopsis}</p>
                                             {data.varient.length > 0 ?

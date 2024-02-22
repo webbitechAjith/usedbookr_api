@@ -111,7 +111,6 @@ function Aside() {
         setShowCategory(!showCategory);
         setFilterOption(!filterOption)
     };
-    console.log(showCategory)
     // useEffect(() => {
     //     // Filter products based on the max price
     //     const filtered = allplantsDetails.filter(product => product.total_price <= maxPrice);

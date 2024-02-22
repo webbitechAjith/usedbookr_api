@@ -10,7 +10,7 @@
 
 .aside-section button {
   color: #1A1A1A;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 500;
   line-height: 30px;
 }
@@ -208,7 +208,7 @@
 
   .fixed-user {
     position: fixed;
-    top: 185px;
+    top: 154px;
     left: 0px;
     width: 100%;
     padding: 20px 0px;
@@ -270,7 +270,7 @@
 
   .fixed-user {
     position: fixed;
-    top: 185px;
+    top: 143px;
     left: 0px;
     width: 100%;
     padding: 20px 0px;
@@ -343,7 +343,7 @@
 
   .fixed-user {
     position: fixed;
-    top: 185px;
+    top: 143px;
     left: 0px;
     width: 100%;
     padding: 20px 0px;
@@ -416,7 +416,7 @@
 
   .fixed-user {
     position: fixed;
-    top: 185px;
+    top: 142px;
     left: 0px;
     width: 100%;
     padding: 20px 0px;

@@ -10,14 +10,14 @@ import 'font-awesome/css/font-awesome.min.css';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setAuthorsDetails, setAuthorsName, setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
+import { setAuthorBookDetails, setAuthorsDetails, setAuthorsName, setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { allbooks, authUser } from './apiBaseurl';
 
 
 function Authorname() {
-    const { allbookDetails, priceFilter, filteredProducts, authorsDetails, authorsName } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, authorBookDetails, priceFilter, filteredProducts, authorsDetails, authorsName } = useSelector((state) => state.usedbookr_product)
     const [sliderValue, setSliderValue] = useState(0); // Initial value
     const [topDetails, setTopDetails] = useState(0); // Initial value
     const [outDoor, setoutDoor] = useState(0); // Initial value
@@ -43,7 +43,6 @@ function Authorname() {
             setFilterOption(false)
         }
     }
-
     const handleChange = async (event) => {
         try {
             const newSearchAuthor = event.target.value;
@@ -54,27 +53,31 @@ function Authorname() {
             // Access the updated searchItem from the state
             const searchResults = data.filter((bookauthor) => bookauthor.author.toLowerCase().includes(newSearchAuthor.toLowerCase()) || bookauthor.author.toLowerCase().includes(authorsName.toLowerCase()));
             const allbookSearch = allbookDetails.filter((bookDetails) => {
-                if (bookDetails.authors && bookDetails.authors.length > 0) {
+                if (bookDetails.author[0].author && bookDetails.author[0].author.length > 0) {
                     const searchAuthorLower = newSearchAuthor.toLowerCase();
                     const authorsNameLower = authorsName.toLowerCase();
 
-                    const firstAuthorLower = bookDetails.authors[0].toLowerCase();
+                    const firstAuthorLower = bookDetails.author[0].author.toLowerCase();
                     return firstAuthorLower.includes(searchAuthorLower) || firstAuthorLower.includes(authorsNameLower);
                 }
                 return false;
-            }); 
+            });
             dispatch(setallBookDetails(allbookSearch));
+            dispatch(setAuthorBookDetails(allbookSearch))
             if (newSearchAuthor == '') {
                 dispatch(setAuthorsDetails(data));
                 dispatch(setallBookDetails(overall_books))
+                dispatch(setAuthorBookDetails(''))
             } else {
                 dispatch(setAuthorsDetails(searchResults));
                 dispatch(setallBookDetails(allbookSearch));
+                dispatch(setAuthorBookDetails(allbookSearch))
             }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+    console.log("authorBookDetails", authorBookDetails)
     return (
         <>
             <aside className='my-lg-5 my-2'>
@@ -167,16 +170,7 @@ function Authorname() {
                                     </h2>
                                     <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            {/* {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 1).map((items) => {
-                                                return (
-                                                    <>
-                                                        <div className="mb-3 p-0 form-check">
-                                                            <label className="form-check-label" for="exampleCheck1">{items.author}</label>
-                                                        </div>
-                                                    </>
-                                                )
 
-                                            })} */}
                                             {authorsDetails.length > 0 ? (
                                                 <>
                                                     {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 1).map((items, index) => (

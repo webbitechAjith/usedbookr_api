@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { authUser } from './apiBaseurl';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthorsName, setClickauthorName } from '../../Redux/CreateSlice';
+import { setAuthorBookDetails, setAuthorsName, setClickauthorName } from '../../Redux/CreateSlice';
 
 
 const Authors = () => {
@@ -22,7 +22,9 @@ const Authors = () => {
     const author = (authName) => {
         authUser();
         if (authName) {
-            dispatch(setAuthorsName(authName))
+            const click_authname = authName
+            dispatch(setAuthorsName(click_authname))
+            
             navigate('authors')
         } else {
             navigate('authors')

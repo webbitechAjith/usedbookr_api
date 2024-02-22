@@ -16,6 +16,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
+// image path 
+import noshop from '../Common/assets/image/no-shops.gif'
+
+
 // state value action process 
 import { setshopcount, settotalItemShop, setShopProducts, setfinalItemPrice } from '../Redux/CreateSlice';
 import { useNavigate } from 'react-router-dom';
@@ -153,7 +157,10 @@ function Purchase() {
                                                 </tbody>
                                             </table>
                                         </> :
-                                        <><h1 className='text-center'>No Shop Product</h1></>
+                                        <>
+                                        {/* <h1 className='text-center'>No Shop Product</h1> */}
+                                        <img src={noshop} className='w-100 'height={440}/>
+                                        </>
                                     }
                                 </div>
                             </div>
