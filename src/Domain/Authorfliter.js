@@ -30,6 +30,9 @@ function Autherfliter() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
+ 
+
   // like product click fn 
   const totallikes = likedProducts.map((data) => data.id);
 
@@ -67,17 +70,6 @@ function Autherfliter() {
   const all_product = () => {
     navigate('/Allproduct')
   }
-  const plantproduct = async () => {
-    // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-    // dispatch(setallBookDetails(data.data))
-    // const { data } = await axios.get('https://fakestoreapi.com/products');
-    // dispatch(setallBookDetails(data.data))
-
-  }
-  // useEffect(() => {
-  //   plantproduct();
-  // }, []);
-  // console.log(allbookDetails)
   const pass = (data) => {
     const updatedData = [data];
     dispatch(setproductIdDetails(updatedData))
@@ -100,6 +92,7 @@ function Autherfliter() {
     window.scrollTo(0, 0);
   }, []);
 
+  
   return (
     <div className='product-section'>
       <Header />
