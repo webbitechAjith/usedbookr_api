@@ -130,6 +130,18 @@ export const  banner = async () =>{
   }
 }
 
+//category list api start
+export const category_list = async () =>{
+  try{
+    const { data } = await apiBaseurl.get('/api/categories/all')
+    const category_type = data.categories
+    return category_type;
+  } catch (error){
+    console.log(error)
+  }
+}
+
+
 
 // megamenu api start 
 export const megamenu_list = async () =>{

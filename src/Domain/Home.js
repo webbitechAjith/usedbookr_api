@@ -107,10 +107,10 @@ function Home() {
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button> */}
                   </div>
-                  <div className="carousel-inner h-100">
+                  <div className="carousel-inner h-100 mobile-ht">
                     {bannerImage.map((imageUrl, index) => (
-                      <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''} h-100`}>
-                        <img src={imageUrl.images} className='w-100 h-100' alt={`Image ${index}`} />
+                      <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''} w-100 h-100`}>
+                        <img src={imageUrl.images} className='w-100 h-100 object-fit-cover' alt={`Image ${index}`} />
                       </div>
                     ))}
                   </div>

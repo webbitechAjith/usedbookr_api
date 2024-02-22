@@ -141,7 +141,6 @@ function Header() {
             console.error('Error fetching data:', error);
         }
     };
-    console.log("all", allbookDetails)
 
     const seacrch_product = () => {
         handleChange({ target: { value: searchProduct } });
