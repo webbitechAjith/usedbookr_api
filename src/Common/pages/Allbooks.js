@@ -170,7 +170,7 @@ const Allbooks = () => {
                                                     </div>
                                                     <div className='ms-auto'>
                                                         <span
-                                                            className={userIdShop.length > 0 && totalshops.includes(book.id) == userIdShop[0].book_id ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                            className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
                                                             id={book.id} value={book.id}
                                                             onClick={() => handleShopClick(book, book.id, book.original_price)}
                                                         >
