@@ -137,7 +137,7 @@ const Allbooks = () => {
                             return (
                                 <>
 
-                                    <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                    <div className={userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
                                         <div className='best-seller'>
                                             <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' onClick={(id) => click_view(index)} />
                                             <span className='selles-offer'>Offer 60%</span>
