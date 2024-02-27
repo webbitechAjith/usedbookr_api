@@ -57,6 +57,7 @@ export const CrateSlice = createSlice({
         likedProducts: [],
         totalLikes : [],
         shopProducts: [],
+        userIdShop : [],
         likescount: 0,
         shopcount: 0,
         isLiked: false,
@@ -153,6 +154,10 @@ export const CrateSlice = createSlice({
         setisAdded: (state, action) => {
             state.isAdded = action.payload
         },
+        
+        setUserIdShop: (state, action) => {
+            state.userIdShop = action.payload
+        },
         setisIncrement: (state) => {
             state.isAddproductcount += 1
         },
@@ -203,6 +208,6 @@ export const CrateSlice = createSlice({
     }
 })
 
-export const { setClass1Hide, setprofileDetails, setloginDetails,setUserLogin,setsingleProductView,setOtpVerify,setRegisterToken,setforgetDetails,setresetpasswordDetails, setlogoutDetails,setnavListDetails,setBannerImage,setClickauthorName,setAuthorBookDetails,setSingleProductPrice,setregisterDetails,setsearchProduct,setsearchItemDetails,setCategoryBook,setSubCategoryBook,setsearchfield,setFilteredProducts, setisLiked, setisAdded, setisIncrement, setisDecrement, setActiveItem, setallBookDetails,setAuthorsDetails,setAuthorsName, setLikedProducts,settotallikes ,setlikescount, setShopProducts, setshopcount, settotalItemShop, setfinalItemPrice,setpriceFilter,setminPirce,setproductIdDetails,setsingleItemCount,setsingleItemPrice } = CrateSlice.actions
+export const { setClass1Hide, setprofileDetails, setloginDetails,setUserIdShop,setUserLogin,setsingleProductView,setOtpVerify,setRegisterToken,setforgetDetails,setresetpasswordDetails, setlogoutDetails,setnavListDetails,setBannerImage,setClickauthorName,setAuthorBookDetails,setSingleProductPrice,setregisterDetails,setsearchProduct,setsearchItemDetails,setCategoryBook,setSubCategoryBook,setsearchfield,setFilteredProducts, setisLiked, setisAdded, setisIncrement, setisDecrement, setActiveItem, setallBookDetails,setAuthorsDetails,setAuthorsName, setLikedProducts,settotallikes ,setlikescount, setShopProducts, setshopcount, settotalItemShop, setfinalItemPrice,setpriceFilter,setminPirce,setproductIdDetails,setsingleItemCount,setsingleItemPrice } = CrateSlice.actions
 export default CrateSlice.reducer
 

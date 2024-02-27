@@ -28,13 +28,13 @@ import whiteshop from '../assets/image/white_shop.png'
 import whitenav from '../assets/image/whitenav.png'
 import heartShop from '../assets/image/heart-shop.png'
 
-import { setCategoryBook, setClass1Hide, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield } from '../../Redux/CreateSlice'
+import { setCategoryBook, setClass1Hide, setUserIdShop, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield, setshopcount } from '../../Redux/CreateSlice'
 import axios from 'axios';
-import { allbooks, megamenu_list } from './apiBaseurl';
+import { allbooks, cardToget_list, megamenu_list } from './apiBaseurl';
 
 
 function Header() {
-    const { isClass1Show, likescount, shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
+    const { isClass1Show, likescount, userIdShop,shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
     const [searchTerm, setSearchTerm] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -45,6 +45,7 @@ function Header() {
     const [products, setProducts] = useState(allbookDetails);
     const [isSticky, setIsSticky] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    // const [userIdShop, setUserIdShop] = useState(0); // State to store the value of abc
     const dropdownRef = useRef(null);
 
     const [megaMenu, setMegaMenu] = useState({})
@@ -160,6 +161,15 @@ function Header() {
         dispatch(setsearchProduct(searchProduct))
         navlist()
         menu_lists();
+        const fetchData = async () => {
+            try {
+                const result = await cardToget_list();
+                dispatch(setUserIdShop(result)); // Set the value of abc
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
         // dispatch(setClass1Hide(true))
         const handleScroll = () => {
             if (window.scrollY >= 2) {
@@ -180,8 +190,7 @@ function Header() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
-
+    // console.log(userIdShop)
     return (
         <>
             <div className='top-header'>
@@ -212,7 +221,7 @@ function Header() {
                                         </span>
                                         <span className='position-relative'>
                                             <img src={shop} width={25} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
-                                            {shopcount >= 9 ? <><span className='item-count' title={shopcount}>9<sup>+</sup></span></> : <><span className='item-count'>{shopcount}</span></>}
+                                            {userIdShop.length >= 9 ? <><span className='item-count' title={userIdShop.length}>9<sup>+</sup></span></> : <><span className='item-count'>{userIdShop.length}</span></>}
                                         </span>
                                         <span>
                                             <button className='authregister' onClick={signup}>Sign in / Sign up</button>

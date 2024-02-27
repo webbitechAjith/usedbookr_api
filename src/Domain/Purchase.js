@@ -23,6 +23,7 @@ import noshop from '../Common/assets/image/no-shops.gif'
 // state value action process 
 import { setshopcount, settotalItemShop, setShopProducts, setfinalItemPrice } from '../Redux/CreateSlice';
 import { useNavigate } from 'react-router-dom';
+import { addTocard_list } from '../Common/pages/apiBaseurl';
 
 function Purchase() {
     // state value declear 
@@ -38,17 +39,25 @@ function Purchase() {
     }, 0);
 
     // increment in product count 
-    const itemIncrement = (id) => {
-        const updatedProductItems = shopProducts.map(item => {
+    const itemIncrement = async (id) => {
+        const updatedProductItems = shopProducts.map(async item => {
             if (item.id === id) {
                 const updatedQty = item.qty + 1;
                 const updatedAmount = Math.round((item.original_price + item.gst_charge) * updatedQty);
                 const quatity = { ...item, qty: item.qty + 1, amount: updatedAmount };
+                try {
+                    await addTocard_list(item, updatedQty); // Assuming you want to update the quantity in the backend as well
+                } catch (error) {
+                    console.log(error);
+                    // Handle error if necessary
+                }
                 return quatity
             }
+            
             return item;
         });
-        dispatch(setShopProducts(updatedProductItems));
+        // dispatch(setShopProducts(updatedProductItems));
+        dispatch(setShopProducts(await Promise.all(updatedProductItems)));
         dispatch(settotalItemShop(totalItemShop + 1))
     };
 
@@ -94,7 +103,7 @@ function Purchase() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [])
-    console.log(shopProducts)
+    // console.log(shopProducts)
     return (
         <div className='purchase-section'>
             <Header />
@@ -128,8 +137,8 @@ function Purchase() {
                                                                             <img src={data.image} alt={data.image} className='w-100' />
                                                                         </div>
                                                                         <div className='col-8 py-4'>
-                                                                            <h5>{data.title_long.slice(0, 20)}...</h5>
-                                                                            <h5>{data.author[0].author.slice(0, 10)}...</h5>
+                                                                            <h5>{data.title_long}</h5>
+                                                                            {/* <h5>{data.author[0].author}...</h5> */}
                                                                             <Rating
                                                                                 initialRating={4}
                                                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -158,8 +167,8 @@ function Purchase() {
                                             </table>
                                         </> :
                                         <>
-                                        {/* <h1 className='text-center'>No Shop Product</h1> */}
-                                        <img src={noshop} className='w-100 'height={440}/>
+                                            {/* <h1 className='text-center'>No Shop Product</h1> */}
+                                            <img src={noshop} className='w-100 ' height={440} />
                                         </>
                                     }
                                 </div>
@@ -247,8 +256,8 @@ function Purchase() {
                                                                     <div className='row m-0 pt-2'>
                                                                         <div className='col-12 py-4'>
                                                                             <img src={data.image} alt='plant1' className='' width={150} />
-                                                                            <h5>{data.title_long.slice(0, 10)}...</h5>
-                                                                            <h5>{data.author[0].author.slice(0, 10)}...</h5>
+                                                                            <h5>{data.title_long}...</h5>
+                                                                            {/* <h5>{data.author[0].author}...</h5> */}
                                                                             <Rating
                                                                                 initialRating={4}
                                                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -367,8 +376,8 @@ function Purchase() {
                                                                                 <div className='row m-0 pt-2'>
                                                                                     <div className='col-12 py-4'>
                                                                                         <img src={data.image} alt='plant1' className='' width={150} />
-                                                                                        <h5 className='mt-3'><b>Title</b> : {data.title_long.slice(0, 10)}...</h5>
-                                                                                        <h5><b>Author</b> : {data.author[0].author.slice(0, 10)}...</h5>
+                                                                                        <h5 className='mt-3'><b>Title</b> : {data.title_long}</h5>
+                                                                                        {/* <h5><b>Author</b> : {data.author[0].author}</h5> */}
                                                                                         <Rating
                                                                                             initialRating={4}
                                                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -477,8 +486,8 @@ function Purchase() {
                                                 <img src={data.image} class="card-img-top" alt="..." />
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title"><b>Title</b> : {data.title_long.slice(0,25)}...</h5>
-                                                <h5 class="card-title"><b>Author</b> : {data.author[0].author.slice(0, 10)}...</h5>
+                                                <h5 class="card-title"><b>Title</b> : {data.title_long}...</h5>
+                                                {/* <h5 class="card-title"><b>Author</b> : {data.author[0].author}...</h5> */}
                                                 <div className='py-3 px-0 sum-product'>
                                                     <span>
                                                         {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
