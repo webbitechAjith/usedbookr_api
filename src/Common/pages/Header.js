@@ -34,7 +34,7 @@ import { allbooks, cardToget_list, megamenu_list } from './apiBaseurl';
 
 
 function Header() {
-    const { isClass1Show, likescount, userIdShop,shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
+    const { isClass1Show, likescount, userIdShop, shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
     const [searchTerm, setSearchTerm] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -221,7 +221,23 @@ function Header() {
                                         </span>
                                         <span className='position-relative'>
                                             <img src={shop} width={25} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
-                                            {userIdShop.length > 0 ? <>{userIdShop.length >= 9 ? <><span className='item-count' title={userIdShop.length}>9<sup>+</sup></span></> : <><span className='item-count'>{userIdShop.length}</span></>}</> : <>{userIdShop.length >= 9 ? <><span className='item-count' title={userIdShop.length}>9<sup>+</sup></span></> : <><span className='item-count'>0</span></>}</>}
+                                            {userIdShop && userIdShop.length > 0 ? (
+                                                <>
+                                                    {userIdShop.length >= 9 ? (
+                                                        <span className='item-count' title={userIdShop.length}>9<sup>+</sup></span>
+                                                    ) : (
+                                                        <span className='item-count'>{userIdShop.length}</span>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    {userIdShop && userIdShop.length >= 9 ? (
+                                                        <span className='item-count' title={userIdShop.length}>9<sup>+</sup></span>
+                                                    ) : (
+                                                        <span className='item-count'>0</span>
+                                                    )}
+                                                </>
+                                            )}
                                         </span>
                                         <span>
                                             <button className='authregister' onClick={signup}>Sign in / Sign up</button>
