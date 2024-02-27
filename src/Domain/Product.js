@@ -120,7 +120,9 @@ function Product() {
                               <div className='best-seller'>
                                 <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                 <span className='selles-offer'>offer 60%</span>
-                           
+                                {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
+                                        <span className={` ${isLiked ? 'likes' : 'unlikes'} `} ><img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" /></span>
+                                    </span> */}
                                 <span
                                   className='like-position float-end m-2'
                                   onClick={() => handleLikeClick(book)}

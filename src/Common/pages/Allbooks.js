@@ -123,7 +123,6 @@ const Allbooks = () => {
         cardToget_list()
     }, [])
 
-
     const MemoizedOwlCarousel = React.memo(OwlCarousel);
     return (
         <div className='py-lg-5 py-4 bestseller'>
@@ -134,11 +133,10 @@ const Allbooks = () => {
                     </>
                     :
                     <>
-                        {allbookDetails && userIdShop && allbookDetails.map((book, index) => {
+                        {allbookDetails && allbookDetails.map((book, index) => {
                             return (
                                 <>
 
-                                    {/* console.log("ajith", allbookDetails[index].id, userIdShop[index].book_id) */}
                                     <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
                                         <div className='best-seller'>
                                             <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' onClick={(id) => click_view(index)} />
@@ -169,14 +167,38 @@ const Allbooks = () => {
                                                         />
                                                     </div>
                                                     <div className='ms-auto'>
-                                                        <span
-                                                            className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                                            id={book.id} value={book.id}
-                                                            onClick={() => handleShopClick(book, book.id, book.original_price)}
-                                                        >
-
-                                                            {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
-                                                        </span>
+                                                        {userIdShop.length > 0 ? (
+                                                            <>
+                                                                {userIdShop.some(cartId => cartId.book_id === book.id) ? (
+                                                                    <span
+                                                                        className='normal-box1 float-end'
+                                                                        id={book.id}
+                                                                        value={book.id}
+                                                                        onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                                    >
+                                                                        <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                                    </span>
+                                                                ) : (
+                                                                    <span
+                                                                        className='box-view1 float-end'
+                                                                        id={book.id}
+                                                                        value={book.id}
+                                                                        onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                                    >
+                                                                        <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                                    </span>
+                                                                )}
+                                                            </>
+                                                        ) : (
+                                                            <span
+                                                                className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                                id={book.id}
+                                                                value={book.id}
+                                                                onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                            >
+                                                                <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                            </span>
+                                                        )}
                                                     </div>
                                                 </div>
 
@@ -185,7 +207,6 @@ const Allbooks = () => {
                                     </div>
                                 </>
                             )
-
                         })}
                     </>
                 }

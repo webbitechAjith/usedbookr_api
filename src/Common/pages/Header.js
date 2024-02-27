@@ -190,7 +190,7 @@ function Header() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    // console.log(userIdShop)
+    console.log(userIdShop)
     return (
         <>
             <div className='top-header'>
@@ -221,7 +221,7 @@ function Header() {
                                         </span>
                                         <span className='position-relative'>
                                             <img src={shop} width={25} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
-                                            {userIdShop.length >= 9 ? <><span className='item-count' title={userIdShop.length}>9<sup>+</sup></span></> : <><span className='item-count'>{userIdShop.length}</span></>}
+                                            {userIdShop.length > 0 ? <>{userIdShop.length >= 9 ? <><span className='item-count' title={userIdShop.length}>9<sup>+</sup></span></> : <><span className='item-count'>{userIdShop.length}</span></>}</> : <>{userIdShop.length >= 9 ? <><span className='item-count' title={userIdShop.length}>9<sup>+</sup></span></> : <><span className='item-count'>0</span></>}</>}
                                         </span>
                                         <span>
                                             <button className='authregister' onClick={signup}>Sign in / Sign up</button>
