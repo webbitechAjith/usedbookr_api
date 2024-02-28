@@ -27,7 +27,7 @@ import { addTocard_list } from '../Common/pages/apiBaseurl';
 
 function Purchase() {
     // state value declear 
-    const { shopProducts, shopcount, totalItemShop, singleProductPrice, finalItemPrice, userLogin } = useSelector((state) => state.usedbookr_product)
+    const { shopProducts, shopcount, totalItemShop, singleProductPrice, finalItemPrice, userLogin, userIdShop,allbookDetails } = useSelector((state) => state.usedbookr_product)
 
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -53,7 +53,7 @@ function Purchase() {
                 }
                 return quatity
             }
-            
+
             return item;
         });
         // dispatch(setShopProducts(updatedProductItems));
@@ -103,7 +103,7 @@ function Purchase() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [])
-    // console.log(shopProducts)
+    console.log("shopProducts", allbookDetails)
     return (
         <div className='purchase-section'>
             <Header />
@@ -117,7 +117,7 @@ function Purchase() {
                             </div> */}
                             <div className='col-9'>
                                 <div className='profile-card order-card'>
-                                    {shopProducts.length > 0 ?
+                                    {userIdShop.length > 0 ?
                                         <>
                                             <table className="table">
                                                 <thead>
@@ -128,8 +128,12 @@ function Purchase() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {shopProducts && shopProducts.map((data, index) => {
-                                                        return (
+                                                    {userIdShop && allbookDetails && allbookDetails.map((data, index) => {
+                                                        const match = userIdShop.find(item => item.book_id === data.id);
+                                                        console.log("match",match)
+                                                        // If there's a match, it means the book is in userIdShop
+                                                        if (match) {
+                                                            return (
                                                             <tr className='total-wish'>
                                                                 <td className='wish-product'>
                                                                     <div className='row m-0 pt-2'>
@@ -162,13 +166,15 @@ function Purchase() {
                                                                 </td>
                                                             </tr>
                                                         )
+                                                    }else{
+                                                    }
                                                     })}
                                                 </tbody>
                                             </table>
                                         </> :
                                         <>
-                                            {/* <h1 className='text-center'>No Shop Product</h1> */}
-                                            <img src={noshop} className='w-100 ' height={440} />
+                                            <h1 className='text-center'>No Shop Product</h1>
+                                            {/* <img src={noshop} className='w-100 ' height={440} /> */}
                                         </>
                                     }
                                 </div>

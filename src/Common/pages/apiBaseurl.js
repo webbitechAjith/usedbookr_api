@@ -197,6 +197,23 @@ export const addTocard_list = async (isBookId,updatedQty) => {
   }
 }
 
+//remove card api start
+export const removeTocard_list = async (id) => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.get(`api/cartremove/${id}`, {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
+    console.log("data",data)
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 // addcard list get in user api start 
 
