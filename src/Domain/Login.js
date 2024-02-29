@@ -37,7 +37,6 @@ function Login() {
     const loginVerify = async () => {
         try {
             const login_verify = await authLogin(loginDetails)
-            console.log(11, login_verify)
             if (login_verify.status == '200') {
                 dispatch(setUserLogin(true))
                 const authToken = login_verify.access_token;
@@ -45,9 +44,7 @@ function Login() {
                 localStorage.setItem('isLoginAuth', userLogin)
                 const token = localStorage.getItem('usedbookrtoken')
                 const response_token = await otpToken(token);
-                console.log('response_token', response_token)
                 const data_value = response_token.user;
-                console.log('data_value', data_value)
                 dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phone: data_value.phone_number }));
                 alert('Login Successfully');
                 navigate('/Profile')

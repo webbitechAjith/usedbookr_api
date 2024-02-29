@@ -29,7 +29,7 @@ function Useraside() {
     const handleItemClick = (item) => {
         dispatch(setActiveItem(item))
         if (item === 'Account') {
-            navigate('/Profile')
+            navigate('/profile')
         } else if (item === 'History') {
             navigate('/History')
         } else if (item === 'Wishlist') {
@@ -71,8 +71,8 @@ function Useraside() {
                 <div className='account-details'>
                     <div className='user_aside'>
                         <ul className="list-group">
-                            <li className={`list-group-item border-0 view-all ${pathname === '/Profile' ? 'active' : ''}`} onClick={() => handleItemClick('Account')}>
-                                <img src={pathname === '/Profile' ? profile1 : profile} className='pe-2' />My Account
+                            <li className={`list-group-item border-0 view-all ${pathname === '/profile' ? 'active' : ''}`} onClick={() => handleItemClick('Account')}>
+                                <img src={pathname === '/profile' ? profile1 : profile} className='pe-2' />My Account
                             </li>
                             <li className={`list-group-item border-0 view-all ${pathname === '/History' ? 'active' : ''}`} onClick={() => handleItemClick('History')}>
                                 <img src={pathname === '/History' ? History1 : History} className='pe-2' />Order History
@@ -96,9 +96,9 @@ function Useraside() {
             <div className='d-lg-none d-md-block d-sm-block d-block'>
                 <div className={`user-icons ${isFixed ? 'fixed-user' : ''}`}>
                     <ul id="v-pills-tab1" className='p-0' role="tablist">
-                        <li className={`border-0 nav-item view-all ${pathname === '/Profile' ? 'active' : ''}`} onClick={() => handleItemClick('Account')}>
+                        <li className={`border-0 nav-item view-all ${pathname === '/profile' ? 'active' : ''}`} onClick={() => handleItemClick('Account')}>
                             {/* <img src={pathname === '/Profile' ? profile1 : profile} className='pe-2' /> */}
-                            {pathname === '/Profile' ? <><FontAwesomeIcon icon={faUser} style={{fontSize:'25px',color:'#000'}}/></> : <><FontAwesomeIcon icon={faUser} style={{fontSize:'25px',color:'#FFF'}}/></>}
+                            {pathname === '/profile' ? <><FontAwesomeIcon icon={faUser} style={{fontSize:'25px',color:'#000'}}/></> : <><FontAwesomeIcon icon={faUser} style={{fontSize:'25px',color:'#FFF'}}/></>}
                         </li>
                         <li className={`border-0 nav-item view-all ${pathname === '/History' ? 'active' : ''}`} onClick={() => handleItemClick('History')}>
                             {/* <img src={pathname === '/History' ? History1 : History} className='pe-2' /> */}

@@ -14,7 +14,7 @@ import { otpToken, otpVerify } from '../Common/pages/apiBaseurl';
 import { useNavigate } from 'react-router-dom';
 
 const OTPForm = () => {
-    const { registerDetails, otpNumber,registerToken } = useSelector((state) => state.usedbookr_product)
+    const { registerDetails, otpNumber,registerToken,userLogin } = useSelector((state) => state.usedbookr_product)
     const [otpCheck, setOtp] = useState(
         {
             otp1: '',
@@ -51,11 +51,13 @@ const OTPForm = () => {
             const response = await otpVerify(otpNumber);
             if (response.status == '200') {
                 const token_get = localStorage.setItem('usedbookrtoken', response.access_token);
+                localStorage.setItem('isLoginAuth', true)
                 const localRegisterToken = localStorage.getItem('usedbookrtoken');
                 const response_token = await otpToken(localRegisterToken)
                 const data_value = response_token.user;
                 dispatch(setRegisterToken({username:data_value.username,email:data_value.email,name:data_value.name,phone:data_value.phone_number}));
                 alert("SuccessFully Registered");
+
                 navigate('/Profile')
             }else {
                 alert("OTP error")
