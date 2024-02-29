@@ -25,7 +25,7 @@ import remove from '../assets/image/bag-shop.png'
 
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { addTocard_list, cardToget_list, removeTocard_list } from './apiBaseurl';
 
@@ -33,7 +33,6 @@ const Allbooks = () => {
     const { allbookDetails, isLiked, userIdShop, isAdded, categoryBook, likescount, likedProducts, totalLikes, shopProducts, shopcount, singleProductView, singleProductPrice } = useSelector((state) => state.usedbookr_product)
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
 
 
 
@@ -88,13 +87,15 @@ const Allbooks = () => {
             navigate('/login')
         }
     }
-    console.log("userIdShop", userIdShop)
+    // console.log("userIdShop", userIdShop)
+    // console.log("totalshops", totalshops)
     const author_name = () => {
         navigate('/authors')
     }
-    const click_view = (index) => {
-        dispatch(setsingleProductView([allbookDetails[index]]))
-        navigate('Description')
+    const click_view = (book) => {
+        // dispatch(setsingleProductView([allbookDetails[index]]))
+        navigate(`/Description/${book.id}`,{state: book})
+        
     }
 
     const owlOption = {
@@ -142,7 +143,12 @@ const Allbooks = () => {
 
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                         <div className='best-seller'>
-                                            <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' onClick={(id) => click_view(index)} />
+                                            <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' onClick={(id) => click_view(book)} />
+                                            {/* <Link to={`/description/${book.id}`}><img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' /></Link> */}
+                                            {/* <Link to={{
+                                                pathname: '/Description',
+                                                state: {id: book.id }
+                                            }} ><img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' /></Link> */}
                                             <span className='selles-offer'>Offer 60%</span>
 
                                             <span
@@ -173,7 +179,7 @@ const Allbooks = () => {
                                                         {userIdShop && userIdShop.length > 0 ? (
                                                             <>
                                                                 {userIdShop.some(cartId => cartId.book_id === book.id) ? (
-                                                                    <>{console.log("ajith")}
+                                                                    <>
                                                                         <span
                                                                             className='normal-box1 float-end'
                                                                             id={book.id}
@@ -187,7 +193,7 @@ const Allbooks = () => {
                                                                         </span>
                                                                     </>
                                                                 ) : (
-                                                                    <>{console.log("kumar")}
+                                                                    <>
                                                                         <span
                                                                             className='box-view1 float-end'
                                                                             id={book.id}

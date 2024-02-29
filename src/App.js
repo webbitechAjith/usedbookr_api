@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useParams,BrowserRouter, Route, Routes } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import 'font-awesome/css/font-awesome.min.css';
@@ -34,7 +34,8 @@ import Newarrival from './Domain/Newarrival';
 import Error from './Common/pages/Error';
 
 function App() {
-   
+    
+  const {id} = useParams();
   useEffect(() => {
     const handleScroll = () => {
       const cards = document.querySelectorAll('.slide-up, .slide-left, .slide-right');
@@ -66,7 +67,8 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/otpform' element={<OTPForm />} />
         <Route path='/Allproduct' element={<Product />} />
-        <Route path='/Description' element={<Description />}/>
+        {/* <Route path={`/Description/${id}`} element={<Description />} /> */}
+        <Route path='/Description/:id' element={<Description />} />
         <Route path='/contact' element={<Contact />}/>
         <Route path='/Profile' element={<Profile />} />
         <Route path='/History' element={<History />} />
@@ -79,7 +81,7 @@ function App() {
         <Route path='/categorybook' element={<Categorybook />} />
         <Route path='/newarrival' element={<Newarrival />} />
         <Route path='/about' element={<About />} />
-        <Route path='*' element={<Error />} />
+        {/* <Route path='*' element={<Error />} /> */}
       </Routes>
     </BrowserRouter>
   );

@@ -190,7 +190,7 @@ function Header() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    console.log(userIdShop)
+    // console.log(userIdShop)
     return (
         <>
             <div className='top-header'>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Header from '../Common/pages/Header'
 import Footer from '../Common/pages/Footer'
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
@@ -32,18 +33,31 @@ import remove from '../Common/assets/image/removecard.png'
 import arrive1 from '../Common/assets/image/arrive1.png'
 import seller1 from '../Common/assets/image/seller1.png'
 
-import { useNavigate, useParams } from 'react-router-dom';
 import { setallBookDetails, setproductIdDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleItemCount, setClass1Hide, setSingleProductPrice } from '../Redux/CreateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import BestSeller from '../Common/pages/BestSeller';
+import { addTocard_list, allbooks, removeTocard_list } from '../Common/pages/apiBaseurl';
 
 function Description() {
-    const { isLiked, isAdded, likedProducts, likescount, singleProductView, singleProductPrice, shopProducts, shopcount, productIdDetails, singleItemCount } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, isLiked, isAdded, userIdShop, likedProducts, likescount, singleProductView, singleProductPrice, shopProducts, shopcount, productIdDetails, singleItemCount } = useSelector((state) => state.usedbookr_product)
     const [value, setValue] = useState(1);
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
+    const [activeTab, setActiveTab] = useState('tab1');
+    const [singleBooks, setSingleBooks] = useState('')
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const params = useParams();
+    // const location = useLocation();
+    // const state_id = location.state.id;
+    // const bookDetail = allbookDetails.find(data => data.id === params.id);
+    // // dispatch(setallBookDetails(bookDetail))
+    // console.log(allbookDetails)
+    // if (!bookDetail) {
+    //     // Handle case when book detail with provided id is not found
+    //     return <div>Book not found</div>;
+    //   }
+
     const review = [
         {
             "author_name": "Tevita Taufoou",
@@ -84,20 +98,7 @@ function Description() {
         setShowLess(!showLess)
         setShowAll(!showAll);
     };
-    const params = useParams()
-    const handleIncrement = () => {
-        setValue(value + 1);
-        // const milliseconds = 1641389490 * 1000;
 
-        // const dateObject = new Date(milliseconds);
-
-        // // Get the minutes from the Date object
-        // const minutes = dateObject.getMinutes();
-        // console.log(minutes)
-    };
-    const handleDecrement = () => {
-        setValue(value - 1);
-    };
     // like product click fn 
     const totallikes = likedProducts.map((data) => data.id);
 
@@ -118,29 +119,34 @@ function Description() {
 
     // shop product click fn 
     const totalshops = shopProducts.map((data) => data.id);
-
-    const handleShopClick = (product, id, price) => {
-        const isShops = product.id;
-        // Check if the product ID is in the likedProducts array
-        if (totalshops.includes(isShops)) {
-            // If it's already liked, remove it from the likedProducts array
-            dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== isShops)));
-            dispatch(setshopcount(shopcount - 1))
-        } else {
-            // If it's not liked, add it to the likedProducts array
-            // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
-            if (singleProductPrice) {
-                dispatch(setShopProducts([...shopProducts, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
-                dispatch(setshopcount(shopcount + 1))
-                navigate('/Purchase')
+    const handleShopClick = async (product, id, price) => {
+        const auth_login = localStorage.getItem('usedbookrtoken')
+        if (auth_login) {
+            const isShops = product.id;
+            // Check if the product ID is in the likedProducts array
+            if (userIdShop.some(data => data.id === id)) {
+                // If it's already in userIdShop, perform the removal process
+                dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== id)));
+                dispatch(setshopcount(shopcount - 1));
+                await removeTocard_list(id);
+                window.location.reload();
             } else {
-                dispatch(setShopProducts([...shopProducts, { ...product, id, amount: product.original_price + product.gst_charge, qty: 1 }]));
-                dispatch(setshopcount(shopcount + 1))
-                navigate('/Purchase')
+                // If it's not in userIdShop, perform the addition process
+                if (singleProductPrice) {
+                    dispatch(setShopProducts([...shopProducts, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
+                    dispatch(setshopcount(shopcount + 1));
+                } else {
+                    await addTocard_list(product, 1);
+                    dispatch(setShopProducts([...shopProducts, { ...product, id, amount: product.original_price + product.gst_charge, qty: 1 }]));
+                    dispatch(setshopcount(shopcount + 1));
+                    navigate('/Purchase');
+                }
             }
-        };
+        } else {
+            alert("Please login your account")
+            navigate('/login')
+        }
     }
-
     const buynow = () => {
         dispatch(setsingleItemCount(singleItemCount + 1))
         navigate('/Placeorder')
@@ -157,7 +163,6 @@ function Description() {
         navigate('/Allproduct')
     }
 
-    const [activeTab, setActiveTab] = useState('tab1');
 
     const toggleTab = (tab) => {
         if (activeTab !== tab) {
@@ -174,30 +179,32 @@ function Description() {
         alert("Remove this Book in  Shoplist")
     }
 
+    const allbook_view = async () => {
+        const single_book = await allbooks();
+        const bookDetail = single_book.find(data => data.id == params.id);
+        setSingleBooks([bookDetail])
+    }
     useEffect(() => {
-        dispatch(setproductIdDetails(productIdDetails))
+        allbook_view()
         dispatch(setClass1Hide(false))
         window.scrollTo(0, 0);
     }, [])
+    console.log(12, singleBooks)
     return (
         <div className='description-section'>
             <Header />
             <section className='description container-100 pb-5'>
                 <div className='d-lg-block d-none'>
                     <div className='row m-0 bg-white p-3'>
-                        {singleProductView && singleProductView.map((data) => {
+                        {singleBooks && singleBooks.map((data) => {
                             return (
-                                <>
+                                <React.Fragment key={data.id}>
                                     <div className='col-6'>
                                         <div className='row m-0'>
                                             <div className='col-12 singleproduct-img-1'>
                                                 <img src={data.image} className='w-100' />
                                             </div>
                                         </div>
-                                        {/* <div className='text-center'>
-                                            <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button>
-                                            <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
-                                        </div> */}
                                     </div>
                                     <div className='col-6 description-details'>
                                         <>
@@ -215,45 +222,81 @@ function Description() {
                                                 <>
                                                     <div className='condition-level my-3'>
                                                         <h1><span>Binding type</span></h1>
-                                                        {data.varient.map((data) => {
-                                                            return (
-                                                                <>
-                                                                    <button className='very ms-2'>{data.bindings}</button>
-                                                                </>
-                                                            )
-                                                        })}
+                                                        {data.varient.map((variantData) => (
+                                                            <button key={variantData.id} className='very ms-2'>{variantData.bindings}</button>
+                                                        ))}
                                                     </div>
                                                     <div className='condition-level my-3'>
                                                         <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                                        {data.varient.map((data) => {
-                                                            return (
-                                                                <>
-                                                                    <button className='very ms-2' onClick={() => priceCheck(data)}>{data.bookconditions}</button>
-                                                                </>
-                                                            )
-                                                        })}
+                                                        {data.varient.map((variantData) => (
+                                                            <button key={variantData.id} className='very ms-2' onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>
+                                                        ))}
                                                     </div>
                                                 </>
                                                 :
                                                 <>
-                                                    <h1>No varient type</h1>
+                                                    <h1>No variant type</h1>
                                                 </>
                                             }
-
                                             <div className='my-3'>
-
                                                 <span className='text-center'>
-                                                    {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
                                                     <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
                                                 </span>
-                                                {value == 1 ? <><button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}>{totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>} <FontAwesomeIcon icon={faBagShopping} className='ms-2' /></button></> : <><button className="disabled-shop" disabled>Add to card <FontAwesomeIcon icon={faBagShopping} /></button></>}
-                                                {/* <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data)} /></span> */}
+                                                {/* {value == 1 ? (
+                                                    <button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}>
+                                                        {totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>}
+                                                        <FontAwesomeIcon icon={faBagShopping} className='ms-2' />
+                                                    </button>
+                                                ) : (
+                                                    <button className="disabled-shop" disabled>Add to cart <FontAwesomeIcon icon={faBagShopping} /></button>
+                                                )} */}
+                                                {userIdShop && userIdShop.length > 0 ? (
+                                                    <>
+                                                        {userIdShop.some(cartId => cartId.book_id === data.id) ? (
+                                                            <>
+                                                                <button
+                                                                    className='disabled-shop'
+                                                                    id={data.id}
+                                                                    value={data.id}
+                                                                    onClick={() => {
+                                                                        const cartId = userIdShop.find(cart => cart.book_id === data.id);
+                                                                        handleShopClick(data, cartId.id, data.original_price);
+                                                                    }}
+                                                                >
+                                                                    Remove card  {/* Remove to card <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
+                                                                </button>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <button
+                                                                    className='shop-card'
+                                                                    id={data.id}
+                                                                    value={data.id}
+                                                                    onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                                >
+                                                                    Add to card
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <span
+                                                        className='shop-card'
+                                                        id={data.id}
+                                                        value={data.id}
+                                                        onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                    >
+                                                        Add to card{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
+                                                    </span>
+                                                )}
                                             </div>
                                         </>
                                     </div>
-                                </>
-                            )
+                                </React.Fragment>
+                            );
+
                         })}
+
 
                     </div>
                 </div>
