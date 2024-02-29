@@ -117,7 +117,7 @@ function Purchase() {
                             </div> */}
                             <div className='col-9'>
                                 <div className='profile-card order-card'>
-                                    {userIdShop.length > 0 ?
+                                    {userIdShop && userIdShop.length > 0 ?
                                         <>
                                             <table className="table">
                                                 <thead>
