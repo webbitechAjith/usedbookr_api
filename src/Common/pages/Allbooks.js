@@ -59,43 +59,28 @@ const Allbooks = () => {
     const handleShopClick = async (product, id, price) => {
         const auth_login = localStorage.getItem('usedbookrtoken')
         if (auth_login) {
-            const isShops = product.id;
             // Check if the product ID is in the likedProducts array
             if (userIdShop.some(data => data.id === id)) {
-                // If it's already in userIdShop, perform the removal process
-                dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== id)));
-                dispatch(setshopcount(shopcount - 1));
                 await removeTocard_list(id);
                 window.location.reload();
             } else {
-                // If it's not in userIdShop, perform the addition process
-                if (singleProductPrice) {
-                    dispatch(setShopProducts([...shopProducts, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
-                    // dispatch(setUserIdShop([...userIdShop, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
-                    dispatch(setshopcount(shopcount + 1));
-                    // navigate('/Purchase')
-                } else {
-                    await addTocard_list(product, 1);
-                    dispatch(setShopProducts([...shopProducts, { ...product, id, amount: product.original_price + product.gst_charge, qty: 1 }]));
-                    // dispatch(setUserIdShop([...userIdShop, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
-                    dispatch(setshopcount(shopcount + 1));
-                    navigate('/Purchase');
-                }
+                const set_iddetails = await addTocard_list(product, 1);
+                dispatch(setUserIdShop(set_iddetails))
+                navigate('/Purchase');
             }
         } else {
             alert("Please login your account")
             navigate('/login')
         }
     }
-    // console.log("userIdShop", userIdShop)
-    // console.log("totalshops", totalshops)
+    console.log("totalshops", userIdShop)
     const author_name = () => {
         navigate('/authors')
     }
     const click_view = (book) => {
         // dispatch(setsingleProductView([allbookDetails[index]]))
-        navigate(`/Description/${book.id}`,{state: book})
-        
+        navigate(`/Description/${book.id}`, { state: book })
+
     }
 
     const owlOption = {

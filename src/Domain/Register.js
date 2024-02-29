@@ -52,6 +52,7 @@ function Register() {
             if (registerDetails.password == registerDetails.password_confirmation) {
                 try {
                     const response = await userRegister(registerDetails);
+                    console.log("response",response)
                     if (response.success == true) {
                         alert(response.message);
                         navigate('/otpform')

@@ -21,13 +21,13 @@ import noshop from '../Common/assets/image/no-shops.gif'
 
 
 // state value action process 
-import { setshopcount, settotalItemShop, setShopProducts, setfinalItemPrice } from '../Redux/CreateSlice';
+import { setshopcount, settotalItemShop, setShopProducts, setfinalItemPrice, setUserIdShop } from '../Redux/CreateSlice';
 import { useNavigate } from 'react-router-dom';
-import { addTocard_list } from '../Common/pages/apiBaseurl';
+import { addTocard_list, removeTocard_list } from '../Common/pages/apiBaseurl';
 
 function Purchase() {
     // state value declear 
-    const { shopProducts, shopcount, totalItemShop, singleProductPrice, finalItemPrice, userLogin, userIdShop,allbookDetails } = useSelector((state) => state.usedbookr_product)
+    const { shopProducts, shopcount, totalItemShop, singleProductPrice, finalItemPrice, userLogin, userIdShop, allbookDetails } = useSelector((state) => state.usedbookr_product)
 
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -39,53 +39,49 @@ function Purchase() {
     }, 0);
 
     // increment in product count 
-    const itemIncrement = async (id) => {
-        const updatedProductItems = shopProducts.map(async item => {
-            if (item.id === id) {
-                const updatedQty = item.qty + 1;
-                const updatedAmount = Math.round((item.original_price + item.gst_charge) * updatedQty);
-                const quatity = { ...item, qty: item.qty + 1, amount: updatedAmount };
-                try {
-                    await addTocard_list(item, updatedQty); // Assuming you want to update the quantity in the backend as well
-                } catch (error) {
-                    console.log(error);
-                    // Handle error if necessary
-                }
-                return quatity
+    const itemIncrement = async (data) => {
+        const updatedBooks = userIdShop.map(book => {
+            if (book.book_id === data.id) {
+                return { ...book, quantity: book.quantity + 1 };
             }
-
-            return item;
+            return book;
         });
-        // dispatch(setShopProducts(updatedProductItems));
-        dispatch(setShopProducts(await Promise.all(updatedProductItems)));
-        dispatch(settotalItemShop(totalItemShop + 1))
+        dispatch(setUserIdShop(updatedBooks));
+        const updatedBook = updatedBooks.find(book => book.book_id === data.id);
+        if (updatedBook) {
+            await addTocard_list(data, updatedBook.quantity);
+        }
     };
-
     // decrement in product count 
-    const itemDecrement = (id) => {
-        const updatedProductItems = shopProducts.map(item => {
-            if (item.id === id) {
-                const updatedQty = item.qty - 1;
-                const updatedAmount = Math.round((item.original_price + item.gst_charge) * updatedQty);
-                const quatity = { ...item, qty: item.qty - 1, amount: updatedAmount };
-                return quatity
+    const itemDecrement = async (data) => {
+        const updatedBooks = userIdShop.map(book => {
+            if (book.book_id === data.id) {
+                return { ...book, quantity: book.quantity - 1 };
             }
-            return item;
+            return book;
         });
-        dispatch(setShopProducts(updatedProductItems));
-        dispatch(settotalItemShop(totalItemShop - 1))
+        dispatch(setUserIdShop(updatedBooks));
+        const updatedBook = updatedBooks.find(book => book.book_id === data.id);
+        if (updatedBook) {
+            await addTocard_list(data, updatedBook.quantity);
+        }
     };
 
     // delete the product item
-    const deleteitem = (id, qty, title) => {
-        const updatedItems = shopProducts.filter(item =>
-            item.id !== id
-        );
-        dispatch(setShopProducts(updatedItems))
-        dispatch(settotalItemShop(totalItemShop - qty + 1))
-        dispatch(setshopcount(shopcount - 1))
-    };
-
+    // const deleteitem = (id, qty, title) => {
+    //     const updatedItems = shopProducts.filter(item =>
+    //         item.id !== id
+    //     );
+    //     dispatch(setShopProducts(updatedItems))
+    //     dispatch(settotalItemShop(totalItemShop - qty + 1))
+    //     dispatch(setshopcount(shopcount - 1))
+    // };
+    const deleteitem = async (id) => {
+        if (userIdShop.some(data => data.id === id)) {
+            await removeTocard_list(id);
+            window.location.reload();
+        }
+    }
     // payment process
     const paymentProcess = () => {
         if (shopProducts.length > 0) {
@@ -99,11 +95,32 @@ function Purchase() {
         }
 
     }
+    let totalPrice = 0;
+    if (userIdShop.length > 0) {
+        {
+            userIdShop && allbookDetails && allbookDetails.map(data => {
+                const cartItem = userIdShop.find(item => item.book_id === data.id);
+                if (cartItem) {
+                    totalPrice += (data.original_price + data.gst_charge) * cartItem.quantity;
+                }
+                return null;
+            })
+        }
+    }
 
+    // {
+    //     userIdShop && allbookDetails && allbookDetails.map(cartItem => {
+    //         const bookData = allbookDetails.find(data => data.id === cartItem.book_id);
+    //         if (bookData) {
+    //             totalPrice += (bookData.original_price + bookData.gst_charge) * cartItem.quantity;
+    //         }
+    //         return null;
+    //     })
+    // }
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [])
-    console.log("shopProducts", allbookDetails)
+    console.log("shopProducts", userIdShop)
     return (
         <div className='purchase-section'>
             <Header />
@@ -130,44 +147,51 @@ function Purchase() {
                                                 <tbody>
                                                     {userIdShop && allbookDetails && allbookDetails.map((data, index) => {
                                                         const match = userIdShop.find(item => item.book_id === data.id);
-                                                        console.log("match",match)
                                                         // If there's a match, it means the book is in userIdShop
                                                         if (match) {
                                                             return (
-                                                            <tr className='total-wish'>
-                                                                <td className='wish-product'>
-                                                                    <div className='row m-0 pt-2'>
-                                                                        <div className='col-4 py-4'>
-                                                                            <img src={data.image} alt={data.image} className='w-100' />
+                                                                <tr className='total-wish'>
+                                                                    <td className='wish-product'>
+                                                                        <div className='row m-0 pt-2'>
+                                                                            <div className='col-4 py-4'>
+                                                                                <img src={data.image} alt={data.image} className='w-100' />
+                                                                            </div>
+                                                                            <div className='col-8 py-4'>
+                                                                                <h5>{data.title_long}</h5>
+                                                                                {/* <h5>{data.author[0].author}...</h5> */}
+                                                                                <Rating
+                                                                                    initialRating={4}
+                                                                                    emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                                                    fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                                                    readonly={true}
+                                                                                />
+                                                                                <h5>{data.total_price}</h5>
+                                                                            </div>
                                                                         </div>
-                                                                        <div className='col-8 py-4'>
-                                                                            <h5>{data.title_long}</h5>
-                                                                            {/* <h5>{data.author[0].author}...</h5> */}
-                                                                            <Rating
-                                                                                initialRating={4}
-                                                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                                                readonly={true}
-                                                                            />
-                                                                            <h5>{data.total_price}</h5>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className='py-5 px-0 sum-product'>
-                                                                    <span>
-                                                                        {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
-                                                                        <a className='mx-2 text-decoration-none'>{data.qty}</a>
-                                                                        <button onClick={() => itemIncrement(data.id)}>+</button>
-                                                                    </span>
-                                                                </td>
-                                                                <td className='py-5 text-start'>
-                                                                    <a className='text-decoration-none price-count'>{data.amount}</a>
-                                                                    <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(data.id, data.qty, data.title)} />
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    }else{
-                                                    }
+                                                                    </td>
+                                                                    <td className='py-5 px-0 sum-product'>
+                                                                        <span>
+                                                                            {match.quantity > 1 ? <><button onClick={() => itemDecrement(data)}>-</button></> : <><button type='button'>-</button></>}
+                                                                            <a className='mx-2 text-decoration-none'>{match.quantity}</a>
+                                                                            <button onClick={() => itemIncrement(data)}>+</button>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td className='py-5 text-start'>
+                                                                        <a className='text-decoration-none price-count'>
+                                                                            {(data.original_price + data.gst_charge) * match.quantity}
+                                                                        </a>
+                                                                        <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3'
+                                                                            // onClick={() => deleteitem(data.id)} 
+                                                                            onClick={() => {
+                                                                                const cartId = userIdShop.find(cart => cart.book_id === data.id);
+                                                                                deleteitem(cartId.id);
+                                                                            }}
+                                                                        />
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        } else {
+                                                        }
                                                     })}
                                                 </tbody>
                                             </table>
@@ -194,7 +218,12 @@ function Purchase() {
                                                     <h6 className=''>No.of.Item :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6 className=''>{shopcount + totalItemShop}</h6>
+                                                    <h6 className=''>
+                                                        
+                                                        {userIdShop.length>0 &&  userIdShop && (
+                                                            <>{userIdShop.reduce((total, data) => total + data.quantity, 0)}</>
+                                                        )}
+                                                    </h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -204,7 +233,9 @@ function Purchase() {
                                                     <h6 className=''>Subtotal :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6 className=''>{Math.round(final_amount)}</h6>
+                                                    <h6>{totalPrice}</h6>
+                                                    {/* <h6 className=''>{Math.round(final_amount)}</h6> */}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -223,7 +254,7 @@ function Purchase() {
                                                 <h3 className=''>Total :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{Math.round(final_amount)}</h3>
+                                                <h3 className=''>{totalPrice}</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>

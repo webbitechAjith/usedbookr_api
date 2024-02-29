@@ -102,7 +102,7 @@ function Categorybook() {
                     <>
                       {allbookDetails && allbookDetails.map((book, index) => {
                         return (
-                          <div className='col-lg-4 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
+                          <div className='col-lg-3 col-md-3 col-sm-4 col-6 mt-2 d-flex align-self-stretch'>
                             <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
                               <div className='best-seller'>
                                 <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
@@ -119,7 +119,7 @@ function Categorybook() {
                                   </span>
                                 </span>
                                 <div className='book-details p-3'>
-                                  <h1 className='w-100' title={book.title_long}>{book.title_long.slice(0, 35)}...</h1>
+                                  <h1 className='w-100' title={book.title_long}>{book.title_long.slice(0, 20)}...</h1>
                                   {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
                                   <div className='d-flex '>
                                     <div className='rate-details'>
@@ -146,9 +146,9 @@ function Categorybook() {
                                       </span>
                                     </div>
                                   </div>
-                                  <div className='text-center'>
+                                  {/* <div className='text-center'>
                                     <button className='viewall mt-5 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>

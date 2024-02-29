@@ -49,7 +49,7 @@ export const userRegister = async (registerDetails) => {
     return data;
 
   } catch (error) {
-    alert(error.response.data.errors.email[0]);
+    console.log(error.response.data.errors.email[0]);
   }
 }
 
@@ -179,7 +179,8 @@ export const wish_list = async () => {
 // wish_list()
 
 // addtocard list api start 
-export const addTocard_list = async (isBookId,updatedQty) => {
+export const addTocard_list = async (isBookId, updatedQty) => {
+  console.log(101010, isBookId, updatedQty)
   try {
     const tokenId_get = localStorage.getItem('usedbookrtoken');
     const { data } = await apiBaseurl.post('api/addtocart', {
@@ -207,7 +208,7 @@ export const removeTocard_list = async (id) => {
         'Accept': 'application/json',
       }
     });
-    console.log("data",data)
+    console.log("data", data)
     return data;
   } catch (error) {
     console.log(error)
@@ -220,7 +221,7 @@ export const removeTocard_list = async (id) => {
 export const cardToget_list = async () => {
   try {
     const tokenId_get = localStorage.getItem('usedbookrtoken');
-    const { data } = await apiBaseurl.get('api/carts',{
+    const { data } = await apiBaseurl.get('api/carts', {
       headers: {
         Authorization: `Bearer ${tokenId_get}`,
         'Accept': 'application/json',
