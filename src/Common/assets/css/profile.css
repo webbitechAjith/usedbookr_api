@@ -284,7 +284,9 @@ thead th {
 .purchase-section .wish-product {
     width: 50%;
 }
-
+.purchase-section .delete_id{
+    cursor: pointer;
+}
 .sum-product span {
     padding: 10px;
     border-radius: 170px;

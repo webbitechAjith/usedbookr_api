@@ -21,20 +21,22 @@ function Aside() {
     const [topDetails, setTopDetails] = useState(0); // Initial value
     const [outDoor, setoutDoor] = useState(0); // Initial value
     const [disCount, setDisCount] = useState([0, 70]);
-
+    const [values, setValues] = useState([0, 10])
+    // const [value, setValue] = useState([0, 10])
 
     const dispatch = useDispatch();
 
 
-    const sortedBooks = [...allbookDetails].sort((a, b) => a.original_price - b.original_price);
+    // const sortedBooks = [...allbookDetails].sort((a, b) => a.original_price - b.original_price);
 
-    // Get the book with the lowest original price
-    const lowestPriceBook = sortedBooks[0].original_price;
+    // // Get the book with the lowest original price
+    // const lowestPriceBook = sortedBooks[0].original_price;
 
-    // Get the book with the highest original price
-    const highestPriceBook = sortedBooks[sortedBooks.length - 1].original_price;
-    
-    const [value, setValue] = useState([lowestPriceBook, highestPriceBook]);
+    // // Get the book with the highest original price
+    // const highestPriceBook = sortedBooks[sortedBooks.length - 1].original_price;
+
+    // const [value, setValue] = useState([lowestPriceBook, highestPriceBook]);
+    const [value, setValue] = useState([0, 10]);
 
     // Price Changing State when volume increases/decreases 
     const rangeSelector = (event, newValue) => {
@@ -300,7 +302,7 @@ function Aside() {
                                                     <b>Price</b>
                                                 </button>
                                             </h2>
-                                            <div id="collapseSix" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                            {/* <div id="collapseSix" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                                 <div className='container-90'>
                                                     <Slider
                                                         value={value}
@@ -308,6 +310,16 @@ function Aside() {
                                                         valueLabelDisplay="auto"
                                                     />
                                                     <h6 className='py-2'>Price is between {value[0]} - {value[1]}</h6>
+                                                </div>
+                                            </div> */}
+                                            <div id="collapseSix" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                                <div className='container-90'>
+                                                    <Slider
+                                                        value={value}
+                                                        onChange={rangeSelector}
+                                                        valueLabelDisplay="auto"
+                                                    />
+                                                    <h6 className='py-2'>Price is between {values[0]} - {values[1]}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -543,7 +555,7 @@ function Aside() {
                                         <Slider
                                             value={value}
                                             onChange={rangeSelector}
-                                            // valueLabelDisplay="auto"
+                                        // valueLabelDisplay="auto"
                                         />
                                         <h6>Price is between {value[0]} - {value[1]}</h6>
                                     </div>

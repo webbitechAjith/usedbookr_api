@@ -21,9 +21,9 @@ import noshop from '../Common/assets/image/no-shops.gif'
 
 
 // state value action process 
-import { setshopcount, settotalItemShop, setShopProducts, setfinalItemPrice, setUserIdShop } from '../Redux/CreateSlice';
+import { setshopcount, settotalItemShop, setShopProducts, setfinalItemPrice, setUserIdShop, setallBookDetails } from '../Redux/CreateSlice';
 import { useNavigate } from 'react-router-dom';
-import { addTocard_list, removeTocard_list } from '../Common/pages/apiBaseurl';
+import { addTocard_list, allbooks, removeTocard_list } from '../Common/pages/apiBaseurl';
 
 function Purchase() {
     // state value declear 
@@ -66,16 +66,6 @@ function Purchase() {
             await addTocard_list(data, updatedBook.quantity);
         }
     };
-
-    // delete the product item
-    // const deleteitem = (id, qty, title) => {
-    //     const updatedItems = shopProducts.filter(item =>
-    //         item.id !== id
-    //     );
-    //     dispatch(setShopProducts(updatedItems))
-    //     dispatch(settotalItemShop(totalItemShop - qty + 1))
-    //     dispatch(setshopcount(shopcount - 1))
-    // };
     const deleteitem = async (id) => {
         if (userIdShop.some(data => data.id === id)) {
             await removeTocard_list(id);
@@ -117,10 +107,15 @@ function Purchase() {
     //         return null;
     //     })
     // }
+    const book_details = async () => {
+        const books = await allbooks();
+        dispatch(setallBookDetails(books))
+    }
     useEffect(() => {
+        book_details()
         window.scrollTo(0, 0);
     }, [])
-    console.log("shopProducts", userIdShop)
+    console.log("shopProducts", allbookDetails)
     return (
         <div className='purchase-section'>
             <Header />
@@ -150,7 +145,7 @@ function Purchase() {
                                                         // If there's a match, it means the book is in userIdShop
                                                         if (match) {
                                                             return (
-                                                                <tr className='total-wish'>
+                                                                <tr key={index} className='total-wish'>
                                                                     <td className='wish-product'>
                                                                         <div className='row m-0 pt-2'>
                                                                             <div className='col-4 py-4'>
@@ -158,7 +153,6 @@ function Purchase() {
                                                                             </div>
                                                                             <div className='col-8 py-4'>
                                                                                 <h5>{data.title_long}</h5>
-                                                                                {/* <h5>{data.author[0].author}...</h5> */}
                                                                                 <Rating
                                                                                     initialRating={4}
                                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -180,8 +174,7 @@ function Purchase() {
                                                                         <a className='text-decoration-none price-count'>
                                                                             {(data.original_price + data.gst_charge) * match.quantity}
                                                                         </a>
-                                                                        <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3'
-                                                                            // onClick={() => deleteitem(data.id)} 
+                                                                        <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3 delete_id'
                                                                             onClick={() => {
                                                                                 const cartId = userIdShop.find(cart => cart.book_id === data.id);
                                                                                 deleteitem(cartId.id);
@@ -190,8 +183,8 @@ function Purchase() {
                                                                     </td>
                                                                 </tr>
                                                             )
-                                                        } else {
                                                         }
+                                                        return null; // Don't forget to handle when there's no match
                                                     })}
                                                 </tbody>
                                             </table>
@@ -219,10 +212,23 @@ function Purchase() {
                                                 </div>
                                                 <div className='col-6 text-end'>
                                                     <h6 className=''>
-                                                        
-                                                        {userIdShop.length>0 &&  userIdShop && (
-                                                            <>{userIdShop.reduce((total, data) => total + data.quantity, 0)}</>
+                                                        {/* {userIdShop && userIdShop.length > 0 ?
+                                                            <>
+                                                                {userIdShop.length > 0 && userIdShop && (
+                                                                    <>{userIdShop.reduce((total, data) => total + data.quantity, 0)}</>
+                                                                )}
+                                                            </>
+                                                            :
+                                                            <>
+                                                                0
+                                                            </>
+                                                        } */}
+                                                        {userIdShop && userIdShop.length > 0 ? (
+                                                            userIdShop.reduce((total, data) => total + data.quantity, 0)
+                                                        ) : (
+                                                            0
                                                         )}
+
                                                     </h6>
                                                 </div>
                                             </div>

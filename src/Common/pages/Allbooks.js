@@ -58,7 +58,8 @@ const Allbooks = () => {
     const totalshops = shopProducts.map((data) => data.id);
     const handleShopClick = async (product, id, price) => {
         const auth_login = localStorage.getItem('usedbookrtoken')
-        if (auth_login) {
+        const auth_uesrlogin = localStorage.getItem('isLoginAuth')
+        if (auth_login || auth_uesrlogin == true) {
             // Check if the product ID is in the likedProducts array
             if (userIdShop.some(data => data.id === id)) {
                 await removeTocard_list(id);
@@ -73,7 +74,6 @@ const Allbooks = () => {
             navigate('/login')
         }
     }
-    console.log("totalshops", userIdShop)
     const author_name = () => {
         navigate('/authors')
     }
@@ -129,11 +129,6 @@ const Allbooks = () => {
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                         <div className='best-seller'>
                                             <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' onClick={(id) => click_view(book)} />
-                                            {/* <Link to={`/description/${book.id}`}><img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' /></Link> */}
-                                            {/* <Link to={{
-                                                pathname: '/Description',
-                                                state: {id: book.id }
-                                            }} ><img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' /></Link> */}
                                             <span className='selles-offer'>Offer 60%</span>
 
                                             <span
@@ -148,7 +143,7 @@ const Allbooks = () => {
                                                 </span>
                                             </span>
                                             <div className='book-details px-3'>
-                                                <h1 className='w-100' title={book.title} onClick={(id) => click_view(index)}>{book.title_long.slice(0, 20)}...</h1>
+                                                <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
                                                 {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
                                                 <div className='d-flex '>
                                                     <div className='rate-details'>

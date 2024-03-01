@@ -82,7 +82,7 @@ function Register() {
                                 <h5>If you already have an account register</h5>
                                 <h5>You can <span className='register-hover' onClick={() => login()}>Login here !</span></h5>
                                 <div className="my-3">
-                                    <label htmlFor="text" className="form-label">Username</label>
+                                    <label htmlFor="text" className="form-label">Name</label>
                                     <div className="input-group">
                                         <span className="pe-2">
                                             <img src={usericon} />
