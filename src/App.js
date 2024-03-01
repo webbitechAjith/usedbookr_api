@@ -78,6 +78,7 @@ function App() {
         <Route path='/Orderprocess' element={<Orderprocess />} />
         <Route path='/authors' element={<Autherfliter />} />
         <Route path='/categorybook/:id' element={<Categorybook />} />
+        <Route path='/categorybook' element={<Categorybook />} />
         <Route path='/newarrival' element={<Newarrival />} />
         <Route path='/about' element={<About />} />
         {/* <Route path='*' element={<Error />} /> */}

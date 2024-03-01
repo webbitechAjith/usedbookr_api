@@ -127,7 +127,7 @@ function Product() {
                       {filterCategory && allbookDetails && (
                         allbookDetails.length > 0 ? (
                           allbookDetails
-                            .filter(book => filterCategory.some(category => book.category_id[0].name === category.name || book.language == category.lan || book.varient.some(variant => variant.bookconditions == category.con)))
+                            .filter(book => filterCategory.some(category => book.category_id[0].name === category.name || book.language == category.lan || book.varient.some(variant => variant.bookconditions == category.con) || book.varient.some(variant => variant.bindings == category.bind)))
                             .map(book => (
                               <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch' key={book.id}>
                                 <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>

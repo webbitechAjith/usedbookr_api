@@ -24,10 +24,26 @@ function Aside() {
     const [disCount, setDisCount] = useState([0, 70]);
     const [values, setValues] = useState([0, 10])
     // const [value, setValue] = useState([0, 10])
+    const [value, setValue] = useState([0, 10]);
+    const [showCategory, setShowCategory] = useState(false);
+    const [condition, setCondition] = useState([{ id: 1, con: 'New' }, { id: 2, con: 'Very Good' }, { id: 3, con: 'Good' }, { id: 4, con: 'Normal' }]);
+    const [binding, setBinding] = useState([{ id: 1, bind: 'slim' }, { id: 2, bind: 'Cover' }]);
+    const language = [{ id: 1, lan: 'English' }, { id: 2, lan: 'Tamil' }, { id: 3, lan: 'Malaiyam' }, { id: 4, lan: 'Hindi' }, { id: 5, lan: 'German' }, { id: 6, lan: 'Bengali' }]
+    const [languageType, setLanguageType] = useState(language);
+    const [filterOption, setFilterOption] = useState(false);
+    const [showAll, setShowAll] = useState(false);
+    const [showLess, setShowLess] = useState(false);
 
     const dispatch = useDispatch();
-    const [value, setValue] = useState([0, 10]);
 
+    const handleShowMore = () => {
+        setShowAll(!showAll);
+        setShowLess(!showLess)
+    };
+    const handleLessMore = () => {
+        setShowLess(!showLess)
+        setShowAll(!showAll);
+    };
     // Price Changing State when volume increases/decreases 
     const rangeSelector = (event, newValue) => {
         setValue(newValue);
@@ -40,64 +56,39 @@ function Aside() {
         const data = await megamenu_list();
         dispatch(setMegaMenu(data))
     }
-    const [showCategory, setShowCategory] = useState(false);
-    const [condition, setCondition] = useState([{ id: 1, con: 'New' }, { id: 2, con: 'Very Good' }, { id: 3, con: 'Good' }, { id: 4, con:'Normal'}]);
-    const language = [{ id: 1, lan: 'English'}, { id: 2, lan: 'Tamil'}, { id: 3, lan: 'Malaiyam' }, { id: 4, lan: 'Hindi' }, { id: 5, lan: 'German' }, { id: 6, lan: 'Bengali' }]
-    const [languageType, setLanguageType] = useState(language);
-    const [filterOption, setFilterOption] = useState(false);
-    const [showAll, setShowAll] = useState(false);
-    const [showLess, setShowLess] = useState(false);
-    const handleShowMore = () => {
-        setShowAll(!showAll);
-        setShowLess(!showLess)
-    };
-    const handleLessMore = () => {
-        setShowLess(!showLess)
-        setShowAll(!showAll);
-    };
-    const filter = () => {
-        if (filterOption == false) {
-            setFilterOption(true)
-        } else {
-            setFilterOption(false)
-        }
-    }
-    const indoor = async () => {
-        const onvalue = setTopDetails((prevValue) => (prevValue === 0 ? 1 : 0));
-        console.log("onvalue", topDetails)
-
-    }
-
     const category = (data) => {
-        console.log(data,1010)
-        const index = filterCategory.findIndex(item => item.id === data.id);
+        const index = filterCategory.findIndex(item => item.name === data.name);
         if (index === -1) {
             dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
         } else {
-            dispatch(setFilterCategory(filterCategory.filter(item => item.id !== data.id))); // Remove from filterCategory
+            dispatch(setFilterCategory(filterCategory.filter(item => item.name !== data.name))); // Remove from filterCategory
         }
     };
     const conditionFilter = (data) => {
-        const index = filterCategory.findIndex(item => item.id === data.id);
+        const index = filterCategory.findIndex(item => item.con === data.con);
         if (index === -1) {
             dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
         } else {
-            dispatch(setFilterCategory(filterCategory.filter(item => item.id !== data.id))); // Remove from filterCategory
+            dispatch(setFilterCategory(filterCategory.filter(item => item.con !== data.con))); // Remove from filterCategory
         }
     }
     const languageFilter = (data) => {
-        const index = filterCategory.findIndex(item => item.id === data.id);
+        const index = filterCategory.findIndex(item => item.lan === data.lan);
         if (index === -1) {
             dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
         } else {
-            dispatch(setFilterCategory(filterCategory.filter(item => item.id !== data.id))); // Remove from filterCategory
+            dispatch(setFilterCategory(filterCategory.filter(item => item.lan !== data.lan))); // Remove from filterCategory
         }
     }
-    const outdoor = async () => {
-        const onvalue = setoutDoor((prevValue) => (prevValue === 0 ? 1 : 0));
-        console.log("onvalue", topDetails)
-
+    const bindFilter = (data) => {
+        const index = filterCategory.findIndex(item => item.bind === data.bind);
+        if (index === -1) {
+            dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
+        } else {
+            dispatch(setFilterCategory(filterCategory.filter(item => item.bind !== data.bind))); // Remove from filterCategory
+        }
     }
+    
     const handlePriceChange = (minPrice, maxPrice) => {
         // Handle the price change logic here
         console.log('Selected Price Range:', minPrice, maxPrice);
@@ -113,7 +104,7 @@ function Aside() {
     return (
         <>
             <aside className='my-lg-5 my-2'>
-                {filterOption ?
+                {/* {filterOption ?
                     <>
 
                     </>
@@ -124,7 +115,7 @@ function Aside() {
                         </div>
                     </>
 
-                }
+                } */}
                 {filterOption ?
 
                     <>
@@ -138,36 +129,28 @@ function Aside() {
                                     <div className="accordion scroll-y" id="accordionExample">
                                         <div className="accordion-item border-0">
                                             <h2 className="accordion-header">
-                                                <button className="accordion-button btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                                     <b>Categories</b>
                                                 </button>
                                             </h2>
                                             <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" checked={topDetails === 1} onClick={() => indoor()} />
-                                                        <label className="form-check-label" for="exampleCheck1">Education<span>(13)</span></label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" onClick={() => outdoor()} />
-                                                        <label className="form-check-label" for="exampleCheck1">Magazines<span>(15)</span></label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Philosophy & Religion<span>(18)</span></label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Economics & Business<span>(13)</span></label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Political<span>(15)</span></label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Children Comics<span>(18)</span></label>
-                                                    </div>
+                                                    {megaMenu.length > 0 ? (
+                                                        megaMenu.map(data => (
+                                                            <div key={data.id} className="mb-3 form-check">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    className="form-check-input"
+                                                                    id={data.id}
+                                                                    onClick={() => category(data)}
+                                                                    checked={filterCategory.some(item => item.name === data.name)}
+                                                                />
+                                                                <label className="form-check-label" htmlFor={data.id}>{data.name}</label>
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <p>null</p>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -180,18 +163,17 @@ function Aside() {
                                             </h2>
                                             <div id="collapseTwo" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Good (13)</label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Very Good (15)</label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Well Read (22)</label>
-                                                    </div>
+                                                    {condition && condition.map((data, index) => (
+                                                        <div key={index} className="mb-3 form-check">
+                                                            <input type="checkbox"
+                                                                className="form-check-input" id={`exampleCheck${index + 1}`}
+                                                                onClick={() => conditionFilter(data)}
+                                                                checked={filterCategory.some(item => item.con == data.con)}
+                                                            />
+                                                            <label className="form-check-label" htmlFor={`exampleCheck${index + 1}`}>{data.con}</label>
+                                                        </div>
+                                                    ))}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -204,10 +186,15 @@ function Aside() {
                                             </h2>
                                             <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    {languageType.slice(0, showAll ? languageType.length : 3).map((item, index) => (
+                                                    {languageType.slice(0, showAll ? languageType.length : 3).map((data, index) => (
                                                         <div className="mb-3 form-check">
-                                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                            <label className="form-check-label" for="exampleCheck1">{item}</label>
+                                                            <input type="checkbox"
+                                                                className="form-check-input"
+                                                                id="exampleCheck1"
+                                                                onClick={() => languageFilter(data)}
+                                                                checked={filterCategory.some(item => item.lan === data.lan)}
+                                                            />
+                                                            <label className="form-check-label" for="exampleCheck1">{data.lan}</label>
                                                         </div>
                                                     ))}
                                                     {!showAll && (
@@ -229,18 +216,17 @@ function Aside() {
                                             </h2>
                                             <div id="collapseFour" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Hard cover</label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Leather Bound</label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Non-Binding</label>
-                                                    </div>
+                                                    {binding && binding.map((data, index) => (
+                                                        <div key={index} className="mb-3 form-check">
+                                                            <input type="checkbox"
+                                                                className="form-check-input" id={`exampleCheck${index + 1}`}
+                                                                onClick={() => bindFilter(data)}
+                                                                checked={filterCategory.some(item => item.bind == data.bind)}
+                                                            />
+                                                            <label className="form-check-label" htmlFor={`exampleCheck${index + 1}`}>{data.bind}</label>
+                                                        </div>
+                                                    ))}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -282,46 +268,37 @@ function Aside() {
                                                         onChange={discountRange}
                                                         valueLabelDisplay="auto"
                                                     />
-                                                    <h6>Discount is between {disCount[0]}% - {disCount[1]}%</h6>
+
+                                                    <h6 className='py-2'>Discount is between {disCount[0]}% - {disCount[1]}%</h6>
                                                 </div>
                                             </div>
                                         </div>
                                         <hr className='m-0' />
                                         <div className="accordion-item border-0">
                                             <h2 className="accordion-header">
-                                                <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
+                                                <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseThree">
                                                     <b>Price</b>
                                                 </button>
                                             </h2>
-                                            {/* <div id="collapseSix" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                            <div id="collapseSeven" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                                 <div className='container-90'>
                                                     <Slider
                                                         value={value}
                                                         onChange={rangeSelector}
-                                                        valueLabelDisplay="auto"
+                                                    // valueLabelDisplay="auto"
                                                     />
-                                                    <h6 className='py-2'>Price is between {value[0]} - {value[1]}</h6>
-                                                </div>
-                                            </div> */}
-                                            <div id="collapseSix" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                                <div className='container-90'>
-                                                    <Slider
-                                                        value={value}
-                                                        onChange={rangeSelector}
-                                                        valueLabelDisplay="auto"
-                                                    />
-                                                    <h6 className='py-2'>Price is between {values[0]} - {values[1]}</h6>
+                                                    <h6>Price is between {value[0]} - {value[1]}</h6>
                                                 </div>
                                             </div>
                                         </div>
                                         <hr className='m-0' />
                                         <div className="accordion-item border-0">
                                             <h2 className="accordion-header">
-                                                <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseFour">
+                                                <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseFour">
                                                     <b>Rating</b>
                                                 </button>
                                             </h2>
-                                            <div id="collapseSeven" className="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                            <div id="collapseEight" className="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
                                                     <div className="mb-3 form-check">
                                                         <input type="checkbox" className="form-check-input" id="exampleCheck1" />
@@ -472,18 +449,17 @@ function Aside() {
                                 </h2>
                                 <div id="collapseFour" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                     <div className="accordion-body">
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Hard cover</label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Leather Bound</label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Non-Binding</label>
-                                        </div>
+                                        {binding && binding.map((data, index) => (
+                                            <div key={index} className="mb-3 form-check">
+                                                <input type="checkbox"
+                                                    className="form-check-input" id={`exampleCheck${index + 1}`}
+                                                    onClick={() => bindFilter(data)}
+                                                    checked={filterCategory.some(item => item.bind == data.bind)}
+                                                />
+                                                <label className="form-check-label" htmlFor={`exampleCheck${index + 1}`}>{data.bind}</label>
+                                            </div>
+                                        ))}
+
                                     </div>
                                 </div>
                             </div>
