@@ -28,13 +28,13 @@ import whiteshop from '../assets/image/white_shop.png'
 import whitenav from '../assets/image/whitenav.png'
 import heartShop from '../assets/image/heart-shop.png'
 
-import { setCategoryBook, setClass1Hide, setUserIdShop, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield, setshopcount } from '../../Redux/CreateSlice'
+import { setCategoryBook, setClass1Hide, setMegaMenu, setUserIdShop, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield, setshopcount } from '../../Redux/CreateSlice'
 import axios from 'axios';
 import { allbooks, cardToget_list, megamenu_list } from './apiBaseurl';
 
 
 function Header() {
-    const { isClass1Show, likescount, userIdShop, shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
+    const { isClass1Show, likescount,megaMenu, userIdShop, shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
     const [searchTerm, setSearchTerm] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -48,7 +48,7 @@ function Header() {
     // const [userIdShop, setUserIdShop] = useState(0); // State to store the value of abc
     const dropdownRef = useRef(null);
 
-    const [megaMenu, setMegaMenu] = useState({})
+    // const [megaMenu, setMegaMenu] = useState({})
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -84,7 +84,7 @@ function Header() {
     }
     const menu_lists = async () => {
         const data = await megamenu_list();
-        setMegaMenu(data)
+        dispatch(setMegaMenu(data))
         dispatch(setCategoryBook(data))
     }
     const toggleMenu = () => {

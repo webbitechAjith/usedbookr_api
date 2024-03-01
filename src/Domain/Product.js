@@ -19,12 +19,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faHeart, faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView } from '../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView, setUserIdShop, setMegaMenu } from '../Redux/CreateSlice';
 import { Link, useNavigate } from 'react-router-dom'
+import { addTocard_list, allbooks, megamenu_list, removeTocard_list } from '../Common/pages/apiBaseurl';
 
 function Product() {
 
-  const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, userIdShop, likedProducts, likescount, shopProducts, filterCategory, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield } = useSelector((state) => state.usedbookr_product)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -49,21 +50,24 @@ function Product() {
 
   // shop product click fn 
   const totalshops = shopProducts.map((data) => data.id);
-
-  const handleShopClick = (product, id, price) => {
-    const isShops = product.id;
-    // Check if the product ID is in the likedProducts array
-    if (totalshops.includes(isShops)) {
-      // If it's already liked, remove it from the likedProducts array
-      dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== isShops)));
-      dispatch(setshopcount(shopcount - 1))
+  const handleShopClick = async (product, id, price) => {
+    const auth_login = localStorage.getItem('usedbookrtoken')
+    const auth_uesrlogin = localStorage.getItem('isLoginAuth')
+    if (auth_login || auth_uesrlogin == true) {
+      // Check if the product ID is in the likedProducts array
+      if (userIdShop.some(data => data.id === id)) {
+        await removeTocard_list(id);
+        window.location.reload();
+      } else {
+        const set_iddetails = await addTocard_list(product, 1);
+        dispatch(setUserIdShop(set_iddetails))
+        navigate('/Purchase');
+      }
     } else {
-      // If it's not liked, add it to the likedProducts array
-      // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
-      dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
-      dispatch(setshopcount(shopcount + 1))
+      alert("Please login your account")
+      navigate('/login')
     }
-  };
+  }
 
   const all_product = () => {
     navigate('/Allproduct')
@@ -96,9 +100,16 @@ function Product() {
     dispatch(setsingleProductView([allbookDetails[id]]))
     navigate('/Description')
   }
+  const over_allbook = async () => {
+    const books = await allbooks()
+    dispatch(setallBookDetails(books))
+  }
   useEffect(() => {
+    over_allbook();
     window.scrollTo(0, 0);
   }, []);
+  console.log(11, allbookDetails)
+  console.log(4, filterCategory)
   return (
     <div className='product-section'>
       <Header />
@@ -109,73 +120,192 @@ function Product() {
               <Aside />
             </div>
             <div className='col-9'>
-              <div className='product-list my-5'>
+              <div className='product-list my-4'>
                 <div className='row m-0  py-4 bestseller'>
-                  {allbookDetails.length > 0 ?
+                  {filterCategory.length > 0 ?
                     <>
-                      {allbookDetails && allbookDetails.map((book, index) => {
-                        return (
-                          <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
-                            <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
-                              <div className='best-seller'>
-                                <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                                <span className='selles-offer'>offer 60%</span>
-                                {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
-                                        <span className={` ${isLiked ? 'likes' : 'unlikes'} `} ><img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" /></span>
-                                    </span> */}
-                                <span
-                                  className='like-position float-end m-2'
-                                  onClick={() => handleLikeClick(book)}
-                                >
-                                  <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                    <img
-                                      src={totallikes.includes(book.id) ? likes : unlike}
-                                      alt="Like Button"
-                                    />
-                                  </span>
-                                </span>
-                                <div className='book-details p-1'>
-                                  <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
-                                  {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
-                                  <div className='d-flex '>
-                                    <div className='rate-details'>
-                                      <span className='new-rate'>₹{book.original_price}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
-                                      <Rating
-                                        initialRating={5}
-                                        emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                        fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                        readonly={true}
-                                      />
-                                    </div>
-                                    <div className='ms-auto'>
-                                      {/* {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)} */}
-                                      <span
-                                        className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                        id={book.id} value={book.id}
-                                        onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                      >
-                                        {/* <img
-                                                        src={totalshops.includes(book.id) ? add : remove}
-                                                        alt="Shop Button"
-                                                    /> */}
-                                        {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
+                      {filterCategory && allbookDetails && (
+                        allbookDetails.length > 0 ? (
+                          allbookDetails
+                            .filter(book => filterCategory.some(category => book.category_id[0].name === category.name || book.language == category.lan || book.varient.some(variant => variant.bookconditions == category.con)))
+                            .map(book => (
+                              <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch' key={book.id}>
+                                <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
+                                  <div className='best-seller'>
+                                    <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                    <span className='selles-offer'>offer 60%</span>
+                                    <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
+                                      <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
+                                        <img
+                                          src={totallikes.includes(book.id) ? likes : unlike}
+                                          alt="Like Button"
+                                        />
                                       </span>
+                                    </span>
+                                    <div className='book-details p-1'>
+                                      <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
+                                      {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
+                                      <h5>{book.category_id[0].name}</h5>
+                                      <div className='d-flex '>
+                                        <div className='rate-details'>
+                                          <span className='new-rate'>₹{book.original_price}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                          <Rating
+                                            initialRating={5}
+                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                            readonly={true}
+                                          />
+                                        </div>
+                                        <div className='ms-auto'>
+                                          {userIdShop && userIdShop.length > 0 ? (
+                                            <>
+                                              {userIdShop.some(cartId => cartId.book_id === book.id) ? (
+                                                <>
+                                                  <span
+                                                    className='normal-box1 float-end'
+                                                    id={book.id}
+                                                    value={book.id}
+                                                    onClick={() => {
+                                                      const cartId = userIdShop.find(cart => cart.book_id === book.id);
+                                                      handleShopClick(book, cartId.id, book.original_price);
+                                                    }}
+                                                  >
+                                                    <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                  </span>
+                                                </>
+                                              ) : (
+                                                <>
+                                                  <span
+                                                    className='box-view1 float-end'
+                                                    id={book.id}
+                                                    value={book.id}
+                                                    onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                  >
+                                                    <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                  </span>
+                                                </>
+                                              )}
+                                            </>
+                                          ) : (
+                                            <span
+                                              className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                              id={book.id}
+                                              value={book.id}
+                                              onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                            >
+                                              <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                            </span>
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
-                                  {/* <div className='text-center'>
-                                    <button className='viewall mt-5 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
-                                  </div> */}
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        )
-                      })}
-                    </> :
+                            ))
+                        ) :
+                          (
+                            <div><h1>No products found</h1></div>
+                          )
+                      )}
+                    </>
+                    :
                     <>
-                      <h1 className='text-center product-title'>No items</h1>
-                    </>}
-
+                      {allbookDetails.length > 0 ?
+                        <>
+                          {allbookDetails && allbookDetails.map((book, index) => {
+                            return (
+                              <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch'>
+                                <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
+                                  <div className='best-seller'>
+                                    <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                    <span className='selles-offer'>offer 60%</span>
+                                    {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)}>
+                                        <span className={` ${isLiked ? 'likes' : 'unlikes'} `} ><img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" /></span>
+                                    </span> */}
+                                    <span
+                                      className='like-position float-end m-2'
+                                      onClick={() => handleLikeClick(book)}
+                                    >
+                                      <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
+                                        <img
+                                          src={totallikes.includes(book.id) ? likes : unlike}
+                                          alt="Like Button"
+                                        />
+                                      </span>
+                                    </span>
+                                    <div className='book-details p-1'>
+                                      <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
+                                      {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
+                                      <h5>{book.category_id[0].name}</h5>
+                                      <div className='d-flex '>
+                                        <div className='rate-details'>
+                                          <span className='new-rate'>₹{book.original_price}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                          <Rating
+                                            initialRating={5}
+                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                            readonly={true}
+                                          />
+                                        </div>
+                                        <div className='ms-auto'>
+                                          {userIdShop && userIdShop.length > 0 ? (
+                                            <>
+                                              {userIdShop.some(cartId => cartId.book_id === book.id) ? (
+                                                <>
+                                                  <span
+                                                    className='normal-box1 float-end'
+                                                    id={book.id}
+                                                    value={book.id}
+                                                    onClick={() => {
+                                                      const cartId = userIdShop.find(cart => cart.book_id === book.id);
+                                                      handleShopClick(book, cartId.id, book.original_price);
+                                                    }}
+                                                  >
+                                                    <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                  </span>
+                                                </>
+                                              ) : (
+                                                <>
+                                                  <span
+                                                    className='box-view1 float-end'
+                                                    id={book.id}
+                                                    value={book.id}
+                                                    onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                  >
+                                                    <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                  </span>
+                                                </>
+                                              )}
+                                            </>
+                                          ) : (
+                                            <span
+                                              className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                              id={book.id}
+                                              value={book.id}
+                                              onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                            >
+                                              <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                            </span>
+                                          )}
+                                        </div>
+                                      </div>
+                                      {/* <div className='text-center'>
+                                    <button className='viewall mt-5 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
+                                  </div> */}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </> :
+                        <>
+                          <h1 className='text-center product-title'>No items</h1>
+                        </>
+                      }
+                    </>
+                  }
                 </div>
               </div>
             </div>

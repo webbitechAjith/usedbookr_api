@@ -10,13 +10,14 @@ import 'font-awesome/css/font-awesome.min.css';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setFilteredProducts, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
+import { setFilterCategory, setFilteredProducts, setMegaMenu, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { megamenu_list } from './apiBaseurl';
 
 
 function Aside() {
-    const { allbookDetails, priceFilter, filteredProducts } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, priceFilter, filteredProducts, megaMenu, filterCategory } = useSelector((state) => state.usedbookr_product)
     const [sliderValue, setSliderValue] = useState(0); // Initial value
     const [topDetails, setTopDetails] = useState(0); // Initial value
     const [outDoor, setoutDoor] = useState(0); // Initial value
@@ -25,17 +26,6 @@ function Aside() {
     // const [value, setValue] = useState([0, 10])
 
     const dispatch = useDispatch();
-
-
-    // const sortedBooks = [...allbookDetails].sort((a, b) => a.original_price - b.original_price);
-
-    // // Get the book with the lowest original price
-    // const lowestPriceBook = sortedBooks[0].original_price;
-
-    // // Get the book with the highest original price
-    // const highestPriceBook = sortedBooks[sortedBooks.length - 1].original_price;
-
-    // const [value, setValue] = useState([lowestPriceBook, highestPriceBook]);
     const [value, setValue] = useState([0, 10]);
 
     // Price Changing State when volume increases/decreases 
@@ -46,15 +36,14 @@ function Aside() {
     const discountRange = (event, newValue) => {
         setDisCount(newValue)
     }
-    // const handleFilterChange = (minPrice, maxPrice) => {
-    //     setFilter({ minPrice, maxPrice });
-    // };
-
-    // const prices = [50, 100, 200, 500, 1000, 1500];
-
+    const menu_lists = async () => {
+        const data = await megamenu_list();
+        dispatch(setMegaMenu(data))
+    }
     const [showCategory, setShowCategory] = useState(false);
-    const language = ['English', 'Tamil', 'Malaiyam', 'Hindi', 'German', 'Bengali']
-    const [items, setItems] = useState(language);
+    const [condition, setCondition] = useState([{ id: 1, con: 'New' }, { id: 2, con: 'Very Good' }, { id: 3, con: 'Good' }, { id: 4, con:'Normal'}]);
+    const language = [{ id: 1, lan: 'English'}, { id: 2, lan: 'Tamil'}, { id: 3, lan: 'Malaiyam' }, { id: 4, lan: 'Hindi' }, { id: 5, lan: 'German' }, { id: 6, lan: 'Bengali' }]
+    const [languageType, setLanguageType] = useState(language);
     const [filterOption, setFilterOption] = useState(false);
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
@@ -76,34 +65,38 @@ function Aside() {
     const indoor = async () => {
         const onvalue = setTopDetails((prevValue) => (prevValue === 0 ? 1 : 0));
         console.log("onvalue", topDetails)
-        // if (topDetails === 0) {
-        //     const innerdoor = [];
-        //     allplantsDetails && allplantsDetails.map((data, index) => {
-        //         if (data.category_id == 1) {
-        //             innerdoor.push(data)
-        //         }
-        //     })
-        //     dispatch(setallBookDetails(innerdoor))
-        // } else {
-        //     // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-        //     // dispatch(setallBookDetails(data.data))
-        // }
+
+    }
+
+    const category = (data) => {
+        console.log(data,1010)
+        const index = filterCategory.findIndex(item => item.id === data.id);
+        if (index === -1) {
+            dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
+        } else {
+            dispatch(setFilterCategory(filterCategory.filter(item => item.id !== data.id))); // Remove from filterCategory
+        }
+    };
+    const conditionFilter = (data) => {
+        const index = filterCategory.findIndex(item => item.id === data.id);
+        if (index === -1) {
+            dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
+        } else {
+            dispatch(setFilterCategory(filterCategory.filter(item => item.id !== data.id))); // Remove from filterCategory
+        }
+    }
+    const languageFilter = (data) => {
+        const index = filterCategory.findIndex(item => item.id === data.id);
+        if (index === -1) {
+            dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
+        } else {
+            dispatch(setFilterCategory(filterCategory.filter(item => item.id !== data.id))); // Remove from filterCategory
+        }
     }
     const outdoor = async () => {
         const onvalue = setoutDoor((prevValue) => (prevValue === 0 ? 1 : 0));
         console.log("onvalue", topDetails)
-        // if (outDoor === 0) {
-        //     const outdoor = [];
-        //     allplantsDetails && allplantsDetails.map((data, index) => {
-        //         if (data.category_id == 3) {
-        //             outdoor.push(data)
-        //         }
-        //     })
-        //     dispatch(setallBookDetails(outdoor))
-        // } else {
-        //     // const { data } = await axios.get('https://webbitech.co.in/ecommerce/public/api/productlist');
-        //     // dispatch(setallBookDetails(data.data))
-        // }
+
     }
     const handlePriceChange = (minPrice, maxPrice) => {
         // Handle the price change logic here
@@ -113,12 +106,10 @@ function Aside() {
         setShowCategory(!showCategory);
         setFilterOption(!filterOption)
     };
-    // useEffect(() => {
-    //     // Filter products based on the max price
-    //     const filtered = allplantsDetails.filter(product => product.total_price <= maxPrice);
-    //     dispatch(setFilteredProducts(filtered));
-    // }, [maxPrice, allplantsDetails]);
 
+    useEffect(() => {
+        menu_lists();
+    }, [])
     return (
         <>
             <aside className='my-lg-5 my-2'>
@@ -213,7 +204,7 @@ function Aside() {
                                             </h2>
                                             <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    {items.slice(0, showAll ? items.length : 3).map((item, index) => (
+                                                    {languageType.slice(0, showAll ? languageType.length : 3).map((item, index) => (
                                                         <div className="mb-3 form-check">
                                                             <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                                                             <label className="form-check-label" for="exampleCheck1">{item}</label>
@@ -400,30 +391,22 @@ function Aside() {
                                 </h2>
                                 <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                     <div className="accordion-body">
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" checked={topDetails === 1} onClick={() => indoor()} />
-                                            <label className="form-check-label" for="exampleCheck1">Education<span>(13)</span></label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" onClick={() => outdoor()} />
-                                            <label className="form-check-label" for="exampleCheck1">Magazines<span>(15)</span></label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Philosophy & Religion<span>(18)</span></label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Economics & Business<span>(13)</span></label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Political<span>(15)</span></label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Children Comics<span>(18)</span></label>
-                                        </div>
+                                        {megaMenu.length > 0 ? (
+                                            megaMenu.map(data => (
+                                                <div key={data.id} className="mb-3 form-check">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input"
+                                                        id={data.id}
+                                                        onClick={() => category(data)}
+                                                        checked={filterCategory.some(item => item.name === data.name)}
+                                                    />
+                                                    <label className="form-check-label" htmlFor={data.id}>{data.name}</label>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p>null</p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -436,18 +419,17 @@ function Aside() {
                                 </h2>
                                 <div id="collapseTwo" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                     <div className="accordion-body">
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Good (13)</label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Very Good (15)</label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Well Read (22)</label>
-                                        </div>
+                                        {condition && condition.map((data, index) => (
+                                            <div key={index} className="mb-3 form-check">
+                                                <input type="checkbox"
+                                                    className="form-check-input" id={`exampleCheck${index + 1}`}
+                                                    onClick={() => conditionFilter(data)}
+                                                    checked={filterCategory.some(item => item.con == data.con)}
+                                                />
+                                                <label className="form-check-label" htmlFor={`exampleCheck${index + 1}`}>{data.con}</label>
+                                            </div>
+                                        ))}
+
                                     </div>
                                 </div>
                             </div>
@@ -460,10 +442,15 @@ function Aside() {
                                 </h2>
                                 <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                     <div className="accordion-body">
-                                        {items.slice(0, showAll ? items.length : 3).map((item, index) => (
+                                        {languageType.slice(0, showAll ? languageType.length : 3).map((data, index) => (
                                             <div className="mb-3 form-check">
-                                                <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                <label className="form-check-label" for="exampleCheck1">{item}</label>
+                                                <input type="checkbox"
+                                                    className="form-check-input"
+                                                    id="exampleCheck1"
+                                                    onClick={() => languageFilter(data)}
+                                                    checked={filterCategory.some(item => item.lan === data.lan)}
+                                                />
+                                                <label className="form-check-label" for="exampleCheck1">{data.lan}</label>
                                             </div>
                                         ))}
                                         {!showAll && (

@@ -37,6 +37,7 @@ export const CrateSlice = createSlice({
             name : '',
             phonenumber : ''
         },
+        megaMenu:{},
         bannerImage : [],
         allbookDetails: "",
         authorBookDetails : "",
@@ -46,6 +47,7 @@ export const CrateSlice = createSlice({
         subCategoryBook:'',
         singleProductPrice : '',
         clickauthorName : '',
+        filterCategory:[],
         navListDetails:'',
         searchProduct:{
             searchItem:''
@@ -95,6 +97,10 @@ export const CrateSlice = createSlice({
         setresetpasswordDetails: (state, action) => {
             state.resetpasswordDetails = action.payload
         },
+        setMegaMenu: (state, action) => {
+            state.megaMenu = action.payload
+        },
+        
         setregisterDetails: (state, action) => {
             state.registerDetails = action.payload
         },
@@ -107,6 +113,10 @@ export const CrateSlice = createSlice({
         setnavListDetails: (state, action) => {
             state.navListDetails = action.payload
         },
+        setFilterCategory: (state, action) => {
+            state.filterCategory = action.payload
+        },
+        
         setBannerImage: (state, action) => {
             state.bannerImage = action.payload
         },
@@ -211,6 +221,6 @@ export const CrateSlice = createSlice({
     }
 })
 
-export const { setClass1Hide, setprofileDetails, setloginDetails,setUserIdShop,setUserLogin,setsingleProductView,setOtpVerify,setRegisterToken,setforgetDetails,setresetpasswordDetails, setlogoutDetails,setnavListDetails,setBannerImage,setClickauthorName,setAuthorBookDetails,setSingleProductPrice,setBookQuantity,setregisterDetails,setsearchProduct,setsearchItemDetails,setCategoryBook,setSubCategoryBook,setsearchfield,setFilteredProducts, setisLiked, setisAdded, setisIncrement, setisDecrement, setActiveItem, setallBookDetails,setAuthorsDetails,setAuthorsName, setLikedProducts,settotallikes ,setlikescount, setShopProducts, setshopcount, settotalItemShop, setfinalItemPrice,setpriceFilter,setminPirce,setproductIdDetails,setsingleItemCount,setsingleItemPrice } = CrateSlice.actions
+export const { setClass1Hide, setprofileDetails, setloginDetails,setUserIdShop,setUserLogin,setsingleProductView,setOtpVerify,setRegisterToken,setforgetDetails,setMegaMenu,setresetpasswordDetails, setlogoutDetails,setnavListDetails,setBannerImage,setFilterCategory,setClickauthorName,setAuthorBookDetails,setSingleProductPrice,setBookQuantity,setregisterDetails,setsearchProduct,setsearchItemDetails,setCategoryBook,setSubCategoryBook,setsearchfield,setFilteredProducts, setisLiked, setisAdded, setisIncrement, setisDecrement, setActiveItem, setallBookDetails,setAuthorsDetails,setAuthorsName, setLikedProducts,settotallikes ,setlikescount, setShopProducts, setshopcount, settotalItemShop, setfinalItemPrice,setpriceFilter,setminPirce,setproductIdDetails,setsingleItemCount,setsingleItemPrice } = CrateSlice.actions
 export default CrateSlice.reducer
 

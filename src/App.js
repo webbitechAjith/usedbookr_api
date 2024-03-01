@@ -67,7 +67,6 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/otpform' element={<OTPForm />} />
         <Route path='/Allproduct' element={<Product />} />
-        {/* <Route path={`/Description/${id}`} element={<Description />} /> */}
         <Route path='/Description/:id' element={<Description />} />
         <Route path='/contact' element={<Contact />}/>
         <Route path='/Profile' element={<Profile />} />
@@ -78,7 +77,7 @@ function App() {
         <Route path='/ProductOrderForm' element={<ProductOrderForm />}/>
         <Route path='/Orderprocess' element={<Orderprocess />} />
         <Route path='/authors' element={<Autherfliter />} />
-        <Route path='/categorybook' element={<Categorybook />} />
+        <Route path='/categorybook/:id' element={<Categorybook />} />
         <Route path='/newarrival' element={<Newarrival />} />
         <Route path='/about' element={<About />} />
         {/* <Route path='*' element={<Error />} /> */}

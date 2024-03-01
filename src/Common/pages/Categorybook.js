@@ -17,13 +17,15 @@ import { faArrowRight, faHeart, faBagShopping } from '@fortawesome/free-solid-sv
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView } from '../../Redux/CreateSlice';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { category_list, megamenu_list } from './apiBaseurl';
 
 function Categorybook() {
-
   const { isLiked, isAdded, allbookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield,subCategoryBook } = useSelector((state) => state.usedbookr_product)
+  const [categoryBook , setCategoryBook] = useState('')
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
 
   // like product click fn 
   const totallikes = likedProducts.map((data) => data.id);
@@ -83,9 +85,18 @@ function Categorybook() {
     dispatch(setsingleProductView([allbookDetails[id]]))
     navigate('/Description')
   }
+
+  const category_book = async() => {
+    const catebook_details = await megamenu_list();
+    const category_bookDetail = catebook_details.find(data => data.id == params.id);
+    setCategoryBook(category_bookDetail.subcategories)
+  }
+
   useEffect(() => {
+    category_book();
     window.scrollTo(0, 0);
   }, []);
+  console.log(categoryBook)
   return (
     <div className='product-section'>
       <Header />
@@ -100,56 +111,13 @@ function Categorybook() {
                 <div className='row m-0 bestseller'>
                   {searchfield ?
                     <>
-                      {allbookDetails && allbookDetails.map((book, index) => {
+                      {categoryBook && categoryBook.map((book, index) => {
                         return (
                           <div className='col-lg-3 col-md-3 col-sm-4 col-6 mt-2 d-flex align-self-stretch'>
                             <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
                               <div className='best-seller'>
-                                <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                                <span className='selles-offer'>offer 60%</span>
-                                <span
-                                  className='like-position float-end m-2'
-                                  onClick={() => handleLikeClick(book)}
-                                >
-                                  <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                    <img
-                                      src={totallikes.includes(book.id) ? likes : unlike}
-                                      alt="Like Button"
-                                    />
-                                  </span>
-                                </span>
-                                <div className='book-details p-3'>
-                                  <h1 className='w-100' title={book.title_long}>{book.title_long.slice(0, 20)}...</h1>
-                                  {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
-                                  <div className='d-flex '>
-                                    <div className='rate-details'>
-                                      <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
-                                      <Rating
-                                        initialRating={5}
-                                        emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                        fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                        readonly={true}
-                                      />
-                                    </div>
-                                    <div className='ms-auto'>
-                                      {/* {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)} */}
-                                      <span
-                                        className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                        id={book.id} value={book.id}
-                                        onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                      >
-                                        {/* <img
-                                                        src={totalshops.includes(book.id) ? add : remove}
-                                                        alt="Shop Button"
-                                                    /> */}
-                                        {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
-                                      </span>
-                                    </div>
-                                  </div>
-                                  {/* <div className='text-center'>
-                                    <button className='viewall mt-5 border-0 rounded-2' onClick={(id) => click_view(index)}>view</button>
-                                  </div> */}
-                                </div>
+                                <img src={book.images} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                <h4>{book.name}</h4>                                
                               </div>
                             </div>
                           </div>

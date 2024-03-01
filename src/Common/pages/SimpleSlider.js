@@ -28,12 +28,13 @@ const SimpleSlider = () => {
 
   // subbookCategory fn 
   const subCategory_book = (data) => {
-    const book_name = data.name;
-    const sub_name = categoryBook.map((data) => {
-      if (data.name == book_name) {
-        dispatch(setSubCategoryBook([data.subcategories]))
-      }
-    })
+    // const book_name = data.name;
+    // const sub_name = categoryBook.map((data) => {
+    //   if (data.name == book_name) {
+    //     dispatch(setSubCategoryBook([data.subcategories]))
+    //   }
+    // })
+    navigate(`/categorybook/${data.id}`, { state: data })
     // navigate('/categorybook')
   }
 
@@ -83,7 +84,6 @@ const SimpleSlider = () => {
               const className = classNames[index] || ''; // If index is out of range, use an empty string
               return (
                 <div key={index} className={`text-center ${className}`} onClick={() => subCategory_book(data)}>
-                  {/* <img src={data.images} className='w-100 p-5' /> */}
                   <img src={data.images} className='w-100 p-5' />
                   <h2>{data.name}</h2>
                 </div>

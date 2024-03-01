@@ -189,7 +189,6 @@ function Description() {
         dispatch(setClass1Hide(false))
         window.scrollTo(0, 0);
     }, [])
-    console.log(12, singleBooks)
     return (
         <div className='description-section'>
             <Header />
@@ -215,7 +214,7 @@ function Description() {
                                             <br />
                                             <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
                                             <button className='sales-offer'>50% off</button>
-                                            <h4 className='cate my-2'>Category:<span className='ms-2'>Lifestyle</span></h4>
+                                            <h4 className='cate my-2'>Category:<span className='ms-2'>{data.category_id[0].name}</span></h4>
                                             <hr />
                                             <p>{data.synopsis}</p>
                                             {data.varient.length > 0 ?
@@ -302,7 +301,7 @@ function Description() {
                 </div>
                 <div className='d-lg-none d-md-block d-none pt-5'>
                     <div className='row m-0'>
-                        {singleProductView && singleProductView.map((data) => {
+                        {singleBooks && singleBooks.map((data) => {
                             return (
                                 <>
                                     <div className='col-5'>
@@ -377,7 +376,7 @@ function Description() {
                 </div>
                 <div className='d-lg-none d-md-none d-block pt-5'>
                     <div className='row m-0'>
-                        {singleProductView && singleProductView.map((data) => {
+                        {singleBooks && singleBooks.map((data) => {
                             return (
                                 <>
                                     <div className='col-12'>
@@ -480,7 +479,7 @@ function Description() {
                     <TabContent activeTab={activeTab} className='mt-3'>
                         <TabPane tabId="tab1">
                             <div className='row m-0 tab-content flex-wrap-reverse'>
-                                {singleProductView.map((data) => {
+                                {singleBooks && singleBooks.map((data) => {
                                     return (
                                         <>
                                             <div className='col-lg-6 col-md-6 col-12 mt-5'>
@@ -501,7 +500,7 @@ function Description() {
                             <div className='row m-0 tab-content'>
                                 <div className='col-lg-6 col-md-6 col-12 mt-5'>
                                     <div className='row m-0 additional'>
-                                        {singleProductView.map((data) => {
+                                        {singleBooks && singleBooks.map((data) => {
                                             return (
                                                 <>
                                                     <div className='col-lg-4 col-md-4 col-sm-4 col-12 mt-4'>
@@ -562,7 +561,7 @@ function Description() {
                                 <div className='col-lg-6 col-md-6 col-12 mt-lg-5 mt-md-5 mt-sm-0 mt-0'>
                                     {/* <iframe className='rounded' width="100%" height="315" src="https://www.youtube.com/embed/jp4xdxcc7WU?si=bUpj3Gg3QC0u5uLK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
                                     <div className='row m-0 additional'>
-                                        {singleProductView.map((data) => {
+                                        {singleBooks && singleBooks.map((data) => {
                                             return (
                                                 <>
 

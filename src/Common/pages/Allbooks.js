@@ -111,7 +111,6 @@ const Allbooks = () => {
     useEffect(() => {
         cardToget_list()
     }, [])
-
     const MemoizedOwlCarousel = React.memo(OwlCarousel);
     return (
         <div className='py-lg-5 py-4 bestseller'>
