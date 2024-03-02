@@ -110,8 +110,6 @@ function Product() {
     over_allbook();
     window.scrollTo(0, 0);
   }, []);
-  console.log(11, allbookDetails)
-  console.log(4, filterCategory)
   return (
     <div className='product-section'>
       <Header />
@@ -184,7 +182,7 @@ function Product() {
                                     }
                                     <div className='book-details p-1'>
                                       <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
-                                      {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
+                                      {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                       <h5>{book.category_id[0].name}</h5>
                                       <div className='d-flex '>
                                         <div className='rate-details'>
@@ -308,7 +306,7 @@ function Product() {
                                     }
                                     <div className='book-details p-1'>
                                       <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
-                                      {book.author[0].author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author[0].author} onClick={() => author_name()}>{book.author[0].author.slice(0, 10)}</h5></>}
+                                      {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                       <h5>{book.category_id[0].name}</h5>
                                       <div className='d-flex '>
                                         <div className='rate-details'>

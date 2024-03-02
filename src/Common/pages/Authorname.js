@@ -53,11 +53,11 @@ function Authorname() {
             // Access the updated searchItem from the state
             const searchResults = data.filter((bookauthor) => bookauthor.author.toLowerCase().includes(newSearchAuthor.toLowerCase()) || bookauthor.author.toLowerCase().includes(authorsName.toLowerCase()));
             const allbookSearch = allbookDetails.filter((bookDetails) => {
-                if (bookDetails.author[0].author && bookDetails.author[0].author.length > 0) {
+                if (bookDetails.author && bookDetails.author.length > 0) {
                     const searchAuthorLower = newSearchAuthor.toLowerCase();
                     const authorsNameLower = authorsName.toLowerCase();
 
-                    const firstAuthorLower = bookDetails.author[0].author.toLowerCase();
+                    const firstAuthorLower = bookDetails.author.toLowerCase();
                     return firstAuthorLower.includes(searchAuthorLower) || firstAuthorLower.includes(authorsNameLower);
                 }
                 return false;

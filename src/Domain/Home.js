@@ -32,6 +32,7 @@ import SimpleSlider from '../Common/pages/SimpleSlider';
 import BestSeller from '../Common/pages/BestSeller';
 import Authors from '../Common/pages/Authors';
 import Allbooks from '../Common/pages/Allbooks';
+import Newarrival from '../Common/pages/Newarrival';
 
 function Home() {
   const { bannerImage, allbookDetails, authorsDetails } = useSelector((state) => state.usedbookr_product)
@@ -76,7 +77,7 @@ function Home() {
     dispatch(setClass1Hide(false))
     window.scrollTo(0, 0);
   }, [])
-  
+
   return (
     <div>
       {/* {popup} */}
@@ -170,7 +171,7 @@ function Home() {
             <div className='product-list mt-5 mb-3 container-95'>
               <span className='product-title'>Best Sellers in Education Books</span>
               <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
-              { allbookDetails == '' ? <><h1 className='text-center product-title'>No items</h1></> : <><Allbooks /></>}
+              {allbookDetails == '' ? <><h1 className='text-center product-title'>No items</h1></> : <><Allbooks /></>}
             </div>
           </div>
           <div className='d-lg-none d-block'>
@@ -218,14 +219,14 @@ function Home() {
           <div className='pots-section mt-5'>
             <div className='d-lg-block d-none container-95'>
               <span className='product-title'>Best Sellers in Comics</span>
-              <span className='float-end viewall'>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
+              <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
               <BestSeller />
             </div>
             <div className='d-lg-none d-block container-95'>
               <span className='product-title'>Best Sellers in Comics</span>
               <BestSeller />
               <div className='author5'>
-                <button>View All</button>
+                <button onClick={() => all_product()}>View All</button>
               </div>
               {/* <span className='viewall'></span> */}
             </div>
@@ -233,14 +234,14 @@ function Home() {
           <div className='best-seller mt-5 mb-4'>
             <div className='d-lg-block d-none container-95'>
               <span className='product-title'>New Arrivals in Education</span>
-              <span className='float-end viewall'>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#30844A' }} className='ps-2' /></span>
-              <BestSeller />
+              <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#30844A' }} className='ps-2' /></span>
+              <Newarrival />
             </div>
             <div className='d-lg-none d-block container-95'>
               <span className='product-title'>New Arrivals in Education</span>
-              <BestSeller />
+              <Newarrival />
               <div className='author5'>
-                <button>View All</button>
+                <button onClick={() => all_product()}>View All</button>
               </div>
             </div>
           </div>

@@ -208,7 +208,7 @@ function Description() {
                                     <div className='col-6 description-details'>
                                         <>
                                             <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
-                                            <p className='m-0'>{data.author[0].author}</p>
+                                            <p className='m-0'>{data.author}</p>
                                             <img src={star} alt='star' />
                                             <span className='review'>4 Reviews</span>
                                             <br />
@@ -317,7 +317,7 @@ function Description() {
                                     </div>
                                     <div className='col-7 description-details'>
                                         <h1>{data.title_long} <span className='stock'>In Stock</span></h1>
-                                        <p>{data.author[0].author}</p>
+                                        <p>{data.author}</p>
                                         <img src={star} alt='star' />
                                         <span className='review'>4 Reviews</span>
                                         <br />
@@ -388,7 +388,7 @@ function Description() {
                                     </div>
                                     <div className='col-12 description-details mt-5'>
                                         <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
-                                        <p>{data.author[0].author}</p>
+                                        <p>{data.author}</p>
                                         <img src={star} alt='star' />
                                         <span className='review'>4 Reviews</span>
                                         <br />
@@ -525,7 +525,7 @@ function Description() {
                                                         <label><b>AUTHOR :</b></label>
                                                     </div>
                                                     <div className='col-8 mt-4'>
-                                                        <span>{data.author[0].author}</span>
+                                                        <span>{data.author}</span>
                                                     </div>
                                                     <div className='col-4 mt-4'>
                                                         <label><b>MSRP :</b></label>

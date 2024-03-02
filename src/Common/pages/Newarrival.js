@@ -29,7 +29,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { faBagShopping, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { addTocard_list, addTowhish_list, cardToget_list, cardTolike_list, removeTocard_list } from './apiBaseurl';
 
-const BestSeller = () => {
+const Newarrival = () => {
     const { allbookDetails, isLiked, userIdShop, userIdLike, isAdded, categoryBook, likescount, likedProducts, totalLikes, shopProducts, shopcount, singleProductView, singleProductPrice } = useSelector((state) => state.usedbookr_product)
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -132,7 +132,7 @@ const BestSeller = () => {
                     :
                     <>
                         {allbookDetails && allbookDetails
-                            .filter(book => book.section_id?.split(',')[0] === 'N')
+                            .filter(book => book.section_id?.split(',')[0] === 'B')
                             .map((book, index) => (
                                 <>
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
@@ -262,4 +262,4 @@ const BestSeller = () => {
     );
 };
 
-export default BestSeller;
+export default Newarrival;

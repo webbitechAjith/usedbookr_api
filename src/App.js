@@ -32,17 +32,17 @@ import Categorybook from './Common/pages/Categorybook';
 import About from './Domain/About';
 import Newarrival from './Domain/Newarrival';
 import Error from './Common/pages/Error';
+import { useSelector } from 'react-redux';
 
 function App() {
-    
   const {id} = useParams();
+  
   useEffect(() => {
     const handleScroll = () => {
       const cards = document.querySelectorAll('.slide-up, .slide-left, .slide-right');
       cards.forEach(card => {
         const rect = card.getBoundingClientRect();
         const isVisible = rect.top <= window.innerHeight * 0.75;
-
         if (isVisible) {
           card.classList.add('visible');
         } else {
@@ -50,7 +50,6 @@ function App() {
         }
       });
     };
-
     window.addEventListener('scroll', handleScroll);
     handleScroll(); // Initial check
     return () => {

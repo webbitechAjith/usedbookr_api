@@ -300,7 +300,7 @@ function Purchase() {
                                                                         <div className='col-12 py-4'>
                                                                             <img src={data.image} alt='plant1' className='' width={150} />
                                                                             <h5>{data.title_long}...</h5>
-                                                                            {/* <h5>{data.author[0].author}...</h5> */}
+                                                                            {/* <h5>{data.author}...</h5> */}
                                                                             <Rating
                                                                                 initialRating={4}
                                                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -420,7 +420,7 @@ function Purchase() {
                                                                                     <div className='col-12 py-4'>
                                                                                         <img src={data.image} alt='plant1' className='' width={150} />
                                                                                         <h5 className='mt-3'><b>Title</b> : {data.title_long}</h5>
-                                                                                        {/* <h5><b>Author</b> : {data.author[0].author}</h5> */}
+                                                                                        {/* <h5><b>Author</b> : {data.author}</h5> */}
                                                                                         <Rating
                                                                                             initialRating={4}
                                                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -530,7 +530,7 @@ function Purchase() {
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="card-title"><b>Title</b> : {data.title_long}...</h5>
-                                                {/* <h5 class="card-title"><b>Author</b> : {data.author[0].author}...</h5> */}
+                                                {/* <h5 class="card-title"><b>Author</b> : {data.author}...</h5> */}
                                                 <div className='py-3 px-0 sum-product'>
                                                     <span>
                                                         {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
