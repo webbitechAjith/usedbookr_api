@@ -18,13 +18,9 @@ import { megamenu_list } from './apiBaseurl';
 
 function Aside() {
     const { allbookDetails, priceFilter, filteredProducts, megaMenu, filterCategory } = useSelector((state) => state.usedbookr_product)
-    const [sliderValue, setSliderValue] = useState(0); // Initial value
-    const [topDetails, setTopDetails] = useState(0); // Initial value
-    const [outDoor, setoutDoor] = useState(0); // Initial value
     const [disCount, setDisCount] = useState([0, 70]);
-    const [values, setValues] = useState([0, 10])
-    // const [value, setValue] = useState([0, 10])
-    const [value, setValue] = useState([0, 10]);
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(0);
     const [showCategory, setShowCategory] = useState(false);
     const [condition, setCondition] = useState([{ id: 1, con: 'New' }, { id: 2, con: 'Very Good' }, { id: 3, con: 'Good' }, { id: 4, con: 'Normal' }]);
     const [binding, setBinding] = useState([{ id: 1, bind: 'slim' }, { id: 2, bind: 'Cover' }]);
@@ -45,10 +41,12 @@ function Aside() {
         setShowAll(!showAll);
     };
     // Price Changing State when volume increases/decreases 
-    const rangeSelector = (event, newValue) => {
-        setValue(newValue);
-
+    const handlePriceFilter = (newMinPrice, newMaxPrice) => {
+        // Update the state of the low and high prices
+        setMinPrice(newMinPrice);
+        setMaxPrice(newMaxPrice);
     };
+    // Render your items based on the price range
     const discountRange = (event, newValue) => {
         setDisCount(newValue)
     }
@@ -56,43 +54,36 @@ function Aside() {
         const data = await megamenu_list();
         dispatch(setMegaMenu(data))
     }
-    const category = (data) => {
-        const index = filterCategory.findIndex(item => item.name === data.name);
+    const filterData = (filterCategory, data, key) => {
+        const index = filterCategory.findIndex(item => item[key] === data[key]);
         if (index === -1) {
-            dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
+            return [...filterCategory, data];
         } else {
-            dispatch(setFilterCategory(filterCategory.filter(item => item.name !== data.name))); // Remove from filterCategory
+            return filterCategory.filter(item => item[key] !== data[key]);
         }
     };
-    const conditionFilter = (data) => {
-        const index = filterCategory.findIndex(item => item.con === data.con);
-        if (index === -1) {
-            dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
-        } else {
-            dispatch(setFilterCategory(filterCategory.filter(item => item.con !== data.con))); // Remove from filterCategory
-        }
-    }
-    const languageFilter = (data) => {
-        const index = filterCategory.findIndex(item => item.lan === data.lan);
-        if (index === -1) {
-            dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
-        } else {
-            dispatch(setFilterCategory(filterCategory.filter(item => item.lan !== data.lan))); // Remove from filterCategory
-        }
-    }
-    const bindFilter = (data) => {
-        const index = filterCategory.findIndex(item => item.bind === data.bind);
-        if (index === -1) {
-            dispatch(setFilterCategory([...filterCategory, data])); // Add to filterCategory if not already present
-        } else {
-            dispatch(setFilterCategory(filterCategory.filter(item => item.bind !== data.bind))); // Remove from filterCategory
-        }
-    }
-    
-    const handlePriceChange = (minPrice, maxPrice) => {
-        // Handle the price change logic here
-        console.log('Selected Price Range:', minPrice, maxPrice);
+
+    const filter = (data, key) => {
+        dispatch(setFilterCategory(filterData(filterCategory, data, key)));
     };
+    if (allbookDetails.length > 0) {
+        const filteredBooks = allbookDetails.filter(book => {
+            // Define your price range here
+            const minPrices = minPrice; // Example minimum price
+            const maxPrices = maxPrice; // Example maximum price
+
+            // Convert the original_price to a number
+            const price = parseFloat(book.original_price);
+
+            // Check if the price falls within the desired range
+            const final_filter = price >= minPrices && price <= maxPrices;
+            return final_filter
+        });
+        console.log(filteredBooks)
+
+    }
+
+    // Use the filteredBooks array as needed
     const toggleCategory = () => {
         setShowCategory(!showCategory);
         setFilterOption(!filterOption)
@@ -142,7 +133,7 @@ function Aside() {
                                                                     type="checkbox"
                                                                     className="form-check-input"
                                                                     id={data.id}
-                                                                    onClick={() => category(data)}
+                                                                    onClick={() => filter(data, 'name')}
                                                                     checked={filterCategory.some(item => item.name === data.name)}
                                                                 />
                                                                 <label className="form-check-label" htmlFor={data.id}>{data.name}</label>
@@ -167,7 +158,7 @@ function Aside() {
                                                         <div key={index} className="mb-3 form-check">
                                                             <input type="checkbox"
                                                                 className="form-check-input" id={`exampleCheck${index + 1}`}
-                                                                onClick={() => conditionFilter(data)}
+                                                                onClick={() => filter(data, 'con')}
                                                                 checked={filterCategory.some(item => item.con == data.con)}
                                                             />
                                                             <label className="form-check-label" htmlFor={`exampleCheck${index + 1}`}>{data.con}</label>
@@ -191,7 +182,7 @@ function Aside() {
                                                             <input type="checkbox"
                                                                 className="form-check-input"
                                                                 id="exampleCheck1"
-                                                                onClick={() => languageFilter(data)}
+                                                                onClick={() => filter(data, 'lan')}
                                                                 checked={filterCategory.some(item => item.lan === data.lan)}
                                                             />
                                                             <label className="form-check-label" for="exampleCheck1">{data.lan}</label>
@@ -220,7 +211,7 @@ function Aside() {
                                                         <div key={index} className="mb-3 form-check">
                                                             <input type="checkbox"
                                                                 className="form-check-input" id={`exampleCheck${index + 1}`}
-                                                                onClick={() => bindFilter(data)}
+                                                                onClick={() => filter(data, 'blnd')}
                                                                 checked={filterCategory.some(item => item.bind == data.bind)}
                                                             />
                                                             <label className="form-check-label" htmlFor={`exampleCheck${index + 1}`}>{data.bind}</label>
@@ -283,11 +274,15 @@ function Aside() {
                                             <div id="collapseSeven" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                                 <div className='container-90'>
                                                     <Slider
-                                                        value={value}
-                                                        onChange={rangeSelector}
-                                                    // valueLabelDisplay="auto"
+                                                        value={[minPrice, maxPrice]}
+                                                        onChange={(event, newValue) => handlePriceFilter(newValue[0], newValue[1])}
+                                                        min={0}
+                                                        max={1000}
                                                     />
-                                                    <h6>Price is between {value[0]} - {value[1]}</h6>
+                                                    {/* Display the low and high prices */}
+                                                    <p>Min Price: ${minPrice}</p>
+                                                    <p>Max Price: ${maxPrice}</p>
+                                                    <h6>Price is between ${minPrice} - ${maxPrice}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -375,7 +370,7 @@ function Aside() {
                                                         type="checkbox"
                                                         className="form-check-input"
                                                         id={data.id}
-                                                        onClick={() => category(data)}
+                                                        onClick={() => filter(data, 'name')}
                                                         checked={filterCategory.some(item => item.name === data.name)}
                                                     />
                                                     <label className="form-check-label" htmlFor={data.id}>{data.name}</label>
@@ -400,7 +395,7 @@ function Aside() {
                                             <div key={index} className="mb-3 form-check">
                                                 <input type="checkbox"
                                                     className="form-check-input" id={`exampleCheck${index + 1}`}
-                                                    onClick={() => conditionFilter(data)}
+                                                    onClick={() => filter(data, 'con')}
                                                     checked={filterCategory.some(item => item.con == data.con)}
                                                 />
                                                 <label className="form-check-label" htmlFor={`exampleCheck${index + 1}`}>{data.con}</label>
@@ -424,7 +419,7 @@ function Aside() {
                                                 <input type="checkbox"
                                                     className="form-check-input"
                                                     id="exampleCheck1"
-                                                    onClick={() => languageFilter(data)}
+                                                    onClick={() => filter(data, 'lan')}
                                                     checked={filterCategory.some(item => item.lan === data.lan)}
                                                 />
                                                 <label className="form-check-label" for="exampleCheck1">{data.lan}</label>
@@ -453,7 +448,7 @@ function Aside() {
                                             <div key={index} className="mb-3 form-check">
                                                 <input type="checkbox"
                                                     className="form-check-input" id={`exampleCheck${index + 1}`}
-                                                    onClick={() => bindFilter(data)}
+                                                    onClick={() => filter(data, 'bind')}
                                                     checked={filterCategory.some(item => item.bind == data.bind)}
                                                 />
                                                 <label className="form-check-label" htmlFor={`exampleCheck${index + 1}`}>{data.bind}</label>
@@ -516,11 +511,13 @@ function Aside() {
                                 <div id="collapseSeven" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                     <div className='container-90'>
                                         <Slider
-                                            value={value}
-                                            onChange={rangeSelector}
-                                        // valueLabelDisplay="auto"
+                                            value={[minPrice, maxPrice]}
+                                            onChange={(event, newValue) => handlePriceFilter(newValue[0], newValue[1])}
+                                            min={0}
+                                            max={1000}
                                         />
-                                        <h6>Price is between {value[0]} - {value[1]}</h6>
+                                        {/* Display the low and high prices */}
+                                        <h6>Price is between {minPrice} - {maxPrice}</h6>
                                     </div>
                                 </div>
                             </div>
