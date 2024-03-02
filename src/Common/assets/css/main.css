@@ -145,6 +145,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 /* .banner-image{
     height: 520px;
 } */
@@ -441,6 +442,7 @@ body {
     border: 1px solid #E6E6E6;
     background: #FFF;
 }
+
 .normal-box1 {
     width: 40px;
     height: 40px;
@@ -456,9 +458,11 @@ body {
     border-radius: 50%;
     background: #F2F2F2;
 }
-.mr-fixed{
-    margin: 10px;
+
+.mr-fixed {
+    margin: 12px;
 }
+
 .heart-position {
     position: absolute;
     left: 72%;
@@ -575,12 +579,18 @@ body {
 }
 
 .like-position .unlikes {
-    padding: 10px;
+    /* padding: 10px;
     border-radius: 50%;
-    background: #FFF;
     position: absolute;
-    top: 2%;
-    right: 10px;
+    top: -3px;
+    right: 0px; */
+    width: 40px;
+    height: 40px;
+    background: #ede6e6;
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    border-radius: 50%;
 }
 
 /* .product-list .like-position .unlikes {
@@ -592,12 +602,13 @@ body {
     right: 10px;
 } */
 .like-position .likes {
-    padding: 10px;
-    border-radius: 50%;
-    background: #EBE8FF;
+    width: 40px;
+    height: 40px;
+    background: #FFD731;
     position: absolute;
-    top: 2%;
-    right: 10px;
+    top: 5px;
+    right: 8px;
+    border-radius: 50%;
 }
 
 /* .like-position {
@@ -813,7 +824,8 @@ body {
     .condition-level .very {
         padding: 20px 25px;
     }
-    .mobile-ht{
+
+    .mobile-ht {
         height: 300px !important;
     }
 
@@ -869,7 +881,8 @@ body {
         top: 3%;
         right: 15px;
     }
-    .mobile-ht{
+
+    .mobile-ht {
         height: 250px !important;
     }
 }
@@ -923,7 +936,8 @@ body {
         top: 3%;
         right: 15px;
     }
-    .mobile-ht{
+
+    .mobile-ht {
         height: 250px !important;
     }
 }

@@ -28,13 +28,13 @@ import whiteshop from '../assets/image/white_shop.png'
 import whitenav from '../assets/image/whitenav.png'
 import heartShop from '../assets/image/heart-shop.png'
 
-import { setCategoryBook, setClass1Hide, setMegaMenu, setUserIdShop, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield, setshopcount } from '../../Redux/CreateSlice'
+import { setCategoryBook, setClass1Hide, setMegaMenu, setUserIdLike, setUserIdShop, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield, setshopcount } from '../../Redux/CreateSlice'
 import axios from 'axios';
-import { allbooks, cardToget_list, megamenu_list } from './apiBaseurl';
+import { allbooks, cardToget_list, cardTolike_list, megamenu_list } from './apiBaseurl';
 
 
 function Header() {
-    const { isClass1Show, likescount,megaMenu, userIdShop, shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
+    const { isClass1Show, likescount, megaMenu, userIdShop, userIdLike, shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
     const [searchTerm, setSearchTerm] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -165,6 +165,8 @@ function Header() {
             try {
                 const result = await cardToget_list();
                 dispatch(setUserIdShop(result)); // Set the value of abc
+                const like_result = await cardTolike_list();
+                dispatch(setUserIdLike(like_result))
             } catch (error) {
                 console.log(error);
             }
@@ -190,7 +192,7 @@ function Header() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    // console.log(userIdShop)
+    console.log("ajith",userIdLike)
     return (
         <>
             <div className='top-header'>
@@ -217,7 +219,24 @@ function Header() {
                                     <div className='d-lg-block d-md-block d-none'>
                                         <span className='position-relative'>
                                             <img src={heart} alt='heart' width={25} className='view-all' onClick={() => hearts()} title={likescount} />
-                                            {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>}
+                                            {/* {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>} */}
+                                            {userIdLike && userIdLike.length > 0 ? (
+                                                <>
+                                                    {userIdLike.length >= 9 ? (
+                                                        <span className='like-count' title={userIdLike.length}>9<sup>+</sup></span>
+                                                    ) : (
+                                                        <span className='like-count'>{userIdLike.length}</span>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    {userIdLike && userIdLike.length >= 9 ? (
+                                                        <span className='like-count' title={userIdLike.length}>9<sup>+</sup></span>
+                                                    ) : (
+                                                        <span className='like-count'>0</span>
+                                                    )}
+                                                </>
+                                            )}
                                         </span>
                                         <span className='position-relative'>
                                             <img src={shop} width={25} alt='shop' className='mx-3 view-all' onClick={() => shops()} />

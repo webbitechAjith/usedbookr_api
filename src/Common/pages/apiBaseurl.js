@@ -161,7 +161,6 @@ export const megamenu_list = async () => {
 export const wish_list = async () => {
   try {
     const tokenId_get = localStorage.getItem('usedbookrtoken');
-    console.log("tokenId_get", tokenId_get)
     const { data } = await apiBaseurl.get('api/wishlists', {
       headers: {
         Authorization: `Bearer ${tokenId_get}`,
@@ -176,11 +175,8 @@ export const wish_list = async () => {
   }
 }
 
-// wish_list()
-
 // addtocard list api start 
 export const addTocard_list = async (isBookId, updatedQty) => {
-  console.log(101010, isBookId, updatedQty)
   try {
     const tokenId_get = localStorage.getItem('usedbookrtoken');
     const { data } = await apiBaseurl.post('api/addtocart', {
@@ -217,7 +213,6 @@ export const removeTocard_list = async (id) => {
 
 
 // addcard list get in user api start 
-
 export const cardToget_list = async () => {
   try {
     const tokenId_get = localStorage.getItem('usedbookrtoken');
@@ -234,5 +229,38 @@ export const cardToget_list = async () => {
 }
 
 
+// addtolike list api start 
+export const addTowhish_list = async (isBookId) => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.post('api/wishliststore', {
+      book_id: isBookId.id,
+    }, {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// addcard list get in user api start 
+export const cardTolike_list = async () => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.get('api/wishlists', {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
+    return data.wishlists;
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export default apiBaseurl; // Exporting the axios instance for general use
