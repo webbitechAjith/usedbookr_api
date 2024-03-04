@@ -192,7 +192,6 @@ function Header() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    console.log("ajith",userIdLike)
     return (
         <>
             <div className='top-header'>

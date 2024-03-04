@@ -40,12 +40,7 @@ function Aside() {
         setShowLess(!showLess)
         setShowAll(!showAll);
     };
-    // Price Changing State when volume increases/decreases 
-    const handlePriceFilter = (newMinPrice, newMaxPrice) => {
-        // Update the state of the low and high prices
-        setMinPrice(newMinPrice);
-        setMaxPrice(newMaxPrice);
-    };
+
     // Render your items based on the price range
     const discountRange = (event, newValue) => {
         setDisCount(newValue)
@@ -66,32 +61,44 @@ function Aside() {
     const filter = (data, key) => {
         dispatch(setFilterCategory(filterData(filterCategory, data, key)));
     };
-    if (allbookDetails.length > 0) {
-        const filteredBooks = allbookDetails.filter(book => {
-            // Define your price range here
-            const minPrices = minPrice; // Example minimum price
-            const maxPrices = maxPrice; // Example maximum price
 
-            // Convert the original_price to a number
+    // Function to handle changes in price range slider
+    const handlePriceFilter = (newMinPrice, newMaxPrice) => {
+        setMinPrice(newMinPrice);
+        setMaxPrice(newMaxPrice);
+        const updatedFilteredBooks = allbookDetails.filter(book => {
             const price = parseFloat(book.original_price);
-
-            // Check if the price falls within the desired range
-            const final_filter = price >= minPrices && price <= maxPrices;
-            return final_filter
+            return price >= minPrice && price <= maxPrice;
         });
-        console.log(filteredBooks)
-
-    }
-
+        if (updatedFilteredBooks.length > 0) {
+            dispatch(setFilterCategory(updatedFilteredBooks));
+        } else {
+            dispatch(setFilterCategory([{ key: "price", value: null }]));
+        }
+    };
     // Use the filteredBooks array as needed
     const toggleCategory = () => {
         setShowCategory(!showCategory);
         setFilterOption(!filterOption)
     };
-
     useEffect(() => {
         menu_lists();
-    }, [])
+        // const updatedFilteredBooks = allbookDetails.filter(book => {
+        //     const price = parseFloat(book.original_price);
+        //     return price >= minPrice && price <= maxPrice;
+        // });
+        // console.log(10, updatedFilteredBooks)
+        // if (updatedFilteredBooks.length > 0) {
+        //     dispatch(setFilterCategory(updatedFilteredBooks));
+        // } 
+        // else {
+        //     dispatch(setFilterCategory([{ key: "price", value: null }]));
+        // }
+        // window.scrollTo(0, 0);
+    }, [allbookDetails, minPrice, maxPrice]);
+
+    console.log("allbookDetails", filterCategory);
+    console.log("allbook",allbookDetails)
     return (
         <>
             <aside className='my-lg-5 my-2'>
@@ -514,7 +521,7 @@ function Aside() {
                                             value={[minPrice, maxPrice]}
                                             onChange={(event, newValue) => handlePriceFilter(newValue[0], newValue[1])}
                                             min={0}
-                                            max={1000}
+                                            max={2000}
                                         />
                                         {/* Display the low and high prices */}
                                         <h6>Price is between {minPrice} - {maxPrice}</h6>
