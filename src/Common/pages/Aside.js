@@ -71,7 +71,7 @@ function Aside() {
             return price >= minPrice && price <= maxPrice;
         });
         if (updatedFilteredBooks.length > 0) {
-            dispatch(setFilterCategory(updatedFilteredBooks));
+        dispatch(setFilterCategory(updatedFilteredBooks));
         } else {
             dispatch(setFilterCategory([{ key: "price", value: null }]));
         }
@@ -83,22 +83,10 @@ function Aside() {
     };
     useEffect(() => {
         menu_lists();
-        // const updatedFilteredBooks = allbookDetails.filter(book => {
-        //     const price = parseFloat(book.original_price);
-        //     return price >= minPrice && price <= maxPrice;
-        // });
-        // console.log(10, updatedFilteredBooks)
-        // if (updatedFilteredBooks.length > 0) {
-        //     dispatch(setFilterCategory(updatedFilteredBooks));
-        // } 
-        // else {
-        //     dispatch(setFilterCategory([{ key: "price", value: null }]));
-        // }
-        // window.scrollTo(0, 0);
     }, [allbookDetails, minPrice, maxPrice]);
 
-    console.log("allbookDetails", filterCategory);
-    console.log("allbook",allbookDetails)
+    // console.log("allbookDetails", filterCategory);
+    // console.log("allbook",allbookDetails)
     return (
         <>
             <aside className='my-lg-5 my-2'>

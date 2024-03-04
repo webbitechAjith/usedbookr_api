@@ -34,7 +34,7 @@ import { allbooks, cardToget_list, cardTolike_list, megamenu_list } from './apiB
 
 
 function Header() {
-    const { isClass1Show, likescount, megaMenu, userIdShop, userIdLike, shopcount, searchProduct, allbookDetails, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
+    const { isClass1Show, likescount, megaMenu, userIdShop, userIdLike, shopcount, searchProduct, allbookDetails,categoryBook, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
     const [searchTerm, setSearchTerm] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -151,8 +151,10 @@ function Header() {
         // const { data } = await axios.get("https://webbitech.co.in/ecommerce/public/api/mainMenu")
         // dispatch(setnavListDetails(data.data))
     }
-    const handleNavLinkClick = () => {
-        navigate('/categorybook');
+    const handleNavLinkClick = (data) => {
+
+        // navigate('/categorybook');
+        navigate(`/subcategory/${data.id}`, { state: data })
         setIsExpanded(!isExpanded);
         setIsMobileExpanded(!isMobileExpanded)
     };
@@ -334,7 +336,7 @@ function Header() {
                                                                                                 {data.subcategories.length > 0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2' /></> : <></>}
                                                                                             </h5>
                                                                                             {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
-                                                                                                <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory.name)}>
+                                                                                                <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(data)}>
                                                                                                     {subcategory.name}
                                                                                                 </a>
                                                                                             ))}

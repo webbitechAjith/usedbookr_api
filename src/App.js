@@ -33,6 +33,7 @@ import About from './Domain/About';
 import Newarrival from './Domain/Newarrival';
 import Error from './Common/pages/Error';
 import { useSelector } from 'react-redux';
+import Subcategory from './Common/pages/Subcategory';
 
 function App() {
   const {id} = useParams();
@@ -77,6 +78,7 @@ function App() {
         <Route path='/Orderprocess' element={<Orderprocess />} />
         <Route path='/authors' element={<Autherfliter />} />
         <Route path='/categorybook/:id' element={<Categorybook />} />
+        <Route path='/subcategory/:id' element={<Subcategory />} />
         <Route path='/categorybook' element={<Categorybook />} />
         <Route path='/newarrival' element={<Newarrival />} />
         <Route path='/about' element={<About />} />
