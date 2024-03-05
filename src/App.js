@@ -30,10 +30,11 @@ import OTPForm from './Domain/OTPForm';
 import Contact from './Domain/Contact';
 import Categorybook from './Common/pages/Categorybook';
 import About from './Domain/About';
-import Newarrival from './Domain/Newarrival';
 import Error from './Common/pages/Error';
 import { useSelector } from 'react-redux';
 import Subcategory from './Common/pages/Subcategory';
+import Newarrival from './Common/pages/Newarrival';
+import Newproduct from './Domain/Newproduct';
 
 function App() {
   const {id} = useParams();
@@ -73,14 +74,14 @@ function App() {
         <Route path='/History' element={<History />} />
         <Route path='/Wishlist' element={<Wishlist />} />
         <Route path='/Purchase' element={<Purchase />}/>
-        <Route path='/Placeorder' element={<Placeorder />}/>
+        <Route path='/Placeorder/:id' element={<Placeorder />}/>
         <Route path='/ProductOrderForm' element={<ProductOrderForm />}/>
         <Route path='/Orderprocess' element={<Orderprocess />} />
         <Route path='/authors' element={<Autherfliter />} />
         <Route path='/categorybook/:id' element={<Categorybook />} />
         <Route path='/subcategory/:id' element={<Subcategory />} />
         <Route path='/categorybook' element={<Categorybook />} />
-        <Route path='/newarrival' element={<Newarrival />} />
+        <Route path='/newarrival' element={<Newproduct />} />
         <Route path='/about' element={<About />} />
         {/* <Route path='*' element={<Error />} /> */}
       </Routes>

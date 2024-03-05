@@ -132,7 +132,7 @@ const BestSeller = () => {
                     :
                     <>
                         {allbookDetails && allbookDetails
-                            .filter(book => book.section_id?.split(',')[0] === 'N')
+                            .filter(book => book.section_id?.split(',')[0] === 'B' || book.section_id?.split(',')[1] === 'B')
                             .map((book, index) => (
                                 <>
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>

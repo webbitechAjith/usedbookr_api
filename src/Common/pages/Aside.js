@@ -85,12 +85,12 @@ function Aside() {
         menu_lists();
     }, [allbookDetails, minPrice, maxPrice]);
 
-    // console.log("allbookDetails", filterCategory);
+    console.log("filterCategory", filterCategory);
     // console.log("allbook",allbookDetails)
     return (
         <>
             <aside className='my-lg-5 my-2'>
-                {/* {filterOption ?
+                {filterOption ?
                     <>
 
                     </>
@@ -101,14 +101,14 @@ function Aside() {
                         </div>
                     </>
 
-                } */}
+                }
                 {filterOption ?
 
                     <>
                         <div className='aside-section fixed-filter'>
                             <div className={`offcanvas offcanvas-start ${showCategory ? 'show overflow-auto w-100' : ''}`} tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                                 <div className="offcanvas-header">
-                                    <button className='filter-search'>Search</button>
+                                    {/* <button className='filter-search'>Search</button> */}
                                     <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" onClick={toggleCategory}></button>
                                 </div>
                                 <div className="offcanvas-body">
@@ -358,7 +358,7 @@ function Aside() {
                                 </h2>
                                 <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                     <div className="accordion-body">
-                                        {megaMenu.length > 0 ? (
+                                        {megaMenu?.length > 0 ? (
                                             megaMenu.map(data => (
                                                 <div key={data.id} className="mb-3 form-check">
                                                     <input

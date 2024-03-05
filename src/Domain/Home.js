@@ -44,7 +44,9 @@ function Home() {
   const all_product = () => {
     navigate('/Allproduct')
   }
-
+  const all_newarrival = () =>{
+    navigate('/newarrival')
+  }
   const bookproduct = async () => {
     const data = await allbooks();
     const productsWithIds = data.map((product, index) => ({
@@ -91,7 +93,7 @@ function Home() {
               <div className='col-lg-7 col-md-12 col-12 p-0 align-items-stretch'>
                 <div id="carouselExampleIndicators" className="carousel slide h-100" data-bs-ride="carousel">
                   <div className="carousel-indicators">
-                    {bannerImage.length > 0 && bannerImage.map((numLength, index) => (
+                    {bannerImage?.length > 0 && bannerImage.map((numLength, index) => (
                       <button
                         key={index}
                         type="button"
@@ -233,14 +235,14 @@ function Home() {
           <div className='best-seller mt-5 mb-4'>
             <div className='d-lg-block d-none container-95'>
               <span className='product-title'>New Arrivals in Education</span>
-              <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#30844A' }} className='ps-2' /></span>
+              <span className='float-end viewall' onClick={() => all_newarrival()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#30844A' }} className='ps-2' /></span>
               <Newarrival />
             </div>
             <div className='d-lg-none d-block container-95'>
               <span className='product-title'>New Arrivals in Education</span>
               <Newarrival />
               <div className='author5'>
-                <button onClick={() => all_product()}>View All</button>
+                <button onClick={() => all_newarrival()}>View All</button>
               </div>
             </div>
           </div>

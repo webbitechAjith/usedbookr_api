@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSpring, animated } from 'react-spring';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScript
+import Select from 'react-select';
 
 import '../assets/css/regular.css'
 
@@ -28,13 +29,19 @@ import whiteshop from '../assets/image/white_shop.png'
 import whitenav from '../assets/image/whitenav.png'
 import heartShop from '../assets/image/heart-shop.png'
 
-import { setCategoryBook, setClass1Hide, setMegaMenu, setUserIdLike, setUserIdShop, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield, setshopcount } from '../../Redux/CreateSlice'
+import { setCategoryBook, setClass1Hide, setMegaMenu, setUserIdLike, setUserIdShop, setUserLogin, setallBookDetails, setnavListDetails, setsearchItemDetails, setsearchProduct, setsearchfield, setshopcount } from '../../Redux/CreateSlice'
 import axios from 'axios';
 import { allbooks, cardToget_list, cardTolike_list, megamenu_list } from './apiBaseurl';
 
 
+const options = [
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+];
+
 function Header() {
-    const { isClass1Show, likescount, megaMenu, userIdShop, userIdLike, shopcount, searchProduct, allbookDetails,categoryBook, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
+    const { isClass1Show, likescount, megaMenu, registerToken, userIdShop, userIdLike, shopcount, searchProduct, allbookDetails, categoryBook, searchItemDetails, searchResults, searchfield, navListDetails } = useSelector((state) => state.usedbookr_product)
     const [searchTerm, setSearchTerm] = useState('');
     const [showMenu, setShowMenu] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -45,6 +52,11 @@ function Header() {
     const [products, setProducts] = useState(allbookDetails);
     const [isSticky, setIsSticky] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    // const [selectedOption, setSelectedOption] = useState(null);
+    const [localStorageValue, setLocalStorage] = useState(false)
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    // const [selectedOption, setSelectedOption] = useState('');
+    const [selectedOption, setSelectedOption] = useState(null);
     // const [userIdShop, setUserIdShop] = useState(0); // State to store the value of abc
     const dropdownRef = useRef(null);
 
@@ -57,6 +69,16 @@ function Header() {
 
     const handleToggle = () => {
         setIsOpen(!isOpen);
+    };
+    // const toggleDropdowns = () => {
+    //     setDropdownOpen(!dropdownOpen);
+    //   };
+    //   const handleDropdownChange = (event) => {
+    //     setSelectedOption(event.target.value);
+    //     setDropdownOpen(false); // Close dropdown after selection
+    //   };
+    const handleDropdownChange = (selected) => {
+        setSelectedOption(selected);
     };
     const dropdownAnimation = useSpring({
         opacity: isOpen ? 1 : 0,
@@ -77,6 +99,9 @@ function Header() {
         navigate('/Register')
     }
     const signin = () => {
+        localStorage.setItem('usedbookrtoken', '');
+        localStorage.setItem('isLoginAuth', false);
+        dispatch(setUserLogin(false))
         navigate('/Login')
     }
     const navButton = () => {
@@ -174,6 +199,11 @@ function Header() {
             }
         };
         fetchData();
+        const loginUser = localStorage.getItem('usedbookrtoken');
+        if (loginUser) {
+            setLocalStorage(true)
+        }
+
         // dispatch(setClass1Hide(true))
         const handleScroll = () => {
             if (window.scrollY >= 2) {
@@ -221,9 +251,9 @@ function Header() {
                                         <span className='position-relative'>
                                             <img src={heart} alt='heart' width={25} className='view-all' onClick={() => hearts()} title={likescount} />
                                             {/* {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>} */}
-                                            {userIdLike && userIdLike.length > 0 ? (
+                                            {userIdLike && userIdLike?.length > 0 ? (
                                                 <>
-                                                    {userIdLike.length >= 9 ? (
+                                                    {userIdLike?.length >= 9 ? (
                                                         <span className='like-count' title={userIdLike.length}>9<sup>+</sup></span>
                                                     ) : (
                                                         <span className='like-count'>{userIdLike.length}</span>
@@ -231,7 +261,7 @@ function Header() {
                                                 </>
                                             ) : (
                                                 <>
-                                                    {userIdLike && userIdLike.length >= 9 ? (
+                                                    {userIdLike && userIdLike?.length >= 9 ? (
                                                         <span className='like-count' title={userIdLike.length}>9<sup>+</sup></span>
                                                     ) : (
                                                         <span className='like-count'>0</span>
@@ -241,7 +271,7 @@ function Header() {
                                         </span>
                                         <span className='position-relative'>
                                             <img src={shop} width={25} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
-                                            {userIdShop && userIdShop.length > 0 ? (
+                                            {userIdShop && userIdShop?.length > 0 ? (
                                                 <>
                                                     {userIdShop.length >= 9 ? (
                                                         <span className='item-count' title={userIdShop.length}>9<sup>+</sup></span>
@@ -251,7 +281,7 @@ function Header() {
                                                 </>
                                             ) : (
                                                 <>
-                                                    {userIdShop && userIdShop.length >= 9 ? (
+                                                    {userIdShop && userIdShop?.length >= 9 ? (
                                                         <span className='item-count' title={userIdShop.length}>9<sup>+</sup></span>
                                                     ) : (
                                                         <span className='item-count'>0</span>
@@ -259,9 +289,27 @@ function Header() {
                                                 </>
                                             )}
                                         </span>
-                                        <span>
-                                            <button className='authregister' onClick={signup}>Sign in / Sign up</button>
-                                        </span>
+                                        {localStorageValue == true ?
+                                            <>
+                                                {/* <span>{registerToken.username}</span> */}
+                                                <span className='dropdown user-profiles'>
+                                                    <FontAwesomeIcon icon={faUser} className='mx-3 mobile-margin' style={{ color: '#000', fontSize: '25px', paddingTop: '10px' }} onClick={userToggleDropDown} />
+                                                    <ul className={`dropdown-menu ${isUserexpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuButton1">
+                                                        {/* <li><a className="dropdown-item" href="#">{registerToken.username}</a></li> */}
+                                                        <li onClick={userProfile}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faUserAlt} className='pe-2' />Profile</a></li>
+                                                        <li onClick={signin}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faSignOut} className='pe-2' />Sign In</a></li>
+                                                    </ul>
+                                                </span>
+
+                                            </>
+                                            :
+                                            <>
+                                                <span>
+                                                    <button className='authregister' onClick={signup}>Sign in / Sign up</button>
+                                                </span>
+                                            </>
+                                        }
+
                                     </div>
                                 </div>
                             </div>
@@ -323,7 +371,7 @@ function Header() {
                                                     <div class={`dropdown-menu drop-width w-100 ${isMobileExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                         <div class="container-fluid">
                                                             <div class="row m-0">
-                                                                {megaMenu.length > 0 ?
+                                                                {megaMenu?.length > 0 ?
                                                                     <>
                                                                         {megaMenu.map((data) => {
                                                                             return (
@@ -381,12 +429,42 @@ function Header() {
                                         <div className='icon-section d-lg-none d-md-none space-item align-items-end float-end'>
                                             <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faHeart} className='mx-3 view-all' style={{ color: '#FFF', fontSize: '25px', paddingTop: '10px' }} onClick={() => hearts()} />
-                                                {likescount >= 9 ? <><span className='like-count' title={likescount}>9<sup>+</sup></span></> : <><span className='like-count'>{likescount}</span></>}
-                                            </span>
+                                                {userIdLike && userIdLike?.length > 0 ? (
+                                                    <>
+                                                        {userIdLike?.length >= 9 ? (
+                                                            <span className='like-count' title={userIdLike.length}>9<sup>+</sup></span>
+                                                        ) : (
+                                                            <span className='like-count'>{userIdLike.length}</span>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {userIdLike && userIdLike?.length >= 9 ? (
+                                                            <span className='like-count' title={userIdLike.length}>9<sup>+</sup></span>
+                                                        ) : (
+                                                            <span className='like-count'>0</span>
+                                                        )}
+                                                    </>
+                                                )}                                            </span>
                                             <span className='position-relative'>
                                                 <FontAwesomeIcon icon={faBagShopping} className='mx-3 view-all' onClick={() => shops()} style={{ color: '#FFF', fontSize: '25px', paddingTop: '10px' }} />
-                                                <span className='item-count'>{shopcount}</span>
-                                            </span>
+                                                {userIdShop && userIdShop?.length > 0 ? (
+                                                    <>
+                                                        {userIdShop.length >= 9 ? (
+                                                            <span className='item-count' title={userIdShop.length}>9<sup>+</sup></span>
+                                                        ) : (
+                                                            <span className='item-count'>{userIdShop.length}</span>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {userIdShop && userIdShop?.length >= 9 ? (
+                                                            <span className='item-count' title={userIdShop.length}>9<sup>+</sup></span>
+                                                        ) : (
+                                                            <span className='item-count'>0</span>
+                                                        )}
+                                                    </>
+                                                )}                                            </span>
                                             <span className='dropdown user-profiles'>
                                                 <FontAwesomeIcon icon={faSearch} className='mx-3 mobile-margin' style={{ color: '#FFF', fontSize: '25px', paddingTop: '10px' }} onClick={searchToggleDropDown} />
                                                 <ul className={`dropdown-menu w-100 ${isSearchexpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuButton1">
@@ -437,7 +515,7 @@ function Header() {
                                                         <div class={`dropdown-menu drop-width w-100 ${isMobileExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                             <div class="container-fluid">
                                                                 <div class="row m-0">
-                                                                    {megaMenu.length > 0 ?
+                                                                    {megaMenu?.length > 0 ?
                                                                         <>
                                                                             {megaMenu.map((data) => {
                                                                                 return (
@@ -508,7 +586,7 @@ function Header() {
                                                     <div className={`dropdown-menu drop-width w-100 ${isExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink" ref={dropdownRef}>
                                                         <div class="container-fluid">
                                                             <div class="row m-0">
-                                                                {megaMenu.length > 0 ?
+                                                                {megaMenu?.length > 0 ?
                                                                     <>
                                                                         {megaMenu.map((data) => {
                                                                             return (

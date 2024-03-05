@@ -44,7 +44,7 @@ const Allbooks = () => {
         const auth_uesrlogin = localStorage.getItem('isLoginAuth')
         if (auth_login || auth_uesrlogin == true) {
             // Check if the product ID is in the likedProducts array
-            if (userIdLike.some(data => data.id === id)) {
+            if (userIdLike?.some(data => data.id === id)) {
                 await removeTocard_list(id);
                 window.location.reload();
             } else {
@@ -64,7 +64,7 @@ const Allbooks = () => {
         const auth_uesrlogin = localStorage.getItem('isLoginAuth')
         if (auth_login || auth_uesrlogin == true) {
             // Check if the product ID is in the likedProducts array
-            if (userIdShop.some(data => data.id === id)) {
+            if (userIdShop?.some(data => data.id === id)) {
                 await removeTocard_list(id);
                 window.location.reload();
             } else {
@@ -145,9 +145,9 @@ const Allbooks = () => {
                                                     <img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" />
                                                 </span>
                                             </span> */}
-                                            {userIdLike && userIdLike.length > 0 ? (
+                                            {userIdLike && userIdLike?.length > 0 ? (
                                                 <>
-                                                    {userIdLike.some(cartId => cartId.book_id === book.id) ? (
+                                                    {userIdLike?.some(cartId => cartId.book_id === book.id) ? (
                                                         <>
                                                             <span
                                                                 className='like-position float-end'

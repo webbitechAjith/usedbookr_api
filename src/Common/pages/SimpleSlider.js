@@ -70,13 +70,10 @@ const SimpleSlider = () => {
   useEffect(() => {
     category_books()
   }, [])
-
-  console.log(999, subCategoryBook)
-
-
+  
   return (
     <div className='py-lg-3 py-md-4 py-sm-3 py-2 '>
-      {categoryName.length > 0 ?
+      {categoryName?.length > 0 ?
         <>
           <OwlCarousel className="owl-theme card-design" {...owlOptions}>
             {categoryName.map((data, index) => {

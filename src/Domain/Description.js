@@ -45,6 +45,7 @@ function Description() {
     const [showLess, setShowLess] = useState(false);
     const [activeTab, setActiveTab] = useState('tab1');
     const [singleBooks, setSingleBooks] = useState('')
+    const [localStorageValue, setLocalStorage] = useState(false)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
@@ -120,6 +121,7 @@ function Description() {
     // shop product click fn 
     const totalshops = shopProducts.map((data) => data.id);
     const handleShopClick = async (product, id, price) => {
+        console.log("ajith")
         const auth_login = localStorage.getItem('usedbookrtoken')
         if (auth_login) {
             const isShops = product.id;
@@ -133,8 +135,10 @@ function Description() {
             } else {
                 // If it's not in userIdShop, perform the addition process
                 if (singleProductPrice) {
+                    await addTocard_list(product, 1);
                     dispatch(setShopProducts([...shopProducts, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
                     dispatch(setshopcount(shopcount + 1));
+                    navigate('/Purchase');
                 } else {
                     await addTocard_list(product, 1);
                     dispatch(setShopProducts([...shopProducts, { ...product, id, amount: product.original_price + product.gst_charge, qty: 1 }]));
@@ -147,23 +151,17 @@ function Description() {
             navigate('/login')
         }
     }
-    const buynow = () => {
-        dispatch(setsingleItemCount(singleItemCount + 1))
-        navigate('/Placeorder')
+    const buynow = (data) => {
+        // dispatch(setsingleItemCount(singleItemCount + 1))
+        const loginUser = localStorage.getItem('usedbookrtoken');
+        if (loginUser) {
+            navigate(`/Placeorder/${data.id}`, { state: data })
+        }else{
+            alert("please login user account")
+            // navigate('/login')
+        }
     }
-    const product_add = () => {
-
-    }
-    const product_remove = () => {
-
-    }
-    const product_like = () => {
-    }
-    const all_product = () => {
-        navigate('/Allproduct')
-    }
-
-
+   
     const toggleTab = (tab) => {
         if (activeTab !== tab) {
             setActiveTab(tab);
@@ -173,10 +171,6 @@ function Description() {
     const priceCheck = (data) => {
         dispatch(setSingleProductPrice(data.price))
         console.log(singleProductView)
-    }
-
-    const removecards = () => {
-        alert("Remove this Book in  Shoplist")
     }
 
     const allbook_view = async () => {
@@ -239,16 +233,8 @@ function Description() {
                                             }
                                             <div className='my-3'>
                                                 <span className='text-center'>
-                                                    <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
+                                                    <button className='buynow' onClick={() => buynow(data)}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
                                                 </span>
-                                                {/* {value == 1 ? (
-                                                    <button className={totalshops.includes(data.id) ? 'shop-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}>
-                                                        {totalshops.includes(data.id) ? <>Remove to Cart</> : <>Add to Cart</>}
-                                                        <FontAwesomeIcon icon={faBagShopping} className='ms-2' />
-                                                    </button>
-                                                ) : (
-                                                    <button className="disabled-shop" disabled>Add to cart <FontAwesomeIcon icon={faBagShopping} /></button>
-                                                )} */}
                                                 {userIdShop && userIdShop.length > 0 ? (
                                                     <>
                                                         {userIdShop.some(cartId => cartId.book_id === data.id) ? (
@@ -272,8 +258,9 @@ function Description() {
                                                                     id={data.id}
                                                                     value={data.id}
                                                                     onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                                    style={{cursor:'pointer'}}
                                                                 >
-                                                                    Add to card
+                                                                    Add to carda
                                                                 </button>
                                                             </>
                                                         )}
@@ -284,8 +271,9 @@ function Description() {
                                                         id={data.id}
                                                         value={data.id}
                                                         onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                        style={{cursor:'pointer'}}
                                                     >
-                                                        Add to card{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
+                                                        Add to cardb{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
                                                     </span>
                                                 )}
                                             </div>

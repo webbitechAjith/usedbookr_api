@@ -132,19 +132,13 @@ const Newarrival = () => {
                     :
                     <>
                         {allbookDetails && allbookDetails
-                            .filter(book => book.section_id?.split(',')[0] === 'B')
+                            .filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N')
                             .map((book, index) => (
                                 <>
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                         <div className='best-seller'>
                                             <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' onClick={(id) => click_view(book)} />
                                             <span className='selles-offer'>Offer 60%</span>
-
-                                            {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)} >
-                                                    <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                                        <img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" />
-                                                    </span>
-                                                </span> */}
                                             {userIdLike && userIdLike.length > 0 ? (
                                                 <>
                                                     {userIdLike.some(cartId => cartId.book_id === book.id) ? (

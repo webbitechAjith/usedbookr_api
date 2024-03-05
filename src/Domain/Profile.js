@@ -52,7 +52,6 @@ function Profile() {
         tokenGet();
         console.log("API call after page reload", registerToken);
     });
-    console.log(userLogin)
     return (
         <div className='profile-section'>
             <Header />

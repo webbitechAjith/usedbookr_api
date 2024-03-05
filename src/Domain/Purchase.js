@@ -74,7 +74,7 @@ function Purchase() {
     }
     // payment process
     const paymentProcess = () => {
-        if (shopProducts.length > 0) {
+        if (shopProducts?.length > 0) {
             if (userLogin == true) {
                 navigate('/Login')
             } else {
@@ -86,7 +86,7 @@ function Purchase() {
 
     }
     let totalPrice = 0;
-    if (userIdShop.length > 0) {
+    if (userIdShop?.length > 0) {
         {
             userIdShop && allbookDetails && allbookDetails.map(data => {
                 const cartItem = userIdShop.find(item => item.book_id === data.id);
@@ -129,7 +129,7 @@ function Purchase() {
                             </div> */}
                             <div className='col-9'>
                                 <div className='profile-card order-card'>
-                                    {userIdShop && userIdShop.length > 0 ?
+                                    {Array.isArray(userIdShop) && userIdShop?.length > 0 ?
                                         <>
                                             <table className="table">
                                                 <thead>
@@ -223,7 +223,7 @@ function Purchase() {
                                                                 0
                                                             </>
                                                         } */}
-                                                        {userIdShop && userIdShop.length > 0 ? (
+                                                        {userIdShop && userIdShop?.length > 0 ? (
                                                             userIdShop.reduce((total, data) => total + data.quantity, 0)
                                                         ) : (
                                                             0
@@ -281,7 +281,7 @@ function Purchase() {
                             </div>
                             <div className='col-8'>
                                 <div className='profile-card order-card'>
-                                    {shopProducts.length > 0 ?
+                                    {shopProducts?.length > 0 ?
                                         <>
                                             <table className="table">
                                                 <thead>
@@ -398,10 +398,10 @@ function Purchase() {
                             </div>
                             <div className='col-12'>
                                 <div className='profile-card order-card'>
-                                    {shopProducts.length > 0 ?
+                                    {shopProducts?.length > 0 ?
                                         <>
                                             <div className='profile-card order-card'>
-                                                {shopProducts.length > 0 ?
+                                                {shopProducts?.length > 0 ?
                                                     <>
                                                         <table className="table">
                                                             <thead>
