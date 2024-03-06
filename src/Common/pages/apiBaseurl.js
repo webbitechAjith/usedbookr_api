@@ -296,12 +296,27 @@ export const orderPlace = async (orderDetails) => {
     return data;
 
   } catch (error) {
-    console.log(error.response.data.errors.email[0]);
+    console.log(error);
   }
 }
 
+// orderhistory api call 
+export const orderHistory = async (orderDetails) => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.get('/api/orders', {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
+    console.log(data);
+    return data.orders;
 
-
+  } catch (error) {
+    console.log(error);
+  }
+}
 // profileImage api call 
 export const profileImage = async (userProfileImage) => {
   try {

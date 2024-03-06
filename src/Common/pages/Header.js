@@ -297,7 +297,7 @@ function Header() {
                                                     <ul className={`dropdown-menu ${isUserexpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuButton1">
                                                         {/* <li><a className="dropdown-item" href="#">{registerToken.username}</a></li> */}
                                                         <li onClick={userProfile}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faUserAlt} className='pe-2' />Profile</a></li>
-                                                        <li onClick={signin}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faSignOut} className='pe-2' />Sign In</a></li>
+                                                        <li onClick={signin}><a className="dropdown-item" href="#"><FontAwesomeIcon icon={faSignOut} className='pe-2' />Logout</a></li>
                                                     </ul>
                                                 </span>
 

@@ -43,24 +43,25 @@ const Orderprocess = () => {
             [name]: value,
         });
     };
-
-    const orderPlacess = async() => {
+    const handlePayment = (e) => {
+        dispatch(setOrderDetails({ ...orderDetails, paymentmode: e.target.value }));
+      };
+    const orderPlacess = async () => {
         const isEmpty = Object.values(orderDetails).some(value => value === "");
         if (isEmpty) {
             alert("Please fill in all the fields.");
             return;
         } else {
-                try {
-                    const response = await orderPlace(orderDetails);
-                    console.log("response", orderDetails)
-                    // if (response.success == true) {
-                    //     console.log(response.message);
-                    // }
-                    // Handle the API response
-                } catch (error) {
-                    // Handle errors
-                    console.log(error);
+            try {
+                const response = await orderPlace(orderDetails);
+                console.log(response)
+                if (response.success == true) {
+                    alert(response.message);
                 }
+                // Handle the API response
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -69,7 +70,7 @@ const Orderprocess = () => {
         // Add your form submission logic here
         console.log(formData);
     };
-    console.log(1515,orderDetails);
+    console.log(1515, orderDetails);
     const renderTabContent = () => {
         switch (activeTab) {
             case 1:
@@ -128,7 +129,11 @@ const Orderprocess = () => {
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Paymentmode</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your Pincode" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, paymentmode: e.target.value }))} />
+                                <select onChange={handlePayment} className='form-control'>
+                                    <option>Select the payment method</option>
+                                    <option value="COD">COD</option>
+                                </select>
+                                {/* <input type="text"  ="form-control border-0 border-bottom" id="email" placeholder="Enter your Pincode" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, paymentmode: e.target.value }))} /> */}
                             </div>
                         </div>
                         <div className='order-confirm text-end'>

@@ -25,13 +25,13 @@ import Authorname from '../Common/pages/Authorname';
 
 function Autherfliter() {
 
-  const { isLiked, isAdded, allbookDetails, authorBookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield, authorsName, authorsDetails } = useSelector((state) => state.usedbookr_product)
+  const { isLiked, isAdded, allbookDetails, userIdLike, userIdShop, authorBookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield, authorsName, authorsDetails } = useSelector((state) => state.usedbookr_product)
   const [showCategory, setShowCategory] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
 
- 
+
 
   // like product click fn 
   const totallikes = likedProducts.map((data) => data.id);
@@ -92,7 +92,7 @@ function Autherfliter() {
     window.scrollTo(0, 0);
   }, []);
 
-  
+
   return (
     <div className='product-section'>
       <Header />
@@ -120,17 +120,52 @@ function Autherfliter() {
                                           <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                           <span className='selles-offer'>offer 60%</span>
 
-                                          <span
-                                            className='like-position float-end m-2'
-                                            onClick={() => handleLikeClick(book)}
-                                          >
-                                            <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                              <img
-                                                src={totallikes.includes(book.id) ? likes : unlike}
-                                                alt="Like Button"
-                                              />
+                                          {userIdLike && userIdLike?.length > 0 ? (
+                                            <>
+                                              {userIdLike?.some(cartId => cartId.book_id === book.id) ? (
+                                                <>
+                                                  <span
+                                                    className='like-position float-end'
+                                                    id={book.id}
+                                                    value={book.id}
+                                                    onClick={() => {
+                                                      const cartId = userIdLike.find(cart => cart.book_id === book.id);
+                                                      handleLikeClick(book, cartId.id);
+                                                    }}
+                                                  >
+                                                    <span className='likes'>
+                                                      <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              ) : (
+                                                <>
+                                                  <span
+                                                    className='like-position float-end'
+                                                    id={book.id}
+                                                    value={book.id}
+                                                    onClick={() => handleLikeClick(book, book.id)}
+                                                  >
+                                                    <span className='unlikes'>
+                                                      <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                    </span>
+                                                  </span>
+                                                </>
+                                              )}
+                                            </>
+                                          ) : (
+                                            <span
+                                              className='like-position float-end'
+                                              id={book.id}
+                                              value={book.id}
+                                              onClick={() => handleLikeClick(book, book.id)}
+                                            >
+                                              <span className='unlikes'>
+                                                <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                              </span>
                                             </span>
-                                          </span>
+                                          )
+                                          }
                                           <div className='book-details p-3'>
                                             <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 10)}...</h1>
                                             {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
@@ -145,14 +180,45 @@ function Autherfliter() {
                                                 />
                                               </div>
                                               <div className='ms-auto'>
-                                                <span
-                                                  className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                                  id={book.id} value={book.id}
-                                                  onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                                >
-
-                                                  {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
-                                                </span>
+                                                {userIdShop && userIdShop.length > 0 ? (
+                                                  <>
+                                                    {userIdShop.some(cartId => cartId.book_id === book.id) ? (
+                                                      <>
+                                                        <span
+                                                          className='normal-box1 float-end'
+                                                          id={book.id}
+                                                          value={book.id}
+                                                          onClick={() => {
+                                                            const cartId = userIdShop.find(cart => cart.book_id === book.id);
+                                                            handleShopClick(book, cartId.id, book.original_price);
+                                                          }}
+                                                        >
+                                                          <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                        </span>
+                                                      </>
+                                                    ) : (
+                                                      <>
+                                                        <span
+                                                          className='box-view1 float-end'
+                                                          id={book.id}
+                                                          value={book.id}
+                                                          onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                        >
+                                                          <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                        </span>
+                                                      </>
+                                                    )}
+                                                  </>
+                                                ) : (
+                                                  <span
+                                                    className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                    id={book.id}
+                                                    value={book.id}
+                                                    onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                  >
+                                                    <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                  </span>
+                                                )}
                                               </div>
                                             </div>
                                           </div>
@@ -169,18 +235,53 @@ function Autherfliter() {
                                             <div className='best-seller'>
                                               <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                               <span className='selles-offer'>offer 10%</span>
-
-                                              <span
-                                                className='like-position float-end m-2'
-                                                onClick={() => handleLikeClick(book)}
-                                              >
-                                                <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                                  <img
-                                                    src={totallikes.includes(book.id) ? likes : unlike}
-                                                    alt="Like Button"
-                                                  />
+                                              {userIdLike && userIdLike?.length > 0 ? (
+                                                <>
+                                                  {userIdLike?.some(cartId => cartId.book_id === book.id) ? (
+                                                    <>
+                                                      <span
+                                                        className='like-position float-end'
+                                                        id={book.id}
+                                                        value={book.id}
+                                                        onClick={() => {
+                                                          const cartId = userIdLike.find(cart => cart.book_id === book.id);
+                                                          handleLikeClick(book, cartId.id);
+                                                        }}
+                                                      >
+                                                        <span className='likes'>
+                                                          <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                        </span>
+                                                      </span>
+                                                    </>
+                                                  ) : (
+                                                    <>
+                                                      <span
+                                                        className='like-position float-end'
+                                                        id={book.id}
+                                                        value={book.id}
+                                                        onClick={() => handleLikeClick(book, book.id)}
+                                                      >
+                                                        <span className='unlikes'>
+                                                          <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                        </span>
+                                                      </span>
+                                                    </>
+                                                  )}
+                                                </>
+                                              ) : (
+                                                <span
+                                                  className='like-position float-end'
+                                                  id={book.id}
+                                                  value={book.id}
+                                                  onClick={() => handleLikeClick(book, book.id)}
+                                                >
+                                                  <span className='unlikes'>
+                                                    <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                  </span>
                                                 </span>
-                                              </span>
+                                              )
+                                              }
+
                                               <div className='book-details p-3'>
                                                 <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 10)}...</h1>
                                                 {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
@@ -195,14 +296,45 @@ function Autherfliter() {
                                                     />
                                                   </div>
                                                   <div className='ms-auto'>
-                                                    <span
-                                                      className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                                      id={book.id} value={book.id}
-                                                      onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                                    >
-
-                                                      {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
-                                                    </span>
+                                                    {userIdShop && userIdShop.length > 0 ? (
+                                                      <>
+                                                        {userIdShop.some(cartId => cartId.book_id === book.id) ? (
+                                                          <>
+                                                            <span
+                                                              className='normal-box1 float-end'
+                                                              id={book.id}
+                                                              value={book.id}
+                                                              onClick={() => {
+                                                                const cartId = userIdShop.find(cart => cart.book_id === book.id);
+                                                                handleShopClick(book, cartId.id, book.original_price);
+                                                              }}
+                                                            >
+                                                              <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                            </span>
+                                                          </>
+                                                        ) : (
+                                                          <>
+                                                            <span
+                                                              className='box-view1 float-end'
+                                                              id={book.id}
+                                                              value={book.id}
+                                                              onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                            >
+                                                              <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                            </span>
+                                                          </>
+                                                        )}
+                                                      </>
+                                                    ) : (
+                                                      <span
+                                                        className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                        id={book.id}
+                                                        value={book.id}
+                                                        onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                      >
+                                                        <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                      </span>
+                                                    )}
                                                   </div>
                                                 </div>
                                               </div>
@@ -224,17 +356,52 @@ function Autherfliter() {
                                       <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                       <span className='selles-offer'>offer 60%</span>
 
-                                      <span
-                                        className='like-position float-end m-2'
-                                        onClick={() => handleLikeClick(book)}
-                                      >
-                                        <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                          <img
-                                            src={totallikes.includes(book.id) ? likes : unlike}
-                                            alt="Like Button"
-                                          />
+                                      {userIdLike && userIdLike?.length > 0 ? (
+                                        <>
+                                          {userIdLike?.some(cartId => cartId.book_id === book.id) ? (
+                                            <>
+                                              <span
+                                                className='like-position float-end'
+                                                id={book.id}
+                                                value={book.id}
+                                                onClick={() => {
+                                                  const cartId = userIdLike.find(cart => cart.book_id === book.id);
+                                                  handleLikeClick(book, cartId.id);
+                                                }}
+                                              >
+                                                <span className='likes'>
+                                                  <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                </span>
+                                              </span>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <span
+                                                className='like-position float-end'
+                                                id={book.id}
+                                                value={book.id}
+                                                onClick={() => handleLikeClick(book, book.id)}
+                                              >
+                                                <span className='unlikes'>
+                                                  <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                </span>
+                                              </span>
+                                            </>
+                                          )}
+                                        </>
+                                      ) : (
+                                        <span
+                                          className='like-position float-end'
+                                          id={book.id}
+                                          value={book.id}
+                                          onClick={() => handleLikeClick(book, book.id)}
+                                        >
+                                          <span className='unlikes'>
+                                            <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                          </span>
                                         </span>
-                                      </span>
+                                      )
+                                      }
                                       <div className='book-details p-3'>
                                         <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 15)}...</h1>
                                         {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
@@ -249,14 +416,45 @@ function Autherfliter() {
                                             />
                                           </div>
                                           <div className='ms-auto'>
-                                            <span
-                                              className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                              id={book.id} value={book.id}
-                                              onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                            >
-
-                                              {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
-                                            </span>
+                                            {userIdShop && userIdShop.length > 0 ? (
+                                              <>
+                                                {userIdShop.some(cartId => cartId.book_id === book.id) ? (
+                                                  <>
+                                                    <span
+                                                      className='normal-box1 float-end'
+                                                      id={book.id}
+                                                      value={book.id}
+                                                      onClick={() => {
+                                                        const cartId = userIdShop.find(cart => cart.book_id === book.id);
+                                                        handleShopClick(book, cartId.id, book.original_price);
+                                                      }}
+                                                    >
+                                                      <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                    </span>
+                                                  </>
+                                                ) : (
+                                                  <>
+                                                    <span
+                                                      className='box-view1 float-end'
+                                                      id={book.id}
+                                                      value={book.id}
+                                                      onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                    >
+                                                      <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                    </span>
+                                                  </>
+                                                )}
+                                              </>
+                                            ) : (
+                                              <span
+                                                className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                id={book.id}
+                                                value={book.id}
+                                                onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                              >
+                                                <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                              </span>
+                                            )}
                                           </div>
                                         </div>
                                       </div>
@@ -298,18 +496,52 @@ function Autherfliter() {
                                   <div className='best-seller'>
                                     <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                     <span className='selles-offer'>offer 60%</span>
-
-                                    <span
-                                      className='like-position float-end m-2'
-                                      onClick={() => handleLikeClick(book)}
-                                    >
-                                      <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                        <img
-                                          src={totallikes.includes(book.id) ? likes : unlike}
-                                          alt="Like Button"
-                                        />
+                                    {userIdLike && userIdLike?.length > 0 ? (
+                                      <>
+                                        {userIdLike?.some(cartId => cartId.book_id === book.id) ? (
+                                          <>
+                                            <span
+                                              className='like-position float-end'
+                                              id={book.id}
+                                              value={book.id}
+                                              onClick={() => {
+                                                const cartId = userIdLike.find(cart => cart.book_id === book.id);
+                                                handleLikeClick(book, cartId.id);
+                                              }}
+                                            >
+                                              <span className='likes'>
+                                                <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                              </span>
+                                            </span>
+                                          </>
+                                        ) : (
+                                          <>
+                                            <span
+                                              className='like-position float-end'
+                                              id={book.id}
+                                              value={book.id}
+                                              onClick={() => handleLikeClick(book, book.id)}
+                                            >
+                                              <span className='unlikes'>
+                                                <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                              </span>
+                                            </span>
+                                          </>
+                                        )}
+                                      </>
+                                    ) : (
+                                      <span
+                                        className='like-position float-end'
+                                        id={book.id}
+                                        value={book.id}
+                                        onClick={() => handleLikeClick(book, book.id)}
+                                      >
+                                        <span className='unlikes'>
+                                          <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                        </span>
                                       </span>
-                                    </span>
+                                    )
+                                    }
                                     <div className='book-details p-3'>
                                       <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
                                       {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
@@ -324,14 +556,45 @@ function Autherfliter() {
                                           />
                                         </div>
                                         <div className='ms-auto'>
-                                          <span
-                                            className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                            id={book.id} value={book.id}
-                                            onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                          >
-
-                                            {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
-                                          </span>
+                                          {userIdShop && userIdShop.length > 0 ? (
+                                            <>
+                                              {userIdShop.some(cartId => cartId.book_id === book.id) ? (
+                                                <>
+                                                  <span
+                                                    className='normal-box1 float-end'
+                                                    id={book.id}
+                                                    value={book.id}
+                                                    onClick={() => {
+                                                      const cartId = userIdShop.find(cart => cart.book_id === book.id);
+                                                      handleShopClick(book, cartId.id, book.original_price);
+                                                    }}
+                                                  >
+                                                    <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                  </span>
+                                                </>
+                                              ) : (
+                                                <>
+                                                  <span
+                                                    className='box-view1 float-end'
+                                                    id={book.id}
+                                                    value={book.id}
+                                                    onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                  >
+                                                    <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                  </span>
+                                                </>
+                                              )}
+                                            </>
+                                          ) : (
+                                            <span
+                                              className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                              id={book.id}
+                                              value={book.id}
+                                              onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                            >
+                                              <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                            </span>
+                                          )}
                                         </div>
                                       </div>
                                     </div>
@@ -349,17 +612,52 @@ function Autherfliter() {
                                         <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                         <span className='selles-offer'>offer 60%</span>
 
-                                        <span
-                                          className='like-position float-end m-2'
-                                          onClick={() => handleLikeClick(book)}
-                                        >
-                                          <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                            <img
-                                              src={totallikes.includes(book.id) ? likes : unlike}
-                                              alt="Like Button"
-                                            />
+                                        {userIdLike && userIdLike?.length > 0 ? (
+                                          <>
+                                            {userIdLike?.some(cartId => cartId.book_id === book.id) ? (
+                                              <>
+                                                <span
+                                                  className='like-position float-end'
+                                                  id={book.id}
+                                                  value={book.id}
+                                                  onClick={() => {
+                                                    const cartId = userIdLike.find(cart => cart.book_id === book.id);
+                                                    handleLikeClick(book, cartId.id);
+                                                  }}
+                                                >
+                                                  <span className='likes'>
+                                                    <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                  </span>
+                                                </span>
+                                              </>
+                                            ) : (
+                                              <>
+                                                <span
+                                                  className='like-position float-end'
+                                                  id={book.id}
+                                                  value={book.id}
+                                                  onClick={() => handleLikeClick(book, book.id)}
+                                                >
+                                                  <span className='unlikes'>
+                                                    <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                  </span>
+                                                </span>
+                                              </>
+                                            )}
+                                          </>
+                                        ) : (
+                                          <span
+                                            className='like-position float-end'
+                                            id={book.id}
+                                            value={book.id}
+                                            onClick={() => handleLikeClick(book, book.id)}
+                                          >
+                                            <span className='unlikes'>
+                                              <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                            </span>
                                           </span>
-                                        </span>
+                                        )
+                                        }
                                         <div className='book-details p-3'>
                                           <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
                                           {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
@@ -374,14 +672,45 @@ function Autherfliter() {
                                               />
                                             </div>
                                             <div className='ms-auto'>
-                                              <span
-                                                className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                                id={book.id} value={book.id}
-                                                onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                              >
-
-                                                {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
-                                              </span>
+                                              {userIdShop && userIdShop.length > 0 ? (
+                                                <>
+                                                  {userIdShop.some(cartId => cartId.book_id === book.id) ? (
+                                                    <>
+                                                      <span
+                                                        className='normal-box1 float-end'
+                                                        id={book.id}
+                                                        value={book.id}
+                                                        onClick={() => {
+                                                          const cartId = userIdShop.find(cart => cart.book_id === book.id);
+                                                          handleShopClick(book, cartId.id, book.original_price);
+                                                        }}
+                                                      >
+                                                        <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                      </span>
+                                                    </>
+                                                  ) : (
+                                                    <>
+                                                      <span
+                                                        className='box-view1 float-end'
+                                                        id={book.id}
+                                                        value={book.id}
+                                                        onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                      >
+                                                        <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                      </span>
+                                                    </>
+                                                  )}
+                                                </>
+                                              ) : (
+                                                <span
+                                                  className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                                  id={book.id}
+                                                  value={book.id}
+                                                  onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                >
+                                                  <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                </span>
+                                              )}
                                             </div>
                                           </div>
                                         </div>
@@ -403,17 +732,52 @@ function Autherfliter() {
                                 <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                 <span className='selles-offer'>offer 60%</span>
 
-                                <span
-                                  className='like-position float-end m-2'
-                                  onClick={() => handleLikeClick(book)}
-                                >
-                                  <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                    <img
-                                      src={totallikes.includes(book.id) ? likes : unlike}
-                                      alt="Like Button"
-                                    />
+                                {userIdLike && userIdLike?.length > 0 ? (
+                                  <>
+                                    {userIdLike?.some(cartId => cartId.book_id === book.id) ? (
+                                      <>
+                                        <span
+                                          className='like-position float-end'
+                                          id={book.id}
+                                          value={book.id}
+                                          onClick={() => {
+                                            const cartId = userIdLike.find(cart => cart.book_id === book.id);
+                                            handleLikeClick(book, cartId.id);
+                                          }}
+                                        >
+                                          <span className='likes'>
+                                            <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                          </span>
+                                        </span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <span
+                                          className='like-position float-end'
+                                          id={book.id}
+                                          value={book.id}
+                                          onClick={() => handleLikeClick(book, book.id)}
+                                        >
+                                          <span className='unlikes'>
+                                            <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                          </span>
+                                        </span>
+                                      </>
+                                    )}
+                                  </>
+                                ) : (
+                                  <span
+                                    className='like-position float-end'
+                                    id={book.id}
+                                    value={book.id}
+                                    onClick={() => handleLikeClick(book, book.id)}
+                                  >
+                                    <span className='unlikes'>
+                                      <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                    </span>
                                   </span>
-                                </span>
+                                )
+                                }
                                 <div className='book-details p-3'>
                                   <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
                                   {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
@@ -428,13 +792,45 @@ function Autherfliter() {
                                       />
                                     </div>
                                     <div className='ms-auto'>
-                                      <span
-                                        className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
-                                        id={book.id} value={book.id}
-                                        onClick={() => handleShopClick(book, book.id, book.msrp)}
-                                      >
-                                        {totalshops.includes(book.id) ? <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></> : <><FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /></>}
-                                      </span>
+                                      {userIdShop && userIdShop.length > 0 ? (
+                                        <>
+                                          {userIdShop.some(cartId => cartId.book_id === book.id) ? (
+                                            <>
+                                              <span
+                                                className='normal-box1 float-end'
+                                                id={book.id}
+                                                value={book.id}
+                                                onClick={() => {
+                                                  const cartId = userIdShop.find(cart => cart.book_id === book.id);
+                                                  handleShopClick(book, cartId.id, book.original_price);
+                                                }}
+                                              >
+                                                <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                              </span>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <span
+                                                className='box-view1 float-end'
+                                                id={book.id}
+                                                value={book.id}
+                                                onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                              >
+                                                <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                              </span>
+                                            </>
+                                          )}
+                                        </>
+                                      ) : (
+                                        <span
+                                          className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
+                                          id={book.id}
+                                          value={book.id}
+                                          onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                        >
+                                          <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                        </span>
+                                      )}
                                     </div>
                                   </div>
                                 </div>

@@ -83,7 +83,7 @@ function App() {
         <Route path='/categorybook' element={<Categorybook />} />
         <Route path='/newarrival' element={<Newproduct />} />
         <Route path='/about' element={<About />} />
-        {/* <Route path='*' element={<Error />} /> */}
+        <Route path='*' element={<Error />} />
       </Routes>
     </BrowserRouter>
   );

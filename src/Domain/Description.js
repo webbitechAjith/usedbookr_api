@@ -151,17 +151,17 @@ function Description() {
             navigate('/login')
         }
     }
-    const buynow = (data) => {
-        // dispatch(setsingleItemCount(singleItemCount + 1))
+    const buynow = async (data, id,price) => {
+        await addTocard_list(data, 1);
         const loginUser = localStorage.getItem('usedbookrtoken');
         if (loginUser) {
             navigate(`/Placeorder/${data.id}`, { state: data })
         }else{
             alert("please login user account")
-            // navigate('/login')
+            navigate('/login')
         }
     }
-   
+
     const toggleTab = (tab) => {
         if (activeTab !== tab) {
             setActiveTab(tab);
@@ -233,7 +233,7 @@ function Description() {
                                             }
                                             <div className='my-3'>
                                                 <span className='text-center'>
-                                                    <button className='buynow' onClick={() => buynow(data)}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
+                                                    <button className='buynow' onClick={() => buynow(data, data.id,data.original_price)}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
                                                 </span>
                                                 {userIdShop && userIdShop.length > 0 ? (
                                                     <>
@@ -258,7 +258,7 @@ function Description() {
                                                                     id={data.id}
                                                                     value={data.id}
                                                                     onClick={() => handleShopClick(data, data.id, data.original_price)}
-                                                                    style={{cursor:'pointer'}}
+                                                                    style={{ cursor: 'pointer' }}
                                                                 >
                                                                     Add to card
                                                                 </button>
@@ -271,7 +271,7 @@ function Description() {
                                                         id={data.id}
                                                         value={data.id}
                                                         onClick={() => handleShopClick(data, data.id, data.original_price)}
-                                                        style={{cursor:'pointer'}}
+                                                        style={{ cursor: 'pointer' }}
                                                     >
                                                         Add to card{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
                                                     </span>

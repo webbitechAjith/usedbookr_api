@@ -8,8 +8,7 @@ import '../Common/assets/css/profile.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faEdit, faPencil } from '@fortawesome/free-solid-svg-icons';
 
-import edit from '../Common/assets/image/edit.png';
-import profile from '../Common/assets/image/profile.png'
+import profile from '../Common/assets/image/profile.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { otpToken, profileImage } from '../Common/pages/apiBaseurl'
 import { setProfileUpload, setRegisterToken } from '../Redux/CreateSlice'
@@ -17,28 +16,38 @@ import { useNavigate } from 'react-router-dom'
 
 function Profile() {
     const { registerToken, userLogin, userProfileImage } = useSelector((state) => state.usedbookr_product)
+    const [imageUrl, setImageUrl] = useState('');
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
     const tokenGet = async () => {
         try {
             const localRegisterToken = localStorage.getItem('usedbookrtoken');
             const response_token = await otpToken(localRegisterToken);
             const data_value = response_token.user;
-            dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number ,profile:data_value.profile_img}));
+            dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number, profile: data_value.profile_img }));
         } catch (error) {
             console.log('error', error)
         }
     }
-
     const imageupload = (file) => {
+        // Here you can perform any additional processing or uploading of the image
+        // For now, we'll just set the URL of the selected image to imageUrl state
+        const reader = new FileReader();
+        reader.onload = () => {
+            setImageUrl(reader.result);
+        };
+        reader.readAsDataURL(file);
         dispatch(setProfileUpload({ "userfile": file }))
-    }
+    };
+    // const imageupload = (file) => {
+    //     dispatch(setProfileUpload({ "userfile": file }))
+    // }
 
     const updateProfile = async () => {
         try {
             const updateImage = await profileImage(userProfileImage);
-            if(updateImage.success == true){
+            if (updateImage.success == true) {
                 alert("Success your profile Update")
                 window.location.reload();
             }
@@ -66,7 +75,6 @@ function Profile() {
         tokenGet();
         console.log("API call after page reload", registerToken);
     });
-    console.log(registerToken)
     return (
         <div className='profile-section'>
             <Header />
@@ -83,7 +91,7 @@ function Profile() {
                                     <div className='row m-0 pt-5'>
                                         <div className='col-3'>
                                             <div class="profile-container">
-                                                {registerToken.profile == '' ? <><img src={profile} class="profile-image"/></> : <><img src={registerToken.profile} alt={registerToken.profile} class="profile-image" /></>}
+                                                {imageUrl?.length>0 ? <><img  src={imageUrl} class="profile-image"/></> : <>{registerToken.profile == '' ? <><img src={profile} class="profile-image" /></> : <><img src={registerToken.profile} alt={registerToken.profile} class="profile-image" /></>}</>}
                                                 <div class="edit-icon">
                                                     <FontAwesomeIcon icon={faPencil} style={{ color: '#000' }}
                                                         onClick={() => {
