@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../Common/pages/Header'
 import Footer from '../Common/pages/Footer'
 import Useraside from '../Common/pages/Useraside'
@@ -11,12 +11,12 @@ import { faArrowRight, faEdit, faPencil } from '@fortawesome/free-solid-svg-icon
 import edit from '../Common/assets/image/edit.png';
 import profile from '../Common/assets/image/profile.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { otpToken } from '../Common/pages/apiBaseurl'
-import { setRegisterToken } from '../Redux/CreateSlice'
+import { otpToken, profileImage } from '../Common/pages/apiBaseurl'
+import { setProfileUpload, setRegisterToken } from '../Redux/CreateSlice'
 import { useNavigate } from 'react-router-dom'
 
 function Profile() {
-    const { registerToken, userLogin } = useSelector((state) => state.usedbookr_product)
+    const { registerToken, userLogin, userProfileImage } = useSelector((state) => state.usedbookr_product)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -25,17 +25,31 @@ function Profile() {
             const localRegisterToken = localStorage.getItem('usedbookrtoken');
             const response_token = await otpToken(localRegisterToken);
             const data_value = response_token.user;
-            dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number }));
+            dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number ,profile:data_value.profile_img}));
         } catch (error) {
             console.log('error', error)
         }
     }
 
+    const imageupload = (file) => {
+        dispatch(setProfileUpload({ "userfile": file }))
+    }
 
+    const updateProfile = async () => {
+        try {
+            const updateImage = await profileImage(userProfileImage);
+            if(updateImage.success == true){
+                alert("Success your profile Update")
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error("Error uploading profile image:", error);
+        }
+    }
     useEffect(() => {
         tokenGet()
         window.scrollTo(0, 0);
-        const userAuth = localStorage.getItem('isLoginAuth') 
+        const userAuth = localStorage.getItem('isLoginAuth')
         if (userAuth) {
             localStorage.setItem('isLoginAuth', userLogin)
             navigate('/profile')
@@ -68,10 +82,24 @@ function Profile() {
                                     <div className='row m-0 pt-5'>
                                         <div className='col-3'>
                                             <div class="profile-container">
-                                                <img src={profile} alt="Profile Image" class="profile-image" />
+                                                <img src={registerToken.profile} alt={registerToken.profile} class="profile-image" />
                                                 <div class="edit-icon">
-                                                    {/* <img src={edit} /> */}
-                                                    <FontAwesomeIcon icon={faPencil} style={{ color: '#000' }} />
+                                                    <FontAwesomeIcon icon={faPencil} style={{ color: '#000' }}
+                                                        onClick={() => {
+                                                            const fileInput = document.createElement('input');
+                                                            fileInput.type = 'file';
+                                                            fileInput.accept = 'image/*';
+                                                            fileInput.onchange = (event) => {
+                                                                const file = event.target.files[0];
+                                                                if (file) {
+                                                                    // Here you can call your image upload function with the selected file
+                                                                    imageupload(file);
+                                                                }
+                                                            };
+                                                            fileInput.click();
+                                                        }}
+
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -106,16 +134,10 @@ function Profile() {
                                                     <input type="text" class="form-control" placeholder='09675 65623' value={registerToken.phonenumber} />
                                                 </div>
                                             </div>
-                                            {/* <div className='col-6'>
-                                                <div class="mb-3">
-                                                    <label for="exampleInputFull name" class="form-label">Password</label>
-                                                    <input type="password" class="form-control" placeholder='*****************' value={registerToken.name}/>
-                                                </div>
-                                            </div> */}
                                         </div>
                                     </div>
                                     <div className='text-end'>
-                                        <button>Update <FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></button>
+                                        <button type='button' onClick={() => updateProfile()}>Update <FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></button>
                                     </div>
                                 </div>
                             </div>

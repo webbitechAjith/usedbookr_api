@@ -17,7 +17,7 @@ import cancel from '../Common/assets/image/cancel.png'
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setClass1Hide, setLikedProducts, setShopProducts, setUserIdLike, setUserIdShop, setallBookDetails, setlikescount, setshopcount } from '../Redux/CreateSlice';
-import { addTocard_list, allbooks, cardTolike_list, removeTocard_list } from '../Common/pages/apiBaseurl';
+import { addTocard_list, allbooks, cardTolike_list, removeTocard_list, removeTolike_list } from '../Common/pages/apiBaseurl';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -37,6 +37,20 @@ function Wishlist() {
     const book_details = async () => {
         const books = await allbooks();
         dispatch(setallBookDetails(books))
+    }
+    const handleLikeClick = async (product, id) => {
+        const auth_login = localStorage.getItem('usedbookrtoken')
+        const auth_uesrlogin = localStorage.getItem('isLoginAuth')
+        if (auth_login || auth_uesrlogin == true) {
+            // Check if the product ID is in the likedProducts array
+            if (userIdLike?.some(data => data.id === id)) {
+                await removeTolike_list(id);
+                window.location.reload();
+            }
+        } else {
+            alert("Please login your account")
+            navigate('/login')
+        }
     }
     // shop product click fn 
     const totalshops = shopProducts.map((data) => data.id);
@@ -59,11 +73,7 @@ function Wishlist() {
         }
     }
     const deleteitem = (id) => {
-        const updatedItems = likedProducts.filter(item =>
-            item.id !== id
-        );
-        dispatch(setLikedProducts(updatedItems))
-        dispatch(setlikescount(likescount - 1))
+
     };
     useEffect(() => {
         book_details();
@@ -159,7 +169,12 @@ function Wishlist() {
                                                                                 <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
                                                                             </span>
                                                                         )}
-                                                                        <FontAwesomeIcon className='ms-3 mt-2' icon={faTrash} onClick={() => deleteitem(data.id)} />
+                                                                        <FontAwesomeIcon className='ms-3 mt-2' icon={faTrash}
+                                                                            onClick={() => {
+                                                                                const cartId = userIdLike.find(cart => cart.book_id === data.id);
+                                                                                handleLikeClick(data, cartId.id);
+                                                                            }}
+                                                                        />
                                                                     </td>
                                                                 </tr>
                                                             </>

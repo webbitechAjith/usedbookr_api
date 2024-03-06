@@ -53,6 +53,7 @@ export const userRegister = async (registerDetails) => {
   }
 }
 
+
 //otp api verify
 
 export const otpVerify = async (otpNumber) => {
@@ -262,5 +263,64 @@ export const cardTolike_list = async () => {
     console.log(error)
   }
 }
+
+//remove like api start
+export const removeTolike_list = async (id) => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.get(`api/wishlistremove/${id}`, {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
+    console.log("data", data)
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+// orderplace api call 
+export const orderPlace = async (orderDetails) => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.post('/api/placeorder', orderDetails, {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
+    console.log(data);
+    return data;
+
+  } catch (error) {
+    console.log(error.response.data.errors.email[0]);
+  }
+}
+
+
+
+// profileImage api call 
+export const profileImage = async (userProfileImage) => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const formData = new FormData();
+    formData.append('userfile', userProfileImage.userfile); // Assuming 'userProfileImage' is the key for the file in the FormData
+
+    const { data } = await apiBaseurl.post('/api/profileimgupdate', formData, {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export default apiBaseurl; // Exporting the axios instance for general use

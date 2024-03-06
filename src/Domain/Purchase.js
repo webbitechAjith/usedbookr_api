@@ -97,16 +97,6 @@ function Purchase() {
             })
         }
     }
-
-    // {
-    //     userIdShop && allbookDetails && allbookDetails.map(cartItem => {
-    //         const bookData = allbookDetails.find(data => data.id === cartItem.book_id);
-    //         if (bookData) {
-    //             totalPrice += (bookData.original_price + bookData.gst_charge) * cartItem.quantity;
-    //         }
-    //         return null;
-    //     })
-    // }
     const book_details = async () => {
         const books = await allbooks();
         dispatch(setallBookDetails(books))
@@ -115,7 +105,6 @@ function Purchase() {
         book_details()
         window.scrollTo(0, 0);
     }, [])
-    console.log("shopProducts", allbookDetails)
     return (
         <div className='purchase-section'>
             <Header />
@@ -124,9 +113,6 @@ function Purchase() {
                     <div className='container-90 pt-5'>
                         <span className='profile-head'>My Shopping Cart</span>
                         <div className='row m-0 py-3'>
-                            {/* <div className='col-3'>
-                                <Useraside />
-                            </div> */}
                             <div className='col-9'>
                                 <div className='profile-card order-card'>
                                     {Array.isArray(userIdShop) && userIdShop?.length > 0 ?
@@ -212,17 +198,7 @@ function Purchase() {
                                                 </div>
                                                 <div className='col-6 text-end'>
                                                     <h6 className=''>
-                                                        {/* {userIdShop && userIdShop.length > 0 ?
-                                                            <>
-                                                                {userIdShop.length > 0 && userIdShop && (
-                                                                    <>{userIdShop.reduce((total, data) => total + data.quantity, 0)}</>
-                                                                )}
-                                                            </>
-                                                            :
-                                                            <>
-                                                                0
-                                                            </>
-                                                        } */}
+
                                                         {userIdShop && userIdShop?.length > 0 ? (
                                                             userIdShop.reduce((total, data) => total + data.quantity, 0)
                                                         ) : (
@@ -272,16 +248,17 @@ function Purchase() {
                         </div>
                     </div>
                 </div>
-                <div className='d-lg-none d-md-block d-none'>
+
+                <div className='d-lg-none d-md-block d-sm-block  d-none'>
                     {/* <Useraside /> */}
-                    <div className=''>
-                        <div className='row m-0 py-3'>
-                            <div className='col-12 py-5'>
+                    <div className='pt-5'>
+                        <div className='row m-0'>
+                            <div className='col-12'>
                                 <span className='profile-head'>My Shopping Cart</span>
                             </div>
-                            <div className='col-8'>
+                            <div className='col-12'>
                                 <div className='profile-card order-card'>
-                                    {shopProducts?.length > 0 ?
+                                    {Array.isArray(userIdShop) && userIdShop?.length > 0 ?
                                         <>
                                             <table className="table">
                                                 <thead>
@@ -292,170 +269,60 @@ function Purchase() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {shopProducts && shopProducts.map((data, index) => {
-                                                        return (
-                                                            <tr className='total-wish'>
-                                                                <td className='wish-product'>
-                                                                    <div className='row m-0 pt-2'>
-                                                                        <div className='col-12 py-4'>
-                                                                            <img src={data.image} alt='plant1' className='' width={150} />
-                                                                            <h5>{data.title_long}...</h5>
-                                                                            {/* <h5>{data.author}...</h5> */}
-                                                                            <Rating
-                                                                                initialRating={4}
-                                                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                                                readonly={true}
-                                                                            />
+                                                    {userIdShop && allbookDetails && allbookDetails.map((data, index) => {
+                                                        const match = userIdShop.find(item => item.book_id === data.id);
+                                                        // If there's a match, it means the book is in userIdShop
+                                                        if (match) {
+                                                            return (
+                                                                <tr key={index} className='total-wish'>
+                                                                    <td className='wish-product'>
+                                                                        <div className='row m-0 pt-2'>
+                                                                            <div className='col-4 py-4'>
+                                                                                <img src={data.image} alt={data.image} className='w-100' />
+                                                                            </div>
+                                                                            <div className='col-8 py-4'>
+                                                                                <h5>{data.title_long}</h5>
+                                                                                <Rating
+                                                                                    initialRating={4}
+                                                                                    emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                                                    fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                                                    readonly={true}
+                                                                                />
+                                                                                <h5>{data.total_price}</h5>
+                                                                            </div>
                                                                         </div>
-                                                                        {/* <div className='col-8 py-4'>
-                                                                            <img src={Rating} />
-                                                                            <h5>{data.total_price}</h5>
-                                                                        </div> */}
-                                                                    </div>
-                                                                </td>
-                                                                <td className='py-5 px-0 sum-product'>
-                                                                    <span>
-                                                                        {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
-                                                                        <a className='mx-2 text-decoration-none'>{data.qty}</a>
-                                                                        <button onClick={() => itemIncrement(data.id)}>+</button>
-                                                                    </span>
-                                                                </td>
-                                                                <td className='py-5 text-center'><a className='text-decoration-none price-count'>{data.amount}</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(data.id, data.qty, data.title)} /></td>
-                                                            </tr>
-                                                        )
+                                                                    </td>
+                                                                    <td className='py-5 px-0 sum-product'>
+                                                                        <span>
+                                                                            {match.quantity > 1 ? <><button onClick={() => itemDecrement(data)}>-</button></> : <><button type='button'>-</button></>}
+                                                                            <a className='mx-2 text-decoration-none'>{match.quantity}</a>
+                                                                            <button onClick={() => itemIncrement(data)}>+</button>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td className='py-5 text-start'>
+                                                                        <a className='text-decoration-none price-count'>
+                                                                            {(data.original_price + data.gst_charge) * match.quantity}
+                                                                        </a>
+                                                                        <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3 delete_id'
+                                                                            onClick={() => {
+                                                                                const cartId = userIdShop.find(cart => cart.book_id === data.id);
+                                                                                deleteitem(cartId.id);
+                                                                            }}
+                                                                        />
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        }
+                                                        return null; // Don't forget to handle when there's no match
                                                     })}
                                                 </tbody>
                                             </table>
                                         </> :
-                                        <><h1 className='text-center'>No Shop Product</h1></>
-                                    }
-
-                                </div>
-                            </div>
-                            <div className='col-4'>
-                                <div className='purchase-list'>
-                                    <p>Coupon Code</p>
-                                    <div className="input-group">
-                                        <input type="text" className="form-control" placeholder="Enter code" aria-label="Search" aria-describedby="searchButton" />
-                                        <button className="btn" type="button" id="searchButton">Apply Coupon</button>
-                                    </div>
-                                    <div className='packing-card p-1'>
-                                        <h2>Cart Total</h2>
-                                        <div className='money-details'>
-                                            <div className='row m-0'>
-                                                <div className='col-6'>
-                                                    <h6 className=''>No.of.Item :</h6>
-                                                </div>
-                                                <div className='col-6 text-end'>
-                                                    <h6 className=''>{shopcount + totalItemShop}</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='money-details'>
-                                            <div className='row m-0'>
-                                                <div className='col-6'>
-                                                    <h6 className=''>Subtotal :</h6>
-                                                </div>
-                                                <div className='col-6 text-end'>
-                                                    <h6 className=''>{Math.round(final_amount)}</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='money-details'>
-                                            <div className='row m-0'>
-                                                <div className='col-6'>
-                                                    <h6 className=''>Shipping :</h6>
-                                                </div>
-                                                <div className='col-6 text-end'>
-                                                    <h6 className=''>Free</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='row m-0'>
-                                            <div className='col-6'>
-                                                <h3 className=''>Total :</h3>
-                                            </div>
-                                            <div className='col-6 text-end'>
-                                                <h3 className=''>{Math.round(final_amount)}</h3>
-                                            </div>
-                                        </div>
-                                        <div className='text-center'>
-                                            <button className='process-check'>Proceed to checkout</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className='d-lg-none d-md-none d-sm-block d-none'>
-                    {/* <Useraside /> */}
-                    <div className=''>
-                        <div className='row m-0 py-3'>
-                            <div className='col-12 py-5'>
-                                <span className='profile-head'>My Shopping Cart</span>
-                            </div>
-                            <div className='col-12'>
-                                <div className='profile-card order-card'>
-                                    {shopProducts?.length > 0 ?
                                         <>
-                                            <div className='profile-card order-card'>
-                                                {shopProducts?.length > 0 ?
-                                                    <>
-                                                        <table className="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">Product</th>
-                                                                    <th scope="col">Quantity</th>
-                                                                    <th scope="col" className=''>Subtotal</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {shopProducts && shopProducts.map((data, index) => {
-                                                                    return (
-                                                                        <tr className='total-wish'>
-                                                                            <td className='wish-product'>
-                                                                                <div className='row m-0 pt-2'>
-                                                                                    <div className='col-12 py-4'>
-                                                                                        <img src={data.image} alt='plant1' className='' width={150} />
-                                                                                        <h5 className='mt-3'><b>Title</b> : {data.title_long}</h5>
-                                                                                        {/* <h5><b>Author</b> : {data.author}</h5> */}
-                                                                                        <Rating
-                                                                                            initialRating={4}
-                                                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                                                            readonly={true}
-                                                                                        />
-                                                                                    </div>
-                                                                                    {/* <div className='col-8 py-4'>
-                                                                            <img src={Rating} />
-                                                                            <h5>{data.total_price}</h5>
-                                                                        </div> */}
-                                                                                </div>
-                                                                            </td>
-                                                                            <td className='py-5 px-0 sum-product'>
-                                                                                <span>
-                                                                                    {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
-                                                                                    <a className='mx-2 text-decoration-none'>{data.qty}</a>
-                                                                                    <button onClick={() => itemIncrement(data.id)}>+</button>
-                                                                                </span>
-                                                                            </td>
-                                                                            <td className='py-5 text-start'><a className='text-decoration-none price-count'>{data.amount}</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(data.id, data.qty, data.title)} /></td>
-                                                                        </tr>
-                                                                    )
-                                                                })}
-                                                            </tbody>
-                                                        </table>
-                                                    </> :
-                                                    <><h1 className='text-center'>No Shop Product</h1></>
-                                                }
-
-                                            </div>
-                                        </> :
-                                        <><h1 className='text-center'>No Shop Product</h1></>
+                                            <h1 className='text-center'>No Shop Product</h1>
+                                            {/* <img src={noshop} className='w-100 ' height={440} /> */}
+                                        </>
                                     }
-
                                 </div>
                             </div>
                             <div className='col-12 py-5'>
@@ -465,7 +332,7 @@ function Purchase() {
                                         <input type="text" className="form-control" placeholder="Enter code" aria-label="Search" aria-describedby="searchButton" />
                                         <button className="btn" type="button" id="searchButton">Apply Coupon</button>
                                     </div>
-                                    <div className='packing-card p-1'>
+                                    <div className='packing-card p-2'>
                                         <h2>Cart Total</h2>
                                         <div className='money-details'>
                                             <div className='row m-0'>
@@ -473,7 +340,15 @@ function Purchase() {
                                                     <h6 className=''>No.of.Item :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6 className=''>{shopcount + totalItemShop}</h6>
+                                                    <h6 className=''>
+
+                                                        {userIdShop && userIdShop?.length > 0 ? (
+                                                            userIdShop.reduce((total, data) => total + data.quantity, 0)
+                                                        ) : (
+                                                            0
+                                                        )}
+
+                                                    </h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -483,7 +358,9 @@ function Purchase() {
                                                     <h6 className=''>Subtotal :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6 className=''>{Math.round(final_amount)}</h6>
+                                                    <h6>{totalPrice}</h6>
+                                                    {/* <h6 className=''>{Math.round(final_amount)}</h6> */}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -502,11 +379,11 @@ function Purchase() {
                                                 <h3 className=''>Total :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{Math.round(final_amount)}</h3>
+                                                <h3 className=''>{totalPrice}</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>
-                                            <button className='process-check'>Proceed to checkout</button>
+                                            <button className='process-check' onClick={paymentProcess}>Proceed to checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -514,45 +391,69 @@ function Purchase() {
                         </div>
                     </div>
                 </div>
-                <div className='d-lg-none d-md-none d-sm-none d-block'>
+
+
+                <div className='d-lg-none d-md-none d-sm-none  d-block'>
                     {/* <Useraside /> */}
                     <div className='pt-5'>
                         <div className='row m-0'>
                             <div className='col-12'>
                                 <span className='profile-head'>My Shopping Cart</span>
                             </div>
-                            {shopProducts && shopProducts.map((data) => {
-                                return (
-                                    <div className='col-12 pt-3'>
-                                        <div class="card card-mobile" >
-                                            <div className='card-img-hgt'>
-                                                <img src={data.image} class="card-img-top" alt="..." />
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title"><b>Title</b> : {data.title_long}...</h5>
-                                                {/* <h5 class="card-title"><b>Author</b> : {data.author}...</h5> */}
-                                                <div className='py-3 px-0 sum-product'>
-                                                    <span>
-                                                        {data.qty > 1 ? <><button onClick={() => itemDecrement(data.id)}>-</button></> : <><button type='button'>-</button></>}
-                                                        <a className='mx-2 text-decoration-none'>{data.qty}</a>
-                                                        <button onClick={() => itemIncrement(data.id)}>+</button>
-                                                    </span>
-                                                </div>
-                                                <Rating
-                                                    initialRating={4}
-                                                    emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                    fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                    readonly={true}
-                                                />
-                                                <div className='pt-5 pb-3'>
-                                                    <span className='py-5 text-center'><a className='text-decoration-none price-count'>Price  : {data.amount}</a><FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3' onClick={() => deleteitem(data.id)} /></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            })}
+                            <div className='col-12'>
+                                <div className='profile-card order-card'>
+                                    {Array.isArray(userIdShop) && userIdShop?.length > 0 ?
+                                        <>
 
+                                            {userIdShop && allbookDetails && allbookDetails.map((data, index) => {
+                                                const match = userIdShop.find(item => item.book_id === data.id);
+                                                // If there's a match, it means the book is in userIdShop
+                                                if (match) {
+                                                    return (
+                                                        <div className='col-12 pt-3'>
+                                                            <div class="card card-mobile" >
+                                                                <div className='card-img-hgt'>
+                                                                    <img src={data.image} alt={data.image} className='w-100' />
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title"><b>Title</b> :{data.title_long.slice(0, 30)}...</h5>
+                                                                    {/* <h5 class="card-title"><b>Author</b> : {data.author}...</h5> */}
+                                                                    <div className='py-3 px-0 sum-product'>
+                                                                        <span>
+                                                                            {match.quantity > 1 ? <><button onClick={() => itemDecrement(data)}>-</button></> : <><button type='button'>-</button></>}
+                                                                            <a className='mx-2 text-decoration-none'>{match.quantity}</a>
+                                                                            <button onClick={() => itemIncrement(data)}>+</button>
+                                                                        </span>
+                                                                    </div>
+                                                                    <Rating
+                                                                        initialRating={4}
+                                                                        emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                                        fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                                        readonly={true}
+                                                                    />
+                                                                    <div className='pt-5 pb-3'>
+                                                                        <span className='py-5 text-center'><a className='text-decoration-none price-count'>Price  :{(data.original_price + data.gst_charge) * match.quantity}</a>
+                                                                            <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3 delete_id'
+                                                                                onClick={() => {
+                                                                                    const cartId = userIdShop.find(cart => cart.book_id === data.id);
+                                                                                    deleteitem(cartId.id);
+                                                                                }} /></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
+                                                return null;
+                                            })}
+                                        </>
+                                        :
+                                        <>
+
+                                        </>
+                                    }
+                                </div>
+                            </div>
                             <div className='col-12 py-5'>
                                 <div className='purchase-list'>
                                     <p>Coupon Code</p>
@@ -560,15 +461,23 @@ function Purchase() {
                                         <input type="text" className="form-control" placeholder="Enter code" aria-label="Search" aria-describedby="searchButton" />
                                         <button className="btn" type="button" id="searchButton">Apply Coupon</button>
                                     </div>
-                                    <div className='packing-card p-1'>
+                                    <div className='packing-card p-2'>
                                         <h2>Cart Total</h2>
                                         <div className='money-details'>
                                             <div className='row m-0'>
                                                 <div className='col-6'>
-                                                    <h6 className=''>No.of.Item : </h6>
+                                                    <h6 className=''>No.of.Item :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6 className=''>{shopcount + totalItemShop}</h6>
+                                                    <h6 className=''>
+
+                                                        {userIdShop && userIdShop?.length > 0 ? (
+                                                            userIdShop.reduce((total, data) => total + data.quantity, 0)
+                                                        ) : (
+                                                            0
+                                                        )}
+
+                                                    </h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -578,7 +487,9 @@ function Purchase() {
                                                     <h6 className=''>Subtotal :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6 className=''>{Math.round(final_amount)}</h6>
+                                                    <h6>{totalPrice}</h6>
+                                                    {/* <h6 className=''>{Math.round(final_amount)}</h6> */}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -597,11 +508,11 @@ function Purchase() {
                                                 <h3 className=''>Total :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{Math.round(final_amount)}</h3>
+                                                <h3 className=''>{totalPrice}</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>
-                                            <button className='process-check'>Proceed to checkout</button>
+                                            <button className='process-check' onClick={paymentProcess}>Proceed to checkout</button>
                                         </div>
                                     </div>
                                 </div>

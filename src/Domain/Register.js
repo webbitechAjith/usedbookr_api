@@ -155,7 +155,7 @@ function Register() {
                         <h5>If you already have an account register</h5>
                         <h5>You can <span className='register-hover' onClick={() => login()}>Login here !</span></h5>
                         <div className="my-3">
-                            <label htmlFor="text" className="form-label">Username</label>
+                            <label htmlFor="text" className="form-label">Name</label>
                             <div className="input-group">
                                 <span className="pe-2">
                                     <img src={usericon} />
@@ -164,12 +164,12 @@ function Register() {
                             </div>
                         </div>
                         <div className="my-3">
-                            <label htmlFor="text" className="form-label">Email / Phone Number</label>
+                            <label htmlFor="text" className="form-label">Email</label>
                             <div className="input-group">
                                 <span className="pe-2">
                                     <img src={mail} />
                                 </span>
-                                <input type="email" className="form-control border-0 border-bottom" id="email" name='email' value={registerDetails.email} placeholder="Enter your Email / Phone Number" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, email: e.target.value }))} />
+                                <input type="email" className="form-control border-0 border-bottom" id="email" name='email' value={registerDetails.email} placeholder="Enter your Email" onChange={(e) => dispatch(setregisterDetails({ ...registerDetails, email: e.target.value }))} />
                             </div>
                         </div>
                         <div className="my-3">

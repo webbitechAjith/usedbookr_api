@@ -260,7 +260,7 @@ function Description() {
                                                                     onClick={() => handleShopClick(data, data.id, data.original_price)}
                                                                     style={{cursor:'pointer'}}
                                                                 >
-                                                                    Add to carda
+                                                                    Add to card
                                                                 </button>
                                                             </>
                                                         )}
@@ -273,7 +273,7 @@ function Description() {
                                                         onClick={() => handleShopClick(data, data.id, data.original_price)}
                                                         style={{cursor:'pointer'}}
                                                     >
-                                                        Add to cardb{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
+                                                        Add to card{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
                                                     </span>
                                                 )}
                                             </div>

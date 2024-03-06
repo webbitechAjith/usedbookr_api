@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
 import { faBagShopping, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { addTocard_list, addTowhish_list, cardToget_list, cardTolike_list, removeTocard_list } from './apiBaseurl';
+import { addTocard_list, addTowhish_list, cardToget_list, cardTolike_list, removeTocard_list, removeTolike_list } from './apiBaseurl';
 
 const Allbooks = () => {
     const { allbookDetails, isLiked, userIdShop, userIdLike, isAdded, categoryBook, likescount, likedProducts, totalLikes, shopProducts, shopcount, singleProductView, singleProductPrice } = useSelector((state) => state.usedbookr_product)
@@ -45,7 +45,7 @@ const Allbooks = () => {
         if (auth_login || auth_uesrlogin == true) {
             // Check if the product ID is in the likedProducts array
             if (userIdLike?.some(data => data.id === id)) {
-                await removeTocard_list(id);
+                await removeTolike_list(id);
                 window.location.reload();
             } else {
                 const set_iddetails = await addTowhish_list(product);
@@ -103,12 +103,13 @@ const Allbooks = () => {
                 items: 1,
                 // autoWidth: true,
             },
-            600: {
+            
+            500: {
                 items: 2,
                 // autoWidth: true,
             },
             800: {
-                items: 2,
+                items: 3,
             },
             1000: {
                 items: 5,
@@ -139,12 +140,6 @@ const Allbooks = () => {
                                         <div className='best-seller'>
                                             <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' onClick={(id) => click_view(book)} />
                                             <span className='selles-offer'>Offer 60%</span>
-
-                                            {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)} >
-                                                <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
-                                                    <img src={totallikes.includes(book.id) ? likes : unlike} alt="Like Button" />
-                                                </span>
-                                            </span> */}
                                             {userIdLike && userIdLike?.length > 0 ? (
                                                 <>
                                                     {userIdLike?.some(cartId => cartId.book_id === book.id) ? (
@@ -186,7 +181,7 @@ const Allbooks = () => {
                                                     onClick={() => handleLikeClick(book, book.id)}
                                                 >
                                                     <span className='unlikes'>
-                                                        <FontAwesomeIcon icon={faHeart} className='mr-fixed ' />
+                                                        <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
                                                     </span>
                                                 </span>
                                             )
