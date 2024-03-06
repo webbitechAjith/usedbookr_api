@@ -91,7 +91,7 @@ function Profile() {
                                     <div className='row m-0 pt-5'>
                                         <div className='col-3'>
                                             <div class="profile-container">
-                                                {imageUrl?.length>0 ? <><img  src={imageUrl} class="profile-image"/></> : <>{registerToken.profile == '' ? <><img src={profile} class="profile-image" /></> : <><img src={registerToken.profile} alt={registerToken.profile} class="profile-image" /></>}</>}
+                                                {imageUrl?.length > 0 ? <><img src={imageUrl} class="profile-image" /></> : <>{registerToken.profile == '' ? <><img src={profile} class="profile-image" /></> : <><img src={registerToken.profile} alt={registerToken.profile} class="profile-image" /></>}</>}
                                                 <div class="edit-icon">
                                                     <FontAwesomeIcon icon={faPencil} style={{ color: '#000' }}
                                                         onClick={() => {
@@ -175,10 +175,24 @@ function Profile() {
                                     <div className='row m-0 pt-5 align-items-center'>
                                         <div className='col-lg-3 col-md-3 col-sm-3 col-3 pe-0'>
                                             <div class="profile-container">
-                                                <img src={profile} alt="Profile Image" class="profile-image" />
+                                                {imageUrl?.length > 0 ? <><img src={imageUrl} class="profile-image" /></> : <>{registerToken.profile == '' ? <><img src={profile} class="profile-image" /></> : <><img src={registerToken.profile} alt={registerToken.profile} class="profile-image" /></>}</>}
                                                 {/* <div class="edit-icon">
-                                                    <img src={edit} />
-                                                    <FontAwesomeIcon icon={faPencil} style={{ color: '#000' }} />
+                                                    <FontAwesomeIcon icon={faPencil} style={{ color: '#000' }}
+                                                        onClick={() => {
+                                                            const fileInput = document.createElement('input');
+                                                            fileInput.type = 'file';
+                                                            fileInput.accept = 'image/*';
+                                                            fileInput.onchange = (event) => {
+                                                                const file = event.target.files[0];
+                                                                if (file) {
+                                                                    // Here you can call your image upload function with the selected file
+                                                                    imageupload(file);
+                                                                }
+                                                            };
+                                                            fileInput.click();
+                                                        }}
+
+                                                    />
                                                 </div> */}
                                             </div>
                                         </div>
@@ -191,7 +205,24 @@ function Profile() {
                                                 <div className='col-md-4 col-sm-3 col-12'>
                                                     <div class="edit-icon">
                                                         {/* <img src={edit} /> */}
-                                                        <FontAwesomeIcon icon={faPencil} style={{ color: '#000' }} /><span className='ms-2'>Edit</span>
+                                                        <div class="edit-icon">
+                                                            <FontAwesomeIcon icon={faPencil} style={{ color: '#000' }}
+                                                                onClick={() => {
+                                                                    const fileInput = document.createElement('input');
+                                                                    fileInput.type = 'file';
+                                                                    fileInput.accept = 'image/*';
+                                                                    fileInput.onchange = (event) => {
+                                                                        const file = event.target.files[0];
+                                                                        if (file) {
+                                                                            // Here you can call your image upload function with the selected file
+                                                                            imageupload(file);
+                                                                        }
+                                                                    };
+                                                                    fileInput.click();
+                                                                }}
+
+                                                            /><span className='ms-2'>Edit</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
