@@ -38,7 +38,8 @@ export const CrateSlice = createSlice({
             username : '',
             email :'',
             name : '',
-            phonenumber : ''
+            phonenumber : '',
+            profile : ''
         },
         megaMenu:{},
         bannerImage : [],

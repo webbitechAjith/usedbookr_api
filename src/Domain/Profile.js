@@ -66,6 +66,7 @@ function Profile() {
         tokenGet();
         console.log("API call after page reload", registerToken);
     });
+    console.log(registerToken)
     return (
         <div className='profile-section'>
             <Header />
@@ -82,7 +83,7 @@ function Profile() {
                                     <div className='row m-0 pt-5'>
                                         <div className='col-3'>
                                             <div class="profile-container">
-                                                <img src={registerToken.profile} alt={registerToken.profile} class="profile-image" />
+                                                {registerToken.profile == '' ? <><img src={profile} class="profile-image"/></> : <><img src={registerToken.profile} alt={registerToken.profile} class="profile-image" /></>}
                                                 <div class="edit-icon">
                                                     <FontAwesomeIcon icon={faPencil} style={{ color: '#000' }}
                                                         onClick={() => {
