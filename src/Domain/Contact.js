@@ -28,22 +28,22 @@ function Contact() {
                         </div>
                         <div className='contact-card'>
                             <div class="row justify-content-center py-5 contact-address">
-                                <div className='col-lg-4 col-md-4 col-sm-6 col-12'>
+                                <div className='col-lg-4 col-md-6 col-sm-6 col-12'>
                                     <div className='contact-number text-center'>
                                         <FontAwesomeIcon icon={faPhoneVolume} style={{ color: '#FFF', fontSize: '30px' }} />
-                                        <p>(219) 555-0114 <br />(164) 333-0487</p>
+                                        <p>+91 6300201360 </p>
                                     </div>
                                 </div>
-                                <div className='col-lg-4 col-md-4 col-sm-6 col-12 py-lg-0 py-md-0 py-sm-0 py-2 '>
+                                <div className='col-lg-4 col-md-6 col-sm-6 col-12 py-lg-0 py-md-2 py-sm-0 py-2 '>
                                     <div className='contact-mail text-center'>
                                         <FontAwesomeIcon icon={faEnvelope} style={{ color: '#FFF', fontSize: '30px' }} />
-                                        <p>Proxy@gmail.com <br />Help.proxy@gmail.com</p>
+                                        <p>info@usedbookr.com</p>
                                     </div>
                                 </div>
-                                <div className='col-lg-4 col-md-4 col-sm-6 col-12 pt-lg-0 pt-md-0 pt-sm-2 pt-0'>
-                                    <div className='contact-location text-center'>
+                                <div className='col-lg-4 col-md-6 col-sm-6 col-12 pt-lg-0 pt-md-0 pt-sm-2 pt-0'>
+                                    <div className='contact-location text-center px-2'>
                                         <FontAwesomeIcon icon={faLocationDot} style={{ color: '#FFF', fontSize: '30px' }}/>
-                                        <p>2715 Ash Dr. San Jose,<br/>South Dakota 83475</p>
+                                        <p className=''>2nd Floor, 105/3, Athipalayam Road, chinnavedampatti,Coimbatore, Coimbatore, Tamil Nadu, 641049</p>
                                     </div>
                                 </div>
                             </div>

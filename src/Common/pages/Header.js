@@ -229,11 +229,12 @@ function Header() {
             <div className='top-header'>
                 <div className='container-90 d-lg-block d-none'>
                     <div className='row m-0 p-1'>
-                        <div className='col-lg-6 col-md-12 col-12 text-start p-0'>
-                            <h4 className='mb-0'><img src={locations} className='mx-2 p-0' />PO BOX:115786 - Al Warsan3, Dubai, UAE.</h4>
+                        <div className='col-lg-8 col-md-12 col-12 text-start p-0'>
+                            <h4 className='mb-0'><img src={locations} className='mx-2 p-0' />2nd Floor, 105/3, Athipalayam Road, chinnavedampatti,
+                                Coimbatore,Tamil Nadu, 641049</h4>
                         </div>
-                        <div className='col-lg-6 col-md-12 col-12 p-0'>
-                            <h4 className='text-lg-end text-center phone_number mb-0'><img src={headphone} className='mx-2' />+971 42872900</h4>
+                        <div className='col-lg-4 col-md-12 col-12 p-0'>
+                            <h4 className='text-lg-end text-center phone_number mb-0'><img src={headphone} className='mx-2' />+91 6300201360 </h4>
                         </div>
                     </div>
                 </div>
