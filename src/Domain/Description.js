@@ -121,12 +121,11 @@ function Description() {
     // shop product click fn 
     const totalshops = shopProducts.map((data) => data.id);
     const handleShopClick = async (product, id, price) => {
-        console.log("ajith")
         const auth_login = localStorage.getItem('usedbookrtoken')
         if (auth_login) {
             const isShops = product.id;
             // Check if the product ID is in the likedProducts array
-            if (userIdShop.some(data => data.id === id)) {
+            if (userIdShop?.some(data => data.id === id)) {
                 // If it's already in userIdShop, perform the removal process
                 dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== id)));
                 dispatch(setshopcount(shopcount - 1));
@@ -136,13 +135,13 @@ function Description() {
                 // If it's not in userIdShop, perform the addition process
                 if (singleProductPrice) {
                     await addTocard_list(product, 1);
-                    dispatch(setShopProducts([...shopProducts, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
-                    dispatch(setshopcount(shopcount + 1));
+                    dispatch(setallBookDetails([...allbookDetails, { ...product, id, original_price: parseFloat(singleProductPrice), amount: parseFloat(singleProductPrice), qty: 1 }]));
+                    // dispatch(setshopcount(shopcount + 1));
                     navigate('/Purchase');
                 } else {
                     await addTocard_list(product, 1);
-                    dispatch(setShopProducts([...shopProducts, { ...product, id, amount: product.original_price + product.gst_charge, qty: 1 }]));
-                    dispatch(setshopcount(shopcount + 1));
+                    dispatch(setallBookDetails([...allbookDetails, { ...product, id, amount: product.original_price + product.gst_charge, qty: 1 }]));
+                    // dispatch(setshopcount(shopcount + 1));
                     navigate('/Purchase');
                 }
             }
@@ -182,7 +181,8 @@ function Description() {
         allbook_view()
         dispatch(setClass1Hide(false))
         window.scrollTo(0, 0);
-    }, [])
+    }, []);
+    console.log("allbookDetails",allbookDetails)
     return (
         <div className='description-section'>
             <Header />

@@ -167,7 +167,7 @@ const Allbooks = () => {
                                                                 onClick={() => handleLikeClick(book, book.id)}
                                                             >
                                                                 <span className='unlikes'>
-                                                                    <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
+                                                                    <FontAwesomeIcon icon={faHeart} className='' />
                                                                 </span>
                                                             </span>
                                                         </>

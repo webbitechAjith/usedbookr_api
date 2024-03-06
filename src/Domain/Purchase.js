@@ -104,7 +104,8 @@ function Purchase() {
     useEffect(() => {
         book_details()
         window.scrollTo(0, 0);
-    }, [])
+    }, []);
+    console.log(allbookDetails)
     return (
         <div className='purchase-section'>
             <Header />

@@ -459,15 +459,29 @@ body {
     background: #F2F2F2;
 }
 
-.mr-fixed {
-    margin: 12px;
-}
+
 
 .heart-position {
     position: absolute;
     left: 72%;
     margin-top: 10px;
 }
+
+.mr-fixed {
+    margin: 12px;
+    /* position: absolute;
+    bottom: 5px;
+    left: 20px;
+    transform: translate(-50%, -50%); */
+}
+
+/* .mx-fixed {
+    position: absolute;
+    right: 30px;
+    bottom: 25px;
+    transform: translate(-50%, -50%);
+} */
+
 
 .sales-position {
     position: absolute;
