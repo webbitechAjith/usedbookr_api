@@ -385,7 +385,7 @@ function Header() {
                                                                                                 {data.subcategories.length > 0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2' /></> : <></>}
                                                                                             </h5>
                                                                                             {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
-                                                                                                <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(data)}>
+                                                                                                <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory.name)}>
                                                                                                     {subcategory.name}
                                                                                                 </a>
                                                                                             ))}
@@ -511,34 +511,41 @@ function Header() {
                                                     </li>
                                                     <li className="nav-item dropdown mega-menu-li">
                                                         <a className="nav-link dropdown-toggle option-list" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded={isMobileExpanded} onClick={toggleDropdown}>
-                                                            SHOP BOOK{isMobileExpanded ? <><FontAwesomeIcon icon={faMinus} style={{ color: "#000", }} className='ps-2' /></> : <><FontAwesomeIcon icon={faPlus} style={{ color: "#000", }} className='ps-2' /></>}
+                                                            SHOP BOOKs{isMobileExpanded ? <><FontAwesomeIcon icon={faMinus} style={{ color: "#000", }} className='ps-2' /></> : <><FontAwesomeIcon icon={faPlus} style={{ color: "#000", }} className='ps-2' /></>}
                                                         </a>
                                                         <div class={`dropdown-menu drop-width w-100 ${isMobileExpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuLink">
                                                             <div class="container-fluid">
                                                                 <div class="row m-0">
                                                                     {megaMenu?.length > 0 ?
                                                                         <>
-                                                                            {megaMenu.map((data) => {
-                                                                                return (
+                                                                            {megaMenu?.length > 0 ?
+                                                                                <>
+                                                                                    {megaMenu.map((data) => {
+                                                                                        return (
 
-                                                                                    <>
-                                                                                        <div key={data.name} className="col-12 mb-3 mb-lg-0">
-                                                                                            <div className="list-group list-group-flush">
-                                                                                                <h5 onClick={() => toggleTitle(data.name)}>
-                                                                                                    {data.name}
-                                                                                                    {data.subcategories.length > 0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2' /></> : <></>}
-                                                                                                </h5>
-                                                                                                {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
-                                                                                                    <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory.name)}>
-                                                                                                        {subcategory.name}
-                                                                                                    </a>
-                                                                                                ))}
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </>
-                                                                                )
+                                                                                            <>
+                                                                                                <div key={data.name} className="col-12 mb-3 mb-lg-0">
+                                                                                                    <div className="list-group list-group-flush">
+                                                                                                        <h5 onClick={() => toggleTitle(data.name)}>
+                                                                                                            {data.name}
+                                                                                                            {data.subcategories.length > 0 ? <><FontAwesomeIcon icon={isCategoryVisible(data.name) ? faMinus : faPlus} className='ps-2' /></> : <></>}
+                                                                                                        </h5>
+                                                                                                        {isCategoryVisible(data.name) && data.subcategories.map((subcategory, subIndex) => (
+                                                                                                            <a key={subIndex} className='list-group-item text-decoration-none' onClick={() => handleNavLinkClick(subcategory)}>
+                                                                                                                {subcategory.name}
+                                                                                                            </a>
+                                                                                                        ))}
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </>
+                                                                                        )
 
-                                                                            })}
+                                                                                    })}
+                                                                                </>
+                                                                                :
+                                                                                <>
+                                                                                </>
+                                                                            }
                                                                         </>
                                                                         :
                                                                         <>

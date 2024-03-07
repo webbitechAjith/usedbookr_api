@@ -202,49 +202,101 @@ function Wishlist() {
                                 <span className='profile-head'>My Wishlist</span>
                             </div>
                             <div className='col-12 p-0 order-card'>
-                                {likedProducts.length > 0 ? <>
-                                    <table className="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Product</th>
-                                                <th scope="col">price</th>
-                                                <th scope="col">stock status</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {likedProducts && likedProducts.map((data, index) => {
-                                                return (
-                                                    <>
-                                                        <tr className='total-wish'>
-                                                            <td className='wish-product'>
-                                                                <div className='row m-0 pt-2'>
-                                                                    <div className='col-4 p-0'>
-                                                                        <img src={data.image} alt='plant1' className='w-100' />
-                                                                    </div>
-                                                                    <div className='col-8 py-4'>
-                                                                        <h5>{data.title_long}</h5>
-                                                                        <Rating
-                                                                            initialRating={4}
-                                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                                            readonly={true}
+                                {userIdLike && userIdLike.length > 0 ?
+                                    <>
+                                        <table className="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Product</th>
+                                                    <th scope="col">price</th>
+                                                    <th scope="col">stock status</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {userIdLike && allbookDetails && allbookDetails.map((data, index) => {
+                                                    const match = userIdLike.find(item => item.book_id == data.id);
+                                                    if (match) {
+                                                        return (
+                                                            <>
+                                                                <tr className='total-wish'>
+                                                                    <td className='wish-product'>
+                                                                        <div className='row m-0 pt-2'>
+                                                                            <div className='col-4 p-0'>
+                                                                                <img src={data.image} alt='plant1' className='w-100' />
+                                                                            </div>
+                                                                            <div className='col-8 py-4'>
+                                                                                <h5>{data.title_long}</h5>
+                                                                                <Rating
+                                                                                    initialRating={4}
+                                                                                    emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                                                    fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                                                    readonly={true}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className='py-5'><h6>INR {data.original_price}</h6></td>
+                                                                    <td className='py-5'><h3>In Stock</h3></td>
+                                                                    <td className='py-5'>
+                                                                        {userIdShop && userIdShop.length > 0 ? (
+                                                                            <>
+                                                                                {userIdShop.some(cartId => cartId.book_id === data.id) ? (
+                                                                                    <>
+                                                                                        <span
+                                                                                            className='normal-box1 float-start'
+                                                                                            id={data.id}
+                                                                                            value={data.id}
+                                                                                            onClick={() => {
+                                                                                                const cartId = userIdShop.find(cart => cart.book_id === data.id);
+                                                                                                handleShopClick(data, cartId.id, data.original_price);
+                                                                                            }}
+                                                                                        >
+                                                                                            <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                                                        </span>
+                                                                                    </>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        <span
+                                                                                            className='box-view1 float-start'
+                                                                                            id={data.id}
+                                                                                            value={data.id}
+                                                                                            onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                                                        >
+                                                                                            <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                                                        </span>
+                                                                                    </>
+                                                                                )}
+                                                                            </>
+                                                                        ) : (
+                                                                            <span
+                                                                                className={totalshops.includes(data.id) ? 'normal-box1 float-start' : 'box-view1 float-start'}
+                                                                                id={data.id}
+                                                                                value={data.id}
+                                                                                onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                                            >
+                                                                                <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                                            </span>
+                                                                        )}
+                                                                        <FontAwesomeIcon className='ms-3 mt-2' icon={faTrash}
+                                                                            onClick={() => {
+                                                                                const cartId = userIdLike.find(cart => cart.book_id === data.id);
+                                                                                handleLikeClick(data, cartId.id);
+                                                                            }}
                                                                         />
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td className='py-5'><h6>INR {data.msrp}</h6></td>
-                                                            <td className='py-5'><h3>In Stock</h3></td>
-                                                            <td className='py-5'><button>Move to Cart</button><img src={cancel} className='ms-2' onClick={() => deleteitem(data.id)} /></td>
-                                                        </tr>
-                                                    </>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </table>
-                                    <hr />
-                                </>
+                                                                    </td>
+                                                                </tr>
+                                                            </>
+                                                        )
+                                                    }
+                                                    return null;
+                                                })}
+                                            </tbody>
+                                        </table>
+                                        <hr />
+                                    </>
                                     :
+
                                     <>
                                         <h1 className='text-center'>No Likes product</h1>
                                     </>
@@ -255,55 +307,105 @@ function Wishlist() {
                         </div>
                     </div>
                 </div>
-                <div className='d-lg-none d-md-none d-sm-block d-none'>
+                <div className='d-lg-none d-md-none d-sm-block d-block'>
                     <Useraside />
-                    <div className='pt-5'>
+                    <div className=''>
                         <div className='row m-0 py-3 wishlist-product'>
                             <div className='col-12 py-3'>
                                 <span className='profile-head'>My Wishlist</span>
                             </div>
                             <div className='col-12 p-0 order-card'>
-                                {likedProducts.length > 0 ? <>
-                                    {likedProducts && likedProducts.map((data, index) => {
-                                        return (
-                                            <>
-                                                <div className='row m-0 border-bottom py-4'>
-                                                    <div className='col-4'>
-                                                        <img src={data.image} alt='plant1' className='w-100' />
-                                                        <h5 className=''>{data.title.slice(0, 10)}...</h5>
-                                                        <Rating
-                                                            initialRating={4}
-                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                            readonly={true}
-                                                        />
-                                                    </div>
-                                                    <div className='col-4 rate_details'>
-                                                        <label>Price</label>
-                                                        <h6>INR {data.msrp}</h6>
-                                                        <label>stock status</label><br />
-                                                        <h3>In Stock</h3>
-                                                    </div>
-                                                    <div className='col-4'>
-                                                        <td className='py-5'><button>Move to Cart</button><img src={cancel} className='ms-2' onClick={() => deleteitem(data.id)} /></td>
-                                                    </div>
+                                {userIdLike && userIdLike.length > 0 ?
+                                    <>
+                                        <div className='row m-0 border-bottom py-4'>
+                                            {userIdLike && allbookDetails && allbookDetails.map((data, index) => {
+                                                const match = userIdLike.find(item => item.book_id == data.id);
+                                                if (match) {
+                                                    return (
+                                                        <>
+                                                            <div className='col-4'>
+                                                                <img src={data.image} alt='plant1' className='w-100' />
 
-                                                </div>
-                                            </>
-                                        )
-                                    })}
+                                                            </div>
+                                                            <div className='col-6 rate_details'>
+                                                                <h5 className=''>{data.title_long.slice(0, 20)}...</h5>
+                                                                <Rating
+                                                                    initialRating={4}
+                                                                    emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                                    fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                                    readonly={true}
+                                                                />
+                                                                <h6>INR {data.original_price}</h6>
 
-                                </>
+                                                                <h3>In Stock</h3>
+                                                            </div>
+                                                            <div className='col-2'>
+                                                                {userIdShop && userIdShop.length > 0 ? (
+                                                                    <>
+                                                                        {userIdShop.some(cartId => cartId.book_id === data.id) ? (
+                                                                            <>
+                                                                                <span
+                                                                                    className='normal-box1 float-start'
+                                                                                    id={data.id}
+                                                                                    value={data.id}
+                                                                                    onClick={() => {
+                                                                                        const cartId = userIdShop.find(cart => cart.book_id === data.id);
+                                                                                        handleShopClick(data, cartId.id, data.original_price);
+                                                                                    }}
+                                                                                >
+                                                                                    <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                                                </span>
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <span
+                                                                                    className='box-view1 float-start'
+                                                                                    id={data.id}
+                                                                                    value={data.id}
+                                                                                    onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                                                >
+                                                                                    <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                                                </span>
+                                                                            </>
+                                                                        )}
+                                                                    </>
+                                                                ) : (
+                                                                    <span
+                                                                        className={totalshops.includes(data.id) ? 'normal-box1 float-start' : 'box-view1 float-start'}
+                                                                        id={data.id}
+                                                                        value={data.id}
+                                                                        onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                                    >
+                                                                        <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
+                                                                    </span>
+                                                                )}
+                                                                <FontAwesomeIcon className='ms-3 mt-2' icon={faTrash}
+                                                                    onClick={() => {
+                                                                        const cartId = userIdLike.find(cart => cart.book_id === data.id);
+                                                                        handleLikeClick(data, cartId.id);
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                                <hr className='my-3'/>
+                                                        </>
+
+                                                    )
+                                                }
+                                                return null;
+                                            })}
+                                        </div>
+                                    </>
                                     :
                                     <>
                                         <h1 className='text-center'>No Likes product</h1>
+
                                     </>
                                 }
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className='d-lg-none d-md-none d-sm-none d-block'>
+                <div className='d-lg-none d-md-none d-sm-none d-none'>
                     <Useraside />
                     <div className='pt-5'>
                         <div className='row m-0 py-3 wishlist-product'>

@@ -69,8 +69,9 @@ const Allbooks = () => {
                 window.location.reload();
             } else {
                 const set_iddetails = await addTocard_list(product, 1);
-                dispatch(setUserIdShop(set_iddetails))
-                navigate('/Purchase');
+                dispatch(setUserIdShop(set_iddetails));
+                window.location.reload();
+                // navigate('/Purchase');
             }
         } else {
             alert("Please login your account")
@@ -167,7 +168,7 @@ const Allbooks = () => {
                                                                 onClick={() => handleLikeClick(book, book.id)}
                                                             >
                                                                 <span className='unlikes'>
-                                                                    <FontAwesomeIcon icon={faHeart} className='' />
+                                                                    <FontAwesomeIcon icon={faHeart} className='mr-fixed' />
                                                                 </span>
                                                             </span>
                                                         </>

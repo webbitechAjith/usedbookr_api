@@ -382,23 +382,26 @@
     font-weight: 500;
 }
 
-.singleproduct-img-1{
-    height:450px;
+.singleproduct-img-1 {
+    height: 450px;
 }
+
 .singleproduct-img-1 img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
-.singleproduct-img{
+.singleproduct-img {
     height: 350px;
 }
+
 .singleproduct-img img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
+
 /* mobile responsive css start  */
 @media only screen and (min-width:768px) and (max-width: 992px) {
     .description-details h1 {
@@ -429,6 +432,7 @@
     .tab-details {
         margin: 0px;
     }
+
     .description-details h1 {
         color: #1A1A1A;
         font-size: 18px;
@@ -449,7 +453,7 @@
 
     .shop-card {
         margin-left: 10px;
-        padding: 10px 30px;
+        padding: 10px 20px;
         border-radius: 43px;
         background: var(--Btn3, #FFD731);
         border: none;
@@ -474,10 +478,36 @@
         font-size: 14px;
         line-height: 24px !important;
     }
+
     .description-details h1 {
         color: #1A1A1A;
         font-size: 16px;
         font-weight: 600;
         line-height: 26px !important;
+    }
+
+    .buynow {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 0px;
+        padding: 10px 15px;
+        border-radius: 43px;
+        background: #241D60;
+        border: none;
+        color: #FFF;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 26px;
+    }
+
+    .disabled-shop {
+        margin-left: 10px;
+        padding: 10px 20px;
+        border-radius: 43px;
+        border: none;
+        color: #241D60;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 26px;
     }
 }

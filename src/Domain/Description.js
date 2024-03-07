@@ -150,12 +150,12 @@ function Description() {
             navigate('/login')
         }
     }
-    const buynow = async (data, id,price) => {
+    const buynow = async (data, id, price) => {
         await addTocard_list(data, 1);
         const loginUser = localStorage.getItem('usedbookrtoken');
         if (loginUser) {
             navigate(`/Placeorder/${data.id}`, { state: data })
-        }else{
+        } else {
             alert("please login user account")
             navigate('/login')
         }
@@ -182,7 +182,6 @@ function Description() {
         dispatch(setClass1Hide(false))
         window.scrollTo(0, 0);
     }, []);
-    console.log("allbookDetails",allbookDetails)
     return (
         <div className='description-section'>
             <Header />
@@ -233,7 +232,7 @@ function Description() {
                                             }
                                             <div className='my-3'>
                                                 <span className='text-center'>
-                                                    <button className='buynow' onClick={() => buynow(data, data.id,data.original_price)}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
+                                                    <button className='buynow' onClick={() => buynow(data, data.id, data.original_price)}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
                                                 </span>
                                                 {userIdShop && userIdShop.length > 0 ? (
                                                     <>
@@ -298,10 +297,6 @@ function Description() {
                                                 <img src={data.image} className='w-100 h-100' />
                                             </div>
                                         </div>
-                                        {/* <div className='text-center'>
-                                            <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button>
-                                            <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
-                                        </div> */}
                                     </div>
                                     <div className='col-7 description-details'>
                                         <h1>{data.title_long} <span className='stock'>In Stock</span></h1>
@@ -311,6 +306,7 @@ function Description() {
                                         <br />
                                         <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
                                         <button className='sales-offer'>50% off</button>
+                                        <div className='cate my-4'><b>Category</b> :<span className='ms-2'>{data.category_id[0].name}</span></div>
                                         <hr />
                                         <p>{data.synopsis}</p>
 
@@ -348,10 +344,50 @@ function Description() {
 
                                     <div className='col-12 description-details text-start my-5'>
                                         <>
-
-                                            <button className={totalshops.includes(data.id) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}>Add to Cart <img src={totalshops.includes(data.id) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
-                                            <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data.id)} /></span>
-                                            <span className='cate ps-4 my-4'><b>Category</b> :<span className='ms-2'>Lifestyle</span></span>
+                                            <span className='text-center'>
+                                                <button className='buynow' onClick={() => buynow(data, data.id, data.original_price)}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
+                                            </span>
+                                            {userIdShop && userIdShop.length > 0 ? (
+                                                <>
+                                                    {userIdShop.some(cartId => cartId.book_id === data.id) ? (
+                                                        <>
+                                                            <button
+                                                                className='disabled-shop'
+                                                                id={data.id}
+                                                                value={data.id}
+                                                                onClick={() => {
+                                                                    const cartId = userIdShop.find(cart => cart.book_id === data.id);
+                                                                    handleShopClick(data, cartId.id, data.original_price);
+                                                                }}
+                                                            >
+                                                                Remove card  {/* Remove to card <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
+                                                            </button>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <button
+                                                                className='shop-card'
+                                                                id={data.id}
+                                                                value={data.id}
+                                                                onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                                style={{ cursor: 'pointer' }}
+                                                            >
+                                                                Add to card
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <span
+                                                    className='shop-card'
+                                                    id={data.id}
+                                                    value={data.id}
+                                                    onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    Add to card{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
+                                                </span>
+                                            )}
                                         </>
                                     </div>
                                 </>
@@ -362,7 +398,7 @@ function Description() {
 
                     </div>
                 </div>
-                <div className='d-lg-none d-md-none d-block pt-5'>
+                <div className='d-lg-none d-md-none d-block'>
                     <div className='row m-0'>
                         {singleBooks && singleBooks.map((data) => {
                             return (
@@ -374,9 +410,10 @@ function Description() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='col-12 description-details mt-5'>
-                                        <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
-                                        <p>{data.author}</p>
+                                    <div className='col-12 description-details'>
+                                        <h1>{data.title_long.slice(0,20)}....</h1>
+                                        <span className='stock ms-0'>In Stock</span>
+                                        <p className='pt-2 mb-0'>{data.author}</p>
                                         <img src={star} alt='star' />
                                         <span className='review'>4 Reviews</span>
                                         <br />
@@ -414,20 +451,50 @@ function Description() {
                                             </>
                                         }
                                         <>
-                                            <span className='d-md-block d-none'>
-                                                <button className={totalshops.includes(data.id) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}>Add to Cart <img src={totalshops.includes(data.id) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
+                                            <span className='text-center'>
+                                                <button className='buynow' onClick={() => buynow(data, data.id, data.original_price)}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
                                             </span>
-                                            <div className='text-center mt-5'>
-                                                <span className='d-md-none d-inline-block'>
-                                                    <button className={totalshops.includes(data.id) ? 'add-card' : 'shop-card'} onClick={() => handleShopClick(data, data.id, data.original_price)}>Add to Cart<img src={totalshops.includes(data.id) ? shop : blackshop} alt='shop' className='mx-2 p-0' /></button>
+                                            {userIdShop && userIdShop.length > 0 ? (
+                                                <>
+                                                    {userIdShop.some(cartId => cartId.book_id === data.id) ? (
+                                                        <>
+                                                            <button
+                                                                className='disabled-shop'
+                                                                id={data.id}
+                                                                value={data.id}
+                                                                onClick={() => {
+                                                                    const cartId = userIdShop.find(cart => cart.book_id === data.id);
+                                                                    handleShopClick(data, cartId.id, data.original_price);
+                                                                }}
+                                                            >
+                                                                Remove card  {/* Remove to card <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
+                                                            </button>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <button
+                                                                className='shop-card'
+                                                                id={data.id}
+                                                                value={data.id}
+                                                                onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                                style={{ cursor: 'pointer' }}
+                                                            >
+                                                                Add to card
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <span
+                                                    className='shop-card'
+                                                    id={data.id}
+                                                    value={data.id}
+                                                    onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    Add to card{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
                                                 </span>
-                                                <span className='like-btn'><img src={totallikes.includes(data.id) ? likes : unlike} alt='heart' className='mx-2' onClick={() => handleLikeClick(data.id)} /></span>
-                                            </div>
-
-                                            <div className='text-center mt-2 mb-5'>
-                                                {/* <button className='buynow'>Add to Cart <img src={shop} alt='shop' className='mx-2 p-0' /></button> */}
-                                                <button className='buynow' onClick={() => buynow()}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
-                                            </div>
+                                            )}
                                         </>
                                     </div>
                                 </>
@@ -436,7 +503,7 @@ function Description() {
                     </div>
 
                 </div>
-                <div className='tab-details mt-lg-5 mt-md-4 mt-3'>
+                <div className='tab-details mt-lg-5 mt-md-4 mt-sm-5 mt-3'>
                     <Nav tabs>
                         <NavItem className='plant-content'>
                             <NavLink

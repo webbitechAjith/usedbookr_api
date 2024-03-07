@@ -13,7 +13,7 @@ import { orderPlace, userRegister } from '../Common/pages/apiBaseurl'
 
 
 const Orderprocess = () => {
-    const { orderDetails } = useSelector((state) => state.usedbookr_product)
+    const { orderDetails,registerToken } = useSelector((state) => state.usedbookr_product)
     const [activeTab, setActiveTab] = useState(1);
 
     const dispatch = useDispatch();
@@ -70,6 +70,7 @@ const Orderprocess = () => {
         // Add your form submission logic here
         console.log(formData);
     };
+    console.log(1511, registerToken);
     console.log(1515, orderDetails);
     const renderTabContent = () => {
         switch (activeTab) {
@@ -79,22 +80,19 @@ const Orderprocess = () => {
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Username</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="password" placeholder="Enter your name" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, name: e.target.value }))} />
+                                <input type="text" className="form-control border-0 border-bottom" id="password" placeholder="Enter your name" value={registerToken.name} required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, name: e.target.value }))} />
                             </div>
                         </div>
                         <div className="my-3">
-                            <label htmlFor="text" className="form-label">Email</label>
+                            <label htmlFor=" text" className="form-label">Email</label>
                             <div className="input-group">
-                                {/* <span className="pe-2">
-                                    <img src={mail} />
-                                </span> */}
-                                <input type="email" className="form-control border-0 border-bottom" id="email" placeholder="Enter your email" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, email: e.target.value }))} />
+                                <input type="email" className="form-control border-0 border-bottom" id="email" placeholder="Enter your email" value={registerToken.email} required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, email: registerToken.email }))} />
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Phone Number</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your Phone number" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, mobile_no: e.target.value }))} />
+                                <input type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your Phone number" value={registerToken.phonenumber} required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, mobile_no: registerToken.phonenumber }))} />
                             </div>
                         </div>
                     </div>
