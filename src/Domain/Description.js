@@ -12,26 +12,6 @@ import '../Common/assets/css/description.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBagShopping, faShop } from '@fortawesome/free-solid-svg-icons';
 
-// image path 
-import description1 from '../Common/assets/image/description1.png'
-import description2 from '../Common/assets/image/description2.png'
-import description3 from '../Common/assets/image/description3.png'
-import description4 from '../Common/assets/image/description4.png'
-import star from '../Common/assets/image/Rating.png'
-import shop from '../Common/assets/image/white-shop.png'
-import blackshop from '../Common/assets/image/black-shop.png'
-import likes from '../Common/assets/image/heart-like.png'
-import unlike from '../Common/assets/image/heart-unlike.png'
-import icon1 from '../Common/assets/image/footer-facebook.png'
-import icon2 from '../Common/assets/image/footer-twitter.png'
-import icon3 from '../Common/assets/image/footer-pinterest.png'
-import icon4 from '../Common/assets/image/footer-instagram.png'
-import plant3 from '../Common/assets/image/plant_3.png'
-import rating from '../Common/assets/image/Rating.png'
-import add from '../Common/assets/image/addcard.png'
-import remove from '../Common/assets/image/removecard.png'
-import arrive1 from '../Common/assets/image/arrive1.png'
-import seller1 from '../Common/assets/image/seller1.png'
 
 import { setallBookDetails, setproductIdDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleItemCount, setClass1Hide, setSingleProductPrice } from '../Redux/CreateSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -202,11 +182,16 @@ function Description() {
                                         <>
                                             <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
                                             <p className='m-0'>{data.author}</p>
-                                            <img src={star} alt='star' />
-                                            <span className='review'>4 Reviews</span>
+                                            <Rating
+                                                initialRating={data.rating_count}
+                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                readonly={true}
+                                            />
+                                            <span className='review'>Reviews</span>
                                             <br />
-                                            <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                                            <button className='sales-offer'>50% off</button>
+                                            <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                            <button className='sales-offer'>{data.discount}% offer</button>
                                             <h4 className='cate my-2'>Category:<span className='ms-2'>{data.category_id[0].name}</span></h4>
                                             <hr />
                                             <p>{data.synopsis}</p>
@@ -301,7 +286,12 @@ function Description() {
                                     <div className='col-7 description-details'>
                                         <h1>{data.title_long} <span className='stock'>In Stock</span></h1>
                                         <p>{data.author}</p>
-                                        <img src={star} alt='star' />
+                                        <Rating
+                                            initialRating={data.rating_count}
+                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                            readonly={true}
+                                        />
                                         <span className='review'>4 Reviews</span>
                                         <br />
                                         <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
@@ -411,10 +401,15 @@ function Description() {
                                         </div>
                                     </div>
                                     <div className='col-12 description-details'>
-                                        <h1>{data.title_long.slice(0,20)}....</h1>
+                                        <h1>{data.title_long.slice(0, 20)}....</h1>
                                         <span className='stock ms-0'>In Stock</span>
                                         <p className='pt-2 mb-0'>{data.author}</p>
-                                        <img src={star} alt='star' />
+                                        <Rating
+                                            initialRating={data.rating_count}
+                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                            readonly={true}
+                                        />
                                         <span className='review'>4 Reviews</span>
                                         <br />
                                         <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>

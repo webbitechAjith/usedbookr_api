@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Rating from 'react-rating';
 import Header from '../Common/pages/Header'
 import Footer from '../Common/pages/Footer'
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
@@ -15,7 +16,7 @@ import { faShop, faTruckFast } from '@fortawesome/free-solid-svg-icons';
 // image path 
 
 import description4 from '../Common/assets/image/description4.png'
-import Rating from '../Common/assets/image/Rating.png'
+// import Rating from '../Common/assets/image/Rating.png'
 
 // state change action 
 import { setallBookDetails, setproductIdDetails, setsingleItemCount, setsingleItemPrice, setSingleProductPrice } from '../Redux/CreateSlice';
@@ -76,10 +77,17 @@ function Placeorder() {
                                                         <h1>{data.title_long}</h1>
                                                         <p className='m-0'>Author : {data.author}</p>
                                                         {/* <span className='review'>4 Reviews</span> */}
+                                                        <Rating
+                                                            initialRating={data.rating_count}
+                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                            readonly={true}
+                                                        />
                                                         <br />
-                                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                                                        <button className='sales-offer'>50% off</button>
+                                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                                        <button className='sales-offer'>{data.discount}% offer</button>
                                                         <h4 className='cate my-2'>Category:<span className='ms-2'>{data.category_id[0].name}</span></h4>
+                                                        <h4 className='cate my-2'>Sub Category:<span className='ms-2'>{data.subcategory_id[0].name}</span></h4>
                                                         <hr />
                                                         <p>{data.synopsis}</p>
 
