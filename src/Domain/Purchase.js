@@ -128,7 +128,7 @@ function Purchase() {
                                                 </thead>
                                                 <tbody>
                                                     {userIdShop && allbookDetails && allbookDetails.map((data, index) => {
-                                                        const match = userIdShop.find(item => item.book_id === data.id);
+                                                        const match = userIdShop?.find(item => item.book_id === data.id);
                                                         // If there's a match, it means the book is in userIdShop
                                                         if (match) {
                                                             return (

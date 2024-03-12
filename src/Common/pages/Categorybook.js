@@ -49,7 +49,7 @@ function Categorybook() {
             </div> */}
             <div className='col-12'>
               <div className='product-list my-5'>
-                <div className='row m-0 bestseller justify-content-center'>
+                <div className='row m-0 bestseller'>
                   {searchfield ?
                     <>
                       {categoryBook && categoryBook.map((book, index) => {

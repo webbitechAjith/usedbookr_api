@@ -58,6 +58,10 @@ const Orderprocess = () => {
                 if (response.success == true) {
                     alert(response.message);
                 }
+                if(response.message == 'Please redirect to url'){
+                    window.location.href = response.data.redirect_url;
+                    console.log(response)
+                }
                 // Handle the API response
             } catch (error) {
                 console.log(error);
@@ -70,8 +74,6 @@ const Orderprocess = () => {
         // Add your form submission logic here
         console.log(formData);
     };
-    console.log(1511, registerToken);
-    console.log(1515, orderDetails);
     const renderTabContent = () => {
         switch (activeTab) {
             case 1:
@@ -80,19 +82,19 @@ const Orderprocess = () => {
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Username</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="password" placeholder="Enter your name" value={registerToken.name} required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, name: e.target.value }))} />
+                                <input type="text" className="form-control border-0 border-bottom" id="password" placeholder="Enter your name"  required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, name: e.target.value }))} />
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor=" text" className="form-label">Email</label>
                             <div className="input-group">
-                                <input type="email" className="form-control border-0 border-bottom" id="email" placeholder="Enter your email" value={registerToken.email} required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, email: registerToken.email }))} />
+                                <input type="email" className="form-control border-0 border-bottom" id="email" placeholder="Enter your email"  required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, email: e.target.value }))} />
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Phone Number</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your Phone number" value={registerToken.phonenumber} required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, mobile_no: registerToken.phonenumber }))} />
+                                <input type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your Phone number" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, mobile_no: e.target.value }))} />
                             </div>
                         </div>
                     </div>
@@ -130,6 +132,7 @@ const Orderprocess = () => {
                                 <select onChange={handlePayment} className='form-control'>
                                     <option>Select the payment method</option>
                                     <option value="COD">COD</option>
+                                    <option value="ONLINE">ONLINE</option>
                                 </select>
                                 {/* <input type="text"  ="form-control border-0 border-bottom" id="email" placeholder="Enter your Pincode" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, paymentmode: e.target.value }))} /> */}
                             </div>
@@ -213,11 +216,11 @@ const Orderprocess = () => {
                 return null;
         }
     };
-
+    console.log("1515",orderDetails)
     return (
         <>
             <Header />
-            <div className="w-50 mx-auto  my-5">
+            <div className="w-75 mx-auto  my-5">
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
                         <button
@@ -250,11 +253,11 @@ const Orderprocess = () => {
                 </div>
 
                 <div className="mt-3">
-                    {activeTab > 1 && (
+                    {/* {activeTab > 1 && (
                         <button className="btn btn-success me-2" onClick={prevTab}>
                             Previous
                         </button>
-                    )}
+                    )} */}
                     {activeTab < 2 && (
                         <button className="btn btn-color" onClick={nextTab}>
                             Next
