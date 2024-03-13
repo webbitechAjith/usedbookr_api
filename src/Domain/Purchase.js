@@ -27,7 +27,7 @@ import { addTocard_list, allbooks, removeTocard_list } from '../Common/pages/api
 
 function Purchase() {
     // state value declear 
-    const { shopProducts, shopcount, totalItemShop, orderBooks, singleProductPrice, finalItemPrice, userLogin, userIdShop, allbookDetails } = useSelector((state) => state.usedbookr_product)
+    const { shopProducts, shopcount, totalItemShop,singleProductView, orderBooks, singleProductPrice, finalItemPrice, userLogin, userIdShop, allbookDetails } = useSelector((state) => state.usedbookr_product)
 
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -74,7 +74,8 @@ function Purchase() {
     }
     // payment process
     const paymentProcess = () => {
-        if (shopProducts?.length > 0) {
+        console.log(userIdShop)
+        if (userIdShop?.length > 0) {
             if (userLogin == true) {
                 navigate('/Login')
             } else {
@@ -106,7 +107,6 @@ function Purchase() {
         book_details()
         window.scrollTo(0, 0);
     }, []);
-    console.log(allbookDetails)
     return (
         <div className='purchase-section'>
             <Header />
