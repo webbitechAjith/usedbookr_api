@@ -35,6 +35,7 @@ import { useSelector } from 'react-redux';
 import Subcategory from './Common/pages/Subcategory';
 import Newarrival from './Common/pages/Newarrival';
 import Newproduct from './Domain/Newproduct';
+import Invoice from './Common/pages/Invoice';
 
 function App() {
   const {id} = useParams();
@@ -83,6 +84,7 @@ function App() {
         <Route path='/categorybook' element={<Categorybook />} />
         <Route path='/newarrival' element={<Newproduct />} />
         <Route path='/about' element={<About />} />
+        <Route path='/paymentinvoice' element={<Invoice />} />
         <Route path='*' element={<Error />} />
       </Routes>
     </BrowserRouter>

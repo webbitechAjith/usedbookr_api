@@ -27,7 +27,7 @@ import { addTocard_list, allbooks, removeTocard_list } from '../Common/pages/api
 
 function Purchase() {
     // state value declear 
-    const { shopProducts, shopcount, totalItemShop, singleProductPrice, finalItemPrice, userLogin, userIdShop, allbookDetails } = useSelector((state) => state.usedbookr_product)
+    const { shopProducts, shopcount, totalItemShop, orderBooks, singleProductPrice, finalItemPrice, userLogin, userIdShop, allbookDetails } = useSelector((state) => state.usedbookr_product)
 
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -91,7 +91,8 @@ function Purchase() {
             userIdShop && allbookDetails && allbookDetails.map(data => {
                 const cartItem = userIdShop.find(item => item.book_id === data.id);
                 if (cartItem) {
-                    totalPrice += (data.original_price + data.gst_charge) * cartItem.quantity;
+                    let pricePerItem = singleProductPrice ? parseFloat(singleProductPrice) : data.selling_price;
+                    totalPrice += (pricePerItem * (1 + data.gst_charge / 100)) * cartItem.quantity;
                 }
                 return null;
             })
@@ -159,7 +160,7 @@ function Purchase() {
                                                                     </td>
                                                                     <td className='py-5 text-start'>
                                                                         <a className='text-decoration-none price-count'>
-                                                                            {(data.original_price + data.gst_charge) * match.quantity}
+                                                                            {singleProductPrice ? <>{((singleProductPrice * (1 + data.gst_charge / 100)) * match.quantity).toFixed(2).replace(/\.?0+$/, '')}</> : <>{(data.selling_price + (data.selling_price * data.gst_charge) / 100) * match.quantity} </>}
                                                                         </a>
                                                                         <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3 delete_id'
                                                                             onClick={() => {
@@ -228,7 +229,7 @@ function Purchase() {
                                                     <h6 className=''>Shipping :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6 className=''>Free</h6>
+                                                    <h6 className=''>60</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,7 +238,7 @@ function Purchase() {
                                                 <h3 className=''>Total :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{totalPrice}</h3>
+                                                <h3 className=''>{totalPrice + 60}</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>
