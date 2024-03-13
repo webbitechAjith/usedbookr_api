@@ -1,27 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Common/pages/Header';
 import Footer from '../Common/pages/Footer';
-import { setOrderDetails } from '../Redux/CreateSlice';
+import { setOrderDetails, setRegisterToken } from '../Redux/CreateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 
 
 // api call fn path 
-import { orderPlace, userRegister } from '../Common/pages/apiBaseurl'
+import { orderPlace, otpToken, userRegister } from '../Common/pages/apiBaseurl'
+import { useNavigate } from 'react-router-dom';
 
 
 const Orderprocess = () => {
-    const { orderDetails,registerToken } = useSelector((state) => state.usedbookr_product)
+    const { orderDetails, registerToken ,userLogin} = useSelector((state) => state.usedbookr_product)
     const [activeTab, setActiveTab] = useState(1);
 
     const dispatch = useDispatch();
-
+    const navigate = useNavigate()
     const handleTabClick = (tabNumber) => {
         setActiveTab(tabNumber);
     };
-
+    const tokenGet = async () => {
+        try {
+            const localRegisterToken = localStorage.getItem('usedbookrtoken');
+            const response_token = await otpToken(localRegisterToken);
+            const data_value = response_token.user;
+            dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number, profile: data_value.profile_img }));
+        } catch (error) {
+            console.log('error', error)
+        }
+    }
     const nextTab = () => {
         setActiveTab(activeTab + 1);
     };
@@ -35,17 +45,9 @@ const Orderprocess = () => {
         expirationDate: '',
         cvv: '',
     });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
     const handlePayment = (e) => {
         dispatch(setOrderDetails({ ...orderDetails, paymentmode: e.target.value }));
-      };
+    };
     const orderPlacess = async () => {
         const isEmpty = Object.values(orderDetails).some(value => value === "");
         if (isEmpty) {
@@ -58,7 +60,7 @@ const Orderprocess = () => {
                 if (response.success == true) {
                     alert(response.message);
                 }
-                if(response.message == 'Please redirect to url'){
+                if (response.message == 'Please redirect to url') {
                     window.location.href = response.data.redirect_url;
                     console.log(response)
                 }
@@ -74,6 +76,45 @@ const Orderprocess = () => {
         // Add your form submission logic here
         console.log(formData);
     };
+    // useEffect(() => {
+       
+    // }, []); // Empty dependency array means this effect runs only once on component mount
+    useEffect(() => {
+        tokenGet()
+        window.scrollTo(0, 0);
+         // Logic to fetch initial values from somewhere (localStorage, API, etc.)
+         const initialOrderDetails = {
+            name: registerToken.username,
+            email: registerToken.email,
+            mobile_no: registerToken.phonenumber,
+            state:"",
+            city:"",
+            pincode:"",
+            address:"",
+            paymentmode:""
+        };
+        dispatch(setOrderDetails(initialOrderDetails));
+    }, []);
+    window.addEventListener("beforeunload", (event) => {
+        tokenGet();
+        console.log("API call before page reload", registerToken);
+    });
+
+    window.addEventListener("unload", (event) => {
+        tokenGet();
+        console.log("API call after page reload", registerToken);
+    });
+    // Event handler to update state values based on user input
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        // dispatch(setOrderDetails(prevState => ({
+        //     ...prevState,
+        //     [name]: value
+        // })));
+        dispatch(setOrderDetails({ ...orderDetails, [name]: value }));
+    };
+
+
     const renderTabContent = () => {
         switch (activeTab) {
             case 1:
@@ -82,19 +123,46 @@ const Orderprocess = () => {
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Username</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="password" placeholder="Enter your name"  required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, name: e.target.value }))} />
+                                <input
+                                    type="text"
+                                    className="form-control border-0 border-bottom"
+                                    id="username"
+                                    name="name"
+                                    placeholder="Enter your name"
+                                    value={orderDetails.name}
+                                    required
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
                         <div className="my-3">
-                            <label htmlFor=" text" className="form-label">Email</label>
+                            <label htmlFor="text" className="form-label">Email</label>
                             <div className="input-group">
-                                <input type="email" className="form-control border-0 border-bottom" id="email" placeholder="Enter your email"  required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, email: e.target.value }))} />
+                                <input
+                                    type="email"
+                                    className="form-control border-0 border-bottom"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    value={orderDetails.email}
+                                    required
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Phone Number</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your Phone number" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, mobile_no: e.target.value }))} />
+                                <input
+                                    type="text"
+                                    className="form-control border-0 border-bottom"
+                                    id="phonenumber"
+                                    name="mobile_no"
+                                    placeholder="Enter your Phone number"
+                                    value={orderDetails.mobile_no}
+                                    required
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
                     </div>
@@ -142,81 +210,12 @@ const Orderprocess = () => {
                         </div>
                     </div>
                 </div>;
-            // case 3:
-            //     return <div>
-            //         <form onSubmit={handleSubmit}>
-            //             <div className="mb-3">
-            //                 <label htmlFor="cardNumber" className="form-label">
-            //                     Card Number
-            //                 </label>
-            //                 <input
-            //                     type="text"
-            //                     className="form-control"
-            //                     id="cardNumber"
-            //                     name="cardNumber"
-            //                     value={formData.cardNumber}
-            //                     onChange={handleChange}
-            //                     placeholder="Enter your cardNumber"
-            //                     required
-            //                 />
-            //             </div>
-            //             <div className="mb-3">
-            //                 <label htmlFor="cardHolder" className="form-label">
-            //                     Card Holder
-            //                 </label>
-            //                 <input
-            //                     type="text"
-            //                     className="form-control"
-            //                     id="cardHolder"
-            //                     name="cardHolder"
-            //                     value={formData.cardHolder}
-            //                     onChange={handleChange}
-            //                     placeholder="Enter Your Holder Name"
-            //                     required
-            //                 />
-            //             </div>
-            //             <div className="row">
-            //                 <div className="col-md-6 mb-3">
-            //                     <label htmlFor="expirationDate" className="form-label">
-            //                         Expiration Date
-            //                     </label>
-            //                     <input
-            //                         type="text"
-            //                         className="form-control"
-            //                         id="expirationDate"
-            //                         name="expirationDate"
-            //                         value={formData.expirationDate}
-            //                         onChange={handleChange}
-            //                         placeholder="MM/YY"
-            //                         required
-            //                     />
-            //                 </div>
-            //                 <div className="col-md-6 mb-3">
-            //                     <label htmlFor="cvv" className="form-label">
-            //                         CVV
-            //                     </label>
-            //                     <input
-            //                         type="text"
-            //                         className="form-control"
-            //                         id="cvv"
-            //                         name="cvv"
-            //                         value={formData.cvv}
-            //                         onChange={handleChange}
-            //                         placeholder="Enter your CVV"
-            //                         required
-            //                     />
-            //                 </div>
-            //             </div>
-            //         </form>
-            //         <div className='order-confirm text-end'>
-            //             <button>OrderConfirm</button>
-            //         </div>
-            //     </div>;
             default:
                 return null;
         }
     };
-    console.log("1515",orderDetails)
+    console.log("1515", registerToken);
+    console.log(111,orderDetails)
     return (
         <>
             <Header />

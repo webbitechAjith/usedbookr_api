@@ -40,10 +40,7 @@ function Profile() {
         reader.readAsDataURL(file);
         dispatch(setProfileUpload({ "userfile": file }))
     };
-    // const imageupload = (file) => {
-    //     dispatch(setProfileUpload({ "userfile": file }))
-    // }
-
+    
     const updateProfile = async () => {
         try {
             const updateImage = await profileImage(userProfileImage);

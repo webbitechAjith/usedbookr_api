@@ -34,8 +34,6 @@ const Allbooks = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-
-
     // like product click fn 
     const totallikes = likedProducts.map((data) => data.id);
 
@@ -104,7 +102,7 @@ const Allbooks = () => {
                 items: 1,
                 // autoWidth: true,
             },
-            
+
             500: {
                 items: 2,
                 // autoWidth: true,
@@ -249,6 +247,7 @@ const Allbooks = () => {
                                 </>
                             )
                         })}
+                       
                     </>
                 }
             </MemoizedOwlCarousel>
