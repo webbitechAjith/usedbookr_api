@@ -21,6 +21,8 @@ function Aside() {
     const [disCount, setDisCount] = useState([0, 70]);
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(0);
+    const [minDiscount, setMinDiscount] = useState(0);
+    const [maxDiscount, setMaxDiscount] = useState(0);
     const [showCategory, setShowCategory] = useState(false);
     const [condition, setCondition] = useState([{ id: 1, con: 'New' }, { id: 2, con: 'Very Good' }, { id: 3, con: 'Good' }, { id: 4, con: 'Normal' }]);
     const [binding, setBinding] = useState([{ id: 1, bind: 'slim' }, { id: 2, bind: 'Cover' }]);
@@ -41,10 +43,7 @@ function Aside() {
         setShowAll(!showAll);
     };
 
-    // Render your items based on the price range
-    const discountRange = (event, newValue) => {
-        setDisCount(newValue)
-    }
+
     const menu_lists = async () => {
         const data = await megamenu_list();
         dispatch(setMegaMenu(data))
@@ -57,31 +56,15 @@ function Aside() {
             return filterCategory.filter(item => item[key] !== data[key]);
         }
     };
-    // const filterBook = (data,key)=>{
-    //     dispatch(setFilterBookCategory(filterData(filterBookCategory,data,key)))
-    // }
-    // const filterBook = (data, key) => {
-    //     const filteredData = filterData(filterBookCategory, data, key); // Assuming filterData is a utility function to filter data
-
-    //     dispatch(setFilterBookCategory(filteredData)); // Dispatch action to set filtered data
-
-    //     const filteredBooks = allbookDetails.filter(book =>
-    //         filteredData.some(category => book.category_id[0].name === category.name)
-    //     );
-    //     const updatedBookDetails = [...filterBookCategory,...filteredBooks]; 
-    //     // Assuming you have an action to update allbookDetails in Redux
-    //     dispatch(setFilterBookCategory(updatedBookDetails)); 
-    // };
-
     const filterBook = (data, key) => {
         const filteredData = filterData(filterBookCategory, data, key); // Assuming filterData is a utility function to filter data
-    
+
         dispatch(setFilterBookCategory(filteredData)); // Dispatch action to set filtered data
-    
+
         const filteredBooks = allbookDetails.filter(book =>
             filteredData.some(category => book.category_id[0].name === category.name)
         );
-    
+
         let updatedBookDetails;
         if (filterBookCategory.some(item => item.category_id[0].name === data.name)) {
             // Remove the duplicated category if it exists
@@ -90,11 +73,11 @@ function Aside() {
             // Add the filtered books to the existing categories
             updatedBookDetails = [...filterBookCategory, ...filteredBooks];
         }
-    
+
         // Assuming you have an action to update filterBookCategory in Redux
         dispatch(setFilterBookCategory(updatedBookDetails));
     };
-    
+
 
 
     const filter = (data, key) => {
@@ -113,6 +96,20 @@ function Aside() {
             dispatch(setFilterCategory(updatedFilteredBooks));
         } else {
             dispatch(setFilterCategory([{ key: "price", value: null }]));
+        }
+    };
+    // Render your items based on the price range
+    const handleDiscountFilter = (newMinDiscount, newMaxDiscount) => {
+        setMinDiscount(newMinDiscount);
+        setMaxDiscount(newMaxDiscount);
+        const updatedFilteredBooks = allbookDetails.filter(book => {
+            const disCounts = parseFloat(book.discount);
+            return disCounts >= minDiscount && disCounts <= maxDiscount;
+        });
+        if (updatedFilteredBooks.length > 0) {
+            dispatch(setFilterCategory(updatedFilteredBooks));
+        } else {
+            dispatch(setFilterCategory([{ key: "discounts", value: null }]));
         }
     };
     // Use the filteredBooks array as needed
@@ -161,15 +158,15 @@ function Aside() {
                                             </h2>
                                             <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    {megaMenu.length > 0 ? (
+                                                    {megaMenu?.length > 0 ? (
                                                         megaMenu.map(data => (
                                                             <div key={data.id} className="mb-3 form-check">
                                                                 <input
                                                                     type="checkbox"
                                                                     className="form-check-input"
                                                                     id={data.id}
-                                                                    onClick={() => filter(data, 'name')}
-                                                                    checked={filterCategory.some(item => item.name === data.name)}
+                                                                    onClick={() => filterBook(data, 'name')}
+                                                                    checked={filterBookCategory.some(item => item.category_id[0].name === data.name)}
                                                                 />
                                                                 <label className="form-check-label" htmlFor={data.id}>{data.name}</label>
                                                             </div>
@@ -246,7 +243,7 @@ function Aside() {
                                                         <div key={index} className="mb-3 form-check">
                                                             <input type="checkbox"
                                                                 className="form-check-input" id={`exampleCheck${index + 1}`}
-                                                                onClick={() => filter(data, 'blnd')}
+                                                                onClick={() => filter(data, 'bind')}
                                                                 checked={filterCategory.some(item => item.bind == data.bind)}
                                                             />
                                                             <label className="form-check-label" htmlFor={`exampleCheck${index + 1}`}>{data.bind}</label>
@@ -257,30 +254,30 @@ function Aside() {
                                             </div>
                                         </div>
                                         <hr className='m-0' />
-                                        <div className="accordion-item border-0">
-                                            <h2 className="accordion-header">
-                                                <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseTwo">
-                                                    <b>Latest Arrivals</b>
-                                                </button>
-                                            </h2>
-                                            <div id="collapseFive" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                <div className="accordion-body">
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Last 30 Days</label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Last 90 Days</label>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" for="exampleCheck1">Last 150 Days</label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        {/* <div className="accordion-item border-0">
+                                <h2 className="accordion-header">
+                                    <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseTwo">
+                                        <b>Latest Arrivals</b>
+                                    </button>
+                                </h2>
+                                <div id="collapseFive" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                    <div className="accordion-body">
+                                        <div className="mb-3 form-check">
+                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
+                                            <label className="form-check-label" for="exampleCheck1">Last 30 Days</label>
                                         </div>
-                                        <hr className='m-0' />
+                                        <div className="mb-3 form-check">
+                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
+                                            <label className="form-check-label" for="exampleCheck1">Last 90 Days</label>
+                                        </div>
+                                        <div className="mb-3 form-check">
+                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
+                                            <label className="form-check-label" for="exampleCheck1">Last 150 Days</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr className='m-0' /> */}
                                         <div className="accordion-item border-0">
                                             <h2 className="accordion-header">
                                                 <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
@@ -290,12 +287,13 @@ function Aside() {
                                             <div id="collapseSix" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                                 <div className='container-90'>
                                                     <Slider
-                                                        value={disCount}
-                                                        onChange={discountRange}
-                                                        valueLabelDisplay="auto"
+                                                        value={[minDiscount, maxDiscount]}
+                                                        onChange={(event, newValue) => handleDiscountFilter(newValue[0], newValue[1])}
+                                                        min={0}
+                                                        max={100}
                                                     />
 
-                                                    <h6 className='py-2'>Discount is between {disCount[0]}% - {disCount[1]}%</h6>
+                                                    <h6 className='py-2'>Discount is between {minDiscount}% - {maxDiscount}%</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -312,12 +310,10 @@ function Aside() {
                                                         value={[minPrice, maxPrice]}
                                                         onChange={(event, newValue) => handlePriceFilter(newValue[0], newValue[1])}
                                                         min={0}
-                                                        max={1000}
+                                                        max={2000}
                                                     />
                                                     {/* Display the low and high prices */}
-                                                    <p>Min Price: ${minPrice}</p>
-                                                    <p>Max Price: ${maxPrice}</p>
-                                                    <h6>Price is between ${minPrice} - ${maxPrice}</h6>
+                                                    <h6>Price is between {minPrice} - {maxPrice}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -494,7 +490,7 @@ function Aside() {
                                 </div>
                             </div>
                             <hr className='m-0' />
-                            <div className="accordion-item border-0">
+                            {/* <div className="accordion-item border-0">
                                 <h2 className="accordion-header">
                                     <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseTwo">
                                         <b>Latest Arrivals</b>
@@ -517,7 +513,7 @@ function Aside() {
                                     </div>
                                 </div>
                             </div>
-                            <hr className='m-0' />
+                            <hr className='m-0' /> */}
                             <div className="accordion-item border-0">
                                 <h2 className="accordion-header">
                                     <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
@@ -527,12 +523,13 @@ function Aside() {
                                 <div id="collapseSix" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                     <div className='container-90'>
                                         <Slider
-                                            value={disCount}
-                                            onChange={discountRange}
-                                            valueLabelDisplay="auto"
+                                            value={[minDiscount, maxDiscount]}
+                                            onChange={(event, newValue) => handleDiscountFilter(newValue[0], newValue[1])}
+                                            min={0}
+                                            max={100}
                                         />
 
-                                        <h6 className='py-2'>Discount is between {disCount[0]}% - {disCount[1]}%</h6>
+                                        <h6 className='py-2'>Discount is between {minDiscount}% - {maxDiscount}%</h6>
                                     </div>
                                 </div>
                             </div>
