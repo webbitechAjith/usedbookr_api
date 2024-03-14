@@ -10,14 +10,14 @@ import 'font-awesome/css/font-awesome.min.css';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setFilterCategory, setFilteredProducts, setMegaMenu, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
+import { setFilterBookCategory, setFilterCategory, setFilteredProducts, setMegaMenu, setallBookDetails, setpriceFilter } from '../../Redux/CreateSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { megamenu_list } from './apiBaseurl';
 
 
 function Aside() {
-    const { allbookDetails, priceFilter, filteredProducts, megaMenu, filterCategory } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, priceFilter, filteredProducts, filterBookCategory, megaMenu, filterCategory } = useSelector((state) => state.usedbookr_product)
     const [disCount, setDisCount] = useState([0, 70]);
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(0);
@@ -57,6 +57,45 @@ function Aside() {
             return filterCategory.filter(item => item[key] !== data[key]);
         }
     };
+    // const filterBook = (data,key)=>{
+    //     dispatch(setFilterBookCategory(filterData(filterBookCategory,data,key)))
+    // }
+    // const filterBook = (data, key) => {
+    //     const filteredData = filterData(filterBookCategory, data, key); // Assuming filterData is a utility function to filter data
+
+    //     dispatch(setFilterBookCategory(filteredData)); // Dispatch action to set filtered data
+
+    //     const filteredBooks = allbookDetails.filter(book =>
+    //         filteredData.some(category => book.category_id[0].name === category.name)
+    //     );
+    //     const updatedBookDetails = [...filterBookCategory,...filteredBooks]; 
+    //     // Assuming you have an action to update allbookDetails in Redux
+    //     dispatch(setFilterBookCategory(updatedBookDetails)); 
+    // };
+
+    const filterBook = (data, key) => {
+        const filteredData = filterData(filterBookCategory, data, key); // Assuming filterData is a utility function to filter data
+    
+        dispatch(setFilterBookCategory(filteredData)); // Dispatch action to set filtered data
+    
+        const filteredBooks = allbookDetails.filter(book =>
+            filteredData.some(category => book.category_id[0].name === category.name)
+        );
+    
+        let updatedBookDetails;
+        if (filterBookCategory.some(item => item.category_id[0].name === data.name)) {
+            // Remove the duplicated category if it exists
+            updatedBookDetails = filterBookCategory.filter(item => item.category_id[0].name !== data.name);
+        } else {
+            // Add the filtered books to the existing categories
+            updatedBookDetails = [...filterBookCategory, ...filteredBooks];
+        }
+    
+        // Assuming you have an action to update filterBookCategory in Redux
+        dispatch(setFilterBookCategory(updatedBookDetails));
+    };
+    
+
 
     const filter = (data, key) => {
         dispatch(setFilterCategory(filterData(filterCategory, data, key)));
@@ -71,7 +110,7 @@ function Aside() {
             return price >= minPrice && price <= maxPrice;
         });
         if (updatedFilteredBooks.length > 0) {
-        dispatch(setFilterCategory(updatedFilteredBooks));
+            dispatch(setFilterCategory(updatedFilteredBooks));
         } else {
             dispatch(setFilterCategory([{ key: "price", value: null }]));
         }
@@ -85,8 +124,9 @@ function Aside() {
         menu_lists();
     }, [allbookDetails, minPrice, maxPrice]);
 
-    console.log("filterCategory", filterCategory);
-    // console.log("allbook",allbookDetails)
+    // console.log("filterCategory", filterCategory);
+    // console.log("filterBookCategory", filterBookCategory)
+    // console.log("allbooks", allbookDetails)
     return (
         <>
             <aside className='my-lg-5 my-2'>
@@ -365,8 +405,8 @@ function Aside() {
                                                         type="checkbox"
                                                         className="form-check-input"
                                                         id={data.id}
-                                                        onClick={() => filter(data, 'name')}
-                                                        checked={filterCategory.some(item => item.name === data.name)}
+                                                        onClick={() => filterBook(data, 'name')}
+                                                        checked={filterBookCategory.some(item => item.category_id[0].name === data.name)}
                                                     />
                                                     <label className="form-check-label" htmlFor={data.id}>{data.name}</label>
                                                 </div>
