@@ -117,9 +117,9 @@ function Wishlist() {
                                                                             </div>
                                                                             <div className='col-8 py-4'>
                                                                                 <h5 title={data.title_long}>{data.title_long.slice(0, 20)}...</h5>
-                                                                                <p>{data.authors}</p>
+                                                                                {data.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={data.author}>{data.author.slice(0, 10)}</h5></>}
                                                                                 <Rating
-                                                                                    initialRating={4}
+                                                                                    initialRating={data.avg_rating}
                                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                                                     readonly={true}
@@ -227,8 +227,9 @@ function Wishlist() {
                                                                             </div>
                                                                             <div className='col-8 py-4'>
                                                                                 <h5>{data.title_long}</h5>
+                                                                                {data.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={data.author}>{data.author.slice(0, 10)}</h5></>}
                                                                                 <Rating
-                                                                                    initialRating={4}
+                                                                                    initialRating={data.avg_rating}
                                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                                                     readonly={true}
@@ -317,20 +318,20 @@ function Wishlist() {
                             <div className='col-12 p-0 order-card'>
                                 {userIdLike && userIdLike.length > 0 ?
                                     <>
-                                        <div className='row m-0 border-bottom py-4'>
+                                        <div className='row m-0 gy-2 border-bottom py-4'>
                                             {userIdLike && allbookDetails && allbookDetails.map((data, index) => {
                                                 const match = userIdLike.find(item => item.book_id == data.id);
                                                 if (match) {
                                                     return (
                                                         <>
-                                                            <div className='col-4'>
-                                                                <img src={data.image} alt='plant1' className='w-100' />
-
+                                                            <div className='col-sm-4 col-12 text-center' style={{height:'200px'}}>
+                                                                <img src={data.image} alt='plant1' style={{ width: '70%', height: '100%', objectFit: 'contain' }} />
                                                             </div>
-                                                            <div className='col-6 rate_details'>
-                                                                <h5 className=''>{data.title_long.slice(0, 20)}...</h5>
+                                                            <div className='col-sm-5 col-8 mt-3 rate_details'>
+                                                                <h5 className=''><b>Title :</b> {data.title_long.slice(0, 20)}...</h5>
+                                                                {data.author === undefined ? <><h5 className='text-primary'>Author : No Author</h5></> : <><h5 className='text-primary' title={data.author}><b>Author : </b>{data.author.slice(0, 10)}</h5></>}
                                                                 <Rating
-                                                                    initialRating={4}
+                                                                    initialRating={data.avg_rating}
                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                                     readonly={true}
@@ -339,7 +340,7 @@ function Wishlist() {
 
                                                                 <h3>In Stock</h3>
                                                             </div>
-                                                            <div className='col-2'>
+                                                            <div className='col-sm-3 col-4 align-self-center'>
                                                                 {userIdShop && userIdShop.length > 0 ? (
                                                                     <>
                                                                         {userIdShop.some(cartId => cartId.book_id === data.id) ? (
@@ -386,7 +387,7 @@ function Wishlist() {
                                                                     }}
                                                                 />
                                                             </div>
-                                                                <hr className='my-3'/>
+                                                            <hr className='my-3' />
                                                         </>
 
                                                     )
@@ -399,62 +400,6 @@ function Wishlist() {
                                     <>
                                         <h1 className='text-center'>No Likes product</h1>
 
-                                    </>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className='d-lg-none d-md-none d-sm-none d-none'>
-                    <Useraside />
-                    <div className='pt-5'>
-                        <div className='row m-0 py-3 wishlist-product'>
-                            <div className='col-12 py-3'>
-                                <span className='profile-head'>My Wishlist</span>
-                            </div>
-                            <div className='col-12 p-0 order-card'>
-                                {likedProducts.length > 0 ? <>
-                                    {likedProducts && likedProducts.map((data, index) => {
-                                        return (
-                                            <>
-                                                <div className='row m-0 border-bottom py-4'>
-                                                    <div className='col-6'>
-                                                        <img src={data.image} alt='plant1' className='w-100' />
-
-                                                    </div>
-                                                    <div className='col-6 p-0'>
-                                                        <h5 className=''>{data.title.slice(0, 10)}...</h5>
-                                                        <Rating
-                                                            initialRating={4}
-                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                            readonly={true}
-                                                        />
-                                                        <h5 className='pt-4'><button>Move to Cart</button><img src={cancel} className='ms-2' onClick={() => deleteitem(data.id)} /></h5>
-
-                                                    </div>
-                                                    <div className='col-12 rate_details'>
-                                                        <div className='row m-0'>
-                                                            <div className='col-5'>
-                                                                <label>Price</label><br />
-                                                                <label>stock status</label><br />
-                                                            </div>
-                                                            <div className='col-7'>
-                                                                <h6>INR {data.msrp}</h6>
-                                                                <h3>In Stock</h3>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )
-                                    })}
-
-                                </>
-                                    :
-                                    <>
-                                        <h1 className='text-center'>No Likes product</h1>
                                     </>
                                 }
                             </div>

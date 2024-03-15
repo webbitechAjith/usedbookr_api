@@ -83,7 +83,6 @@ function Product() {
   const click_view = (book) => {
     // dispatch(setsingleProductView([allbookDetails[index]]))
     navigate(`/Description/${book.id}`, { state: book })
-
   }
   const over_allbook = async () => {
     const books = await allbooks()
@@ -94,7 +93,6 @@ function Product() {
     over_allbook();
     window.scrollTo(0, 0);
   }, []);
-  console.log(filterCategory)
   return (
     <div className='product-section'>
       <Header />
@@ -120,8 +118,8 @@ function Product() {
                                   book.varient.some(variant => variant.bindings === category.bind) ||
                                   book.original_price == category.original_price ||
                                   book.discount == category.discount ||
-                                  (parseFloat(book.avg_rating) >= parseFloat(category.star) && parseFloat(book.avg_rating) <= parseFloat(category.star))
-                                  
+                                  (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
+                                    Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
                                 )))
                                 .length > 0 // Check if the filtered array has elements before mapping
                                 ? (
@@ -132,7 +130,8 @@ function Product() {
                                       book.varient.some(variant => variant.bindings === category.bind) ||
                                       book.original_price == category.original_price ||
                                       book.discount == category.discount ||
-                                      (parseFloat(book.avg_rating) >= parseFloat(category.star) && parseFloat(book.avg_rating) <= parseFloat(category.star))
+                                      (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
+                                        Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
                                     )))
                                     .map((book) => (
                                       <>
@@ -193,7 +192,7 @@ function Product() {
                                                 <h5>{book.category_id[0].name}</h5>
                                                 <div className='d-flex '>
                                                   <div className='rate-details'>
-                                                    <span className='new-rate'>₹{book.original_price}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                    <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR {book.original_price}</span><br />
                                                     <Rating
                                                       initialRating={book.avg_rating}
                                                       emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -392,7 +391,9 @@ function Product() {
                               book.varient.some(variant => variant.bindings === category.bind) ||
                               book.original_price == category.original_price ||
                               book.discount == category.discount ||
-                              (parseFloat(book.avg_rating) >= parseFloat(category.star) && parseFloat(book.avg_rating) <= parseFloat(category.star))
+                              // (parseFloat(book.avg_rating) >= parseFloat(category.star) && parseFloat(book.avg_rating) <= parseFloat(category.star))
+                              (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
+                                Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
                             )))
                             .length > 0
                             ? (
@@ -403,7 +404,9 @@ function Product() {
                                   book.varient.some(variant => variant.bindings === category.bind) ||
                                   book.original_price == category.original_price ||
                                   book.discount == category.discount ||
-                                  (parseFloat(book.avg_rating) >= parseFloat(category.star) && parseFloat(book.avg_rating) <= parseFloat(category.star))
+                                  // (parseFloat(book.avg_rating) >= parseFloat(category.star) && parseFloat(book.avg_rating) <= parseFloat(category.star))
+                                  (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
+                                    Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
                                 )))
 
                                 .map((book) => (

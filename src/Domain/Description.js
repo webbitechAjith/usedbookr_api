@@ -183,7 +183,7 @@ function Description() {
                                             <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
                                             <p className='m-0'>{data.author}</p>
                                             <Rating
-                                                initialRating={data.rating_count}
+                                                initialRating={data.avg_rating}
                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                 fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                 readonly={true}
