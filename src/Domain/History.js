@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap'; // Import Bootstrap components
 import Header from '../Common/pages/Header'
 import Footer from '../Common/pages/Footer'
 import Useraside from '../Common/pages/Useraside'
@@ -11,16 +12,40 @@ import '../Common/assets/css/profile.css'
 // image path 
 import plant1 from '../Common/assets/image/description4.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { allbooks, orderHistory } from '../Common/pages/apiBaseurl';
-import { setHistoryDetails, setallBookDetails } from '../Redux/CreateSlice';
+import { allbooks, orderHistory, reviewRating } from '../Common/pages/apiBaseurl';
+import { setHistoryDetails, setReviewDetails, setallBookDetails } from '../Redux/CreateSlice';
 
 
 function History() {
-    const { allbookDetails, historyDetails } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, historyDetails, reviewDetails } = useSelector((state) => state.usedbookr_product)
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [selectedDate, setSelectedDate] = useState('Last 30 Days')
     const [statuslevel, setStatusLevel] = useState(true);
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
+    const handleShows = (data) => {
+        console.log(data)
+        dispatch(setReviewDetails({ book_id: data.id, rating: '', review: '' }))
+        setShow(true)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Handle form submission logic here
+        handleClose(); // Close the modal after submission
+    };
     const dispatch = useDispatch();
+
+
+    const reviewUpdate = async (reviewDetails) => {
+        const review = await reviewRating(reviewDetails)
+        if (review.message) {
+            alert("Review Successfully");
+            // window.location.reload()
+        }
+    }
 
     const handleFilterChange = (filter) => {
         setSelectedFilter(filter);
@@ -40,6 +65,7 @@ function History() {
     useEffect(() => {
         orderDetails();
     }, []);
+    console.log(reviewDetails)
     return (
         <div>
             <Header />
@@ -110,7 +136,9 @@ function History() {
                                                                 <h4 className='finish'>{data.payment_status}</h4>
                                                             </div>
                                                             <div className='col-2 d-flex align-items-center'>
-                                                                <button>Write Review</button>
+                                                                <Button variant="success" onClick={() => handleShows(data)}>
+                                                                    Write Review
+                                                                </Button>
                                                             </div>
                                                             <hr />
                                                         </>
@@ -172,7 +200,9 @@ function History() {
                                                         <h4 className='finish'>{data.payment_status}</h4>
                                                     </div>
                                                     <div className='col-2 d-flex align-items-center'>
-                                                        <button>Write Review</button>
+                                                        <Button variant="success" onClick={() => handleShows(data)}>
+                                                            Write Review
+                                                        </Button>
                                                     </div>
                                                     <hr className='my-2' />
                                                 </>
@@ -206,8 +236,10 @@ function History() {
                                                 <>
                                                     <div className='col-sm-4 col-6 pt-5'>
                                                         <img src={matchingBook.image} alt={matchingBook.title_long.slice(0, 10)} className='w-100' />
-                                                        <div className='text-center mb-2'>
-                                                            <button className='mt-2'>Write Review</button>
+                                                        <div className='text-center my-2'>
+                                                            <Button variant="success" onClick={() => handleShows(data)}>
+                                                                Write Review
+                                                            </Button>
                                                         </div>
                                                     </div>
                                                     <div className='col-sm-4 col-6 py-5'>
@@ -260,8 +292,10 @@ function History() {
                                                 <div class="container table-responsive py-5 order-card">
                                                     <div className='text-center pt-2'>
                                                         <img src={matchingBook.image} alt={matchingBook.title_long.slice(0, 10)} className='w-50 ' />
-                                                        <div className='text-center mb-2'>
-                                                            <button className='mt-2'>Write Review</button>
+                                                        <div className='text-center my-2'>
+                                                            <Button variant="success" onClick={() => handleShows(data)} >
+                                                                Write Review
+                                                            </Button>
                                                         </div>
                                                     </div>
                                                     <table class="table table-bordered table-hover">
@@ -311,7 +345,44 @@ function History() {
             </div>
 
             <Footer />
+            <Modal show={show} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Review Book</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={() => handleSubmit(reviewDetails)}>
+                        <Form.Group controlId="formName" className='mt-3'>
+                            <Form.Control type="hidden" placeholder="Enter your rating" value={reviewDetails.book_id} />
+                        </Form.Group>
+                        <Form.Group controlId="formName" className='mt-3'>
+                            <Form.Label>Rating</Form.Label>
+                            <Form.Control type="text" placeholder="Enter your rating" onChange={(e) => dispatch(setReviewDetails({ ...reviewDetails, rating: e.target.value }))} />
+                        </Form.Group>
+                        <Form.Group controlId="formEmail" className="mt-3">
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control as="textarea" rows={3} placeholder="Enter your text" onChange={(e) => dispatch(setReviewDetails({ ...reviewDetails, review: e.target.value }))} />
+                        </Form.Group>
+
+                        {/* Add more form fields as needed */}
+                        {reviewDetails ?
+                            <>
+                                <Button variant="warning" type="button" className='mt-3' onClick={() => reviewUpdate(reviewDetails)}>
+                                    Update Review
+                                </Button>
+                            </>
+                            :
+                            <>
+                                <Button variant="warning" type="button" className='mt-3' onClick={() => reviewUpdate()}>
+                                    Update Review
+                                </Button>
+                            </>
+                        }
+
+                    </Form>
+                </Modal.Body>
+            </Modal>
         </div >
+
     )
 }
 

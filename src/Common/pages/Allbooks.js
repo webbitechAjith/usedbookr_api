@@ -192,7 +192,7 @@ const Allbooks = () => {
                                                     <div className='rate-details'>
                                                         <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR{book.original_price}</span><br />
                                                         <Rating
-                                                            initialRating={book.rating_count}
+                                                            initialRating={book.avg_rating}
                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                             fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                             readonly={true}

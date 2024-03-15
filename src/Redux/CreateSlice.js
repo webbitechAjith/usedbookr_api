@@ -89,7 +89,12 @@ export const CrateSlice = createSlice({
             address:"",
             paymentmode:""
         },
-        historyDetails : []
+        historyDetails : [],
+        reviewDetails : {
+            book_id : '',
+            rating:'',
+            review:''
+        }
     },
 
     reducers: {
@@ -248,11 +253,14 @@ export const CrateSlice = createSlice({
         setHistoryDetails: (state, action) => {
             state.historyDetails = action.payload
         },
+        setReviewDetails: (state, action) => {
+            state.reviewDetails = action.payload
+        },
         
 
     }
 })
 
-export const { setClass1Hide, setprofileDetails,setProfileUpload, setloginDetails,setUserIdShop,setUserIdLike,setUserLogin,setsingleProductView,setOtpVerify,setRegisterToken,setforgetDetails,setMegaMenu,setOrderDetails,setresetpasswordDetails, setlogoutDetails,setnavListDetails,setBannerImage,setFilterCategory,setClickauthorName,setAuthorBookDetails,setSingleProductPrice,setBookQuantity,setregisterDetails,setsearchProduct,setsearchItemDetails,setCategoryBook,setSubCategoryBook,setsearchfield,setFilterBookCategory,setFilteredProducts, setisLiked, setisAdded, setisIncrement, setisDecrement, setActiveItem, setallBookDetails,setAuthorsDetails,setAuthorsName, setLikedProducts,settotallikes ,setlikescount, setShopProducts, setshopcount, settotalItemShop, setfinalItemPrice,setpriceFilter,setminPirce,setproductIdDetails,setsingleItemCount,setsingleItemPrice,setHistoryDetails } = CrateSlice.actions
+export const { setClass1Hide, setprofileDetails,setProfileUpload, setloginDetails,setUserIdShop,setUserIdLike,setUserLogin,setsingleProductView,setOtpVerify,setRegisterToken,setforgetDetails,setMegaMenu,setOrderDetails,setresetpasswordDetails, setlogoutDetails,setnavListDetails,setBannerImage,setFilterCategory,setClickauthorName,setAuthorBookDetails,setSingleProductPrice,setBookQuantity,setregisterDetails,setsearchProduct,setsearchItemDetails,setCategoryBook,setSubCategoryBook,setsearchfield,setFilterBookCategory,setFilteredProducts, setisLiked, setisAdded, setisIncrement, setisDecrement, setActiveItem, setallBookDetails,setAuthorsDetails,setAuthorsName, setLikedProducts,settotallikes ,setlikescount, setShopProducts, setshopcount, settotalItemShop, setfinalItemPrice,setpriceFilter,setminPirce,setproductIdDetails,setsingleItemCount,setsingleItemPrice,setHistoryDetails,setReviewDetails } = CrateSlice.actions
 export default CrateSlice.reducer
 

@@ -292,13 +292,30 @@ export const orderPlace = async (orderDetails) => {
         'Accept': 'application/json',
       }
     });
-    console.log(data);
     return data;
 
   } catch (error) {
     console.log(error);
   }
 }
+
+
+// orderplace api call 
+export const reviewRating = async (reviewDetails) => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.post('/api/productreview', reviewDetails, {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 // orderhistory api call 
 export const orderHistory = async (orderDetails) => {

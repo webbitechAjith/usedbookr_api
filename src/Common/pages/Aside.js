@@ -26,8 +26,8 @@ function Aside() {
     const [showCategory, setShowCategory] = useState(false);
     const [condition, setCondition] = useState([{ id: 1, con: 'New' }, { id: 2, con: 'Very Good' }, { id: 3, con: 'Good' }, { id: 4, con: 'Normal' }]);
     const [binding, setBinding] = useState([{ id: 1, bind: 'slim' }, { id: 2, bind: 'Cover' }]);
-    const language = [{ id: 1, lan: 'English' }, { id: 2, lan: 'Tamil' }, { id: 3, lan: 'Malaiyam' }, { id: 4, lan: 'Hindi' }, { id: 5, lan: 'German' }, { id: 6, lan: 'Bengali' }]
-    const [languageType, setLanguageType] = useState(language);
+    const [languageType, setLanguageType] = useState([{ id: 1, lan: 'English' }, { id: 2, lan: 'Tamil' }, { id: 3, lan: 'Malaiyam' }, { id: 4, lan: 'Hindi' }, { id: 5, lan: 'German' }, { id: 6, lan: 'Bengali' }]);
+    const [ratingType, setRatingType] = useState([{ id: 1, star: '5' }, { id: 2, star: '4' }, { id: 3, star: '3' }, { id: 4, star: '2' }, { id: 5, star: '1' }]);
     const [filterOption, setFilterOption] = useState(false);
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
@@ -209,11 +209,10 @@ function Aside() {
                                             </h2>
                                             <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    {languageType.slice(0, showAll ? languageType.length : 3).map((data, index) => (
+                                                    {languageType.slice(0, showAll ? languageType?.length : 3).map((data, index) => (
                                                         <div className="mb-3 form-check">
                                                             <input type="checkbox"
-                                                                className="form-check-input"
-                                                                id="exampleCheck1"
+                                                                className="form-check-input" id={`exampleCheck${index + 1}`}
                                                                 onClick={() => filter(data, 'lan')}
                                                                 checked={filterCategory.some(item => item.lan === data.lan)}
                                                             />
@@ -221,7 +220,7 @@ function Aside() {
                                                         </div>
                                                     ))}
                                                     {!showAll && (
-                                                        <span className='text-primary hover' onClick={handleShowMore}>{language.length - 3} More </span>
+                                                        <span className='text-primary hover' onClick={handleShowMore}>{languageType?.length - 3} More </span>
                                                     )}
                                                     {showLess && (
                                                         <span className='text-primary hover' onClick={handleLessMore}>Less</span>
@@ -327,50 +326,23 @@ function Aside() {
                                             <div id="collapseEight" className="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
                                                     <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <Rating
-                                                            initialRating={5}
-                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                            readonly={true}
-                                                        /> <b>5.0</b>
+                                                        {ratingType && ratingType.map((data, index) => (
+                                                            <div className="mb-3 form-check">
+                                                                <input type="checkbox" 
+                                                                    className="form-check-input" id={`exampleCheck${index + 1}`}
+                                                                    onClick={() => filter(data, 'star')}
+                                                                    checked={filterCategory.some(item => item.star === data.star)}
+                                                                />
+                                                                <Rating
+                                                                    initialRating={data.star}
+                                                                    emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                                    fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                                    readonly={true}
+                                                                />{data.star}.0 & ups
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <Rating
-                                                            initialRating={4}
-                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                            readonly={true}
-                                                        /> <b>4.0 & up</b>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <Rating
-                                                            initialRating={3}
-                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                            readonly={true}
-                                                        /> <b>3.0 & up</b>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <Rating
-                                                            initialRating={2}
-                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                            readonly={true}
-                                                        /> <b>2.0 & up</b>
-                                                    </div>
-                                                    <div className="mb-3 form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <Rating
-                                                            initialRating={1}
-                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                            readonly={true}
-                                                        /> <b>1.0 & up</b>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -457,7 +429,7 @@ function Aside() {
                                             </div>
                                         ))}
                                         {!showAll && (
-                                            <span className='text-primary hover' onClick={handleShowMore}>{language.length - 3} More </span>
+                                            <span className='text-primary hover' onClick={handleShowMore}>{languageType?.length - 3} More </span>
                                         )}
                                         {showLess && (
                                             <span className='text-primary hover' onClick={handleLessMore}>Less</span>
@@ -563,50 +535,23 @@ function Aside() {
                                 <div id="collapseEight" className="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                                     <div className="accordion-body">
                                         <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <Rating
-                                                initialRating={5}
-                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                readonly={true}
-                                            /> <b>5.0</b>
+                                            {ratingType && ratingType.map((data, index) => (
+                                                <div className="mb-3 form-check">
+                                                    <input type="checkbox"
+                                                        className="form-check-input" id={`exampleCheck${index + 1}`}
+                                                        onClick={() => filter(data, 'star')}
+                                                        checked={filterCategory.some(item => item.star === data.star)}
+                                                    />
+                                                    <Rating
+                                                        initialRating={data.star}
+                                                        emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                        fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                        readonly={true}
+                                                    /> <b className='mx-2'>{data.star}.0 & up </b>
+                                                </div>
+                                            ))}
                                         </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <Rating
-                                                initialRating={4}
-                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                readonly={true}
-                                            /> <b>4.0 & up</b>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <Rating
-                                                initialRating={3}
-                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                readonly={true}
-                                            /> <b>3.0 & up</b>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <Rating
-                                                initialRating={2}
-                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                readonly={true}
-                                            /> <b>2.0 & up</b>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <Rating
-                                                initialRating={1}
-                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                readonly={true}
-                                            /> <b>1.0 & up</b>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
