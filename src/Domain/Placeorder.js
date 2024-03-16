@@ -202,7 +202,7 @@ function Placeorder() {
                                                 {orderBooks?.length > 0 ?
                                                     <>
                                                         {orderBooks && orderBooks.map((data) => {
-                                                            const match = userIdShop.find(item => item.book_id === data.id);
+                                                            const match = userIdShop?.find(item => item.book_id === data.id);
                                                             return (
                                                                 match && (
                                                                     <span key={data.id}>
@@ -247,7 +247,7 @@ function Placeorder() {
                                             {orderBooks?.length > 0 ?
                                                 <>
                                                     {orderBooks && orderBooks.map((data) => {
-                                                        const match = userIdShop.find(item => item.book_id === data.id);
+                                                        const match = userIdShop?.find(item => item.book_id === data.id);
                                                         return (
                                                             match && (
                                                                 <span key={data.id}>

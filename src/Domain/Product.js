@@ -93,6 +93,8 @@ function Product() {
     over_allbook();
     window.scrollTo(0, 0);
   }, []);
+  console.log(allbookDetails.length)
+  console.log(filterBookCategory.length)
   return (
     <div className='product-section'>
       <Header />
@@ -662,29 +664,34 @@ function Product() {
                           <h1 className='text-center product-title'>No items</h1>
                         </>
                       }
-                      <div className='row m-0 gy-2 total-books mt-3'>
-                        <div className='col-lg-6 col-12'>
-                          <p className=''>Total Books - {allbookDetails?.length}</p>
-                        </div>
-                        <div className='col-lg-6 col-12'>
-                          <ul className="pagination mt-2 justify-content-end">
-                            {Array(Math.ceil(allbookDetails.length / productsPerPage))
-                              .fill()
-                              .map((_, i) => (
-                                <>
+                      {allbookDetails.length > 0 ?
+                        <>
+                          {filterBookCategory?.length > 0 ?
+                            <>
+                            <h1>{filterBookCategory.length}</h1>
+                              <div className='row m-0 gy-2 total-books mt-3'>
+                                <div className='col-lg-6 col-12'>
+                                  <p className=''>Total Books - {filterBookCategory?.length}</p>
+                                </div>
+                                <div className='col-lg-6 col-12'>
+                                  <ul className="pagination mt-2 justify-content-end">
+                                    {Array(Math.ceil(filterBookCategory.length / productsPerPage))
+                                      .fill()
+                                      .map((_, i) => (
+                                        <>
 
-                                  <li
-                                    key={i}
-                                    className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
-                                    onClick={() => handleClick(i + 1)}
-                                  >
-                                    <button className="page-link">{i + 1}</button>
-                                  </li>
-                                </>
+                                          <li
+                                            key={i}
+                                            className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                            onClick={() => handleClick(i + 1)}
+                                          >
+                                            <button className="page-link">{i + 1}</button>
+                                          </li>
+                                        </>
 
-                              ))}
-                          </ul>
-                          {/* <div className="pagination">
+                                      ))}
+                                  </ul>
+                                  {/* <div className="pagination">
                             {currentPage > 1 && (
                               <button onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
                             )}
@@ -693,8 +700,43 @@ function Product() {
                               <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
                             )}
                           </div> */}
-                        </div>
-                      </div>
+                                </div>
+                              </div>
+                            </>
+                            :
+                            <>
+                              <div className='row m-0 gy-2 total-books mt-3'>
+                                <div className='col-lg-6 col-12'>
+                                  <p className=''>Total Books - {allbookDetails?.length}</p>
+                                </div>
+                                <div className='col-lg-6 col-12'>
+                                  <ul className="pagination mt-2 justify-content-end">
+                                    {Array(Math.ceil(allbookDetails.length / productsPerPage))
+                                      .fill()
+                                      .map((_, i) => (
+                                        <>
+
+                                          <li
+                                            key={i}
+                                            className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                            onClick={() => handleClick(i + 1)}
+                                          >
+                                            <button className="page-link">{i + 1}</button>
+                                          </li>
+                                        </>
+
+                                      ))}
+                                  </ul>
+
+                                </div>
+                              </div>
+                            </>
+                          }
+                        </>
+                        :
+                        <></>
+                      }
+
                     </>
                   }
                 </div>
