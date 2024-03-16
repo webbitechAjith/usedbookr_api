@@ -26,7 +26,7 @@ function Aside() {
     const [showCategory, setShowCategory] = useState(false);
     const [condition, setCondition] = useState([{ id: 1, con: 'New' }, { id: 2, con: 'Very Good' }, { id: 3, con: 'Good' }, { id: 4, con: 'Normal' }]);
     const [binding, setBinding] = useState([{ id: 1, bind: 'slim' }, { id: 2, bind: 'Cover' }]);
-    const [languageType, setLanguageType] = useState([{ id: 1, lan: 'English' }, { id: 2, lan: 'Tamil' }, { id: 3, lan: 'Malaiyam' }, { id: 4, lan: 'Hindi' }, { id: 5, lan: 'German' }, { id: 6, lan: 'Bengali' }]);
+    const [languageType, setLanguageType] = useState([{ id: 1, lan: 'Tamil' }, { id: 2, lan: 'English' }, { id: 3, lan: 'Malaiyam' }, { id: 4, lan: 'Hindi' }, { id: 5, lan: 'German' }, { id: 6, lan: 'Bengali' }]);
     const [ratingType, setRatingType] = useState([{ id: 1, star: '5' }, { id: 2, star: '4' }, { id: 3, star: '3' }, { id: 4, star: '2' }, { id: 5, star: '1' }]);
     const [filterOption, setFilterOption] = useState(false);
     const [showAll, setShowAll] = useState(false);
@@ -420,7 +420,7 @@ function Aside() {
                                             <div className="mb-3 form-check">
                                                 <input type="checkbox"
                                                     className="form-check-input"
-                                                    id="exampleCheck1"
+                                                    id={`exampleCheck${index + 1}`}
                                                     onClick={() => filter(data, 'lan')}
                                                     checked={filterCategory.some(item => item.lan === data.lan)}
                                                 />

@@ -22,7 +22,7 @@ function Product() {
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 5;
+  const productsPerPage = 10;
 
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -88,13 +88,23 @@ function Product() {
     const books = await allbooks()
     dispatch(setallBookDetails(books))
   }
+  const filteredBooks = filterBookCategory.filter(book =>
+    filterCategory.some(category =>
+      book.language == category.lan ||
+      book.varient.some(variant => variant.bookconditions === category.con) ||
+      book.varient.some(variant => variant.bindings === category.bind) ||
+      book.original_price == category.original_price ||
+      book.discount == category.discount ||
+      (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
+        Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
+    )
+  );
 
   useEffect(() => {
     over_allbook();
     window.scrollTo(0, 0);
   }, []);
-  console.log(allbookDetails.length)
-  console.log(filterBookCategory.length)
+  console.log(filterCategory)
   return (
     <div className='product-section'>
       <Header />
@@ -115,7 +125,7 @@ function Product() {
                             <>
                               {filterBookCategory
                                 .filter(book => filterCategory.some(category => (
-                                  book.language === category.lan ||
+                                  book.language == category.lan ||
                                   book.varient.some(variant => variant.bookconditions === category.con) ||
                                   book.varient.some(variant => variant.bindings === category.bind) ||
                                   book.original_price == category.original_price ||
@@ -127,7 +137,7 @@ function Product() {
                                 ? (
                                   filterBookCategory
                                     .filter(book => filterCategory.some(category => (
-                                      book.language === category.lan ||
+                                      book.language == category.lan ||
                                       book.varient.some(variant => variant.bookconditions === category.con) ||
                                       book.varient.some(variant => variant.bindings === category.bind) ||
                                       book.original_price == category.original_price ||
@@ -135,6 +145,7 @@ function Product() {
                                       (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
                                         Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
                                     )))
+                                    .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
                                     .map((book) => (
                                       <>
                                         <div className='col-lg-3 col-md-3 col-sm-4 col-6 mt-2 d-flex align-self-stretch '>
@@ -194,7 +205,7 @@ function Product() {
                                                 <h5>{book.category_id[0].name}</h5>
                                                 <div className='d-flex '>
                                                   <div className='rate-details'>
-                                                    <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR {book.original_price}</span><br />
+                                                    <span className='new-rate'>₹ {book.selling_price}</span> <span className='ps-2 old-rate'>₹ {book.original_price}</span><br />
                                                     <Rating
                                                       initialRating={book.avg_rating}
                                                       emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -252,15 +263,20 @@ function Product() {
                                       </>
                                     ))
                                 ) : (
-                                  <div className='col-lg-12 text-center mt-3'>
-                                    <h4>No books match the selected criteria.</h4>
-                                  </div>
+                                  <>
+                                    <div className='col-lg-12 text-center mt-3'>
+                                      <h4>No books match the selected criteria.</h4>
+                                    </div>
+
+
+                                  </>
                                 )
                               }
                             </>
                             :
                             <>
                               {filterBookCategory && filterBookCategory
+                              .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
                                 .map((book) => {
                                   return (
                                     <>
@@ -388,7 +404,7 @@ function Product() {
                         <>
                           {allbookDetails && allbookDetails
                             .filter(book => filterCategory.some(category => (
-                              book.language === category.lan ||
+                              book.language == category.lan ||
                               book.varient.some(variant => variant.bookconditions === category.con) ||
                               book.varient.some(variant => variant.bindings === category.bind) ||
                               book.original_price == category.original_price ||
@@ -401,7 +417,7 @@ function Product() {
                             ? (
                               allbookDetails && allbookDetails
                                 .filter(book => filterCategory.some(category => (
-                                  book.language === category.lan ||
+                                  book.language == category.lan ||
                                   book.varient.some(variant => variant.bookconditions === category.con) ||
                                   book.varient.some(variant => variant.bindings === category.bind) ||
                                   book.original_price == category.original_price ||
@@ -410,7 +426,7 @@ function Product() {
                                   (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
                                     Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
                                 )))
-
+                                .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
                                 .map((book) => (
                                   <>
                                     <div className='col-lg-3 col-md-3 col-sm-4 col-6 mt-2 d-flex align-self-stretch'>
@@ -526,6 +542,8 @@ function Product() {
                                     </div>
                                   </>
                                 ))
+
+
                             ) : (
                               <div className='col-lg-12 text-center mt-3'>
                                 <h4>No books match the selected filter.</h4>
@@ -534,6 +552,88 @@ function Product() {
                           }
                         </>
                       }
+                      {filterBookCategory.length > 0 ?
+                        <>
+                          {(filteredBooks.length > 0) ?
+                            <>
+                              <div className='row m-0 gy-2 total-books mt-3'>
+                                <div className='col-lg-6 col-12'>
+                                  <p className=''>Total Books - {filteredBooks?.length}</p>
+                                </div>
+                                <div className='col-lg-6 col-12'>
+                                  <ul className="pagination mt-2 justify-content-end">
+                                    {Array(Math.ceil(filteredBooks.length / productsPerPage))
+                                      .fill()
+                                      .map((_, i) => (
+                                        <li
+                                          key={i}
+                                          className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                          onClick={() => handleClick(i + 1)}
+                                        >
+                                          <button className="page-link">{i + 1}</button>
+                                        </li>
+                                      ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                            :
+                            <>
+                              {filteredBooks == 0 && filterCategory == 0 ?
+                                <>
+                                  <div className='row m-0 gy-2 total-books mt-3'>
+                                    <div className='col-lg-6 col-12'>
+                                      <p className=''>Total Books - {filterBookCategory?.length}</p>
+                                    </div>
+                                    <div className='col-lg-6 col-12'>
+                                      <ul className="pagination mt-2 justify-content-end">
+                                        {Array(Math.ceil(filterBookCategory.length / productsPerPage))
+                                          .fill()
+                                          .map((_, i) => (
+                                            <li
+                                              key={i}
+                                              className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                              onClick={() => handleClick(i + 1)}
+                                            >
+                                              <button className="page-link">{i + 1}</button>
+                                            </li>
+                                          ))}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </>
+                                :
+                                <>
+                                  <div className='row m-0 gy-2 total-books mt-3'>
+                                    <div className='col-lg-6 col-12'>
+                                      <p className=''>Total Books - {filteredBooks?.length}</p>
+                                    </div>
+                                    <div className='col-lg-6 col-12'>
+                                      <ul className="pagination mt-2 justify-content-end">
+                                        {Array(Math.ceil(filteredBooks.length / productsPerPage))
+                                          .fill()
+                                          .map((_, i) => (
+                                            <li
+                                              key={i}
+                                              className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                              onClick={() => handleClick(i + 1)}
+                                            >
+                                              <button className="page-link">{i + 1}</button>
+                                            </li>
+                                          ))}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </>
+                              }
+
+                            </>
+                          }
+                        </>
+                        :
+                        <></>}
+
+
                     </>
                     :
                     <>
@@ -664,79 +764,26 @@ function Product() {
                           <h1 className='text-center product-title'>No items</h1>
                         </>
                       }
-                      {allbookDetails.length > 0 ?
-                        <>
-                          {filterBookCategory?.length > 0 ?
-                            <>
-                            <h1>{filterBookCategory.length}</h1>
-                              <div className='row m-0 gy-2 total-books mt-3'>
-                                <div className='col-lg-6 col-12'>
-                                  <p className=''>Total Books - {filterBookCategory?.length}</p>
-                                </div>
-                                <div className='col-lg-6 col-12'>
-                                  <ul className="pagination mt-2 justify-content-end">
-                                    {Array(Math.ceil(filterBookCategory.length / productsPerPage))
-                                      .fill()
-                                      .map((_, i) => (
-                                        <>
-
-                                          <li
-                                            key={i}
-                                            className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
-                                            onClick={() => handleClick(i + 1)}
-                                          >
-                                            <button className="page-link">{i + 1}</button>
-                                          </li>
-                                        </>
-
-                                      ))}
-                                  </ul>
-                                  {/* <div className="pagination">
-                            {currentPage > 1 && (
-                              <button onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
-                            )}
-                            <span>Page {currentPage}</span>
-                            {allbookDetails.length > indexOfLastProduct && (
-                              <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
-                            )}
-                          </div> */}
-                                </div>
-                              </div>
-                            </>
-                            :
-                            <>
-                              <div className='row m-0 gy-2 total-books mt-3'>
-                                <div className='col-lg-6 col-12'>
-                                  <p className=''>Total Books - {allbookDetails?.length}</p>
-                                </div>
-                                <div className='col-lg-6 col-12'>
-                                  <ul className="pagination mt-2 justify-content-end">
-                                    {Array(Math.ceil(allbookDetails.length / productsPerPage))
-                                      .fill()
-                                      .map((_, i) => (
-                                        <>
-
-                                          <li
-                                            key={i}
-                                            className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
-                                            onClick={() => handleClick(i + 1)}
-                                          >
-                                            <button className="page-link">{i + 1}</button>
-                                          </li>
-                                        </>
-
-                                      ))}
-                                  </ul>
-
-                                </div>
-                              </div>
-                            </>
-                          }
-                        </>
-                        :
-                        <></>
-                      }
-
+                      <div className='row m-0 gy-2 total-books mt-3'>
+                        <div className='col-lg-6 col-12'>
+                          <p className=''>Total Books - {allbookDetails?.length}</p>
+                        </div>
+                        <div className='col-lg-6 col-12'>
+                          <ul className="pagination mt-2 justify-content-end">
+                            {Array(Math.ceil(allbookDetails.length / productsPerPage))
+                              .fill()
+                              .map((_, i) => (
+                                <li
+                                  key={i}
+                                  className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                  onClick={() => handleClick(i + 1)}
+                                >
+                                  <button className="page-link">{i + 1}</button>
+                                </li>
+                              ))}
+                          </ul>
+                        </div>
+                      </div>
                     </>
                   }
                 </div>
