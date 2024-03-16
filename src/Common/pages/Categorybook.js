@@ -28,7 +28,7 @@ function Categorybook() {
 
   const category_book = async () => {
     const catebook_details = await megamenu_list();
-    const category_bookDetail = catebook_details.find(data => data.id == params.id);
+    const category_bookDetail = catebook_details?.find(data => data.id == params.id);
     setCategoryBook(category_bookDetail.subcategories)
   }
   const handleSuncategory = (data) => {

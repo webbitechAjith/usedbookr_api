@@ -99,6 +99,13 @@ function Purchase() {
             })
         }
     }
+
+    const click_view = (book) => {
+        // dispatch(setsingleProductView([allbookDetails[index]]))
+        navigate(`/Description/${book.id}`, { state: book })
+
+    }
+
     const book_details = async () => {
         const books = await allbooks();
         dispatch(setallBookDetails(books))
@@ -137,7 +144,7 @@ function Purchase() {
                                                                     <td className='wish-product'>
                                                                         <div className='row m-0 pt-2'>
                                                                             <div className='col-4 py-4'>
-                                                                                <img src={data.image} alt={data.image} className='w-100' />
+                                                                                <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)}/>
                                                                             </div>
                                                                             <div className='col-8 py-4'>
                                                                                 <h5>{data.title_long}</h5>
@@ -280,7 +287,7 @@ function Purchase() {
                                                                     <td className='wish-product'>
                                                                         <div className='row m-0 pt-2'>
                                                                             <div className='col-4 py-4'>
-                                                                                <img src={data.image} alt={data.image} className='w-100' />
+                                                                                <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)}/>
                                                                             </div>
                                                                             <div className='col-8 py-4'>
                                                                                 <h5>{data.title_long}</h5>
@@ -415,7 +422,7 @@ function Purchase() {
                                                         <div className='col-12 pt-3'>
                                                             <div class="card card-mobile" >
                                                                 <div className='card-img-hgt'>
-                                                                    <img src={data.image} alt={data.image} className='w-100' />
+                                                                    <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)}/>
                                                                 </div>
                                                                 <div class="card-body">
                                                                     <h5 class="card-title"><b>Title</b> :{data.title_long.slice(0, 30)}...</h5>

@@ -29,7 +29,7 @@ function Subcategory() {
     const location = useLocation();
     const params = useParams();
     const childcategory = location.state.childcategories
-
+    
     // like product click fn 
     const totallikes = likedProducts.map((data) => data.id);
 

@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Orderprocess = () => {
-    const { orderDetails, registerToken ,userLogin} = useSelector((state) => state.usedbookr_product)
+    const { orderDetails, registerToken, userLogin } = useSelector((state) => state.usedbookr_product)
     const [activeTab, setActiveTab] = useState(1);
 
     const dispatch = useDispatch();
@@ -26,8 +26,10 @@ const Orderprocess = () => {
         try {
             const localRegisterToken = localStorage.getItem('usedbookrtoken');
             const response_token = await otpToken(localRegisterToken);
+            console.log(response_token)
             const data_value = response_token.user;
             dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number, profile: data_value.profile_img }));
+            dispatch(setOrderDetails({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number}));
         } catch (error) {
             console.log('error', error)
         }
@@ -77,24 +79,27 @@ const Orderprocess = () => {
         console.log(formData);
     };
     // useEffect(() => {
-       
+
     // }, []); // Empty dependency array means this effect runs only once on component mount
     useEffect(() => {
         tokenGet()
         window.scrollTo(0, 0);
-         // Logic to fetch initial values from somewhere (localStorage, API, etc.)
-         const initialOrderDetails = {
-            name: registerToken.username,
-            email: registerToken.email,
-            mobile_no: registerToken.phonenumber,
-            state:"",
-            city:"",
-            pincode:"",
-            address:"",
-            paymentmode:""
-        };
+       
+
+        // Logic to fetch initial values from somewhere (localStorage, API, etc.)
+            const initialOrderDetails = {
+                name: registerToken.username,
+                email: registerToken.email,
+                mobile_no: registerToken.phonenumber,
+                state: "",
+                city: "",
+                pincode: "",
+                address: "",
+                paymentmode: ""
+            };
         dispatch(setOrderDetails(initialOrderDetails));
     }, []);
+    console.log(1010101, orderDetails)
     window.addEventListener("beforeunload", (event) => {
         tokenGet();
         console.log("API call before page reload", registerToken);
@@ -107,10 +112,6 @@ const Orderprocess = () => {
     // Event handler to update state values based on user input
     const handleChange = (e) => {
         const { name, value } = e.target;
-        // dispatch(setOrderDetails(prevState => ({
-        //     ...prevState,
-        //     [name]: value
-        // })));
         dispatch(setOrderDetails({ ...orderDetails, [name]: value }));
     };
 
@@ -159,7 +160,7 @@ const Orderprocess = () => {
                                     id="phonenumber"
                                     name="mobile_no"
                                     placeholder="Enter your Phone number"
-                                    value={orderDetails.mobile_no}
+                                    value={orderDetails.phonenumber}
                                     required
                                     onChange={handleChange}
                                 />
@@ -215,7 +216,7 @@ const Orderprocess = () => {
         }
     };
     console.log("1515", registerToken);
-    console.log(111,orderDetails)
+    console.log(111, orderDetails)
     return (
         <>
             <Header />
