@@ -14,9 +14,10 @@ import { setFilterBookCategory, setFilterCategory, setFilteredProducts, setMegaM
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { megamenu_list } from './apiBaseurl';
+import { useLocation, useParams } from 'react-router-dom';
 
 
-function Aside() {
+function Subaside() {
     const { allbookDetails, priceFilter, filteredProducts, filterBookCategory, megaMenu, filterCategory } = useSelector((state) => state.usedbookr_product)
     const [disCount, setDisCount] = useState([0, 70]);
     const [minPrice, setMinPrice] = useState(0);
@@ -33,7 +34,11 @@ function Aside() {
     const [showLess, setShowLess] = useState(false);
 
     const dispatch = useDispatch();
-
+    const location = useLocation();
+    const params = useParams();
+    const childcategorysss = location.state.name
+    console.log("ajith", childcategorysss)
+    console.log("kumar", megaMenu)
     const handleShowMore = () => {
         setShowAll(!showAll);
         setShowLess(!showLess)
@@ -56,30 +61,6 @@ function Aside() {
             return filterCategory.filter(item => item[key] !== data[key]);
         }
     };
-    const filterBook = (data, key) => {
-        const filteredData = filterData(filterBookCategory, data, key); // Assuming filterData is a utility function to filter data
-        dispatch(setFilterBookCategory(filteredData)); // Dispatch action to set filtered data
-
-        const filteredBooks = allbookDetails.filter(book =>
-            filteredData.some(category => book.category_id[0].name === category.name)
-        );
-
-        let updatedBookDetails;
-        if (filterBookCategory.some(item => item.category_id[0].name === data.name)) {
-            // Remove the duplicated category if it exists
-            updatedBookDetails = filterBookCategory.filter(item => item.category_id[0].name !== data.name);
-            filterData(filterCategory,data,key)
-        } else {
-            // Add the filtered books to the existing categories
-            updatedBookDetails = [...filterBookCategory, ...filteredBooks];
-            filterData(filterCategory,data,key)
-        }
-        // Assuming you have an action to update filterBookCategory in Redux
-        dispatch(setFilterBookCategory(updatedBookDetails));
-    };
-
-
-
     const filter = (data, key) => {
         dispatch(setFilterCategory(filterData(filterCategory, data, key)));
     };
@@ -157,22 +138,13 @@ function Aside() {
                                             </h2>
                                             <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    {megaMenu?.length > 0 ? (
-                                                        megaMenu.map(data => (
-                                                            <div key={data.id} className="mb-3 form-check">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    className="form-check-input"
-                                                                    id={data.id}
-                                                                    onClick={() => filterBook(data, 'name')}
-                                                                    checked={filterBookCategory.some(item => item.category_id[0].name === data.name)}
-                                                                />
-                                                                <label className="form-check-label" htmlFor={data.id}>{data.name}</label>
-                                                            </div>
-                                                        ))
-                                                    ) : (
-                                                        <p>null</p>
-                                                    )}
+                                                    <div className="mb-3 form-check">
+                                                        <input type="checkbox"
+                                                            className="form-check-input"
+                                                            checked
+                                                        />
+                                                        <label className="form-check-label">{childcategorysss}</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -252,30 +224,7 @@ function Aside() {
                                             </div>
                                         </div>
                                         <hr className='m-0' />
-                                        {/* <div className="accordion-item border-0">
-                                <h2 className="accordion-header">
-                                    <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseTwo">
-                                        <b>Latest Arrivals</b>
-                                    </button>
-                                </h2>
-                                <div id="collapseFive" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div className="accordion-body">
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Last 30 Days</label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Last 90 Days</label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Last 150 Days</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className='m-0' /> */}
+
                                         <div className="accordion-item border-0">
                                             <h2 className="accordion-header">
                                                 <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
@@ -365,22 +314,13 @@ function Aside() {
                                 </h2>
                                 <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                     <div className="accordion-body">
-                                        {megaMenu?.length > 0 ? (
-                                            megaMenu.map(data => (
-                                                <div key={data.id} className="mb-3 form-check">
-                                                    <input
-                                                        type="checkbox"
-                                                        className="form-check-input"
-                                                        id={data.id}
-                                                        onClick={() => filterBook(data, 'name')}
-                                                        checked={filterBookCategory.some(item => item.category_id[0].name === data.name)}
-                                                    />
-                                                    <label className="form-check-label" htmlFor={data.id}>{data.name}</label>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <p>null</p>
-                                        )}
+                                        <div className="mb-3 form-check">
+                                            <input type="checkbox"
+                                                className="form-check-input"
+                                                checked
+                                            />
+                                            <label className="form-check-label">{childcategorysss}</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -461,30 +401,7 @@ function Aside() {
                                 </div>
                             </div>
                             <hr className='m-0' />
-                            {/* <div className="accordion-item border-0">
-                                <h2 className="accordion-header">
-                                    <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseTwo">
-                                        <b>Latest Arrivals</b>
-                                    </button>
-                                </h2>
-                                <div id="collapseFive" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div className="accordion-body">
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Last 30 Days</label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Last 90 Days</label>
-                                        </div>
-                                        <div className="mb-3 form-check">
-                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                            <label className="form-check-label" for="exampleCheck1">Last 150 Days</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className='m-0' /> */}
+
                             <div className="accordion-item border-0">
                                 <h2 className="accordion-header">
                                     <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
@@ -564,4 +481,4 @@ function Aside() {
     )
 }
 
-export default Aside
+export default Subaside

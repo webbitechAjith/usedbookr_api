@@ -176,8 +176,13 @@ function Header() {
         // const { data } = await axios.get("https://webbitech.co.in/ecommerce/public/api/mainMenu")
         // dispatch(setnavListDetails(data.data))
     }
+    // const handleNavLinkClick = (name,data) => {
+    //     // navigate('/categorybook');
+    //     navigate(`/subcategory/${data.id}`, { state: name,data })
+    //     setIsExpanded(!isExpanded);
+    //     setIsMobileExpanded(!isMobileExpanded)
+    // };
     const handleNavLinkClick = (data) => {
-
         // navigate('/categorybook');
         navigate(`/subcategory/${data.id}`, { state: data })
         setIsExpanded(!isExpanded);
