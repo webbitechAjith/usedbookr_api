@@ -5,7 +5,7 @@ import Footer from '../Common/pages/Footer'
 import Useraside from '../Common/pages/Useraside'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faChevronDown, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faChevronDown, faEye, faFileInvoice } from '@fortawesome/free-solid-svg-icons';
 
 import '../Common/assets/css/profile.css'
 
@@ -13,12 +13,12 @@ import '../Common/assets/css/profile.css'
 import plant1 from '../Common/assets/image/description4.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { allbooks, bookHistory, orderHistory, reviewRating } from '../Common/pages/apiBaseurl';
-import { setHistoryDetails, setReviewDetails, setSingleBookHistory, setallBookDetails } from '../Redux/CreateSlice';
+import { setHistoryDetails, setIsInvoiceDetails, setReviewDetails, setSingleBookHistory, setallBookDetails } from '../Redux/CreateSlice';
 import { useNavigate } from 'react-router-dom';
 
 
 function History() {
-    const { allbookDetails, historyDetails, reviewDetails, singleBookHistory } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, historyDetails, reviewDetails, singleBookHistory,isInvoiceDetails } = useSelector((state) => state.usedbookr_product)
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [selectedDate, setSelectedDate] = useState('Last 30 Days')
     const [statuslevel, setStatusLevel] = useState(true);
@@ -34,8 +34,8 @@ function History() {
     };
 
     const totalBooks = currentPage * productsPerPage > historyDetails?.length
-    ? historyDetails?.length
-    : currentPage * productsPerPage;
+        ? historyDetails?.length
+        : currentPage * productsPerPage;
 
     const handleShows = (data) => {
         console.log(data)
@@ -85,6 +85,17 @@ function History() {
             // Handle error if necessary
         }
     };
+    const viewInvoice = async (book) => {
+        try {
+            const books = await bookHistory(book.id); // Assuming bookHistory is an asynchronous function
+            dispatch(setIsInvoiceDetails(books));
+            navigate(`/paymentinvoice/${book.id}`, { state: books });
+        } catch (error) {
+            console.error('Error fetching book history:', error);
+            // Handle error if necessary
+        }
+    };
+    console.log(isInvoiceDetails)
     useEffect(() => {
         orderDetails();
     }, []);
@@ -153,7 +164,10 @@ function History() {
                                                                         <td>{book.order_status}</td>
                                                                         <td>{book.final_amount}</td>
                                                                         <td>{book.payment_mode}</td>
-                                                                        <td><button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} className='mx-2' />view</button></td>
+                                                                        <td>
+                                                                            <FontAwesomeIcon icon={faEye} style={{color:'#241D60'}} className='mx-2' onClick={() => viewHistory(book)}/>
+                                                                            <FontAwesomeIcon icon={faFileInvoice} className='mx-2' onClick={() => viewInvoice(book)}/>
+                                                                        </td>
                                                                     </tr>
                                                                 </>
                                                             )
@@ -172,7 +186,7 @@ function History() {
                                 }
                                 <div className='row m-0 gy-2 total-books mt-3'>
                                     <div className='col-lg-6 col-12'>
-                                    <p className=''>Total Books - {totalBooks}/{historyDetails?.length}</p>
+                                        <p className=''>Total Books - {totalBooks}/{historyDetails?.length}</p>
                                     </div>
                                     <div className='col-lg-6 col-12'>
                                         <ul className="pagination mt-2 justify-content-end">
@@ -225,21 +239,24 @@ function History() {
                                                 </thead>
                                                 <tbody>
                                                     {historyDetails && historyDetails
-                                                    .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
-                                                    .map((book) => {
-                                                        return (
-                                                            <>
-                                                                <tr>
-                                                                    <td>{book.invoice_no}</td>
-                                                                    <td>{book.order_status}</td>
-                                                                    <td>{book.final_amount}</td>
-                                                                    <td>{book.payment_mode}</td>
-                                                                    <td><button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} className='mx-2'/>view</button></td>
-                                                                </tr>
-                                                            </>
-                                                        )
+                                                        .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
+                                                        .map((book) => {
+                                                            return (
+                                                                <>
+                                                                    <tr>
+                                                                        <td>{book.invoice_no}</td>
+                                                                        <td>{book.order_status}</td>
+                                                                        <td>{book.final_amount}</td>
+                                                                        <td>{book.payment_mode}</td>
+                                                                        <td>
+                                                                            <button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} className='mx-2' />view</button>
+                                                                            {/* <button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} className='mx-2'/>view</button> */}
+                                                                        </td>
+                                                                    </tr>
+                                                                </>
+                                                            )
 
-                                                    })}
+                                                        })}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -253,7 +270,7 @@ function History() {
                                 }
                                 <div className='row m-0 gy-2 total-books mt-3 align-item-center'>
                                     <div className='col-6'>
-                                    <p className=''>Total Books - {totalBooks}/{historyDetails?.length}</p>
+                                        <p className=''>Total Books - {totalBooks}/{historyDetails?.length}</p>
                                     </div>
                                     <div className='col-6'>
                                         <ul className="pagination mt-2 justify-content-end">

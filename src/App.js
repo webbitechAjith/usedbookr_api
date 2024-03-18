@@ -37,6 +37,7 @@ import Newarrival from './Common/pages/Newarrival';
 import Newproduct from './Domain/Newproduct';
 import Invoice from './Common/pages/Invoice';
 import Historybook from './Domain/Historybook';
+import NewSellers from './Domain/NewSellers';
 
 function App() {
   const {id} = useParams();
@@ -84,9 +85,10 @@ function App() {
         <Route path='/subcategory/:id' element={<Subcategory />} />
         <Route path='/categorybook' element={<Categorybook />} />
         <Route path='/newarrival' element={<Newproduct />} />
+        <Route path='/newseller' element={<NewSellers />} />
         <Route path='/about' element={<About />} />
         <Route path='/bookhistory/:id' element={<Historybook />} />
-        <Route path='/paymentinvoice' element={<Invoice />} />
+        <Route path='/paymentinvoice/:id' element={<Invoice />} />
         <Route path='*' element={<Error />} />
       </Routes>
     </BrowserRouter>

@@ -23,7 +23,7 @@ import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetai
 import { Link, useNavigate } from 'react-router-dom'
 import { addTocard_list, addTowhish_list, allbooks, megamenu_list, removeTocard_list } from '../Common/pages/apiBaseurl';
 
-function Newproduct() {
+function NewSellers() {
 
     const { isLiked, isAdded, allbookDetails, userIdShop, userIdLike, likedProducts, likescount, shopProducts, filterCategory, filterBookCategory, searchfield } = useSelector((state) => state.usedbookr_product)
     const dispatch = useDispatch();
@@ -144,7 +144,7 @@ function Newproduct() {
                                                     {filterCategory.length > 0 ?
                                                         <>
                                                             {filterBookCategory
-                                                                .filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N')
+                                                                .filter(book => book.section_id?.split(',')[0] === 'B' || book.section_id?.split(',')[1] === 'B')
                                                                 .filter(book => filterCategory.some(category => (
                                                                     book.language == category.lan ||
                                                                     book.varient.some(variant => variant.bookconditions === category.con) ||
@@ -157,7 +157,7 @@ function Newproduct() {
                                                                 .length > 0 // Check if the filtered array has elements before mapping
                                                                 ? (
                                                                     filterBookCategory
-                                                                        .filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N')
+                                                                        .filter(book => book.section_id?.split(',')[0] === 'B' || book.section_id?.split(',')[1] === 'B')
                                                                         .filter(book => filterCategory.some(category => (
                                                                             book.language == category.lan ||
                                                                             book.varient.some(variant => variant.bookconditions === category.con) ||
@@ -298,7 +298,7 @@ function Newproduct() {
                                                         :
                                                         <>
                                                             {filterBookCategory && filterBookCategory
-                                                                .filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N')
+                                                                .filter(book => book.section_id?.split(',')[0] === 'B' || book.section_id?.split(',')[1] === 'B')
                                                                 .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
                                                                 .map((book) => {
                                                                     return (
@@ -426,7 +426,7 @@ function Newproduct() {
                                                 :
                                                 <>
                                                     {allbookDetails && allbookDetails
-                                                        .filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N')
+                                                        .filter(book => book.section_id?.split(',')[0] === 'B' || book.section_id?.split(',')[1] === 'B')
                                                         .filter(book => filterCategory.some(category => (
                                                             book.language == category.lan ||
                                                             book.varient.some(variant => variant.bookconditions === category.con) ||
@@ -440,7 +440,7 @@ function Newproduct() {
                                                         .length > 0
                                                         ? (
                                                             allbookDetails && allbookDetails
-                                                                .filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N')
+                                                                .filter(book => book.section_id?.split(',')[0] === 'B' || book.section_id?.split(',')[1] === 'B')
                                                                 .filter(book => filterCategory.some(category => (
                                                                     book.language == category.lan ||
                                                                     book.varient.some(variant => variant.bookconditions === category.con) ||
@@ -608,7 +608,7 @@ function Newproduct() {
                                                                 <>
                                                                     <div className='row m-0 gy-2 total-books mt-3'>
                                                                         <div className='col-lg-6 col-12'>
-                                                                            <p className=''>Total Book - {filterBookCategory && filterBookCategory?.filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N').length}</p>
+                                                                            <p className=''>Total Book - {filterBookCategory && filterBookCategory?.filter(book => book.section_id?.split(',')[0] === 'B' || book.section_id?.split(',')[1] === 'B').length}</p>
                                                                         </div>
                                                                         <div className='col-lg-6 col-12'>
                                                                             <ul className="pagination mt-2 justify-content-end">
@@ -666,7 +666,7 @@ function Newproduct() {
                                             {allbookDetails?.length > 0 ?
                                                 <>
                                                     {allbookDetails && allbookDetails
-                                                        .filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N')
+                                                        .filter(book => book.section_id?.split(',')[0] === 'B' || book.section_id?.split(',')[1] === 'B')
                                                         .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage).map((book, index) => {
                                                             return (
                                                                 <>
@@ -792,7 +792,7 @@ function Newproduct() {
                                             }
                                             <div className='row m-0 gy-2 total-books mt-3'>
                                                 <div className='col-lg-6 col-12'>
-                                                    <p className=''>Total Book - {allbookDetails && allbookDetails?.filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N').length}</p>
+                                                    <p className=''>Total Book - {allbookDetails && allbookDetails?.filter(book => book.section_id?.split(',')[0] === 'B' || book.section_id?.split(',')[1] === 'B').length}</p>
                                                 </div>
                                                 <div className='col-lg-6 col-12'>
                                                     <ul className="pagination mt-2 justify-content-end">
@@ -823,4 +823,4 @@ function Newproduct() {
     )
 }
 
-export default Newproduct
+export default NewSellers

@@ -47,6 +47,9 @@ function Home() {
   const all_newarrival = () =>{
     navigate('/newarrival')
   }
+  const all_seller = () => {
+    navigate('/newseller')
+  }
   const bookproduct = async () => {
     const data = await allbooks();
     const productsWithIds = data.map((product, index) => ({
@@ -220,14 +223,14 @@ function Home() {
           <div className='pots-section mt-5'>
             <div className='d-lg-block d-none container-95'>
               <span className='product-title'>Best Sellers in Comics</span>
-              <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
+              <span className='float-end viewall' onClick={() => all_seller()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
               <BestSeller />
             </div>
             <div className='d-lg-none d-block container-95'>
               <span className='product-title'>Best Sellers in Comics</span>
               <BestSeller />
               <div className='author5'>
-                <button onClick={() => all_product()}>View All</button>
+                <button onClick={() => all_seller()}>View All</button>
               </div>
               {/* <span className='viewall'></span> */}
             </div>
@@ -252,14 +255,14 @@ function Home() {
                 <div className='contact-box'>
                   <img src={address} alt='location' />
                   <h4>Our Location</h4>
-                  <p>PO BOX:115786 - Al Warsan3, Dubai, UAE.</p>
+                  <p>2nd Floor, 105/3, Athipalayam Road, chinnavedampatti, Coimbatore,Tamil Nadu, 641049</p>
                 </div>
               </div>
               <div className='col-lg-3 col-md-6 col-12 my-lg-0 my-md-0 my-2'>
                 <div className='contact-box'>
                   <img src={contact} alt='location' />
                   <h4>Call Us </h4>
-                  <p className='number'>+971 5 65015231</p>
+                  <p className='number'>+91 6300201360</p>
                 </div>
               </div>
               <div className='col-lg-6 col-md-12 col-12 my-lg-0 my-2'>

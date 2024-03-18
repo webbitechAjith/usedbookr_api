@@ -1,8 +1,10 @@
 import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
+import { useSelector } from 'react-redux';
 
 function Invoice() {
+  const { allbookDetails, isInvoiceDetails } = useSelector((state) => state.usedbookr_product)
 
   const handlePrintClick = () => {
     window.print();
@@ -19,6 +21,12 @@ function Invoice() {
                 <div className="card-header bg-warning text-white">
                   <h5 className="card-title text-dark"><b>Invoice</b></h5>
                 </div>
+                <div className=' mx-4 my-3'>
+                  <h6>Name : {isInvoiceDetails[0].name}</h6>
+                  <h6>PhoneNumber : {isInvoiceDetails[0].mobile}</h6>
+                  <h6>Address : {isInvoiceDetails[0].billing_address}</h6>
+                </div>
+                <hr/>
                 <div className="card-body">
                   <table className="table">
                     <thead>
@@ -31,31 +39,47 @@ function Invoice() {
                       </tr>
                     </thead>
                     <tbody>
+                      {isInvoiceDetails && allbookDetails && isInvoiceDetails
+                        .filter(data => data.items.some(item => allbookDetails.some(cate => cate.id === item.book_id)))
+                        .map((data, index) => (
+                          <>
+                            {data.items.map((item, itemIndex) => {
+                              const matchingBook = allbookDetails.find(cate => cate.id === item.book_id);
+                              return (
+                                <>
+                                  <tr>
+                                    <td >
+                                      <h6>{itemIndex + 1}</h6>
+                                    </td>
+                                    <td>
+                                      <h6>{matchingBook.title_long.slice(0, 10)}</h6>
+                                    </td>
+                                    <td >
+                                      <h6>{item.qty}</h6> {/* Use item.qty instead of data.qty */}
+                                    </td>
+                                    <td>
+                                      <h6>{item.sub_total}</h6>
+                                    </td>
+                                    <td >
+                                      <h6>{item.final_amount}</h6> {/* Use item.final_amount instead of data.final_amount */}
+                                    </td>
+                                  </tr>
+                                </>
+                              );
+                            })}
+                          </>
+                        ))}
                       <tr>
-                        <td>1</td>
-                        <td>Product 1</td>
-                        <td>2</td>
-                        <td>$10.00</td>
-                        <td>$20.00</td>
+                        <td colSpan="3" className="text-end">Gst</td>
+                        <td colSpan="4" className="text-center">{isInvoiceDetails[0].gst_charge}</td>
                       </tr>
                       <tr>
-                        <td>2</td>
-                        <td>Product 2</td>
-                        <td>1</td>
-                        <td>$15.00</td>
-                        <td>$15.00</td>
+                        <td colSpan="3" className="text-end">Shipping</td>
+                        <td colSpan="4" className="text-center">60</td>
                       </tr>
                       <tr>
-                        <td colSpan="4" className="text-end">Subtotal</td>
-                        <td>$35.00</td>
-                      </tr>
-                      <tr>
-                        <td colSpan="4" className="text-end">Tax (10%)</td>
-                        <td>$3.50</td>
-                      </tr>
-                      <tr>
-                        <td colSpan="4" className="text-end">Total</td>
-                        <td>$38.50</td>
+                        <td colSpan="3" className="text-end">finalAmount</td>
+                        <td colSpan="4" className="text-center">{isInvoiceDetails[0].final_amount}</td>
                       </tr>
                     </tbody>
                   </table>
