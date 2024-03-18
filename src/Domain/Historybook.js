@@ -222,6 +222,7 @@ function Historybook() {
                                                                     Write Review
                                                                 </Button>
                                                             </div>
+                                                            <hr />
                                                         </>
                                                     );
                                                 })}

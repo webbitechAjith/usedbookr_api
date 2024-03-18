@@ -26,6 +26,17 @@ function History() {
     const navigate = useNavigate();
     const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 10;
+
+    const handleClick = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const totalBooks = currentPage * productsPerPage > historyDetails?.length
+    ? historyDetails?.length
+    : currentPage * productsPerPage;
+
     const handleShows = (data) => {
         console.log(data)
         dispatch(setReviewDetails({ book_id: data.id, rating: '', review: '' }))
@@ -132,20 +143,22 @@ function History() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {historyDetails && historyDetails.map((book) => {
-                                                        return (
-                                                            <>
-                                                                <tr>
-                                                                    <td>{book.invoice_no}</td>
-                                                                    <td>{book.order_status}</td>
-                                                                    <td>{book.final_amount}</td>
-                                                                    <td>{book.payment_mode}</td>
-                                                                    <td><button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} /></button></td>
-                                                                </tr>
-                                                            </>
-                                                        )
+                                                    {historyDetails && historyDetails
+                                                        .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
+                                                        .map((book) => {
+                                                            return (
+                                                                <>
+                                                                    <tr>
+                                                                        <td>{book.invoice_no}</td>
+                                                                        <td>{book.order_status}</td>
+                                                                        <td>{book.final_amount}</td>
+                                                                        <td>{book.payment_mode}</td>
+                                                                        <td><button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} className='mx-2' />view</button></td>
+                                                                    </tr>
+                                                                </>
+                                                            )
 
-                                                    })}
+                                                        })}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -157,7 +170,26 @@ function History() {
                                         </>
                                     </>
                                 }
-
+                                <div className='row m-0 gy-2 total-books mt-3'>
+                                    <div className='col-lg-6 col-12'>
+                                    <p className=''>Total Books - {totalBooks}/{historyDetails?.length}</p>
+                                    </div>
+                                    <div className='col-lg-6 col-12'>
+                                        <ul className="pagination mt-2 justify-content-end">
+                                            {Array(Math.ceil(historyDetails.length / productsPerPage))
+                                                .fill()
+                                                .map((_, i) => (
+                                                    <li
+                                                        key={i}
+                                                        className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                                        onClick={() => handleClick(i + 1)}
+                                                    >
+                                                        <button className="page-link rounded">{i + 1}</button>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -166,10 +198,10 @@ function History() {
                     <div className=''>
                         <div className='row m-0'>
                             <div className='col-12 p-0'>
-                            <Useraside />
+                                <Useraside />
                                 {/* <span className='history-head'>Order History</span> */}
                             </div>
-                            
+
                         </div>
                         <div className='row m-0 py-3'>
                             <div className='col-lg-3 col-12'>
@@ -192,7 +224,9 @@ function History() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {historyDetails && historyDetails.map((book) => {
+                                                    {historyDetails && historyDetails
+                                                    .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
+                                                    .map((book) => {
                                                         return (
                                                             <>
                                                                 <tr>
@@ -200,7 +234,7 @@ function History() {
                                                                     <td>{book.order_status}</td>
                                                                     <td>{book.final_amount}</td>
                                                                     <td>{book.payment_mode}</td>
-                                                                    <td><button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} /></button></td>
+                                                                    <td><button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} className='mx-2'/>view</button></td>
                                                                 </tr>
                                                             </>
                                                         )
@@ -217,7 +251,26 @@ function History() {
                                         </>
                                     </>
                                 }
-
+                                <div className='row m-0 gy-2 total-books mt-3 align-item-center'>
+                                    <div className='col-6'>
+                                    <p className=''>Total Books - {totalBooks}/{historyDetails?.length}</p>
+                                    </div>
+                                    <div className='col-6'>
+                                        <ul className="pagination mt-2 justify-content-end">
+                                            {Array(Math.ceil(historyDetails.length / productsPerPage))
+                                                .fill()
+                                                .map((_, i) => (
+                                                    <li
+                                                        key={i}
+                                                        className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                                        onClick={() => handleClick(i + 1)}
+                                                    >
+                                                        <button className="page-link rounded">{i + 1}</button>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

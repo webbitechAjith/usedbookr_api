@@ -111,10 +111,10 @@ function Newproduct() {
     const author_name = () => {
         navigate('/authors')
     }
-    const click_view = (id) => {
-        dispatch(setsingleProductView([allbookDetails[id]]))
-        navigate('/Description')
+    const click_view = (book) => {
+        navigate(`/Description/${book.id}`, { state: book })
     }
+
     const over_allbook = async () => {
         const books = await allbooks()
         dispatch(setallBookDetails(books))
@@ -424,7 +424,7 @@ function Newproduct() {
                                                 </>
                                                 :
                                                 <>
-                                                    {filterBookCategory && filterBookCategory
+                                                    {allbookDetails && allbookDetails
                                                         .filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N')
                                                         .filter(book => filterCategory.some(category => (
                                                             book.language == category.lan ||
@@ -438,7 +438,7 @@ function Newproduct() {
                                                         )))
                                                         .length > 0
                                                         ? (
-                                                            filterBookCategory && filterBookCategory
+                                                            allbookDetails && allbookDetails
                                                                 .filter(book => book.section_id?.split(',')[0] === 'N' || book.section_id?.split(',')[1] === 'N')
                                                                 .filter(book => filterCategory.some(category => (
                                                                     book.language == category.lan ||

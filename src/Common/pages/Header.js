@@ -279,7 +279,7 @@ function Header() {
                                             <img src={shop} width={25} alt='shop' className='mx-3 view-all' onClick={() => shops()} />
                                             {userIdShop && userIdShop?.length > 0 ? (
                                                 <>
-                                                    {userIdShop.length >= 9 ? (
+                                                    {userIdShop?.length >= 9 ? (
                                                         <span className='item-count' title={userIdShop.length}>9<sup>+</sup></span>
                                                     ) : (
                                                         <span className='item-count'>{userIdShop.length}</span>
@@ -457,9 +457,9 @@ function Header() {
                                                 {userIdShop && userIdShop?.length > 0 ? (
                                                     <>
                                                         {userIdShop.length >= 9 ? (
-                                                            <span className='item-count' title={userIdShop.length}>9<sup>+</sup></span>
+                                                            <span className='item-count' title={userIdShop?.length}>9<sup>+</sup></span>
                                                         ) : (
-                                                            <span className='item-count'>{userIdShop.length}</span>
+                                                            <span className='item-count'>{userIdShop?.length}</span>
                                                         )}
                                                     </>
                                                 ) : (
