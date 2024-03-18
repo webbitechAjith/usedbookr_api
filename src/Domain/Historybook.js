@@ -39,7 +39,7 @@ function Historybook() {
     };
     const dispatch = useDispatch();
     const params = useParams();
-    console.log(params);
+
     const reviewUpdate = async (reviewDetails) => {
         const review = await reviewRating(reviewDetails)
         if (review.message) {
