@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faHeart, faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView, setUserIdShop, setMegaMenu, setUserIdLike } from '../Redux/CreateSlice';
+import { setallBookDetails, setUserIdShop, setUserIdLike } from '../Redux/CreateSlice';
 import { Link, useNavigate } from 'react-router-dom'
 import { addTocard_list, addTowhish_list, allbooks, megamenu_list, removeTocard_list } from '../Common/pages/apiBaseurl';
 
@@ -105,6 +105,7 @@ function Product() {
     window.scrollTo(0, 0);
   }, []);
   console.log(filterCategory)
+  console.log("ajith", filterBookCategory)
   return (
     <div className='product-section'>
       <Header />

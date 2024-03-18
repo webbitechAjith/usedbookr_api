@@ -274,7 +274,6 @@ export const removeTolike_list = async (id) => {
         'Accept': 'application/json',
       }
     });
-    console.log("data", data)
     return data;
   } catch (error) {
     console.log(error)
@@ -299,7 +298,6 @@ export const orderPlace = async (orderDetails) => {
   }
 }
 
-
 // orderplace api call 
 export const reviewRating = async (reviewDetails) => {
   try {
@@ -318,7 +316,7 @@ export const reviewRating = async (reviewDetails) => {
 
 
 // orderhistory api call 
-export const orderHistory = async (orderDetails) => {
+export const orderHistory = async () => {
   try {
     const tokenId_get = localStorage.getItem('usedbookrtoken');
     const { data } = await apiBaseurl.get('/api/orders', {
@@ -327,7 +325,22 @@ export const orderHistory = async (orderDetails) => {
         'Accept': 'application/json',
       }
     });
-    console.log(data);
+    return data.orders;
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+// orderhistory api call 
+export const bookHistory = async (id) => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.get(`/api/order/detail/${id}`, {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
     return data.orders;
 
   } catch (error) {
@@ -347,7 +360,6 @@ export const profileImage = async (userProfileImage) => {
         'Accept': 'application/json',
       }
     });
-    console.log(data)
     return data;
   } catch (error) {
     console.log(error);

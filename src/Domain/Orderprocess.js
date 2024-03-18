@@ -26,10 +26,10 @@ const Orderprocess = () => {
         try {
             const localRegisterToken = localStorage.getItem('usedbookrtoken');
             const response_token = await otpToken(localRegisterToken);
-            console.log(response_token)
+            // console.log(response_token)
             const data_value = response_token.user;
             dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number, profile: data_value.profile_img }));
-            dispatch(setOrderDetails({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number}));
+            dispatch(setOrderDetails({ email: data_value.email, name: data_value.name, mobile_no: data_value.phone_number }));
         } catch (error) {
             console.log('error', error)
         }
@@ -50,28 +50,7 @@ const Orderprocess = () => {
     const handlePayment = (e) => {
         dispatch(setOrderDetails({ ...orderDetails, paymentmode: e.target.value }));
     };
-    const orderPlacess = async () => {
-        const isEmpty = Object.values(orderDetails).some(value => value === "");
-        if (isEmpty) {
-            alert("Please fill in all the fields.");
-            return;
-        } else {
-            try {
-                const response = await orderPlace(orderDetails);
-                console.log(response)
-                if (response.success == true) {
-                    alert(response.message);
-                }
-                if (response.message == 'Please redirect to url') {
-                    window.location.href = response.data.redirect_url;
-                    console.log(response)
-                }
-                // Handle the API response
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -84,22 +63,46 @@ const Orderprocess = () => {
     useEffect(() => {
         tokenGet()
         window.scrollTo(0, 0);
-       
+
 
         // Logic to fetch initial values from somewhere (localStorage, API, etc.)
-            const initialOrderDetails = {
-                name: registerToken.username,
-                email: registerToken.email,
-                mobile_no: registerToken.phonenumber,
-                state: "",
-                city: "",
-                pincode: "",
-                address: "",
-                paymentmode: ""
-            };
+        const initialOrderDetails = {
+            name: orderDetails.name,
+            email: orderDetails.email,
+            mobile_no: orderDetails.phonenumber,
+            state: "",
+            city: "",
+            pincode: "",
+            address: "",
+            paymentmode: ""
+        };
         dispatch(setOrderDetails(initialOrderDetails));
     }, []);
-    console.log(1010101, orderDetails)
+    const orderPlacess = async () => {
+        const isEmpty = Object.values(orderDetails).some(value => value === "");
+        if (isEmpty) {
+            alert("Please fill in all the fields.");
+            return;
+        } else {
+            try {
+                const response = await orderPlace(orderDetails);
+                console.log("response",response)
+                if (response.success == true) {
+                    alert(response.message);
+                }
+                if (response.message == 'Please redirect to url') {
+                    // window.location.href = response.data.redirect_url;
+                    window.open(response.data.redirect_url, '_blank')
+                    alert("ajith")
+                    navigate('/paymentinvoice');
+                }
+                // Handle the API response
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+    // console.log(1010101, orderDetails)
     window.addEventListener("beforeunload", (event) => {
         tokenGet();
         console.log("API call before page reload", registerToken);
@@ -160,7 +163,7 @@ const Orderprocess = () => {
                                     id="phonenumber"
                                     name="mobile_no"
                                     placeholder="Enter your Phone number"
-                                    value={orderDetails.phonenumber}
+                                    value={orderDetails.mobile_no}
                                     required
                                     onChange={handleChange}
                                 />
@@ -174,25 +177,25 @@ const Orderprocess = () => {
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Address</label>
                             <div className="input-group">
-                                <textarea type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your Address" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, address: e.target.value }))}></textarea>
+                                <textarea type="text" className="form-control border-0 border-bottom" placeholder="Enter your Address" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, address: e.target.value }))}></textarea>
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">City</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your City" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, state: e.target.value }))} />
+                                <input type="text" className="form-control border-0 border-bottom" placeholder="Enter your City" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, city: e.target.value }))} />
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">State</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your State" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, city: e.target.value }))} />
+                                <input type="text" className="form-control border-0 border-bottom" placeholder="Enter your State" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, state: e.target.value }))} />
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Pincode</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" id="email" placeholder="Enter your Pincode" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, pincode: e.target.value }))} />
+                                <input type="number" className="form-control border-0 border-bottom" placeholder="Enter your Pincode" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, pincode: e.target.value }))} />
                             </div>
                         </div>
                         <div className="my-3">
@@ -200,7 +203,7 @@ const Orderprocess = () => {
                             <div className="input-group">
                                 <select onChange={handlePayment} className='form-control'>
                                     <option>Select the payment method</option>
-                                    <option value="COD">COD</option>
+                                    {/* <option value="COD">COD</option> */}
                                     <option value="ONLINE">ONLINE</option>
                                 </select>
                                 {/* <input type="text"  ="form-control border-0 border-bottom" id="email" placeholder="Enter your Pincode" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, paymentmode: e.target.value }))} /> */}
@@ -215,8 +218,6 @@ const Orderprocess = () => {
                 return null;
         }
     };
-    console.log("1515", registerToken);
-    console.log(111, orderDetails)
     return (
         <>
             <Header />
