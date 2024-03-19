@@ -269,11 +269,11 @@ function History() {
                                     </>
                                 }
                                 <div className='row m-0 gy-2 total-books mt-3 align-item-center'>
-                                    <div className='col-6'>
+                                    <div className='col-lg-6 col-md-6 col-sm-12 col-12'>
                                         <p className=''>Total Books - {totalBooks}/{historyDetails?.length}</p>
                                     </div>
-                                    <div className='col-6'>
-                                        <ul className="pagination mt-2 justify-content-end">
+                                    <div className='col-lg-6 col-md-6 col-sm-12 col-12'>
+                                        <ul className="pagination mt-2 justify-content-center">
                                             {Array(Math.ceil(historyDetails.length / productsPerPage))
                                                 .fill()
                                                 .map((_, i) => (

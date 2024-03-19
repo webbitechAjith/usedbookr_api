@@ -58,54 +58,72 @@ function Invoice() {
         <div className="container" >
           {isInvoiceDetails?.length > 0 ?
             <>
-              <div id='element-to-print'>
-                <table class="table-no-border">
-                  <tr>
-                    <td class="width-60">
-                      <img src={logo} alt="" width="100" />
+              <div id='element-to-print' className='overflow-hidden'>
+                <table className="table-no-border">
+                  <tr className='d-lg-block d-md-block d-sm-none d-none'>
+                    <td className="width-10 text-center">
+                      <img src={logo} alt="" width="200" />
                     </td>
-                    <td class="width-20">
-                      <h2 style={{ fontSize: '20px' }}>Invoice Number:{isInvoiceDetails[0].invoice_no} </h2>
+
+                  </tr>
+                  <tr className='d-lg-none d-md-none d-sm-block d-block text-center'>
+                    <td className="text-center">
+                      <img src={logo} alt="" width="150" />
                     </td>
                   </tr>
-                </table>
-                <div class="margin-top">
-                  <table class="table-no-border">
-                    <tr>
-                      <td class="width-60">
-                        <div><strong style={{ fontSize: '20px' }}>Invoice Details</strong></div>
 
+                </table>
+                <div className="margin-top">
+                  <table className="table-no-border">
+                    <tr className='d-lg-block d-md-block d-sm-none d-none'>
+                      <td className="width-50">
+                        <div><strong style={{ fontSize: '20px' }}>Invoice Details</strong></div>
+                        <div><strong>Invoice Number: </strong> {isInvoiceDetails[0].invoice_no}</div>
                         <div><strong>Date of Issue: </strong> {isInvoiceDetails[0].order_date}</div>
                         <div><strong>Customer Name:</strong> {isInvoiceDetails[0].name} </div>
                         <div><strong>Customer Phone:</strong> {isInvoiceDetails[0].mobile}</div>
                         <div><strong>Customer Mail:</strong> {isInvoiceDetails[0].email}</div>
                       </td>
-                      <td class="width-20">
+                      <td className="width-10">
                         <div><strong style={{ fontSize: '20px' }}>Shipping Address</strong></div>
                         <div>{isInvoiceDetails[0].billing_address}</div>
                         <div>{isInvoiceDetails[0].city},{isInvoiceDetails[0].state}</div>
                         <div><strong>Pincode :</strong> {isInvoiceDetails[0].pincode}</div>
                       </td>
                     </tr>
+                    <tr className='d-lg-none d-md-none d-sm-block d-block my-2'>
+                      <div><strong style={{ fontSize: '20px' }}>Invoice Details</strong></div>
+                      <div><strong>Invoice Number: </strong> {isInvoiceDetails[0].invoice_no}</div>
+                      <div><strong>Date of Issue: </strong> {isInvoiceDetails[0].order_date}</div>
+                      <div><strong>Customer Name:</strong> {isInvoiceDetails[0].name} </div>
+                      <div><strong>Customer Phone:</strong> {isInvoiceDetails[0].mobile}</div>
+                      <div><strong>Customer Mail:</strong> {isInvoiceDetails[0].email}</div>
+                    </tr>
+                    <tr className='d-lg-none d-md-none d-sm-block d-block'>
+                      <div><strong style={{ fontSize: '20px' }}>Shipping Address</strong></div>
+                      <div>{isInvoiceDetails[0].billing_address}</div>
+                      <div>{isInvoiceDetails[0].city},{isInvoiceDetails[0].state}</div>
+                      <div><strong>Pincode :</strong> {isInvoiceDetails[0].pincode}</div>
+                    </tr>
                   </table>
                 </div>
-                <div>
-                  <table class="product-table">
+                <div className='over-auto'>
+                  <table className="product-table">
                     <thead>
                       <tr>
-                        <th class="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <th className="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                           <strong className='text-white'>S.NO</strong>
                         </th>
-                        <th class="width-30" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <th className="width-30" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                           <strong className='text-white'>Item</strong>
                         </th>
-                        <th class="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <th className="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                           <strong className='text-white'>Qty</strong>
                         </th>
-                        <th class="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <th className="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                           <strong className='text-white'>Price </strong>
                         </th>
-                        <th class="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <th className="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                           <strong className='text-white'>Total</strong>
                         </th>
                       </tr>
@@ -113,7 +131,7 @@ function Invoice() {
                     <tbody>
 
                       {/* <tr>
-                        <td class="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <td className="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                         </td>
                       </tr> */}
                       {isInvoiceDetails && allbookDetails && isInvoiceDetails
@@ -125,19 +143,19 @@ function Invoice() {
                               return (
                                 <>
                                   <tr>
-                                    <td class="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                                    <td className="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                                       <h6>{itemIndex + 1}</h6>
                                     </td>
-                                    <td class="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                                    <td className="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                                       <h6>{matchingBook.title_long.slice(0, 10)}</h6>
                                     </td>
-                                    <td class="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                                    <td className="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                                       <h6>{item.qty}</h6> {/* Use item.qty instead of data.qty */}
                                     </td>
-                                    <td class="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                                    <td className="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                                       <h6>{item.sub_total}</h6>
                                     </td>
-                                    <td class="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                                    <td className="width-10" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                                       <h6>{item.final_amount}</h6> {/* Use item.final_amount instead of data.final_amount */}
                                     </td>
                                   </tr>
@@ -150,34 +168,34 @@ function Invoice() {
                     </tbody>
                     <tbody>
                       <tr>
-                        <td class="width-70" colspan="4" style={{ border: '1px solid #222', borderBottom: '1px solid #222' }}>
+                        <td className="width-70" colspan="4" style={{ border: '1px solid #222', borderBottom: '1px solid #222' }}>
                           Total
                         </td>
-                        <td class="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <td className="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                           {isInvoiceDetails[0].gross_amount}
                         </td>
                       </tr>
                       <tr>
-                        <td class="width-70" colspan="4" style={{ border: '1px solid #222', borderBottom: '1px solid #222' }}>
+                        <td className="width-70" colspan="4" style={{ border: '1px solid #222', borderBottom: '1px solid #222' }}>
                           GST
                         </td>
-                        <td class="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <td className="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                           {isInvoiceDetails[0].gst_charge}
                         </td>
                       </tr>
                       <tr>
-                        <td class="width-70" colspan="4" style={{ border: '1px solid #222', borderBottom: '1px solid #222' }}>
+                        <td className="width-70" colspan="4" style={{ border: '1px solid #222', borderBottom: '1px solid #222' }}>
                           Shipping
                         </td>
-                        <td class="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <td className="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                           60
                         </td>
                       </tr>
                       <tr>
-                        <td class="width-70" colspan="4" style={{ border: '1px solid #222', borderBottom: '1px solid #222' }}>
+                        <td className="width-70" colspan="4" style={{ border: '1px solid #222', borderBottom: '1px solid #222' }}>
                           Final Amount
                         </td>
-                        <td class="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
+                        <td className="width-20" style={{ border: '1px solid #222', borderBottom: '1px solid #222', textAlign: 'center' }}>
                           {isInvoiceDetails[0].final_amount}
                         </td>
                       </tr>
@@ -186,27 +204,37 @@ function Invoice() {
 
                   </table>
                 </div>
-                {/* <div class="new1"></div> */}
-                <div class="marg-both-10">
-                  <table class="table-no-border">
-                    <tr>
-                      <td class="width-50">
+                {/* <div className="new1"></div> */}
+                <div className="marg-both-10">
+                  <table className="table-no-border">
+                    <tr className='d-lg-block d-md-block d-sm-none d-none'>
+                      <td className="width-50">
                         <div><strong style={{ fontSize: '20px', lineHeight: '2.2px' }}>Payment Reference</strong></div>
-
-                        {/* <div style={{ fontSize: '14px' }}><strong style={{ fontSize: '14px' }}>Transaction Id  :</strong>  </div> */}
                         <div style={{ fontSize: '14px' }}><strong style={{ fontSize: '14px' }}>Amount of Payment : </strong> Rs.{isInvoiceDetails[0].final_amount}/-</div>
                         <div style={{ fontSize: '14px' }}><strong style={{ fontSize: '14px' }}>Date :</strong> {isInvoiceDetails[0].order_date} </div>
                         <div style={{ fontSize: '14px' }}><strong style={{ fontSize: '14px' }}>Mode of payment :</strong> {isInvoiceDetails[0].payment_mode} </div>
                       </td>
-                      <td class="width-20">
+                      <td className="width-10">
                         <div><strong style={{ fontSize: '20px' }}>Company Details</strong></div>
                         <div>Usedbookr</div>
                         <div>Coimbatore, Tamil NADU</div>
                         <div><strong>Invoice issued by :</strong> Usedbookr</div>
-                        {/* <div style={{ fontSize: '14px', lineHeight: '2.2px' }}>Ceritified that the particulars given above are true and correct.</div> */}
-
-                        {/* <img src={logo} alt="" width="80" /> */}
-                        {/* <div><strong style={{ fontSize: '20px' }}>Authorised signature</strong></div> */}
+                      </td>
+                    </tr>
+                    <tr className='d-lg-none d-md-none d-sm-block d-block'>
+                      <td className="width-50">
+                        <div><strong style={{ fontSize: '20px', lineHeight: '2.2px' }}>Payment Reference</strong></div>
+                        <div style={{ fontSize: '14px' }}><strong style={{ fontSize: '14px' }}>Amount of Payment : </strong> Rs.{isInvoiceDetails[0].final_amount}/-</div>
+                        <div style={{ fontSize: '14px' }}><strong style={{ fontSize: '14px' }}>Date :</strong> {isInvoiceDetails[0].order_date} </div>
+                        <div style={{ fontSize: '14px' }}><strong style={{ fontSize: '14px' }}>Mode of payment :</strong> {isInvoiceDetails[0].payment_mode} </div>
+                      </td>
+                    </tr>
+                    <tr className='d-lg-none d-md-none d-sm-block d-block my-2'>
+                      <td className="width-50">
+                        <div><strong style={{ fontSize: '20px' }}>Company Details</strong></div>
+                        <div>Usedbookr</div>
+                        <div>Coimbatore, Tamil NADU</div>
+                        <div><strong>Invoice issued by :</strong> Usedbookr</div>
                       </td>
                     </tr>
                   </table>

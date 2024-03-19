@@ -158,7 +158,7 @@ function Autherfliter() {
                                         <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                           <div className='best-seller'>
                                             <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                                            <span className='selles-offer'>offer 60%</span>
+                                            <span className='selles-offer'>offer {book.discount} %</span>
 
                                             {userIdLike && userIdLike?.length > 0 ? (
                                               <>
@@ -211,9 +211,9 @@ function Autherfliter() {
                                               {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                               <div className='d-flex '>
                                                 <div className='rate-details'>
-                                                  <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                  <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
                                                   <Rating
-                                                    initialRating={5}
+                                                    initialRating={book.avg_rating}
                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                     readonly={true}
@@ -328,9 +328,9 @@ function Autherfliter() {
                                                   {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                                   <div className='d-flex '>
                                                     <div className='rate-details'>
-                                                      <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                      <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
                                                       <Rating
-                                                        initialRating={5}
+                                                        initialRating={book.avg_rating}
                                                         emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                         fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                         readonly={true}
@@ -395,7 +395,7 @@ function Autherfliter() {
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                       <div className='best-seller'>
                                         <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                                        <span className='selles-offer'>offer 60%</span>
+                                        <span className='selles-offer'>offer  {book.discount}%</span>
 
                                         {userIdLike && userIdLike?.length > 0 ? (
                                           <>
@@ -448,9 +448,9 @@ function Autherfliter() {
                                           {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                           <div className='d-flex '>
                                             <div className='rate-details'>
-                                              <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                              <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
                                               <Rating
-                                                initialRating={5}
+                                                initialRating={book.avg_rating}
                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                 fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                 readonly={true}
@@ -587,7 +587,7 @@ function Autherfliter() {
                                 <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                   <div className='best-seller'>
                                     <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                                    <span className='selles-offer'>offer 60%</span>
+                                    <span className='selles-offer'>offer {book.discount}%</span>
                                     {userIdLike && userIdLike?.length > 0 ? (
                                       <>
                                         {userIdLike?.some(cartId => cartId.book_id === book.id) ? (
@@ -639,9 +639,9 @@ function Autherfliter() {
                                       {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                       <div className='d-flex '>
                                         <div className='rate-details'>
-                                          <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                          <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
                                           <Rating
-                                            initialRating={5}
+                                            initialRating={book.avg_rating}
                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                             fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                             readonly={true}
@@ -702,7 +702,7 @@ function Autherfliter() {
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                       <div className='best-seller'>
                                         <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                                        <span className='selles-offer'>offer 60%</span>
+                                        <span className='selles-offer'>offer {book.discount}%</span>
 
                                         {userIdLike && userIdLike?.length > 0 ? (
                                           <>
@@ -755,9 +755,9 @@ function Autherfliter() {
                                           {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                           <div className='d-flex '>
                                             <div className='rate-details'>
-                                              <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                              <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
                                               <Rating
-                                                initialRating={5}
+                                                initialRating={book.avg_rating}
                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                 fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                 readonly={true}
@@ -822,7 +822,7 @@ function Autherfliter() {
                             <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                               <div className='best-seller'>
                                 <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
-                                <span className='selles-offer'>offer 60%</span>
+                                <span className='selles-offer'>offer {book.discount}%</span>
 
                                 {userIdLike && userIdLike?.length > 0 ? (
                                   <>
@@ -875,9 +875,9 @@ function Autherfliter() {
                                   {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                   <div className='d-flex '>
                                     <div className='rate-details'>
-                                      <span className='new-rate'>₹{book.msrp}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                      <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
                                       <Rating
-                                        initialRating={5}
+                                        initialRating={book.avg_rating}
                                         emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                         fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                         readonly={true}

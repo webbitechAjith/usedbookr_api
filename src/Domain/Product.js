@@ -96,16 +96,16 @@ function Product() {
   );
 
   const subcategoryFilter = allbookDetails && allbookDetails
-  .filter(book => filterCategory.some(category => (
-    book.language == category.lan ||
-    book.varient.some(variant => variant.bookconditions === category.con) ||
-    book.varient.some(variant => variant.bindings === category.bind) ||
-    book.original_price == category.original_price ||
-    book.discount == category.discount ||
-    // (parseFloat(book.avg_rating) >= parseFloat(category.star) && parseFloat(book.avg_rating) <= parseFloat(category.star))
-    (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
-      Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
-  )))
+    .filter(book => filterCategory.some(category => (
+      book.language == category.lan ||
+      book.varient.some(variant => variant.bookconditions === category.con) ||
+      book.varient.some(variant => variant.bindings === category.bind) ||
+      book.original_price == category.original_price ||
+      book.discount == category.discount ||
+      // (parseFloat(book.avg_rating) >= parseFloat(category.star) && parseFloat(book.avg_rating) <= parseFloat(category.star))
+      (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
+        Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
+    )))
 
   useEffect(() => {
     over_allbook();
@@ -211,7 +211,7 @@ function Product() {
                                                 <h5>{book.category_id[0].name}</h5>
                                                 <div className='d-flex '>
                                                   <div className='rate-details'>
-                                                    <span className='new-rate'>₹ {book.selling_price}</span> <span className='ps-2 old-rate'>₹ {book.original_price}</span><br />
+                                                    <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR {book.original_price}</span><br />
                                                     <Rating
                                                       initialRating={book.avg_rating}
                                                       emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -343,7 +343,7 @@ function Product() {
                                               <h5>{book.category_id[0].name}</h5>
                                               <div className='d-flex '>
                                                 <div className='rate-details'>
-                                                  <span className='new-rate'>₹{book.original_price}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                  <span className='new-rate'>₹ {book.selling_price}</span> <span className='ps-2 old-rate'>₹ {book.original_price}</span><br />
                                                   <Rating
                                                     initialRating={book.avg_rating}
                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -725,7 +725,7 @@ function Product() {
                                         <h5>{book.category_id[0].name}</h5>
                                         <div className='d-flex '>
                                           <div className='rate-details'>
-                                            <span className='new-rate'>₹{book.original_price}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                            <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR {book.original_price}</span><br />
                                             <Rating
                                               initialRating={book.avg_rating}
                                               emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -791,7 +791,7 @@ function Product() {
                         </>
                       }
                       {
-                        
+
                       }
                       <div className='row m-0 gy-2 total-books mt-3'>
                         <div className='col-lg-6 col-12'>

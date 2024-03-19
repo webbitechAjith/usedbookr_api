@@ -275,7 +275,7 @@ function Subaside() {
                                                 <div className="accordion-body">
                                                     <div className="mb-3 form-check">
                                                         {ratingType && ratingType.map((data, index) => (
-                                                            <div className="mb-3 form-check">
+                                                            <div className="mb-3">
                                                                 <input type="checkbox"
                                                                     className="form-check-input" id={`exampleCheck${index + 1}`}
                                                                     onClick={() => filter(data, 'star')}
@@ -452,7 +452,7 @@ function Subaside() {
                                     <div className="accordion-body">
                                         <div className="mb-3 form-check">
                                             {ratingType && ratingType.map((data, index) => (
-                                                <div className="mb-3 form-check">
+                                                <div className="mb-3">
                                                     <input type="checkbox"
                                                         className="form-check-input" id={`exampleCheck${index + 1}`}
                                                         onClick={() => filter(data, 'star')}
