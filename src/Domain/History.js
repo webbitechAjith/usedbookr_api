@@ -95,7 +95,6 @@ function History() {
             // Handle error if necessary
         }
     };
-    console.log(isInvoiceDetails)
     useEffect(() => {
         orderDetails();
     }, []);

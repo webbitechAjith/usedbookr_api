@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
 import { faBagShopping, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { addTocard_list, addTowhish_list, cardToget_list, cardTolike_list, removeTocard_list, removeTolike_list } from './apiBaseurl';
+import { addTocard_list, addTowhish_list, bookdetails, cardToget_list, cardTolike_list, removeTocard_list, removeTolike_list } from './apiBaseurl';
 
 const Allbooks = () => {
     const { allbookDetails, isLiked, userIdShop, userIdLike, isAdded, categoryBook, likescount, likedProducts, totalLikes, shopProducts, shopcount, singleProductView, singleProductPrice } = useSelector((state) => state.usedbookr_product)
@@ -79,10 +79,8 @@ const Allbooks = () => {
     const author_name = () => {
         navigate('/authors')
     }
-    const click_view = (book) => {
-        // dispatch(setsingleProductView([allbookDetails[index]]))
+    const click_view = async(book) => {
         navigate(`/Description/${book.id}`, { state: book })
-
     }
 
     const like_product = async () => {

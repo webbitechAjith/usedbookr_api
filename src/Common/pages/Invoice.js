@@ -48,9 +48,9 @@ function Invoice() {
   };
 
   useEffect(() => {
-    viewHistory(params.id)
+    viewHistory(params.id);
+    window.scrollTo(0, 0);
   }, []);
-  console.log(isInvoiceDetails)
   return (
     <div>
       <Header />

@@ -80,7 +80,6 @@ function Authorname() {
     const authorCheck =(dataName) =>{
         dispatch(setAuthorsName(dataName))
     }
-    console.log("authorBookDetails", authorBookDetails)
     return (
         <>
             <aside className='my-lg-5 my-2'>

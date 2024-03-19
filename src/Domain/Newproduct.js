@@ -126,7 +126,6 @@ function Newproduct() {
         over_allbook();
         window.scrollTo(0, 0);
     }, []);
-    console.log(filterBookCategory)
     return (
         <div className='product-section'>
             <Header />

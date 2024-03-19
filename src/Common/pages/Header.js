@@ -70,13 +70,7 @@ function Header() {
     const handleToggle = () => {
         setIsOpen(!isOpen);
     };
-    // const toggleDropdowns = () => {
-    //     setDropdownOpen(!dropdownOpen);
-    //   };
-    //   const handleDropdownChange = (event) => {
-    //     setSelectedOption(event.target.value);
-    //     setDropdownOpen(false); // Close dropdown after selection
-    //   };
+  
     const handleDropdownChange = (selected) => {
         setSelectedOption(selected);
     };
@@ -104,9 +98,7 @@ function Header() {
         dispatch(setUserLogin(false))
         navigate('/Login')
     }
-    const navButton = () => {
-        // dispatch(setClass1Hide(true))
-    }
+   
     const menu_lists = async () => {
         const data = await megamenu_list();
         dispatch(setMegaMenu(data))

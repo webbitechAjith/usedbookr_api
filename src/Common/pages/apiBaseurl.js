@@ -8,22 +8,6 @@ const apiBaseurl = axios.create({
   baseURL,
 });
 
-// allbooks api 
-// export const allbooks = async () => {
-//   try {
-//     const { data } = await apiBaseurl.get('/books/api/all');
-//     const allBook = data.response.books;
-//     const productsWithIds = allBook.map((product, index) => ({
-//       id: index + 1,
-//       ...product
-//     }));
-//     return allBook;
-//   } catch (error) {
-//     console.error('Error fetching overall books:', error);
-//     throw error;
-//   }
-// }
-
 
 export const allbooks = async () => {
   try {
@@ -35,6 +19,16 @@ export const allbooks = async () => {
     throw error;
   }
 }
+
+export const bookdetailsview = async (id) => {
+  try {
+    const { data } = await apiBaseurl.get(`/api/bookdetails/${id}`);
+    return data.books;
+  } catch (error) {
+    console.error('Error fetching overall books:', error);
+  }
+}
+
 
 
 // register api call 

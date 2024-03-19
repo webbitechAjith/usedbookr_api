@@ -16,7 +16,7 @@ import { faBagShopping, faShop } from '@fortawesome/free-solid-svg-icons';
 import { setallBookDetails, setproductIdDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleItemCount, setClass1Hide, setSingleProductPrice } from '../Redux/CreateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import BestSeller from '../Common/pages/BestSeller';
-import { addTocard_list, allbooks, removeTocard_list } from '../Common/pages/apiBaseurl';
+import { addTocard_list, allbooks, bookdetails, bookdetailsview, removeTocard_list } from '../Common/pages/apiBaseurl';
 
 function Description() {
     const { allbookDetails, isLiked, isAdded, userIdShop, likedProducts, likescount, singleProductView, singleProductPrice, shopProducts, shopcount, productIdDetails, singleItemCount } = useSelector((state) => state.usedbookr_product)
@@ -25,6 +25,7 @@ function Description() {
     const [showLess, setShowLess] = useState(false);
     const [activeTab, setActiveTab] = useState('tab1');
     const [singleBooks, setSingleBooks] = useState('')
+    const [reviewRating, setReviewRating] = useState('')
     const [localStorageValue, setLocalStorage] = useState(false)
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -39,38 +40,6 @@ function Description() {
     //     return <div>Book not found</div>;
     //   }
 
-    const review = [
-        {
-            "author_name": "Tevita Taufoou",
-            "author_url": "https://www.google.com/maps/contrib/105937236918123663309/reviews",
-            "language": "en",
-            "profile_photo_url": "https://lh3.googleusercontent.com/a/AATXAJwZANdRSSg96QeZG--6BazG5uv_BJMIvpZGqwSz=s128-c0x00000000-cc-rp-mo",
-            "rating": 1,
-            "relative_time_description": "6 months ago",
-            "text": "I need help.  Google Australia is taking my money. Money I don't have any I am having trouble sorting this issue out",
-            "time": "2min",
-        },
-        {
-            "author_name": "Jordy Baker",
-            "author_url": "https://www.google.com/maps/contrib/102582237417399865640/reviews",
-            "language": "en",
-            "profile_photo_url": "https://lh3.googleusercontent.com/a/AATXAJwgg1tM4aVA4nJCMjlfJtHtFZuxF475Vb6tT74S=s128-c0x00000000-cc-rp-mo",
-            "rating": 3,
-            "relative_time_description": "4 months ago",
-            "text": "I have literally never been here in my life, I am 17 and they are taking money I don't have for no reason.\n\nThis is not ok. I have rent to pay and my own expenses to deal with and now this.",
-            "time": '25min',
-        },
-        {
-            "author_name": "Prem Rathod",
-            "author_url": "https://www.google.com/maps/contrib/115981614018592114142/reviews",
-            "language": "en",
-            "profile_photo_url": "https://lh3.googleusercontent.com/a/AATXAJyEQpqs4YvPPzMPG2dnnRTFPC4jxJfn8YXnm2gz=s128-c0x00000000-cc-rp-mo",
-            "rating": 4.5,
-            "relative_time_description": "4 months ago",
-            "text": "Terrible service. all reviews are fake and irrelevant. This is about reviewing google as business not the building/staff etc.",
-            "time": '1h 2mins',
-        },
-    ]
     const showReview = () => {
         setShowAll(!showAll);
         setShowLess(!showLess)
@@ -152,16 +121,34 @@ function Description() {
         console.log(singleProductView)
     }
 
-    const allbook_view = async () => {
-        const single_book = await allbooks();
-        const bookDetail = single_book.find(data => data.id == params.id);
-        setSingleBooks([bookDetail])
-    }
+    // const allbook_view = async () => {
+    //     const single_book = await allbooks();
+    //     const bookDetail = single_book.find(data => data.id == params.id);
+    //     setSingleBooks([bookDetail])
+    // }
+    // const click_view = async (params.id) => {
+    //     const onebooks = await bookdetails(params.id);
+    //     setSingleBooks([onebooks])
+    // }
+
+    const Singlebookid = params.id; // This line seems unnecessary if you're passing Singlebookid as a parameter to click_view
+    const click_view = async (Singlebookid) => {
+        try {
+            const oneBook = await bookdetailsview(Singlebookid);
+            setSingleBooks([oneBook[0]]);
+            setReviewRating([oneBook[0].ratingreview[0]])
+        } catch (error) {
+            console.error('Error fetching book details:', error);
+            // Handle error as needed
+        }
+    };
     useEffect(() => {
-        allbook_view()
+        // allbook_view()
         dispatch(setClass1Hide(false))
+        click_view(Singlebookid);
         window.scrollTo(0, 0);
     }, []);
+    
     return (
         <div className='description-section'>
             <Header />
@@ -287,7 +274,7 @@ function Description() {
                                         <h1>{data.title_long} <span className='stock'>In Stock</span></h1>
                                         <p>{data.author}</p>
                                         <Rating
-                                            initialRating={data.rating_count}
+                                            initialRating={data.avg_rating_count}
                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                             fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                             readonly={true}
@@ -405,7 +392,7 @@ function Description() {
                                         <span className='stock ms-0'>In Stock</span>
                                         <p className='pt-2 mb-0'>{data.author}</p>
                                         <Rating
-                                            initialRating={data.rating_count}
+                                            initialRating={data.avg_rating_count}
                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                             fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                             readonly={true}
@@ -666,45 +653,48 @@ function Description() {
                             </div>
                         </TabPane>
                         <TabPane tabId="tab3">
-                            {review.slice(0, showAll ? review.length : 2).map((data, index) => {
-                                return (
-                                    <div className='container-80 pt-3 review'>
-                                        <div className='row m-0'>
-                                            <div className='col-lg-9 col-md-9 col-12'>
-                                                <div className='d-flex'>
-                                                    <div className='w-50'>
-                                                        <img src={data.profile_photo_url} className='w-50 pe-4' />
+                            {reviewRating[0] == undefined ?
+
+
+                                <>
+                                    <h1 className='text-center'>No Reviews</h1>
+                                </>
+                                :
+                                <>
+                                    {reviewRating && reviewRating.map((data, index) => {
+                                        return (
+                                            <div className='container-80 pt-3 review'>
+                                                <div className='row m-0'>
+                                                    <div className='col-lg-6 col-md-6 col-12'>
+                                                        <div className='w-50'>
+                                                            <h5><b>{data.review}</b></h5>
+                                                        </div>
+                                                        <div className='w-75'>
+                                                            <Rating
+                                                                initialRating={data.rating}
+                                                                emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
+                                                                fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
+                                                                readonly={true}
+                                                            />
+                                                        </div>
                                                     </div>
-                                                    <div className='w-75'>
-                                                        <h6>{data.author_name}</h6>
-                                                        <Rating
-                                                            initialRating={data.rating}
-                                                            emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
-                                                            fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
-                                                            readonly={true}
-                                                        />
-                                                    </div>
+
                                                 </div>
+                                                <hr className='' />
                                             </div>
-                                            <div className='col-lg-3 col-md-3 col-12'>
-                                                <p>{data.relative_time_description}</p>
-                                            </div>
-                                            <div className='col-12'>
-                                                <p>{data.text}</p>
-                                            </div>
-                                        </div>
-                                        <hr className='' />
+                                        )
+                                    })}
+                                    <div className='container-80'>
+                                        {!showAll && (
+                                            <button className='show-more hover' onClick={showReview}>Show more </button>
+                                        )}
+                                        {showLess && (
+                                            <button className='show-more hover' onClick={handleLessMore}>Less</button>
+                                        )}
                                     </div>
-                                )
-                            })}
-                            <div className='container-80'>
-                                {!showAll && (
-                                    <button className='show-more hover' onClick={showReview}>Show more </button>
-                                )}
-                                {showLess && (
-                                    <button className='show-more hover' onClick={handleLessMore}>Less</button>
-                                )}
-                            </div>
+                                </>
+                            }
+
 
                         </TabPane>
                         {/* Add more TabPanes as needed */}
@@ -712,76 +702,7 @@ function Description() {
                 </div>
                 <div className='best-seller mt-5'>
                     <h1 className='product-title text-center pt-5'>Related Products</h1>
-                    {/* <div className='row m-0  py-5'>
-                        <div className='col-lg-3 col-sm-6 col-12 py-2'>
-                            <div className={isAdded ? 'normal-box' : 'box-view'}>
-                                <button className='sales-offer mt-3 mx-2'>Sale 50%</button>
-                                <span className='float-end m-2'><img src={isLiked ? likes : arrive1} alt="Like Button" onClick={() => product_like()} /></span>
-                                <img src={seller1} className='w-100 px-4' />
-                                <div class="row m-0 pt-4 product-details">
-                                    <div class="col-9">
-                                        <h5>Blumenerde</h5>
-                                        <span className='price pe-2'>AED 14.99</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                                        <img src={rating} />
-                                    </div>
-                                    <div class="col-3">
-                                        {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-lg-3 col-sm-6 col-12 py-2'>
-                            <div className={isAdded ? 'normal-box' : 'box-view'}>
-                                <button className='sales-offer mt-3 mx-2'>Sale 50%</button>
-                                <span className='float-end m-2'><img src={isLiked ? likes : arrive1} alt="Like Button" onClick={() => product_like()} /></span>
-                                <img src={seller1} className='w-100 px-4' />
-                                <div class="row m-0 pt-4 product-details">
-                                    <div class="col-9">
-                                        <h5>Blumenerde</h5>
-                                        <span className='price pe-2'>AED 14.99</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                                        <img src={rating} />
-                                    </div>
-                                    <div class="col-3">
-                                        {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-lg-3 col-sm-6 col-12 py-2'>
-                            <div className={isAdded ? 'normal-box' : 'box-view'}>
-                                <button className='sales-offer mt-3 mx-2'>Sale 50%</button>
-                                <span className='float-end m-2'><img src={isLiked ? likes : arrive1} alt="Like Button" onClick={() => product_like()} /></span>
-                                <img src={seller1} className='w-100 px-4' />
-                                <div class="row m-0 pt-4 product-details">
-                                    <div class="col-9">
-                                        <h5>Blumenerde</h5>
-                                        <span className='price pe-2'>AED 14.99</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                                        <img src={rating} />
-                                    </div>
-                                    <div class="col-3">
-                                        {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-lg-3 col-sm-6 col-12 py-2'>
-                            <div className={isAdded ? 'normal-box' : 'box-view'}>
-                                <button className='sales-offer mt-3 mx-2'>Sale 50%</button>
-                                <span className='float-end m-2'><img src={isLiked ? likes : arrive1} alt="Like Button" onClick={() => product_like()} /></span>
-                                <img src={seller1} className='w-100 px-4' />
-                                <div class="row m-0 pt-4 product-details">
-                                    <div class="col-9">
-                                        <h5>Blumenerde</h5>
-                                        <span className='price pe-2'>AED 14.99</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                                        <img src={rating} />
-                                    </div>
-                                    <div class="col-3">
-                                        {isAdded ? (<><img src={add} alt="Like Button" onClick={() => product_add()} /></>) : (<> <img src={remove} alt="Remove Button" onClick={() => product_remove()} /> </>)}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
+
                     <BestSeller />
                 </div>
             </section>

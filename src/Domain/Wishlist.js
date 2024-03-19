@@ -79,7 +79,6 @@ function Wishlist() {
         book_details();
         window.scrollTo(0, 0);
     }, []);
-    console.log("kumar", allbookDetails)
     return (
         <div>
             <Header />
