@@ -44,7 +44,7 @@ function Home() {
   const all_product = () => {
     navigate('/Allproduct')
   }
-  const all_newarrival = () =>{
+  const all_newarrival = () => {
     navigate('/newarrival')
   }
   const all_seller = () => {
@@ -113,11 +113,22 @@ function Home() {
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button> */}
                   </div>
                   <div className="carousel-inner h-100 mobile-ht">
-                    {bannerImage && bannerImage.map((imageUrl, index) => (
-                      <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''} w-100 h-100`}>
-                        <img src={imageUrl.images} className='w-100 h-100 object-fit-cover' alt={`Image ${index}`} />
-                      </div>
-                    ))}
+                    {bannerImage?.length > 0 ?
+                      <>
+                        {bannerImage && bannerImage.map((imageUrl, index) => (
+                          <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''} w-100 h-100`}>
+                            <img src={imageUrl.images} className='w-100 h-100 object-fit-cover' alt={`Image ${index}`} />
+                          </div>
+                        ))}
+                      </>
+                      :
+                      <>
+                        <div className="preloader-container">
+                          <div className="preloader"></div>
+                        </div>
+                      </>
+                    }
+
                   </div>
                   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                     <FontAwesomeIcon icon={faArrowLeft} style={{ color: 'green' }} className='arrow-section' />
@@ -167,7 +178,17 @@ function Home() {
           <div className='container-95'>
             <h1 className='product-title'>Browse your book on Authors</h1>
             <div className='mt-4'>
-              {authorsDetails == "" ? <><h1>noitems</h1></> : <><Authors /></>}
+              {authorsDetails?.length > 0 ?
+                <>
+                  <Authors />
+                </>
+                :
+                <>
+                  <div className="preloader-container">
+                    <div className="preloader"></div>
+                  </div>
+                </>
+              }
             </div>
           </div>
 
@@ -175,13 +196,29 @@ function Home() {
             <div className='product-list mt-5 mb-3 container-95'>
               <span className='product-title'>Best Sellers in Education Books</span>
               <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
-              {allbookDetails == '' ? <><h1 className='text-center product-title'>No items</h1></> : <><Allbooks /></>}
+              {allbookDetails == '' ?
+                <>
+                  <div className="preloader-container">
+                    <div className="preloader"></div>
+                  </div>
+                </>
+                :
+                <><Allbooks /></>
+              }
             </div>
           </div>
           <div className='d-lg-none d-block'>
             <div className='container-90 product-list mt-5 mb-3'>
               <span className='product-title'>Best Sellers in Education Books</span>
-              <Allbooks />
+              {allbookDetails == '' ?
+                <>
+                  <div className="preloader-container">
+                    <div className="preloader"></div>
+                  </div>
+                </>
+                :
+                <><Allbooks /></>
+              }
               <div className='author5'>
                 <button onClick={() => all_product()}>View All</button>
               </div>
@@ -224,11 +261,31 @@ function Home() {
             <div className='d-lg-block d-none container-95'>
               <span className='product-title'>Best Sellers in Comics</span>
               <span className='float-end viewall' onClick={() => all_seller()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
-              <BestSeller />
+              {allbookDetails == '' ?
+                <>
+                  <div className="preloader-container">
+                    <div className="preloader"></div>
+                  </div>
+                </>
+                :
+                <>
+                  <BestSeller />
+                </>
+              }
             </div>
             <div className='d-lg-none d-block container-95'>
               <span className='product-title'>Best Sellers in Comics</span>
-              <BestSeller />
+              {allbookDetails == '' ?
+                <>
+                  <div className="preloader-container">
+                    <div className="preloader"></div>
+                  </div>
+                </>
+                :
+                <>
+                  <BestSeller />
+                </>
+              }
               <div className='author5'>
                 <button onClick={() => all_seller()}>View All</button>
               </div>
@@ -239,11 +296,33 @@ function Home() {
             <div className='d-lg-block d-none container-95'>
               <span className='product-title'>New Arrivals in Education</span>
               <span className='float-end viewall' onClick={() => all_newarrival()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#30844A' }} className='ps-2' /></span>
-              <Newarrival />
+
+              {allbookDetails == '' ?
+                <>
+                  <div className="preloader-container">
+                    <div className="preloader"></div>
+                  </div>
+                </>
+                :
+                <>
+                  <Newarrival />
+                </>
+              }
+
             </div>
             <div className='d-lg-none d-block container-95'>
               <span className='product-title'>New Arrivals in Education</span>
-              <Newarrival />
+              {allbookDetails == '' ?
+                <>
+                  <div className="preloader-container">
+                    <div className="preloader"></div>
+                  </div>
+                </>
+                :
+                <>
+                  <Newarrival />
+                </>
+              }
               <div className='author5'>
                 <button onClick={() => all_newarrival()}>View All</button>
               </div>

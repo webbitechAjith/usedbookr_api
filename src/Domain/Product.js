@@ -95,6 +95,18 @@ function Product() {
     )
   );
 
+  const subcategoryFilter = allbookDetails && allbookDetails
+  .filter(book => filterCategory.some(category => (
+    book.language == category.lan ||
+    book.varient.some(variant => variant.bookconditions === category.con) ||
+    book.varient.some(variant => variant.bindings === category.bind) ||
+    book.original_price == category.original_price ||
+    book.discount == category.discount ||
+    // (parseFloat(book.avg_rating) >= parseFloat(category.star) && parseFloat(book.avg_rating) <= parseFloat(category.star))
+    (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
+      Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
+  )))
+
   useEffect(() => {
     over_allbook();
     window.scrollTo(0, 0);
@@ -270,7 +282,7 @@ function Product() {
                             :
                             <>
                               {filterBookCategory && filterBookCategory
-                              .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
+                                .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
                                 .map((book) => {
                                   return (
                                     <>
@@ -544,6 +556,26 @@ function Product() {
                               </div>
                             )
                           }
+                          <div className='row m-0 gy-2 total-books mt-3'>
+                            <div className='col-lg-6 col-12'>
+                              <p className=''>Total Books - {subcategoryFilter?.length}</p>
+                            </div>
+                            <div className='col-lg-6 col-12'>
+                              <ul className="pagination mt-2 justify-content-end">
+                                {Array(Math.ceil(subcategoryFilter.length / productsPerPage))
+                                  .fill()
+                                  .map((_, i) => (
+                                    <li
+                                      key={i}
+                                      className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                      onClick={() => handleClick(i + 1)}
+                                    >
+                                      <button className="page-link">{i + 1}</button>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                          </div>
                         </>
                       }
                       {filterBookCategory.length > 0 ?
@@ -757,6 +789,9 @@ function Product() {
                         <>
                           <h1 className='text-center product-title'>No items</h1>
                         </>
+                      }
+                      {
+                        
                       }
                       <div className='row m-0 gy-2 total-books mt-3'>
                         <div className='col-lg-6 col-12'>

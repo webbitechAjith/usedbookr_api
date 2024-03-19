@@ -27,7 +27,7 @@ import { addTocard_list, allbooks, removeTocard_list } from '../Common/pages/api
 
 function Purchase() {
     // state value declear 
-    const { shopProducts, shopcount, totalItemShop,singleProductView, orderBooks, singleProductPrice, finalItemPrice, userLogin, userIdShop, allbookDetails } = useSelector((state) => state.usedbookr_product)
+    const { shopProducts, shopcount, totalItemShop, singleProductView, orderBooks, singleProductPrice, finalItemPrice, userLogin, userIdShop, allbookDetails } = useSelector((state) => state.usedbookr_product)
 
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -74,12 +74,13 @@ function Purchase() {
     }
     // payment process
     const paymentProcess = () => {
-        console.log(userIdShop)
         if (userIdShop?.length > 0) {
-            if (userLogin == true) {
-                navigate('/Login')
-            } else {
+            const auth_login = localStorage.getItem('usedbookrtoken')
+            const auth_uesrlogin = localStorage.getItem('isLoginAuth')
+            if (auth_login || auth_uesrlogin == true) {
                 navigate('/Orderprocess')
+            } else {
+                navigate('/Login')
             }
         } else {
             alert("No Any Book Shop")
@@ -144,12 +145,12 @@ function Purchase() {
                                                                     <td className='wish-product'>
                                                                         <div className='row m-0 pt-2'>
                                                                             <div className='col-4 py-4'>
-                                                                                <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)}/>
+                                                                                <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)} />
                                                                             </div>
                                                                             <div className='col-8 py-4'>
                                                                                 <h5>{data.title_long}</h5>
                                                                                 <Rating
-                                                                                    initialRating={4}
+                                                                                    initialRating={data.avg_rating}
                                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                                                     readonly={true}
@@ -287,12 +288,12 @@ function Purchase() {
                                                                     <td className='wish-product'>
                                                                         <div className='row m-0 pt-2'>
                                                                             <div className='col-4 py-4'>
-                                                                                <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)}/>
+                                                                                <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)} />
                                                                             </div>
                                                                             <div className='col-8 py-4'>
                                                                                 <h5>{data.title_long}</h5>
                                                                                 <Rating
-                                                                                    initialRating={4}
+                                                                                    initialRating={data.avg_rating}
                                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                                                     readonly={true}
@@ -422,7 +423,7 @@ function Purchase() {
                                                         <div className='col-12 pt-3'>
                                                             <div class="card card-mobile" >
                                                                 <div className='card-img-hgt'>
-                                                                    <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)}/>
+                                                                    <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)} />
                                                                 </div>
                                                                 <div class="card-body">
                                                                     <h5 class="card-title"><b>Title</b> :{data.title_long.slice(0, 30)}...</h5>
@@ -435,7 +436,7 @@ function Purchase() {
                                                                         </span>
                                                                     </div>
                                                                     <Rating
-                                                                        initialRating={4}
+                                                                        initialRating={data.avg_rating}
                                                                         emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                                         fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                                         readonly={true}

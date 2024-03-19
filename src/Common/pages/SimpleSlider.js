@@ -11,11 +11,7 @@ import '../assets/css/main.css'
 
 
 // image path 
-import book1 from '../assets/image/category1.png'
-import book2 from '../assets/image/category2.png'
-import book3 from '../assets/image/category3.png'
-import book4 from '../assets/image/category4.png'
-import book5 from '../assets/image/category5.png'
+
 import { category_list, megamenu_list } from './apiBaseurl';
 import { setCategoryBook, setSubCategoryBook } from '../../Redux/CreateSlice';
 
@@ -70,7 +66,7 @@ const SimpleSlider = () => {
   useEffect(() => {
     category_books()
   }, [])
-  
+
   return (
     <div className='py-lg-3 py-md-4 py-sm-3 py-2 '>
       {categoryName?.length > 0 ?
@@ -90,7 +86,10 @@ const SimpleSlider = () => {
         </>
         :
         <>
-          <h1 className='text-center'>No Items</h1>
+          {/* <h1 className='text-center'>No Items</h1> */}
+          <div className="preloader-container">
+            <div className="preloader"></div>
+          </div>
         </>
       }
 

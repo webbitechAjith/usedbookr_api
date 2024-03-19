@@ -30,6 +30,14 @@ function Subcategory() {
     const params = useParams();
     const childcategory = location.state.childcategories
 
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 10;
+
+    const handleClick = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     // like product click fn 
     const totallikes = likedProducts.map((data) => data.id);
 
@@ -90,8 +98,17 @@ function Subcategory() {
         dispatch(setallBookDetails(book))
     }
 
-
-
+    const filterSubcategory = childcategoryBook && Array.isArray(allbookDetails) && allbookDetails
+        .filter(book => childcategoryBook.some(category => book.childcategory_id.some(childCategory => childCategory.name === category.name)))
+        .filter(book => filterCategory.some(category => (
+            book.language === category.lan ||
+            book.varient.some(variant => variant.bookconditions === category.con) ||
+            book.varient.some(variant => variant.bindings === category.bind) ||
+            book.original_price == category.original_price ||
+            book.discount == category.discount ||
+            (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
+                Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
+        )))
 
 
     useEffect(() => {
@@ -102,8 +119,7 @@ function Subcategory() {
         // setChildcategoryBook(childcategory)
         window.scrollTo(0, 0);
     }, [childcategory]);
-    console.log("filterBookCategory", filterBookCategory)
-    console.log("ajith", filterCategory)
+
     return (
         <div className='product-section'>
             <Header />
@@ -122,18 +138,7 @@ function Subcategory() {
                                                 <>
                                                     {filterCategory?.length > 0 ?
                                                         <>
-                                                            {childcategoryBook && Array.isArray(allbookDetails) && allbookDetails
-                                                                .filter(book => childcategoryBook.some(category => book.childcategory_id.some(childCategory => childCategory.name === category.name)))
-                                                                .filter(book => filterCategory.some(category => (
-                                                                    book.language === category.lan ||
-                                                                    book.varient.some(variant => variant.bookconditions === category.con) ||
-                                                                    book.varient.some(variant => variant.bindings === category.bind) ||
-                                                                    book.original_price == category.original_price ||
-                                                                    book.discount == category.discount ||
-                                                                    (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
-                                                                        Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
-                                                                )))
-                                                                .length > 0 ? (
+                                                            {filterSubcategory?.length > 0 ? (
                                                                 childcategoryBook && Array.isArray(allbookDetails) && allbookDetails
                                                                     .filter(book => childcategoryBook.some(category => book.childcategory_id.some(childCategory => childCategory.name === category.name)))
                                                                     .filter(book => filterCategory.some(category => (
@@ -145,6 +150,7 @@ function Subcategory() {
                                                                         (Math.floor(parseFloat(book.avg_rating)) >= parseFloat(category.star) &&
                                                                             Math.floor(parseFloat(book.avg_rating)) <= parseFloat(category.star))
                                                                     )))
+                                                                    .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
                                                                     .map(book => (
                                                                         <>
                                                                             <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch' key={book.id}>
@@ -265,11 +271,32 @@ function Subcategory() {
                                                                 </div>
                                                             )
                                                             }
+                                                            <div className='row m-0 gy-2 total-books mt-3'>
+                                                                <div className='col-lg-6 col-12'>
+                                                                    <p className=''>Total Books - {filterSubcategory?.length}</p>
+                                                                </div>
+                                                                <div className='col-lg-6 col-12'>
+                                                                    <ul className="pagination mt-2 justify-content-end">
+                                                                        {Array(Math.ceil(filterSubcategory.length / productsPerPage))
+                                                                            .fill()
+                                                                            .map((_, i) => (
+                                                                                <li
+                                                                                    key={i}
+                                                                                    className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                                                                    onClick={() => handleClick(i + 1)}
+                                                                                >
+                                                                                    <button className="page-link">{i + 1}</button>
+                                                                                </li>
+                                                                            ))}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
                                                         </>
                                                         :
                                                         <>
                                                             {childcategoryBook && Array.isArray(allbookDetails) && allbookDetails
                                                                 .filter(book => childcategoryBook.some(category => book.childcategory_id.some(childCategory => childCategory.name === category.name)))
+                                                                .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
                                                                 .map(book => (
                                                                     <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch' key={book.id}>
                                                                         <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
@@ -382,8 +409,29 @@ function Subcategory() {
                                                                         </div>
                                                                     </div>
                                                                 ))}
+                                                            <div className='row m-0 gy-2 total-books mt-3'>
+                                                                <div className='col-lg-6 col-12'>
+                                                                    <p className=''>Total Books - {childcategoryBook?.length}</p>
+                                                                </div>
+                                                                <div className='col-lg-6 col-12'>
+                                                                    <ul className="pagination mt-2 justify-content-end">
+                                                                        {Array(Math.ceil(childcategoryBook.length / productsPerPage))
+                                                                            .fill()
+                                                                            .map((_, i) => (
+                                                                                <li
+                                                                                    key={i}
+                                                                                    className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                                                                                    onClick={() => handleClick(i + 1)}
+                                                                                >
+                                                                                    <button className="page-link">{i + 1}</button>
+                                                                                </li>
+                                                                            ))}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
                                                         </>
                                                     }
+
                                                 </>
                                                 :
                                                 <>

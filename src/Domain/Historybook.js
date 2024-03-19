@@ -44,6 +44,7 @@ function Historybook() {
         const review = await reviewRating(reviewDetails)
         if (review.message) {
             alert("Review Successfully");
+            handleClose(); // Close the modal after submission
             // window.location.reload()
         }
     }
