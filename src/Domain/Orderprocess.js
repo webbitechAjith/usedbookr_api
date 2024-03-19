@@ -93,8 +93,8 @@ const Orderprocess = () => {
                 if (response.message == 'Please redirect to url') {
                     // window.location.href = response.data.redirect_url;
                     window.open(response.data.redirect_url, '_blank')
-                    alert("ajith")
-                    navigate('/paymentinvoice');
+                    // alert("ajith")
+                    // navigate('/paymentinvoice');
                 }
                 // Handle the API response
             } catch (error) {

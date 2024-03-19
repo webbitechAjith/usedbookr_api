@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function History() {
-    const { allbookDetails, historyDetails, reviewDetails, singleBookHistory,isInvoiceDetails } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, historyDetails, reviewDetails, singleBookHistory, isInvoiceDetails } = useSelector((state) => state.usedbookr_product)
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [selectedDate, setSelectedDate] = useState('Last 30 Days')
     const [statuslevel, setStatusLevel] = useState(true);
@@ -165,8 +165,8 @@ function History() {
                                                                         <td>{book.final_amount}</td>
                                                                         <td>{book.payment_mode}</td>
                                                                         <td>
-                                                                            <FontAwesomeIcon icon={faEye} style={{color:'#241D60'}} className='mx-2' onClick={() => viewHistory(book)}/>
-                                                                            <FontAwesomeIcon icon={faFileInvoice} className='mx-2' onClick={() => viewInvoice(book)}/>
+                                                                            <FontAwesomeIcon icon={faEye} style={{ color: '#241D60' }} className='mx-2' onClick={() => viewHistory(book)} />
+                                                                            <FontAwesomeIcon icon={faFileInvoice} className='mx-2' onClick={() => viewInvoice(book)} />
                                                                         </td>
                                                                     </tr>
                                                                 </>
@@ -249,8 +249,8 @@ function History() {
                                                                         <td>{book.final_amount}</td>
                                                                         <td>{book.payment_mode}</td>
                                                                         <td>
-                                                                            <button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} className='mx-2' />view</button>
-                                                                            {/* <button type='button' onClick={() => viewHistory(book)}><FontAwesomeIcon icon={faEye} className='mx-2'/>view</button> */}
+                                                                            <FontAwesomeIcon icon={faEye} style={{ color: '#241D60' }} className='mx-2' onClick={() => viewHistory(book)} />
+                                                                            <FontAwesomeIcon icon={faFileInvoice} className='mx-2' onClick={() => viewInvoice(book)} />
                                                                         </td>
                                                                     </tr>
                                                                 </>

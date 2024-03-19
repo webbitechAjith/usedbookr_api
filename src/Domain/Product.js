@@ -13,7 +13,7 @@ import { faArrowRight, faHeart, faBagShopping } from '@fortawesome/free-solid-sv
 import { useSelector, useDispatch } from 'react-redux';
 import { setallBookDetails, setUserIdShop, setUserIdLike } from '../Redux/CreateSlice';
 import { Link, useNavigate } from 'react-router-dom'
-import { addTocard_list, addTowhish_list, allbooks, megamenu_list, removeTocard_list } from '../Common/pages/apiBaseurl';
+import { addTocard_list, addTowhish_list, allbooks, megamenu_list, removeTocard_list, removeTolike_list } from '../Common/pages/apiBaseurl';
 
 function Product() {
 
@@ -38,7 +38,7 @@ function Product() {
     if (auth_login || auth_uesrlogin == true) {
       // Check if the product ID is in the likedProducts array
       if (userIdLike.some(data => data.id === id)) {
-        await removeTocard_list(id);
+        await removeTolike_list(id);
         window.location.reload();
       } else {
         const set_iddetails = await addTowhish_list(product);
@@ -72,11 +72,6 @@ function Product() {
     }
   }
 
-  const all_product = () => {
-    navigate('/Allproduct')
-  }
-
-
   const author_name = () => {
     navigate('/authors')
   }
@@ -104,8 +99,6 @@ function Product() {
     over_allbook();
     window.scrollTo(0, 0);
   }, []);
-  console.log(filterCategory)
-  console.log("ajith", filterBookCategory)
   return (
     <div className='product-section'>
       <Header />

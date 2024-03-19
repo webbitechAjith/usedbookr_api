@@ -122,7 +122,7 @@ function Authorname() {
                                             </h2>
                                             <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    {authorsDetails.slice(0, showAll ? authorsDetails.length : 1).map((items) => {
+                                                    {authorsDetails.slice(0, showAll ? authorsDetails.length : 2).map((items) => {
                                                         return (
                                                             <>
                                                                 <div className="mb-3 p-0 form-check">
@@ -176,13 +176,13 @@ function Authorname() {
 
                                             {authorsDetails.length > 0 ? (
                                                 <>
-                                                    {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 1).map((items, index) => (
+                                                    {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 3).map((items, index) => (
                                                         <div className="mb-3 p-0 form-check" key={index}>
                                                             <label className="form-check-label" htmlFor="exampleCheck1" onClick={()=>authorCheck(items.author)}>{items.author}</label>
                                                         </div>
                                                     ))}
                                                     {!showAll && (
-                                                        <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 1} More </span>
+                                                        <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 3} More </span>
                                                     )}
                                                     {showLess && (
                                                         <span className='text-primary hover' onClick={handleLessMore}>Less</span>

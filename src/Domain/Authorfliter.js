@@ -19,9 +19,10 @@ import { faArrowRight, faHeart, faBagShopping, faFilter } from '@fortawesome/fre
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setClass1Hide, setsingleProductView } from '../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setClass1Hide, setsingleProductView, setUserIdLike, setUserIdShop, setAuthorsDetails } from '../Redux/CreateSlice';
 import { Link, useNavigate } from 'react-router-dom'
 import Authorname from '../Common/pages/Authorname';
+import { addTocard_list, addTowhish_list, allbooks, authUser, removeTocard_list, removeTolike_list } from '../Common/pages/apiBaseurl';
 
 function Autherfliter() {
 
@@ -30,46 +31,49 @@ function Autherfliter() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-
-
   // like product click fn 
   const totallikes = likedProducts.map((data) => data.id);
-
-  const handleLikeClick = (product) => {
-    const isLikeds = product.id;
-    // Check if the product ID is in the likedProducts array
-    if (totallikes.includes(isLikeds)) {
-      // If it's already liked, remove it from the likedProducts array
-      dispatch(setLikedProducts(likedProducts.filter((likedProduct) => likedProduct.id !== isLikeds)));
-      dispatch(setlikescount(likescount - 1))
+  const handleLikeClick = async (product, id) => {
+    const auth_login = localStorage.getItem('usedbookrtoken')
+    const auth_uesrlogin = localStorage.getItem('isLoginAuth')
+    if (auth_login || auth_uesrlogin == true) {
+      // Check if the product ID is in the likedProducts array
+      if (userIdLike.some(data => data.id === id)) {
+        await removeTolike_list(id);
+        window.location.reload();
+      } else {
+        const set_iddetails = await addTowhish_list(product);
+        dispatch(setUserIdLike(set_iddetails))
+        window.location.reload();
+      }
     } else {
-      // If it's not liked, add it to the likedProducts array
-      dispatch(setLikedProducts([...likedProducts, product]));
-      dispatch(setlikescount(likescount + 1))
+      alert("Please login your account")
+      navigate('/login')
     }
-  };
+  }
 
   // shop product click fn 
   const totalshops = shopProducts.map((data) => data.id);
-
-  const handleShopClick = (product, id, price) => {
-    const isShops = product.id;
-    // Check if the product ID is in the likedProducts array
-    if (totalshops.includes(isShops)) {
-      // If it's already liked, remove it from the likedProducts array
-      dispatch(setShopProducts(shopProducts.filter((shopItems) => shopItems.id !== isShops)));
-      dispatch(setshopcount(shopcount - 1))
+  const handleShopClick = async (product, id, price) => {
+    const auth_login = localStorage.getItem('usedbookrtoken')
+    const auth_uesrlogin = localStorage.getItem('isLoginAuth')
+    if (auth_login || auth_uesrlogin == true) {
+      // Check if the product ID is in the likedProducts array
+      if (userIdShop.some(data => data.id === id)) {
+        await removeTocard_list(id);
+        window.location.reload();
+      } else {
+        const set_iddetails = await addTocard_list(product, 1);
+        dispatch(setUserIdShop(set_iddetails))
+        navigate('/Purchase');
+      }
     } else {
-      // If it's not liked, add it to the likedProducts array
-      // dispatch(setproductitemDetails([...product_item,{...data,id,amount:price,qty:1}]))
-      dispatch(setShopProducts([...shopProducts, { ...product, id, amount: price, qty: 1 }]));
-      dispatch(setshopcount(shopcount + 1))
+      alert("Please login your account")
+      navigate('/login')
     }
-  };
-  const all_product = () => {
-    navigate('/Allproduct')
   }
+
+
   const pass = (data) => {
     const updatedData = [data];
     dispatch(setproductIdDetails(updatedData))
@@ -82,13 +86,22 @@ function Autherfliter() {
     dispatch(setsingleProductView([allbookDetails[id]]))
     navigate('/Description')
   }
-
+  const all_authors = async () => {
+    const data = await authUser();
+    dispatch(setAuthorsDetails(data))
+  }
+  const all_books = async () => {
+    const data = await allbooks();
+    dispatch(setallBookDetails(data))
+  }
   const toggleAuthor = () => {
     setShowCategory(!showCategory);
   };
 
   useEffect(() => {
     dispatch(setClass1Hide(false))
+    all_authors()
+    all_books();
     window.scrollTo(0, 0);
   }, []);
 
@@ -115,7 +128,7 @@ function Autherfliter() {
                                 {book.author.toLowerCase() === authorsName.toLowerCase() ?
                                   <>
                                     <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
-                                      <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                      <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                         <div className='best-seller'>
                                           <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                           <span className='selles-offer'>offer 60%</span>
@@ -231,7 +244,7 @@ function Autherfliter() {
                                     {authorBookDetails.length > 0 ?
                                       <>
                                         <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
-                                          <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                          <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                             <div className='best-seller'>
                                               <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                               <span className='selles-offer'>offer 10%</span>
@@ -351,7 +364,7 @@ function Autherfliter() {
                               :
                               <>
                                 <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
-                                  <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                  <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                     <div className='best-seller'>
                                       <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                       <span className='selles-offer'>offer 60%</span>
@@ -492,7 +505,7 @@ function Autherfliter() {
                           {book.author.toLowerCase() === authorsName.toLowerCase() ?
                             <>
                               <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
-                                <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                   <div className='best-seller'>
                                     <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                     <span className='selles-offer'>offer 60%</span>
@@ -607,7 +620,7 @@ function Autherfliter() {
                               {authorBookDetails.length > 0 ?
                                 <>
                                   <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
-                                    <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                                    <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                       <div className='best-seller'>
                                         <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                         <span className='selles-offer'>offer 60%</span>
@@ -727,7 +740,7 @@ function Autherfliter() {
                         :
                         <>
                           <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
-                            <div className={totalshops.includes(book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative'}>
+                            <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                               <div className='best-seller'>
                                 <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
                                 <span className='selles-offer'>offer 60%</span>
