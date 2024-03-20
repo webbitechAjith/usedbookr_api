@@ -103,8 +103,8 @@ function Placeorder() {
 
                                             return (
                                                 <div className='row m-0 gy-2' key={data.id}>
-                                                    <div className='col-lg-6 col-12'>
-                                                        <img src={data.image} alt={data.title_long} />
+                                                    <div className='col-lg-6 col-12 text-center'>
+                                                        <img src={data.image} alt={data.title_long} style={{width:'200px',height:'350px',objectFit:'fill'}}/>
                                                     </div>
                                                     <div className='col-lg-6 col-12 description-details'>
                                                         <h1>{data.title_long}</h1>

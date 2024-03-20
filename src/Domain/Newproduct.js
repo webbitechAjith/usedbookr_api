@@ -171,7 +171,7 @@ function Newproduct() {
                                                                         .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
                                                                         .map((book) => (
                                                                             <>
-                                                                                <div className='col-lg-3 col-md-3 col-sm-4 col-6 mt-2 d-flex align-self-stretch '>
+                                                                                <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch '>
                                                                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                                                                         <div className='best-seller'>
                                                                                             <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' onClick={(id) => click_view(book)} />
@@ -304,7 +304,7 @@ function Newproduct() {
                                                                 .map((book) => {
                                                                     return (
                                                                         <>
-                                                                            <div className='col-lg-3 col-md-3 col-sm-4 col-6 mt-2 d-flex align-self-stretch' key={book.id}>
+                                                                            <div className='col-lg-3 col-md-4 col-sm-6 col-12 mt-2 d-flex align-self-stretch' key={book.id}>
                                                                                 <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                                                                     <div className='best-seller'>
                                                                                         <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' onClick={(id) => click_view(book)} />

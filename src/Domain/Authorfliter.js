@@ -28,6 +28,7 @@ function Autherfliter() {
 
   const { isLiked, isAdded, allbookDetails, userIdLike, userIdShop, authorBookDetails, likedProducts, likescount, shopProducts, shopcount, minPrice, priceFilter, filteredProducts, productIdDetails, searchfield, authorsName, authorsDetails } = useSelector((state) => state.usedbookr_product)
   const [showCategory, setShowCategory] = useState(false);
+  const [filterOption, setFilterOption] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -102,7 +103,10 @@ function Autherfliter() {
   }
   const toggleAuthor = () => {
     setShowCategory(!showCategory);
+    setFilterOption(!filterOption)
+
   };
+
 
   let totalBooks = 0;
   let booksToShow = [];
@@ -559,8 +563,6 @@ function Autherfliter() {
                     <>
                       <h1 className='text-center product-title'>No items</h1>
                     </>
-
-
                   }
 
                 </div>
@@ -569,9 +571,18 @@ function Autherfliter() {
           </div>
         </div>
         <div className='d-lg-none d-block'>
-          <div className='text-end d-lg-none d-block filter-category my-2'>
-            <button onClick={toggleAuthor}><FontAwesomeIcon icon={faFilter} style={{ color: '#FFF' }} className='mx-2' />filter</button>
-          </div>
+          {/* <div className='text-end d-lg-none d-block filter-category my-2'>
+            {filterOption ?
+              <>
+                <button onClick={toggleAuthor}><FontAwesomeIcon icon={faFilter} style={{ color: '#FFF' }} className='mx-2' />filter</button>
+              </>
+              :
+              <>
+                <button onClick={toggleAuthor}><FontAwesomeIcon icon={faFilter} style={{ color: '#FFF' }} className='mx-2' />filter</button>
+              </>
+            }
+          </div> */}
+          <Authorname />
           <div className='row m-0 bestseller py-3'>
             {allbookDetails.length > 0 && searchfield ?
               <>

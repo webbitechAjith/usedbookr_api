@@ -22,6 +22,7 @@ function Authorname() {
     const [topDetails, setTopDetails] = useState(0); // Initial value
     const [outDoor, setoutDoor] = useState(0); // Initial value
     const [filterOption, setFilterOption] = useState(false);
+    const [showCategory, setShowCategory] = useState(false);
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
 
@@ -37,11 +38,8 @@ function Authorname() {
         setShowAll(!showAll);
     };
     const filter = () => {
-        if (filterOption == false) {
-            setFilterOption(true)
-        } else {
-            setFilterOption(false)
-        }
+        setFilterOption(!filterOption)
+        setShowCategory(!showCategory);
     }
     const handleChange = async (event) => {
         try {
@@ -77,9 +75,10 @@ function Authorname() {
             console.error('Error fetching data:', error);
         }
     };
-    const authorCheck =(dataName) =>{
+    const authorCheck = (dataName) => {
         dispatch(setAuthorsName(dataName))
     }
+    console.log(filterOption)
     return (
         <>
             <aside className='my-lg-5 my-2'>
@@ -97,20 +96,22 @@ function Authorname() {
                 }
                 {filterOption ?
                     <>
-                        <div className='aside-section fixed-filter'>
-                            <div className=''>
-                                <div className='text-end d-lg-none d-block filter-category my-2'>
-                                    <button onClick={filter}><FontAwesomeIcon icon={faClose} style={{ color: '#FFF' }} className='mx-2' /></button>
+
+                        <div className='aside-section'>
+                            <div className={`offcanvas offcanvas-start ${showCategory ? 'show overflow-auto w-100' : ''}`} tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                                <div className="offcanvas-header">
+                                    {/* <button className='filter-search'>Search</button> */}
+                                    <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" onClick={filter}></button>
+                                </div>
+                                <div className='author-search'>
+                                    <label>Search by author name</label>
+                                    <div class="form-group has-search">
+                                        <FontAwesomeIcon icon={faSearch} className='form-control-feedback' />
+                                        {/* <span class="fa fa-search form-control-feedback"></span> */}
+                                        {authorsName.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder='search author name' onChange={handleChange} /></>}
+                                    </div>
                                 </div>
                                 <div className="accordion" id="accordionExample">
-                                    <div className='author-search w-75 mx-auto rounded'>
-                                        <label>Search by author name</label>
-                                        <div class="form-group has-search">
-                                            <FontAwesomeIcon icon={faSearch} className='form-control-feedback' />
-                                            {/* <span class="fa fa-search form-control-feedback"></span> */}
-                                            {authorsName.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder="search authorsName" onChange={(val) => { dispatch(setAuthorsName({ searchItem: val.target.value })); handleChange(val) }} /></>}
-                                        </div>
-                                    </div>
                                     <hr className='m-0' />
                                     <div className="accordion-item border-0">
                                         <div className="accordion-item border-0">
@@ -121,93 +122,102 @@ function Authorname() {
                                             </h2>
                                             <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
-                                                    {authorsDetails.slice(0, showAll ? authorsDetails.length : 2).map((items) => {
-                                                        return (
-                                                            <>
-                                                                <div className="mb-3 p-0 form-check">
-                                                                    <label className="form-check-label" for="exampleCheck1">{items.author}</label>
-                                                                </div>
-                                                            </>
-                                                        )
 
-                                                    })}
-                                                    {!showAll && (
-                                                        <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 1} More </span>
-                                                    )}
-                                                    {showLess && (
-                                                        <span className='text-primary hover' onClick={handleLessMore}>Less</span>
+                                                    {authorsDetails.length > 0 ? (
+                                                        <>
+                                                            {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 3).map((items, index) => (
+                                                                <div className="mb-3 p-0 form-check" key={index}>
+                                                                    <label className="form-check-label" htmlFor="exampleCheck1" onClick={() => authorCheck(items.author)}>{items.author}</label>
+                                                                </div>
+                                                            ))}
+                                                            {!showAll && (
+                                                                <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 3} More </span>
+                                                            )}
+                                                            {showLess && (
+                                                                <span className='text-primary hover' onClick={handleLessMore}>Less</span>
+                                                            )}
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <div className="mb-3 p-0 form-check">
+                                                                <label className="form-check-label" htmlFor="exampleCheck1">NO author</label>
+                                                            </div>
+                                                            {!showAll && (
+                                                                <span className='text-primary hover'>Total - {authorsDetails.length}</span>
+                                                            )}
+                                                        </>
                                                     )}
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
 
+                        </>
+                        :
+                        <>
+
+                        </>
+                }
+                        <div className='d-lg-block d-none'>
+                            <div className='aside-section'>
+                                <div className='author-search'>
+                                    <label>Search by author name</label>
+                                    <div class="form-group has-search">
+                                        <FontAwesomeIcon icon={faSearch} className='form-control-feedback' />
+                                        {/* <span class="fa fa-search form-control-feedback"></span> */}
+                                        {authorsName.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder='search author name' onChange={handleChange} /></>}
+                                    </div>
+                                </div>
+                                <div className="accordion" id="accordionExample">
+                                    <hr className='m-0' />
+                                    <div className="accordion-item border-0">
+                                        <div className="accordion-item border-0">
+                                            <h2 className="accordion-header">
+                                                <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <b>Famous Authors</b>
+                                                </button>
+                                            </h2>
+                                            <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                                <div className="accordion-body">
+
+                                                    {authorsDetails.length > 0 ? (
+                                                        <>
+                                                            {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 3).map((items, index) => (
+                                                                <div className="mb-3 p-0 form-check" key={index}>
+                                                                    <label className="form-check-label" htmlFor="exampleCheck1" onClick={() => authorCheck(items.author)}>{items.author}</label>
+                                                                </div>
+                                                            ))}
+                                                            {!showAll && (
+                                                                <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 3} More </span>
+                                                            )}
+                                                            {showLess && (
+                                                                <span className='text-primary hover' onClick={handleLessMore}>Less</span>
+                                                            )}
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <div className="mb-3 p-0 form-check">
+                                                                <label className="form-check-label" htmlFor="exampleCheck1">NO author</label>
+                                                            </div>
+                                                            {!showAll && (
+                                                                <span className='text-primary hover'>Total - {authorsDetails.length}</span>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </aside>
+            </>
 
-                    </>
-                    :
-                    <>
-                    </>
-                }
-                <div className='d-lg-block d-none'>
-                    <div className='aside-section'>
-                        <div className='author-search'>
-                            <label>Search by author name</label>
-                            <div class="form-group has-search">
-                                <FontAwesomeIcon icon={faSearch} className='form-control-feedback' />
-                                {/* <span class="fa fa-search form-control-feedback"></span> */}
-                                {authorsName.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder='search author name' onChange={handleChange} /></>}
-                            </div>
-                        </div>
-                        <div className="accordion" id="accordionExample">
-                            <hr className='m-0' />
-                            <div className="accordion-item border-0">
-                                <div className="accordion-item border-0">
-                                    <h2 className="accordion-header">
-                                        <button className="accordion-button collapsed btn-option" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseTwo">
-                                            <b>Famous Authors</b>
-                                        </button>
-                                    </h2>
-                                    <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                        <div className="accordion-body">
-
-                                            {authorsDetails.length > 0 ? (
-                                                <>
-                                                    {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 3).map((items, index) => (
-                                                        <div className="mb-3 p-0 form-check" key={index}>
-                                                            <label className="form-check-label" htmlFor="exampleCheck1" onClick={()=>authorCheck(items.author)}>{items.author}</label>
-                                                        </div>
-                                                    ))}
-                                                    {!showAll && (
-                                                        <span className='text-primary hover' onClick={handleShowMore}>{authorsDetails.length - 3} More </span>
-                                                    )}
-                                                    {showLess && (
-                                                        <span className='text-primary hover' onClick={handleLessMore}>Less</span>
-                                                    )}
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <div className="mb-3 p-0 form-check">
-                                                        <label className="form-check-label" htmlFor="exampleCheck1">NO author</label>
-                                                    </div>
-                                                    {!showAll && (
-                                                        <span className='text-primary hover'>Total - {authorsDetails.length}</span>
-                                                    )}
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-        </>
-
-    )
+            )
 }
 
-export default Authorname
+            export default Authorname
