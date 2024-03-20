@@ -89,10 +89,6 @@ function Autherfliter() {
   const author_name = () => {
     navigate('/authors')
   }
-  const click_view = (id) => {
-    dispatch(setsingleProductView([allbookDetails[id]]))
-    navigate('/Description')
-  }
   const all_authors = async () => {
     const data = await authUser();
     dispatch(setAuthorsDetails(data))
@@ -100,6 +96,9 @@ function Autherfliter() {
   const all_books = async () => {
     const data = await allbooks();
     dispatch(setallBookDetails(data))
+  }
+  const click_view = async (book) => {
+    navigate(`/Description/${book.id}`, { state: book })
   }
   const toggleAuthor = () => {
     setShowCategory(!showCategory);
@@ -157,7 +156,7 @@ function Autherfliter() {
                                       <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
                                         <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                           <div className='best-seller'>
-                                            <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                            <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0' onClick={(id) => click_view(book)} />
                                             <span className='selles-offer'>offer {book.discount} %</span>
 
                                             {userIdLike && userIdLike?.length > 0 ? (
@@ -207,7 +206,7 @@ function Autherfliter() {
                                             )
                                             }
                                             <div className='book-details p-3'>
-                                              <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 10)}...</h1>
+                                              <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 10)}...</h1>
                                               {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                               <div className='d-flex '>
                                                 <div className='rate-details'>
@@ -274,7 +273,7 @@ function Autherfliter() {
                                           <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
                                             <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                               <div className='best-seller'>
-                                                <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                                <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' onClick={(id) => click_view(book)} />
                                                 <span className='selles-offer'>offer 10%</span>
                                                 {userIdLike && userIdLike?.length > 0 ? (
                                                   <>
@@ -324,7 +323,7 @@ function Autherfliter() {
                                                 }
 
                                                 <div className='book-details p-3'>
-                                                  <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 10)}...</h1>
+                                                  <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 10)}...</h1>
                                                   {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                                   <div className='d-flex '>
                                                     <div className='rate-details'>
@@ -394,7 +393,7 @@ function Autherfliter() {
                                   <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                       <div className='best-seller'>
-                                        <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                        <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' onClick={(id) => click_view(book)} />
                                         <span className='selles-offer'>offer  {book.discount}%</span>
 
                                         {userIdLike && userIdLike?.length > 0 ? (
@@ -444,7 +443,7 @@ function Autherfliter() {
                                         )
                                         }
                                         <div className='book-details p-3'>
-                                          <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 15)}...</h1>
+                                          <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 15)}...</h1>
                                           {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                           <div className='d-flex '>
                                             <div className='rate-details'>
@@ -586,7 +585,7 @@ function Autherfliter() {
                               <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
                                 <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                   <div className='best-seller'>
-                                    <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                    <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' onClick={(id) => click_view(book)} />
                                     <span className='selles-offer'>offer {book.discount}%</span>
                                     {userIdLike && userIdLike?.length > 0 ? (
                                       <>
@@ -635,7 +634,7 @@ function Autherfliter() {
                                     )
                                     }
                                     <div className='book-details p-3'>
-                                      <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                                      <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 35)}...</h1>
                                       {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                       <div className='d-flex '>
                                         <div className='rate-details'>
@@ -701,7 +700,7 @@ function Autherfliter() {
                                   <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                       <div className='best-seller'>
-                                        <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                        <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' onClick={(id) => click_view(book)} />
                                         <span className='selles-offer'>offer {book.discount}%</span>
 
                                         {userIdLike && userIdLike?.length > 0 ? (
@@ -751,7 +750,7 @@ function Autherfliter() {
                                         )
                                         }
                                         <div className='book-details p-3'>
-                                          <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                                          <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 35)}...</h1>
                                           {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                           <div className='d-flex '>
                                             <div className='rate-details'>
@@ -821,7 +820,7 @@ function Autherfliter() {
                           <div className='col-lg-3 col-md-4 col-sm-6 col-12 pb-2 d-flex align-self-stretch py-0'>
                             <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                               <div className='best-seller'>
-                                <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' />
+                                <img src={book.image} height='300px' className='w-100 p-lg-4 p-md-2 p-0' onClick={(id) => click_view(book)} />
                                 <span className='selles-offer'>offer {book.discount}%</span>
 
                                 {userIdLike && userIdLike?.length > 0 ? (
@@ -871,7 +870,7 @@ function Autherfliter() {
                                 )
                                 }
                                 <div className='book-details p-3'>
-                                  <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 35)}...</h1>
+                                  <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 35)}...</h1>
                                   {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
                                   <div className='d-flex '>
                                     <div className='rate-details'>
