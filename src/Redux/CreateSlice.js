@@ -49,7 +49,7 @@ export const CrateSlice = createSlice({
         authorsName : '',
         categoryBook : [],
         subCategoryBook:'',
-        singleProductPrice : '',
+        singleProductPrice : [],
         clickauthorName : '',
         filterCategory:[],
         navListDetails:'',

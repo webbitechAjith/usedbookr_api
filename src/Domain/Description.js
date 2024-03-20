@@ -117,7 +117,9 @@ function Description() {
     };
 
     const priceCheck = (data) => {
-        dispatch(setSingleProductPrice(data.price))
+        const { type, price } = data;
+        // dispatch(setSingleProductPrice(data.price))
+        dispatch(setSingleProductPrice({ type: data.bindings, price: data.price }))
         console.log(singleProductView)
     }
 
@@ -148,7 +150,7 @@ function Description() {
         click_view(Singlebookid);
         window.scrollTo(0, 0);
     }, []);
-    
+    console.log(singleProductPrice)
     return (
         <div className='description-section'>
             <Header />
@@ -175,10 +177,11 @@ function Description() {
                                                 fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                 readonly={true}
                                             />
-                                            <span className='review'>Reviews</span>
+                                            <span className='review'>Reviewss</span>
                                             <br />
-                                            <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
-                                            <button className='sales-offer'>{data.discount}% offer</button>
+                                            <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                            <button className='sales-offer'>{data.discount}% offer</button><br />
+                                            <span className='price pe-2'>Bindind Type : {singleProductPrice ? <>{singleProductPrice.type}</> : <></>}</span>
                                             <h4 className='cate my-2'>Category:<span className='ms-2'>{data.category_id[0].name}</span></h4>
                                             <hr />
                                             <p>{data.synopsis}</p>
@@ -186,8 +189,11 @@ function Description() {
                                                 <>
                                                     <div className='condition-level my-3'>
                                                         <h1><span>Binding type</span></h1>
-                                                        {data.varient.map((variantData) => (
+                                                        {/* {data.varient.map((variantData) => (
                                                             <button key={variantData.id} className='very ms-2'>{variantData.bindings}</button>
+                                                        ))} */}
+                                                        {Array.from(new Set(data.varient.map((variantData) => variantData.bindings))).map((binding, index) => (
+                                                            <button key={index} className='very ms-2'>{binding}</button>
                                                         ))}
                                                     </div>
                                                     <div className='condition-level my-3'>
@@ -281,9 +287,9 @@ function Description() {
                                         />
                                         <span className='review'>4 Reviews</span>
                                         <br />
-                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                                        <button className='sales-offer'>50% off</button>
-                                        <div className='cate my-4'><b>Category</b> :<span className='ms-2'>{data.category_id[0].name}</span></div>
+                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                        <button className='sales-offer'>{data.discount}% offer</button><br />
+                                        <span className='price pe-2'>Bindind Type : {singleProductPrice ? <>{singleProductPrice.type}</> : <></>}</span>
                                         <hr />
                                         <p>{data.synopsis}</p>
 
@@ -399,8 +405,9 @@ function Description() {
                                         />
                                         <span className='review'>4 Reviews</span>
                                         <br />
-                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.original_price}</>}</span><span className='text-decoration-line-through rate'>AED 20.99</span>
-                                        <button className='sales-offer'>50% off</button>
+                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                        <button className='sales-offer'>{data.discount}% offer</button><br />
+                                        <span className='price pe-2'>Bindind Type : {singleProductPrice ? <>{singleProductPrice.type}</> : <></>}</span>
                                         <hr />
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis nunc a molestie dictum. Mauris venenatis, felis scelerisque aliquet lacinia, nulla nisi venenatis odio, id blandit mauris ipsum id sapien.</p>
                                         <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>

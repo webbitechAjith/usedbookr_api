@@ -9,7 +9,7 @@ import Rating from 'react-rating';
 import '../assets/css/main.css'
 
 
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleProductView, settotallikes, setCategoryBook, setUserIdShop, setUserIdLike } from '../../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleProductView, settotallikes, setCategoryBook, setUserIdShop, setUserIdLike, setAuthorsName } from '../../Redux/CreateSlice';
 
 // function call 
 
@@ -76,7 +76,8 @@ const Allbooks = () => {
             navigate('/login')
         }
     }
-    const author_name = () => {
+    const author_name = (name) => {
+        dispatch(setAuthorsName(name))
         navigate('/authors')
     }
     const click_view = async(book) => {
@@ -185,7 +186,7 @@ const Allbooks = () => {
                                             }
                                             <div className='book-details px-3'>
                                                 <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
                                                 <div className='d-flex '>
                                                     <div className='rate-details'>
                                                         <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR{book.original_price}</span><br />

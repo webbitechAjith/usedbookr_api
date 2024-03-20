@@ -27,7 +27,6 @@ function Historybook() {
     const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
     const handleShows = (data) => {
-        console.log(data)
         dispatch(setReviewDetails({ book_id: data.id, rating: '', review: '' }))
         setShow(true)
     }
@@ -41,7 +40,9 @@ function Historybook() {
     const params = useParams();
 
     const reviewUpdate = async (reviewDetails) => {
-        const review = await reviewRating(reviewDetails)
+        console.log(reviewDetails)
+        const review = await reviewRating(reviewDetails);
+        console.log(18181,review)
         if (review.message) {
             alert("Review Successfully");
             handleClose(); // Close the modal after submission
@@ -80,8 +81,8 @@ function Historybook() {
     useEffect(() => {
         orderDetails();
         viewHistory(params.id)
-
     }, []);
+    console.log(11122,reviewDetails)
     return (
         <div>
             <Header />
@@ -155,8 +156,8 @@ function Historybook() {
                                                                         <h4 className='finish'>{item.status}</h4>
                                                                     </div>
                                                                     <div className='col-2 d-flex align-items-center'>
-                                                                        <Button variant="success" onClick={() => handleShows(data)}>
-                                                                            Write Review
+                                                                        <Button variant="success" onClick={() => handleShows(matchingBook)}>
+                                                                            Write Reviews
                                                                         </Button>
                                                                     </div>
                                                                     <hr />
@@ -219,7 +220,7 @@ function Historybook() {
                                                                 <h4 className='finish'>{item.status}</h4>
                                                             </div>
                                                             <div className='col-2 d-flex align-items-center'>
-                                                                <Button variant="success" onClick={() => handleShows(data)}>
+                                                                <Button variant="success" onClick={() => handleShows(matchingBook)}>
                                                                     Write Review
                                                                 </Button>
                                                             </div>
@@ -262,7 +263,7 @@ function Historybook() {
                                                             <div className='col-sm-4 col-6 pt-5'>
                                                                 <img src={matchingBook.image} alt={matchingBook.title_long.slice(0, 10)} className='w-100' />
                                                                 <div className='text-center my-2'>
-                                                                    <Button variant="success" onClick={() => handleShows(data)}>
+                                                                    <Button variant="success" onClick={() => handleShows(matchingBook)}>
                                                                         Write Review
                                                                     </Button>
                                                                 </div>
@@ -330,7 +331,7 @@ function Historybook() {
                                                                     className='w-50'
                                                                 />
                                                                 <div className='text-center my-2'>
-                                                                    <Button variant='success' onClick={() => handleShows(data)}>
+                                                                    <Button variant='success' onClick={() => handleShows(matchingBook)}>
                                                                         Write Review
                                                                     </Button>
                                                                 </div>

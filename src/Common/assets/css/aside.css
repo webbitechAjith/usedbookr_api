@@ -422,9 +422,8 @@
     padding: 20px 0px;
     animation: swip_down .5s linear 1;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
-    z-index: 1210;
+    z-index: 0;
     border-radius: 0px;
-    z-index: 1210;
   }
 
   .user-icons ul {

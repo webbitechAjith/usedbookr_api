@@ -133,7 +133,7 @@ function Autherfliter() {
 
   }, []);
 
-
+  console.log("auth",authorsName)
   return (
     <div className='product-section'>
       <Header />

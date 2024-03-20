@@ -100,7 +100,8 @@ function Purchase() {
             })
         }
     }
-
+    const formattedTotalPrice = totalPrice + 60;
+    const formatToatl = formattedTotalPrice.toLocaleString()
     const click_view = (book) => {
         // dispatch(setsingleProductView([allbookDetails[index]]))
         navigate(`/Description/${book.id}`, { state: book })
@@ -163,7 +164,7 @@ function Purchase() {
                                                                         <span>
                                                                             {match.quantity > 1 ? <><button onClick={() => itemDecrement(data)}>-</button></> : <><button type='button'>-</button></>}
                                                                             <a className='mx-2 text-decoration-none'>{match.quantity}</a>
-                                                                            <button onClick={() => itemIncrement(data)}>+</button>
+                                                                            {match.quantity < 2 ? <><button onClick={() => itemIncrement(data)}>+</button></> : <><button type='button'>+</button></>}
                                                                         </span>
                                                                     </td>
                                                                     <td className='py-5 text-start'>
@@ -246,7 +247,7 @@ function Purchase() {
                                                 <h3 className=''>Total :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{totalPrice + 60}</h3>
+                                                <h3 className=''>{formatToatl}</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>
@@ -306,7 +307,7 @@ function Purchase() {
                                                                         <span>
                                                                             {match.quantity > 1 ? <><button onClick={() => itemDecrement(data)}>-</button></> : <><button type='button'>-</button></>}
                                                                             <a className='mx-2 text-decoration-none'>{match.quantity}</a>
-                                                                            <button onClick={() => itemIncrement(data)}>+</button>
+                                                                            {match.quantity < 2 ? <><button onClick={() => itemIncrement(data)}>+</button></> : <><button type='button'>+</button></>}
                                                                         </span>
                                                                     </td>
                                                                     <td className='py-5 text-start'>
@@ -380,7 +381,7 @@ function Purchase() {
                                                     <h6 className=''>Shipping :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6 className=''>Free</h6>
+                                                    <h6 className=''>60</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -389,7 +390,7 @@ function Purchase() {
                                                 <h3 className=''>Total :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{totalPrice}</h3>
+                                                <h3 className=''>{formatToatl}</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>
@@ -432,7 +433,7 @@ function Purchase() {
                                                                         <span>
                                                                             {match.quantity > 1 ? <><button onClick={() => itemDecrement(data)}>-</button></> : <><button type='button'>-</button></>}
                                                                             <a className='mx-2 text-decoration-none'>{match.quantity}</a>
-                                                                            <button onClick={() => itemIncrement(data)}>+</button>
+                                                                            {match.quantity < 2 ? <><button onClick={() => itemIncrement(data)}>+</button></> : <><button type='button'>+</button></>}
                                                                         </span>
                                                                     </div>
                                                                     <Rating
@@ -509,7 +510,7 @@ function Purchase() {
                                                     <h6 className=''>Shipping :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6 className=''>Free</h6>
+                                                    <h6 className=''>60</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -518,7 +519,7 @@ function Purchase() {
                                                 <h3 className=''>Total :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{totalPrice}</h3>
+                                                <h3 className=''>{formatToatl}</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>

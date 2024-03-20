@@ -183,7 +183,7 @@ function Authorname() {
                                             <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                 <div className="accordion-body">
 
-                                                    {authorsDetails.length > 0 ? (
+                                                    {authorsDetails?.length > 0 ? (
                                                         <>
                                                             {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 3).map((items, index) => (
                                                                 <div className="mb-3 p-0 form-check" key={index}>
@@ -203,7 +203,7 @@ function Authorname() {
                                                                 <label className="form-check-label" htmlFor="exampleCheck1">NO author</label>
                                                             </div>
                                                             {!showAll && (
-                                                                <span className='text-primary hover'>Total - {authorsDetails.length}</span>
+                                                                <span className='text-primary hover'>Total - {authorsDetails?.length}</span>
                                                             )}
                                                         </>
                                                     )}
