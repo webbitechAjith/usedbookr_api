@@ -44,9 +44,9 @@ function Forgetpassword() {
         <>
             <Header />
             <div className='login-section login-page'>
-                <div className='d-lg-block d-none'>
+                <div className='d-lg-block d-none w-75 mx-auto'>
                     <div className='row m-0 p-3 align-items-stretch position-relative'>
-                        <div className='col-lg-4 col-md-4 col-12 '>
+                        <div className='col-lg-6 col-md-4 col-12 p-0'>
                             <div className='input-section'>
                                 <h4>Forgetpassword</h4>
                                 <h5>You can <span className='register-hover' onClick={login}>Login !</span></h5>
@@ -103,9 +103,8 @@ function Forgetpassword() {
 
                             </div>
                         </div>
-                        <div className='col-lg-8 col-md-8 col-12 bg-color p-4 text-center mt-lg-0 mt-5'>
-                            {/* <h5 className='text-lg-end text-md-end text-center phone_number'><FontAwesomeIcon icon={faPhone} style={{ color: "#fafafa", }} className='px-2' /> +971 5 65015231</h5> */}
-                            <img src={loginImg} className='w-75 ' />
+                        <div className='col-lg-6 col-md-12 col-12 bg-color p-4 text-center mt-lg-0'>
+                            <img src={loginImg} className='h-100 w-50' />
                         </div>
                     </div>
                 </div>

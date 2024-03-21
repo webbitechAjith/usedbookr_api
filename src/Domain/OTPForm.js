@@ -80,10 +80,10 @@ const OTPForm = () => {
     return (
         <>
             <Header />
-            <div className='d-lg-block d-none'>
+            <div className='d-lg-block d-none w-75 mx-auto'>
                 <div className='login-section register-section otp-form'>
-                    <div className='row m-0 p-3 align-items-stretch position-relative'>
-                        <div className='col-lg-4 col-md-12 col-12'>
+                    <div className='row m-0 p-5 align-items-stretch'>
+                        <div className='col-lg-6 col-md-12 col-12 p-0'>
                             <div className='input-section'>
                                 <h4>OTP Form</h4>
                                 <p>Enter the OTP sent to your mobile number or email address:</p>
@@ -124,8 +124,8 @@ const OTPForm = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-8 bg-color p-4 text-center mt-lg-0 mt-5'>
-                            <img src={loginImg} className='w-75' />
+                        <div className='col-lg-6 col-md-12 col-12 bg-color p-4 text-center mt-lg-0'>
+                            <img src={loginImg} className='h-75 w-50' />
                         </div>
                     </div>
                 </div>
