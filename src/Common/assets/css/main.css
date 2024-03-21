@@ -403,9 +403,9 @@ body {
 /* product-list css start  */
 .product-title {
     color: #1A1A1A;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 600;
-    line-height: 50px;
+    line-height: 45px !important;
 }
 
 .view-all {
@@ -668,30 +668,30 @@ body {
 
 .book-details h1 {
     color: #4D4D4D;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 28px;
+    line-height: 26px !important;
 }
 
 .book-details h5 {
     color: #6E6E6E;
     font-size: 14px;
     font-weight: 400;
-    line-height: 24px;
+    line-height: 15px !important;
 }
 
 .book-details .rate-details .new-rate {
     color: #1A1A1A;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 500;
-    line-height: 28px;
+    line-height: 20px !important;
 }
 
 .book-details .rate-details .old-rate {
     color: #999;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 400;
-    line-height: 28px;
+    line-height: 20px !important;
     /* text-decoration-line: strikethrough; */
     text-decoration: line-through;
 }

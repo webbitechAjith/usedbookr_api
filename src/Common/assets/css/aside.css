@@ -149,6 +149,12 @@
   font-size: 16px !important;
 }
 
+.author-active{
+  color: #241D60 !important;
+  font-size: 14px;
+  font-weight: 600 !important;
+  line-height: 24px;
+}
 
 @keyframes swip_down {
   from {

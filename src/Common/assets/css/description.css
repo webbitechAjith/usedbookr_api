@@ -5,7 +5,7 @@
 .buynow {
     margin-top: 30px;
     margin-left: 20px;
-    padding: 10px 50px;
+    padding: 10px 30px;
     border-radius: 43px;
     background: #241D60;
     border: none;
@@ -49,14 +49,26 @@
 }
 
 .condition-level .very {
-    padding: 5px 25px;
+    padding: 5px 20px;
     border-radius: 5px;
     background: #241D60;
+    border: none;
     color: #FFF;
     text-align: center;
     font-size: 16px;
     font-weight: 500;
-    line-height: 26px !important;
+    line-height: 20px !important;
+}
+.condition-level .checkvery {
+    padding: 5px 20px;
+    border-radius: 5px;
+    background: #FFD731;
+    color: #000;
+    border: none;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px !important;
 }
 
 .condition-level .good {
@@ -104,16 +116,17 @@
 
 .description-details .price {
     color: #056839;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
-    line-height: 30px;
+    line-height: 25px !important;
 }
 
 .description-details .rate {
     color: #B3B3B3;
     font-size: 18px;
     font-weight: 400;
-    line-height: 28px;
+    line-height: 25px;
+    line-height: 20px !important;
     text-decoration-line: strikethrough;
 }
 
@@ -171,7 +184,7 @@
 
 .shop-card {
     margin-left: 10px;
-    padding: 10px 50px;
+    padding: 10px 30px;
     border-radius: 43px;
     background: var(--Btn3, #FFD731);
     border: none;
@@ -194,16 +207,16 @@
 
 .cate {
     color: #1A1A1A;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
-    line-height: 30px !important;
+    line-height: 25px !important;
 }
 
 .cate span {
     color: #808080;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 30px !important;
+    line-height: 25px !important;
 }
 
 .icon-plant {
@@ -469,7 +482,7 @@
     }
 
     .condition-level .very {
-        padding: 10px 5px;
+        padding: 5px 20px;
     }
 
     .shop-card {

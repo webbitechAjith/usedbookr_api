@@ -208,12 +208,12 @@ function Product() {
                                               )
                                               }
                                               <div className='book-details p-1'>
-                                                <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
-                                                <h5>{book.category_id[0].name}</h5>
+                                                <h1 className='w-100 mb-1' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 15)}...</h1>
+                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary mb-1' title={book.author} style={{cursor:'pointer'}} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
+                                                {/* <h5>{book.category_id[0].name}</h5> */}
                                                 <div className='d-flex '>
                                                   <div className='rate-details'>
-                                                    <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR {book.original_price}</span><br />
+                                                    <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                                     <Rating
                                                       initialRating={book.avg_rating}
                                                       emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -340,12 +340,12 @@ function Product() {
                                             )
                                             }
                                             <div className='book-details p-1'>
-                                              <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                              {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
-                                              <h5>{book.category_id[0].name}</h5>
+                                              <h1 className='w-100 mb-1' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 15)}...</h1>
+                                              {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary mb-1' title={book.author} style={{cursor:'pointer'}} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
+                                              {/* <h5>{book.category_id[0].name}</h5> */}
                                               <div className='d-flex '>
                                                 <div className='rate-details'>
-                                                  <span className='new-rate'>₹ {book.selling_price}</span> <span className='ps-2 old-rate'>₹ {book.original_price}</span><br />
+                                                  <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                                   <Rating
                                                     initialRating={book.avg_rating}
                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -489,12 +489,12 @@ function Product() {
                                           )
                                           }
                                           <div className='book-details p-1'>
-                                            <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                            {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
-                                            <h5>{book.category_id[0].name}</h5>
+                                            <h1 className='w-100 mb-1' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 15)}...</h1>
+                                            {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary mb-1' title={book.author} style={{cursor:'pointer'}} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
+                                            {/* <h5>{book.category_id[0].name}</h5> */}
                                             <div className='d-flex '>
                                               <div className='rate-details'>
-                                                <span className='new-rate'>₹{book.original_price}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                                 <Rating
                                                   initialRating={book.avg_rating}
                                                   emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -722,12 +722,12 @@ function Product() {
                                       )
                                       }
                                       <div className='book-details p-1'>
-                                        <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                        {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
-                                        <h5>{book.category_id[0].name}</h5>
+                                        <h1 className='w-100 mb-1' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 15)}...</h1>
+                                        {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary mb-1' title={book.author} style={{cursor:'pointer'}} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
+                                        {/* <h5>{book.category_id[0].name}</h5> */}
                                         <div className='d-flex '>
                                           <div className='rate-details'>
-                                            <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR {book.original_price}</span><br />
+                                            <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                             <Rating
                                               initialRating={book.avg_rating}
                                               emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}

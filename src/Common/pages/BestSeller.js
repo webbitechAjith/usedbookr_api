@@ -124,7 +124,7 @@ const BestSeller = () => {
     }, []);
     const MemoizedOwlCarousel = React.memo(OwlCarousel);
     return (
-        <div className='py-lg-5 py-4 bestseller'>
+        <div className='py-3 bestseller'>
             <MemoizedOwlCarousel className="owl-theme" {...owlOption}>
                 {allbookDetails.length < 0 ?
                     <>
@@ -193,11 +193,11 @@ const BestSeller = () => {
                                             )
                                             }
                                             <div className='book-details px-3'>
-                                                <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
+                                                <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 15)}...</h1>
+                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{ cursor: 'pointer' }}>{book.author.slice(0, 10)}</h5></>}
                                                 <div className='d-flex '>
                                                     <div className='rate-details'>
-                                                        <span className='new-rate'>₹{book.selling_price}</span> <span className='ps-2 old-rate'>₹ {book.original_price}</span><br />
+                                                        <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                                         <Rating
                                                             initialRating={book.avg_rating}
                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}

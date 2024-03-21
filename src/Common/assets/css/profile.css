@@ -397,6 +397,11 @@ thead th {
     line-height: 26px !important;
 }
 
+.purchase-section table thead tr th{
+    background: aliceblue !important;
+    color: #000 !important;
+}
+
 /* puechase css end  */
 
 @media only screen and (min-width: 767px) and (max-width: 992px) {

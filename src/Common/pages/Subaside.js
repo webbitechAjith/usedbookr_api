@@ -37,8 +37,7 @@ function Subaside() {
     const location = useLocation();
     const params = useParams();
     const childcategorysss = location.state.name
-    console.log("ajith", childcategorysss)
-    console.log("kumar", megaMenu)
+
     const handleShowMore = () => {
         setShowAll(!showAll);
         setShowLess(!showLess)

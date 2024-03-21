@@ -168,7 +168,7 @@ function Authorname() {
                                     <div class="form-group has-search">
                                         <FontAwesomeIcon icon={faSearch} className='form-control-feedback' />
                                         {/* <span class="fa fa-search form-control-feedback"></span> */}
-                                        {authorsName.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder='search author name' onChange={handleChange} /></>}
+                                        {authorsName?.length > 0 ? <><input type="text" class="form-control" value={authorsName} onChange={handleChange} /></> : <><input type="text" class="form-control" placeholder='search author name' onChange={handleChange} /></>}
                                     </div>
                                 </div>
                                 <div className="accordion" id="accordionExample">
@@ -187,7 +187,7 @@ function Authorname() {
                                                         <>
                                                             {Array.isArray(authorsDetails) && authorsDetails.slice(0, showAll ? authorsDetails.length : 3).map((items, index) => (
                                                                 <div className="mb-3 p-0 form-check" key={index}>
-                                                                    <label className="form-check-label" htmlFor="exampleCheck1" onClick={() => authorCheck(items.author)}>{items.author}</label>
+                                                                    <label className={authorsName == items.author ? 'author-active form-check-label' : 'author-inactive form-check-label'} htmlFor="exampleCheck1"  onClick={() => authorCheck(items.author)}>{items.author}</label>
                                                                 </div>
                                                             ))}
                                                             {!showAll && (

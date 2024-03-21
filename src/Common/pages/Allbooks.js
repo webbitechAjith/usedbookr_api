@@ -122,7 +122,7 @@ const Allbooks = () => {
     }, []);
     const MemoizedOwlCarousel = React.memo(OwlCarousel);
     return (
-        <div className='py-lg-5 py-4 bestseller'>
+        <div className='py-4 bestseller'>
             <MemoizedOwlCarousel className="owl-theme" {...owlOption}>
                 {allbookDetails.length < 0 ?
                     <>
@@ -189,7 +189,7 @@ const Allbooks = () => {
                                                 {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)}>{book.author.slice(0, 10)}</h5></>}
                                                 <div className='d-flex '>
                                                     <div className='rate-details'>
-                                                        <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR{book.original_price}</span><br />
+                                                        <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                                         <Rating
                                                             initialRating={book.avg_rating}
                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}

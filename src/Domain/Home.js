@@ -117,7 +117,7 @@ function Home() {
                       <>
                         {bannerImage && bannerImage.map((imageUrl, index) => (
                           <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''} w-100 h-100`}>
-                            <img src={imageUrl.images} className='w-100 h-100 object-fit-cover' alt={`Image ${index}`} />
+                            <img src={imageUrl.images} className='w-100 h-100' alt={`Image ${index}`} />
                           </div>
                         ))}
                       </>
@@ -171,7 +171,7 @@ function Home() {
           </div>
           {/* <header section end  */}
           {/* Best sellers in indoor plants start  */}
-          <div className='pt-5 container-95'>
+          <div className='pt-2 container-95'>
             <h1 className='product-title'>Browse your book on Categories</h1>
             <SimpleSlider />
           </div>
@@ -193,7 +193,7 @@ function Home() {
           </div>
 
           <div className='d-lg-block d-none'>
-            <div className='product-list mt-5 mb-3 container-95'>
+            <div className='product-list mt-4 mb-3 container-95'>
               <span className='product-title'>Best Sellers in Education Books</span>
               <span className='float-end viewall' onClick={() => all_product()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
               {allbookDetails == '' ?
@@ -257,7 +257,7 @@ function Home() {
           </div>
         </div>
         <div className='container-fluid'>
-          <div className='pots-section mt-5'>
+          <div className='pots-section mt-4'>
             <div className='d-lg-block d-none container-95'>
               <span className='product-title'>Best Sellers in Comics</span>
               <span className='float-end viewall' onClick={() => all_seller()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#241D60' }} className='ps-2' /></span>
@@ -292,7 +292,7 @@ function Home() {
               {/* <span className='viewall'></span> */}
             </div>
           </div>
-          <div className='best-seller mt-5 mb-4'>
+          <div className='best-seller mt-3 mb-4'>
             <div className='d-lg-block d-none container-95'>
               <span className='product-title'>New Arrivals in Education</span>
               <span className='float-end viewall' onClick={() => all_newarrival()}>View All<FontAwesomeIcon icon={faArrowRight} style={{ color: '#30844A' }} className='ps-2' /></span>

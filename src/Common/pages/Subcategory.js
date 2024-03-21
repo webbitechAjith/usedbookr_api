@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faHeart, faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView, setUserIdShop, setUserIdLike, setAuthorsName } from '../../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView, setUserIdShop, setUserIdLike, setAuthorsName, setFilterCategory } from '../../Redux/CreateSlice';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { addTocard_list, addTowhish_list, allbooks, cardToget_list, cardTolike_list, removeTocard_list } from './apiBaseurl';
 import Subaside from './Subaside';
@@ -117,10 +117,12 @@ function Subcategory() {
         if (childcategory) {
             setChildcategoryBook(childcategory);
         }
-        // setChildcategoryBook(childcategory)
+        if(filterCategory.length > 0){
+            dispatch(setFilterCategory([]))
+        }
         window.scrollTo(0, 0);
     }, [childcategory]);
-
+    console.log(filterCategory)
     return (
         <div className='product-section'>
             <Header />
@@ -205,9 +207,9 @@ function Subcategory() {
                                                                                             </span>
                                                                                         )}
                                                                                         <div className='book-details p-1'>
-                                                                                            <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
+                                                                                            <h1 className='w-100 mb-1' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
                                                                                             {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
-                                                                                            <h5>{book.category_id[0].name}</h5>
+                                                                                            {/* <h5>{book.category_id[0].name}</h5> */}
                                                                                             <div className='d-flex '>
                                                                                                 <div className='rate-details'>
                                                                                                     <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR {book.original_price}</span><br />
@@ -350,9 +352,9 @@ function Subcategory() {
                                                                                     </span>
                                                                                 )}
                                                                                 <div className='book-details p-1'>
-                                                                                    <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
+                                                                                    <h1 className='w-100 mb-1' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
                                                                                     {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
-                                                                                    <h5>{book.category_id[0].name}</h5>
+                                                                                    {/* <h5>{book.category_id[0].name}</h5> */}
                                                                                     <div className='d-flex '>
                                                                                         <div className='rate-details'>
                                                                                             <span className='new-rate'>INR {book.selling_price}</span> <span className='ps-2 old-rate'>INR {book.original_price}</span><br />

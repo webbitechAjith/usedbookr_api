@@ -320,7 +320,7 @@ function Header() {
                     </div>
                 </div>
                 <div className='nav-section'>
-                    <nav className="navbar navbar-expand-lg container-90 py-2">
+                    <nav className="navbar navbar-expand-lg container-90 py-1">
                         <div className="container-fluid p-0">
                             <a className="navbar-brand d-none" href="#"><img src={mobilelogo} /></a>
                             <div className='d-lg-block d-none'>
@@ -572,7 +572,7 @@ function Header() {
                             <div className="collapse navbar-collapse nav-list" id="navbarNavDropdown">
                                 <div className='w-100 d-lg-block d-none'>
                                     <div className='row m-0 w-100'>
-                                        <div className='col-lg-8 align-self-center'>
+                                        <div className='col-lg-10 align-self-center'>
                                             <ul className="navbar-nav py-0 nav-content">
                                                 <li className='nav-item d-flex align-items-center'>
                                                     <NavLink exact to={{ pathname: '/' }} className={`${pathname === '/' ? 'active' : 'custom-active'} text-decoration-none`}>
@@ -630,11 +630,11 @@ function Header() {
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div className='col-lg-4 d-flex align-items-center text-end'>
+                                        <div className='col-lg-2 d-flex align-items-center text-end'>
                                             <div className="input-group">
                                                 <input type="text" className="form-control " placeholder="Search our shop" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ ...searchProduct, searchItem: val.target.value })); handleChange(val) }} />
                                                 {/* <input type="text" className="form-control " placeholder="Search our shop" aria-label="Recipient's username" aria-describedby="basic-addon2" value={searchProduct.length > 0 ? searchProduct : ''} onChange={(event) => { dispatch(setsearchProduct(event.target.value)) }} /> */}
-                                                <span className="input-group-text search-btn" id="basic-addon2" onClick={seacrch_product}>Search</span>
+                                                {/* <span className="input-group-text search-btn" id="basic-addon2" onClick={seacrch_product}>Search</span> */}
                                             </div>
                                         </div>
                                     </div>

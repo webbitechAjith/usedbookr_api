@@ -60,11 +60,11 @@ function Footer() {
                     <div className='container-95'>
                         <div className='row m-0 align-items-center'>
                             <div className='col-lg-3 col-12 text-center'>
-                                <p>Copyright ©2024 Usedbookr. All Rights Reserved</p>
+                                <p>Copyright ©2024 Usedbookr.<br/>All Rights Reserved</p>
                             </div>
                             <div className='col-lg-6 col-12 my-lg-0 my-2 footer-list '>
                                 <ul className='text-center mb-0 p-0'>
-                                    <li>Track Order</li>
+                                    {/* <li>Track Order</li> */}
                                     <li>FAQ’s</li>
                                     <li>About</li>
                                     <li>Terms & Condition</li>

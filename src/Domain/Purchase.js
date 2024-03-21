@@ -139,7 +139,7 @@ function Purchase() {
                                                 <tbody>
                                                     {userIdShop && allbookDetails && allbookDetails.map((data, index) => {
                                                         const match = userIdShop?.find(item => item.book_id === data.id);
-                                                        console.log("data",data)
+                                                        console.log("data", data)
                                                         // If there's a match, it means the book is in userIdShop
                                                         if (match) {
                                                             return (
@@ -170,7 +170,7 @@ function Purchase() {
                                                                     </td>
                                                                     <td className='py-5 text-start'>
                                                                         <a className='text-decoration-none price-count'>
-                                                                            INR {singleProductPrice.price ? <>{((singleProductPrice.price * (1 + data.gst_charge / 100)) * match.quantity).toFixed(2).replace(/\.?0+$/, '')}</> : <>{(data.selling_price + (data.selling_price * data.gst_charge) / 100) * match.quantity} </>}
+                                                                            INR {singleProductPrice.price ? <>{(((singleProductPrice.price * (1 + data.gst_charge / 100)) * match.quantity).toFixed(2).replace(/\.?0+$/, '')).toLocaleString()}.00</> : <>{((data.selling_price + (data.selling_price * data.gst_charge) / 100) * match.quantity).toLocaleString()}.00 </>}
                                                                         </a>
                                                                         <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3 delete_id'
                                                                             onClick={() => {
@@ -227,7 +227,7 @@ function Purchase() {
                                                     <h6 className=''>Subtotal :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6>{totalPrice}</h6>
+                                                    <h6>{(totalPrice).toLocaleString()}.00</h6>
                                                     {/* <h6 className=''>{Math.round(final_amount)}</h6> */}
 
                                                 </div>
@@ -245,10 +245,10 @@ function Purchase() {
                                         </div>
                                         <div className='row m-0'>
                                             <div className='col-6'>
-                                                <h3 className=''>Total :</h3>
+                                                <h3 className=''>RS :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>INR {formatToatl}</h3>
+                                                <h3 className=''>{formatToatl}.00</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>
@@ -293,14 +293,14 @@ function Purchase() {
                                                                                 <img src={data.image} alt={data.image} className='w-100' onClick={(id) => click_view(data)} />
                                                                             </div>
                                                                             <div className='col-8 py-4'>
-                                                                                <h5>{data.title_long}</h5>
+                                                                                <h5>{data.title_long.slice(0, 15)}...</h5>
                                                                                 <Rating
                                                                                     initialRating={data.avg_rating}
                                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                                                     readonly={true}
                                                                                 />
-                                                                                <h5>{data.total_price}</h5>
+                                                                                {/* <h5>{data.total_price}</h5> */}
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -313,7 +313,7 @@ function Purchase() {
                                                                     </td>
                                                                     <td className='py-5 text-start'>
                                                                         <a className='text-decoration-none price-count'>
-                                                                            {(data.original_price + data.gst_charge) * match.quantity}
+                                                                            INR {singleProductPrice.price ? <>{(((singleProductPrice.price * (1 + data.gst_charge / 100)) * match.quantity).toFixed(2).replace(/\.?0+$/, '')).toLocaleString()}.00</> : <>{((data.selling_price + (data.selling_price * data.gst_charge) / 100) * match.quantity).toLocaleString()}.00 </>}
                                                                         </a>
                                                                         <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3 delete_id'
                                                                             onClick={() => {
@@ -370,7 +370,7 @@ function Purchase() {
                                                     <h6 className=''>Subtotal :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6>{totalPrice}</h6>
+                                                    <h6>{(totalPrice).toLocaleString()}.00</h6>
                                                     {/* <h6 className=''>{Math.round(final_amount)}</h6> */}
 
                                                 </div>
@@ -388,10 +388,10 @@ function Purchase() {
                                         </div>
                                         <div className='row m-0'>
                                             <div className='col-6'>
-                                                <h3 className=''>Total :</h3>
+                                                <h3 className=''>RS :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{formatToatl}</h3>
+                                                <h3 className=''>{(formatToatl).toLocaleString()}.00</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>
@@ -444,7 +444,7 @@ function Purchase() {
                                                                         readonly={true}
                                                                     />
                                                                     <div className='pt-5 pb-3'>
-                                                                        <span className='py-5 text-center'><a className='text-decoration-none price-count'>Price  :{(data.original_price + data.gst_charge) * match.quantity}</a>
+                                                                        <span className='py-5 text-center'><a className='text-decoration-none price-count'>Price: INR {singleProductPrice.price ? <>{(((singleProductPrice.price * (1 + data.gst_charge / 100)) * match.quantity).toFixed(2).replace(/\.?0+$/, '')).toLocaleString()}.00</> : <>{((data.selling_price + (data.selling_price * data.gst_charge) / 100) * match.quantity).toLocaleString()}.00 </>}</a>
                                                                             <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3 delete_id'
                                                                                 onClick={() => {
                                                                                     const cartId = userIdShop.find(cart => cart.book_id === data.id);
@@ -499,7 +499,7 @@ function Purchase() {
                                                     <h6 className=''>Subtotal :</h6>
                                                 </div>
                                                 <div className='col-6 text-end'>
-                                                    <h6>{totalPrice}</h6>
+                                                    <h6>{(totalPrice).toLocaleString()}.00</h6>
                                                     {/* <h6 className=''>{Math.round(final_amount)}</h6> */}
 
                                                 </div>
@@ -517,10 +517,10 @@ function Purchase() {
                                         </div>
                                         <div className='row m-0'>
                                             <div className='col-6'>
-                                                <h3 className=''>Total :</h3>
+                                                <h3 className=''>RS :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{formatToatl}</h3>
+                                                <h3 className=''>{(formatToatl).toLocaleString()}.00</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>

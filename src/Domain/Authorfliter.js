@@ -19,7 +19,7 @@ import { faArrowRight, faHeart, faBagShopping, faFilter } from '@fortawesome/fre
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setClass1Hide, setsingleProductView, setUserIdLike, setUserIdShop, setAuthorsDetails } from '../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setClass1Hide, setsingleProductView, setUserIdLike, setUserIdShop, setAuthorsDetails, setAuthorsName } from '../Redux/CreateSlice';
 import { Link, useNavigate } from 'react-router-dom'
 import Authorname from '../Common/pages/Authorname';
 import { addTocard_list, addTowhish_list, allbooks, authUser, removeTocard_list, removeTolike_list } from '../Common/pages/apiBaseurl';
@@ -87,9 +87,6 @@ function Autherfliter() {
     dispatch(setproductIdDetails(updatedData))
     navigate('/Description');
   }
-  const author_name = () => {
-    navigate('/authors')
-  }
   const all_authors = async () => {
     const data = await authUser();
     dispatch(setAuthorsDetails(data))
@@ -124,7 +121,9 @@ function Autherfliter() {
     ) || [];
   }
 
-
+  const author_name = (name) => {
+    dispatch(setAuthorsName(name))
+  }
   useEffect(() => {
     dispatch(setClass1Hide(false))
     all_authors()
@@ -133,7 +132,6 @@ function Autherfliter() {
 
   }, []);
 
-  console.log("auth",authorsName)
   return (
     <div className='product-section'>
       <Header />
@@ -153,7 +151,7 @@ function Autherfliter() {
                         .map((book, index) => {
                           return (
                             <>
-                              {authorsName.length > 0 ?
+                              {authorsName?.length > 0 ?
                                 <>
                                   {book.author.toLowerCase() === authorsName.toLowerCase() ?
                                     <>
@@ -210,11 +208,11 @@ function Autherfliter() {
                                             )
                                             }
                                             <div className='book-details p-3'>
-                                              <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 10)}...</h1>
-                                              {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                              <h1 className='w-100 mb-1' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 15)}...</h1>
+                                              {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                               <div className='d-flex '>
                                                 <div className='rate-details'>
-                                                  <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
+                                                  <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                                   <Rating
                                                     initialRating={book.avg_rating}
                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -327,11 +325,11 @@ function Autherfliter() {
                                                 }
 
                                                 <div className='book-details p-3'>
-                                                  <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 10)}...</h1>
-                                                  {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                                  <h1 className='w-100 mb-1' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 15)}...</h1>
+                                                  {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                                   <div className='d-flex '>
                                                     <div className='rate-details'>
-                                                      <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
+                                                      <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                                       <Rating
                                                         initialRating={book.avg_rating}
                                                         emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -446,12 +444,12 @@ function Autherfliter() {
                                           </span>
                                         )
                                         }
-                                        <div className='book-details p-3'>
+                                        <div className='book-details p-2'>
                                           <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 15)}...</h1>
-                                          {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                          {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                           <div className='d-flex '>
                                             <div className='rate-details'>
-                                              <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
+                                              <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                               <Rating
                                                 initialRating={book.avg_rating}
                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -589,7 +587,7 @@ function Autherfliter() {
                 {allbookDetails && allbookDetails.map((book, index) => {
                   return (
                     <>
-                      {authorsName.length > 0 ?
+                      {authorsName?.length > 0 ?
                         <>
                           {book.author.toLowerCase() === authorsName.toLowerCase() ?
                             <>
@@ -645,11 +643,11 @@ function Autherfliter() {
                                     )
                                     }
                                     <div className='book-details p-3'>
-                                      <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 35)}...</h1>
-                                      {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                      <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 18)}...</h1>
+                                      {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                       <div className='d-flex '>
                                         <div className='rate-details'>
-                                          <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
+                                          <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                           <Rating
                                             initialRating={book.avg_rating}
                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -761,11 +759,11 @@ function Autherfliter() {
                                         )
                                         }
                                         <div className='book-details p-3'>
-                                          <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 35)}...</h1>
-                                          {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                          <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
+                                          {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                           <div className='d-flex '>
                                             <div className='rate-details'>
-                                              <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
+                                              <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                               <Rating
                                                 initialRating={book.avg_rating}
                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -881,11 +879,11 @@ function Autherfliter() {
                                 )
                                 }
                                 <div className='book-details p-3'>
-                                  <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 35)}...</h1>
-                                  {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                  <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 25)}...</h1>
+                                  {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                   <div className='d-flex '>
                                     <div className='rate-details'>
-                                      <span className='new-rate'>INR{book.selling_price}</span> <span className='ps-1 old-rate'>INR {book.original_price}</span><br />
+                                      <span className='new-rate'>INR {book.selling_price.toLocaleString()}.00</span> <span className='ps-2 old-rate'>{book.original_price.toLocaleString()}.00</span><br />
                                       <Rating
                                         initialRating={book.avg_rating}
                                         emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}

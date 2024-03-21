@@ -133,7 +133,7 @@ function Wishlist() {
                                                                         </div>
                                                                     </td>
                                                                     <td className='py-5'>
-                                                                        <h6 className='price pe-2'>INR {data.selling_price}</h6>
+                                                                        <h6 className='price pe-2'>INR {(data.selling_price).toLocaleString()}.00</h6>
                                                                         </td>
                                                                     <td className='py-5'><h3>In Stock</h3></td>
                                                                     <td className='py-5'>
@@ -244,7 +244,7 @@ function Wishlist() {
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td className='py-5'><h6>INR {data.selling_price}</h6></td>
+                                                                    <td className='py-5'><h6>INR {(data.selling_price).toLocaleString()}.00</h6></td>
                                                                     <td className='py-5'><h3>In Stock</h3></td>
                                                                     <td className='py-5'>
                                                                         {userIdShop && userIdShop.length > 0 ? (
@@ -343,7 +343,7 @@ function Wishlist() {
                                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                                     readonly={true}
                                                                 />
-                                                                <h6>INR {data.selling_price}</h6>
+                                                                <h6>INR {(data.selling_price).toLocaleString()}.00</h6>
                                                                 <h3>In Stock</h3>
                                                             </div>
                                                             <div className='col-sm-3 col-4 align-self-center'>

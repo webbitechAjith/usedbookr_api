@@ -21,6 +21,8 @@ import { addTocard_list, allbooks, bookdetails, bookdetailsview, removeTocard_li
 function Description() {
     const { allbookDetails, isLiked, isAdded, userIdShop, likedProducts, likescount, singleProductView, singleProductPrice, shopProducts, shopcount, productIdDetails, singleItemCount } = useSelector((state) => state.usedbookr_product)
     const [value, setValue] = useState(1);
+    const [bindingfilter, setBindingfilter] = useState('');
+    const [conditionfilter, setConditionfilter] = useState('');
     const [showAll, setShowAll] = useState(false);
     const [showLess, setShowLess] = useState(false);
     const [activeTab, setActiveTab] = useState('tab1');
@@ -121,9 +123,10 @@ function Description() {
     };
 
     const priceCheck = (data) => {
-        const { type, price } = data;
+        const { type, condition, price } = data;
+        setConditionfilter(data.bookconditions)
         // dispatch(setSingleProductPrice(data.price))
-        dispatch(setSingleProductPrice({ type: data.bindings, price: data.price }))
+        dispatch(setSingleProductPrice({ type: data.bindings, condition: data.bookconditions, price: data.price }))
     }
 
     // const allbook_view = async () => {
@@ -147,13 +150,17 @@ function Description() {
             // Handle error as needed
         }
     };
+    const filterbinding = (bindingname) => {
+        setBindingfilter(bindingname)
+        console.log(bindingname)
+    }
+
     useEffect(() => {
         // allbook_view()
         dispatch(setClass1Hide(false))
         click_view(Singlebookid);
         window.scrollTo(0, 0);
     }, []);
-    console.log(singleProductPrice)
     return (
         <div className='description-section'>
             <Header />
@@ -172,22 +179,21 @@ function Description() {
                                     </div>
                                     <div className='col-6 description-details'>
                                         <>
-                                            <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
-                                            <p className='m-0' onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author}</p>
+                                            <h1 className='mb-1'>{data.title_long}<span className='stock'>In Stock</span></h1>
+                                            <p className='m-0' onClick={() => author_name(data.author)} style={{ cursor: 'pointer' }}>{data.author}</p>
                                             <Rating
                                                 initialRating={data.avg_rating}
                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                 fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                 readonly={true}
                                             />
-                                            <span className='review'>Reviewss</span>
+                                            <span className='review'>Reviews</span>
                                             <br />
-                                            <span className='price pe-2'>INR {singleProductPrice.price ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                            <span className='price pe-2'>INR {singleProductPrice.price ? <>{(singleProductPrice.price).toLocaleString()}</> : <>{(data.selling_price).toLocaleString()}.00</>}</span><span className='text-decoration-line-through rate'>{(data.original_price).toLocaleString()}.00</span>
                                             <button className='sales-offer'>{data.discount}% offer</button><br />
-                                            <span className='price pe-2'>Bindind Type : {singleProductPrice.type ? <>{singleProductPrice.type}</> : <></>}</span>
-                                            <h4 className='cate my-2'>Category:<span className='ms-2'>{data.category_id[0].name}</span></h4>
+                                            {/* <span className='price pe-2'>Bindind Type : {singleProductPrice.type ? <>{singleProductPrice.type}</> : <></>}</span> */}
+                                            <h4 className='cate '>Category:<span className='ms-2'>{data.category_id[0].name}</span></h4>
                                             <hr />
-                                            <p>{data.synopsis}</p>
                                             {data.varient.length > 0 ?
                                                 <>
                                                     <div className='condition-level my-3'>
@@ -196,21 +202,44 @@ function Description() {
                                                             <button key={variantData.id} className='very ms-2'>{variantData.bindings}</button>
                                                         ))} */}
                                                         {Array.from(new Set(data.varient.map((variantData) => variantData.bindings))).map((binding, index) => (
-                                                            <button key={index} className='very ms-2'>{binding}</button>
+                                                            <>
+                                                                <button key={index} className={bindingfilter == binding ? 'checkvery ms-2' : 'very ms-2'} onClick={() => filterbinding(binding)}>{binding}</button>
+                                                            </>
                                                         ))}
                                                     </div>
-                                                    <div className='condition-level my-3'>
-                                                        <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                                        {data.varient.map((variantData) => (
-                                                            <button key={variantData.id} className='very ms-2' onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>
-                                                        ))}
-                                                    </div>
-                                                    {/* <div className='condition-level my-3'>
-                                                        <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                                        {data.varient.map((variantData) => (
-                                                            <button key={variantData.id} className='very ms-2' onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>
-                                                        ))}
-                                                    </div> */}
+                                                    {(() => {
+                                                        const uniqueBindings = Array.from(new Set(data.varient.map((variantData) => variantData.bindings)));
+                                                        if (uniqueBindings.length == 1) {
+                                                            return (
+                                                                <div className='condition-level my-3'>
+                                                                    <h1><span>Condition</span></h1>
+                                                                    {data.varient.map((variantData) => (
+                                                                        <button key={variantData.id} className={conditionfilter == variantData.bookconditions ? 'checkvery ms-2' : 'very ms-2'} onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>
+                                                                    ))}
+                                                                </div>
+                                                            );
+                                                        } else {
+                                                            if (bindingfilter?.length > 0) {
+                                                                return (
+                                                                    <div className='condition-level my-3'>
+                                                                        <h1><span>Condition</span></h1>
+                                                                        {data.varient.map((variantData) => (
+                                                                            variantData.bindings === bindingfilter && (
+                                                                                <button key={variantData.id} className={conditionfilter == variantData.bookconditions ? 'checkvery ms-2' : 'very ms-2'} onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>
+                                                                            )
+                                                                        ))}
+                                                                    </div>
+                                                                );
+                                                            } else {
+                                                                return (
+                                                                    <div className='condition-level my-3'>
+                                                                        <h1><span>Condition</span></h1>
+                                                                        <button className='very ms-2' >Click Binding Type</button>
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        }
+                                                    })()}
                                                 </>
                                                 :
                                                 <>
@@ -286,102 +315,117 @@ function Description() {
                                         </div>
                                     </div>
                                     <div className='col-7 description-details'>
-                                        <h1>{data.title_long} <span className='stock'>In Stock</span></h1>
-                                        <p onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author}</p>
+                                        <h1 className='mb-1'>{data.title_long} <span className='stock'>In Stock</span></h1>
+                                        <p className='mb-0' onClick={() => author_name(data.author)} style={{ cursor: 'pointer' }}>{data.author}</p>
                                         <Rating
-                                            initialRating={data.avg_rating_count}
+                                            initialRating={data.avg_rating}
                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                             fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                             readonly={true}
                                         />
                                         <span className='review'>Reviews</span>
                                         <br />
-                                        <span className='price pe-2'>INR {singleProductPrice.price ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                        <span className='price pe-2'>INR {singleProductPrice.price ? <>{(singleProductPrice.price).toLocaleString()}</> : <>{(data.selling_price).toLocaleString()}.00</>}</span><span className='text-decoration-line-through rate'>{(data.original_price).toLocaleString()}.00</span>
                                         <button className='sales-offer'>{data.discount}% offer</button><br />
-                                        <span className='price pe-2'>Bindind Type : {singleProductPrice.type ? <>{singleProductPrice.type}</> : <></>}</span>
                                         <hr />
-                                        <p>{data.synopsis}</p>
+                                        {data.varient.length > 0 ?
+                                            <>
 
-                                    </div>
-                                    {data.varient.length > 0 ?
-                                        <>
-                                            <div className='col-12 pt-1'>
-                                                <div className='text-center'>
-                                                    <div className='condition-level my-3'>
-                                                        <h1><span>Binding type</span></h1>
-                                                        {data.varient.map((data) => {
-                                                            return (
-                                                                <>
-                                                                    <button className='very ms-2'>{data.bindings}</button>
-                                                                </>
-                                                            )
-                                                        })}
-                                                    </div>
-                                                    <div className='condition-level my-3'>
-                                                        <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                                        {data.varient.map((data) => {
-                                                            return (
-                                                                <>
-                                                                    <button className='very ms-2' onClick={() => priceCheck(data)}>{data.bookconditions}</button>
-                                                                </>
-                                                            )
-                                                        })}
-                                                    </div>
+                                                <div className='condition-level my-3'>
+                                                    <h1><span>Binding type</span></h1>
+                                                    {/* {data.varient.map((variantData) => (
+                                                            <button key={variantData.id} className='very ms-2'>{variantData.bindings}</button>
+                                                        ))} */}
+                                                    {Array.from(new Set(data.varient.map((variantData) => variantData.bindings))).map((binding, index) => (
+                                                        <>
+                                                            <button key={index} className={bindingfilter == binding ? 'checkvery ms-2' : 'very ms-2'} onClick={() => filterbinding(binding)}>{binding}</button>
+                                                        </>
+                                                    ))}
                                                 </div>
-                                            </div>
-                                        </>
-                                        :
-                                        <><h1 className='text-center mt-5'>No varient type</h1></>
-                                    }
-
-                                    <div className='col-12 description-details text-start my-5'>
-                                        <>
-                                            <span className='text-center'>
-                                                <button className='buynow' onClick={() => buynow(data, data.id, data.original_price)}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
+                                                {(() => {
+                                                    const uniqueBindings = Array.from(new Set(data.varient.map((variantData) => variantData.bindings)));
+                                                    if (uniqueBindings.length == 1) {
+                                                        return (
+                                                            <div className='condition-level my-3'>
+                                                                <h1><span>Condition</span></h1>
+                                                                {data.varient.map((variantData) => (
+                                                                    <button key={variantData.id} className={conditionfilter == variantData.bookconditions ? 'checkvery ms-2' : 'very ms-2'} onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>
+                                                                ))}
+                                                            </div>
+                                                        );
+                                                    } else {
+                                                        if (bindingfilter?.length > 0) {
+                                                            return (
+                                                                <div className='condition-level my-3'>
+                                                                    <h1><span>Condition</span></h1>
+                                                                    {data.varient.map((variantData) => (
+                                                                        variantData.bindings === bindingfilter && (
+                                                                            <button key={variantData.id} className={conditionfilter == variantData.bookconditions ? 'checkvery ms-2' : 'very ms-2'} onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>)
+                                                                    ))}
+                                                                </div>
+                                                            );
+                                                        } else {
+                                                            return (
+                                                                <div className='condition-level my-3'>
+                                                                    <h1><span>Condition</span></h1>
+                                                                    <button className='very ms-2' >Click Binding Type</button>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    }
+                                                })()}
+                                            </>
+                                            :
+                                            <>
+                                                <h1>No variant type</h1>
+                                            </>
+                                        }
+                                        <span className='text-center'>
+                                            <button className='buynow ms-0' onClick={() => buynow(data, data.id, data.original_price)}>Buy Now <FontAwesomeIcon icon={faShop} className='mx-2' /></button>
+                                        </span>
+                                        {userIdShop && userIdShop.length > 0 ? (
+                                            <>
+                                                {userIdShop.some(cartId => cartId.book_id === data.id) ? (
+                                                    <>
+                                                        <button
+                                                            className='disabled-shop'
+                                                            id={data.id}
+                                                            value={data.id}
+                                                            onClick={() => {
+                                                                const cartId = userIdShop.find(cart => cart.book_id === data.id);
+                                                                handleShopClick(data, cartId.id, data.original_price);
+                                                            }}
+                                                        >
+                                                            Remove card  {/* Remove to card <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <button
+                                                            className='shop-card'
+                                                            id={data.id}
+                                                            value={data.id}
+                                                            onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                            style={{ cursor: 'pointer' }}
+                                                        >
+                                                            Add to card
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <span
+                                                className='shop-card'
+                                                id={data.id}
+                                                value={data.id}
+                                                onClick={() => handleShopClick(data, data.id, data.original_price)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                Add to card{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
                                             </span>
-                                            {userIdShop && userIdShop.length > 0 ? (
-                                                <>
-                                                    {userIdShop.some(cartId => cartId.book_id === data.id) ? (
-                                                        <>
-                                                            <button
-                                                                className='disabled-shop'
-                                                                id={data.id}
-                                                                value={data.id}
-                                                                onClick={() => {
-                                                                    const cartId = userIdShop.find(cart => cart.book_id === data.id);
-                                                                    handleShopClick(data, cartId.id, data.original_price);
-                                                                }}
-                                                            >
-                                                                Remove card  {/* Remove to card <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
-                                                            </button>
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <button
-                                                                className='shop-card'
-                                                                id={data.id}
-                                                                value={data.id}
-                                                                onClick={() => handleShopClick(data, data.id, data.original_price)}
-                                                                style={{ cursor: 'pointer' }}
-                                                            >
-                                                                Add to card
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                </>
-                                            ) : (
-                                                <span
-                                                    className='shop-card'
-                                                    id={data.id}
-                                                    value={data.id}
-                                                    onClick={() => handleShopClick(data, data.id, data.original_price)}
-                                                    style={{ cursor: 'pointer' }}
-                                                >
-                                                    Add to card{/* <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' /> */}
-                                                </span>
-                                            )}
-                                        </>
+                                        )}
                                     </div>
+
                                 </>
                             )
                         })}
@@ -405,47 +449,68 @@ function Description() {
                                     <div className='col-12 description-details'>
                                         <h1>{data.title_long.slice(0, 20)}....</h1>
                                         <span className='stock ms-0'>In Stock</span>
-                                        <p className='pt-2 mb-0' onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author}</p>
+                                        <p className='pt-2 mb-0' onClick={() => author_name(data.author)} style={{ cursor: 'pointer' }}>{data.author}</p>
                                         <Rating
                                             initialRating={data.avg_rating_count}
                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                             fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                             readonly={true}
                                         />
-                                        <span className='review'>4 Reviews</span>
+                                        <span className='review'>Reviews</span>
                                         <br />
-                                        <span className='price pe-2'>INR {singleProductPrice.price ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                        <span className='price pe-2'>INR {singleProductPrice.price ? <>{(singleProductPrice.price).toLocaleString()}</> : <>{(data.selling_price).toLocaleString()}.00</>}</span><span className='text-decoration-line-through rate'>{(data.original_price).toLocaleString()}.00</span>
                                         <button className='sales-offer'>{data.discount}% offer</button><br />
-                                        <span className='price pe-2'>Bindind Type : {singleProductPrice.type ? <>{singleProductPrice.type}</> : <></>}</span>
                                         <hr />
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis nunc a molestie dictum. Mauris venenatis, felis scelerisque aliquet lacinia, nulla nisi venenatis odio, id blandit mauris ipsum id sapien.</p>
-                                        <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
                                         {data.varient.length > 0 ?
                                             <>
+
                                                 <div className='condition-level my-3'>
                                                     <h1><span>Binding type</span></h1>
-                                                    {data.varient.map((data) => {
-                                                        return (
-                                                            <>
-                                                                <button className='very ms-2'>{data.bindings}</button>
-                                                            </>
-                                                        )
-                                                    })}
+                                                    {/* {data.varient.map((variantData) => (
+                                                            <button key={variantData.id} className='very ms-2'>{variantData.bindings}</button>
+                                                        ))} */}
+                                                    {Array.from(new Set(data.varient.map((variantData) => variantData.bindings))).map((binding, index) => (
+                                                        <>
+                                                            <button key={index} className={bindingfilter == binding ? 'checkvery ms-2' : 'very ms-2'} onClick={() => filterbinding(binding)}>{binding}</button>
+                                                        </>
+                                                    ))}
                                                 </div>
-                                                <div className='condition-level my-4'>
-                                                    <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
-                                                    {data.varient.map((data) => {
+                                                {(() => {
+                                                    const uniqueBindings = Array.from(new Set(data.varient.map((variantData) => variantData.bindings)));
+                                                    if (uniqueBindings.length == 1) {
                                                         return (
-                                                            <>
-                                                                <button className='very ms-2' onClick={() => priceCheck(data)}>{data.bookconditions}</button>
-                                                            </>
-                                                        )
-                                                    })}
-                                                </div>
+                                                            <div className='condition-level my-3'>
+                                                                <h1><span>Condition</span></h1>
+                                                                {data.varient.map((variantData) => (
+                                                                    <button key={variantData.id} className={conditionfilter == variantData.bookconditions ? 'checkvery ms-2' : 'very ms-2'} onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>))}
+                                                            </div>
+                                                        );
+                                                    } else {
+                                                        if (bindingfilter?.length > 0) {
+                                                            return (
+                                                                <div className='condition-level my-3'>
+                                                                    <h1><span>Condition</span></h1>
+                                                                    {data.varient.map((variantData) => (
+                                                                        variantData.bindings === bindingfilter && (
+                                                                            <button key={variantData.id} className={conditionfilter == variantData.bookconditions ? 'checkvery ms-2' : 'very ms-2'} onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>
+                                                                        )
+                                                                    ))}
+                                                                </div>
+                                                            );
+                                                        } else {
+                                                            return (
+                                                                <div className='condition-level my-3'>
+                                                                    <h1><span>Condition</span></h1>
+                                                                    <button className='very ms-2' >Click Binding Type</button>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    }
+                                                })()}
                                             </>
                                             :
                                             <>
-                                                <h1 className='my-5'>No varient type</h1>
+                                                <h1>No variant type</h1>
                                             </>
                                         }
                                         <>
@@ -578,7 +643,7 @@ function Description() {
                                                         <label><b>AUTHOR :</b></label>
                                                     </div>
                                                     <div className='col-8 mt-4'>
-                                                        <span onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author}</span>
+                                                        <span onClick={() => author_name(data.author)} style={{ cursor: 'pointer' }}>{data.author}</span>
                                                     </div>
                                                     <div className='col-4 mt-4'>
                                                         <label><b>MSRP :</b></label>
