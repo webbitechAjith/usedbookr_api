@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBagShopping, faShop } from '@fortawesome/free-solid-svg-icons';
 
 
-import { setallBookDetails, setproductIdDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleItemCount, setClass1Hide, setSingleProductPrice } from '../Redux/CreateSlice';
+import { setallBookDetails, setproductIdDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleItemCount, setClass1Hide, setSingleProductPrice, setAuthorsName } from '../Redux/CreateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import BestSeller from '../Common/pages/BestSeller';
 import { addTocard_list, allbooks, bookdetails, bookdetailsview, removeTocard_list } from '../Common/pages/apiBaseurl';
@@ -48,6 +48,10 @@ function Description() {
         setShowLess(!showLess)
         setShowAll(!showAll);
     };
+    const author_name = (name) => {
+        dispatch(setAuthorsName(name))
+        navigate('/authors')
+    }
 
     // like product click fn 
     const totallikes = likedProducts.map((data) => data.id);
@@ -120,7 +124,6 @@ function Description() {
         const { type, price } = data;
         // dispatch(setSingleProductPrice(data.price))
         dispatch(setSingleProductPrice({ type: data.bindings, price: data.price }))
-        console.log(singleProductView)
     }
 
     // const allbook_view = async () => {
@@ -170,7 +173,7 @@ function Description() {
                                     <div className='col-6 description-details'>
                                         <>
                                             <h1>{data.title_long}<span className='stock'>In Stock</span></h1>
-                                            <p className='m-0'>{data.author}</p>
+                                            <p className='m-0' onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author}</p>
                                             <Rating
                                                 initialRating={data.avg_rating}
                                                 emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -179,9 +182,9 @@ function Description() {
                                             />
                                             <span className='review'>Reviewss</span>
                                             <br />
-                                            <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                            <span className='price pe-2'>INR {singleProductPrice.price ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
                                             <button className='sales-offer'>{data.discount}% offer</button><br />
-                                            <span className='price pe-2'>Bindind Type : {singleProductPrice ? <>{singleProductPrice.type}</> : <></>}</span>
+                                            <span className='price pe-2'>Bindind Type : {singleProductPrice.type ? <>{singleProductPrice.type}</> : <></>}</span>
                                             <h4 className='cate my-2'>Category:<span className='ms-2'>{data.category_id[0].name}</span></h4>
                                             <hr />
                                             <p>{data.synopsis}</p>
@@ -202,6 +205,12 @@ function Description() {
                                                             <button key={variantData.id} className='very ms-2' onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>
                                                         ))}
                                                     </div>
+                                                    {/* <div className='condition-level my-3'>
+                                                        <h1><span>Condition</span> - Very Good (100+ in Stock)</h1>
+                                                        {data.varient.map((variantData) => (
+                                                            <button key={variantData.id} className='very ms-2' onClick={() => priceCheck(variantData)}>{variantData.bookconditions}</button>
+                                                        ))}
+                                                    </div> */}
                                                 </>
                                                 :
                                                 <>
@@ -278,18 +287,18 @@ function Description() {
                                     </div>
                                     <div className='col-7 description-details'>
                                         <h1>{data.title_long} <span className='stock'>In Stock</span></h1>
-                                        <p>{data.author}</p>
+                                        <p onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author}</p>
                                         <Rating
                                             initialRating={data.avg_rating_count}
                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                             fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                             readonly={true}
                                         />
-                                        <span className='review'>4 Reviews</span>
+                                        <span className='review'>Reviews</span>
                                         <br />
-                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                        <span className='price pe-2'>INR {singleProductPrice.price ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
                                         <button className='sales-offer'>{data.discount}% offer</button><br />
-                                        <span className='price pe-2'>Bindind Type : {singleProductPrice ? <>{singleProductPrice.type}</> : <></>}</span>
+                                        <span className='price pe-2'>Bindind Type : {singleProductPrice.type ? <>{singleProductPrice.type}</> : <></>}</span>
                                         <hr />
                                         <p>{data.synopsis}</p>
 
@@ -396,7 +405,7 @@ function Description() {
                                     <div className='col-12 description-details'>
                                         <h1>{data.title_long.slice(0, 20)}....</h1>
                                         <span className='stock ms-0'>In Stock</span>
-                                        <p className='pt-2 mb-0'>{data.author}</p>
+                                        <p className='pt-2 mb-0' onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author}</p>
                                         <Rating
                                             initialRating={data.avg_rating_count}
                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -405,9 +414,9 @@ function Description() {
                                         />
                                         <span className='review'>4 Reviews</span>
                                         <br />
-                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
+                                        <span className='price pe-2'>INR {singleProductPrice.price ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span><span className='text-decoration-line-through rate'>INR {data.original_price}</span>
                                         <button className='sales-offer'>{data.discount}% offer</button><br />
-                                        <span className='price pe-2'>Bindind Type : {singleProductPrice ? <>{singleProductPrice.type}</> : <></>}</span>
+                                        <span className='price pe-2'>Bindind Type : {singleProductPrice.type ? <>{singleProductPrice.type}</> : <></>}</span>
                                         <hr />
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis nunc a molestie dictum. Mauris venenatis, felis scelerisque aliquet lacinia, nulla nisi venenatis odio, id blandit mauris ipsum id sapien.</p>
                                         <h4 className='cate my-4'>Category:<span className='ms-2'>Lifestyle</span></h4>
@@ -569,7 +578,7 @@ function Description() {
                                                         <label><b>AUTHOR :</b></label>
                                                     </div>
                                                     <div className='col-8 mt-4'>
-                                                        <span>{data.author}</span>
+                                                        <span onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author}</span>
                                                     </div>
                                                     <div className='col-4 mt-4'>
                                                         <label><b>MSRP :</b></label>

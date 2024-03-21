@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faHeart, faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView, setUserIdShop, setUserIdLike } from '../../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView, setUserIdShop, setUserIdLike, setAuthorsName } from '../../Redux/CreateSlice';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { addTocard_list, addTowhish_list, allbooks, cardToget_list, cardTolike_list, removeTocard_list } from './apiBaseurl';
 import Subaside from './Subaside';
@@ -79,7 +79,8 @@ function Subcategory() {
             navigate('/login')
         }
     }
-    const author_name = () => {
+    const author_name = (name) => {
+        dispatch(setAuthorsName(name))
         navigate('/authors')
     }
     const click_view = (book) => {
@@ -205,7 +206,7 @@ function Subcategory() {
                                                                                         )}
                                                                                         <div className='book-details p-1'>
                                                                                             <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
-                                                                                            {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                                                                            {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                                                                             <h5>{book.category_id[0].name}</h5>
                                                                                             <div className='d-flex '>
                                                                                                 <div className='rate-details'>
@@ -350,7 +351,7 @@ function Subcategory() {
                                                                                 )}
                                                                                 <div className='book-details p-1'>
                                                                                     <h1 className='w-100' title={book.title}>{book.title_long.slice(0, 20)}...</h1>
-                                                                                    {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                                                                    {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                                                                     <h5>{book.category_id[0].name}</h5>
                                                                                     <div className='d-flex '>
                                                                                         <div className='rate-details'>

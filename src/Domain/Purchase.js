@@ -93,7 +93,7 @@ function Purchase() {
             userIdShop && allbookDetails && allbookDetails.map(data => {
                 const cartItem = userIdShop.find(item => item.book_id === data.id);
                 if (cartItem) {
-                    let pricePerItem = singleProductPrice ? parseFloat(singleProductPrice) : data.selling_price;
+                    let pricePerItem = singleProductPrice.price ? parseFloat(singleProductPrice.price) : data.selling_price;
                     totalPrice += (pricePerItem * (1 + data.gst_charge / 100)) * cartItem.quantity;
                 }
                 return null;
@@ -139,6 +139,7 @@ function Purchase() {
                                                 <tbody>
                                                     {userIdShop && allbookDetails && allbookDetails.map((data, index) => {
                                                         const match = userIdShop?.find(item => item.book_id === data.id);
+                                                        console.log("data",data)
                                                         // If there's a match, it means the book is in userIdShop
                                                         if (match) {
                                                             return (
@@ -169,7 +170,7 @@ function Purchase() {
                                                                     </td>
                                                                     <td className='py-5 text-start'>
                                                                         <a className='text-decoration-none price-count'>
-                                                                            {singleProductPrice ? <>{((singleProductPrice * (1 + data.gst_charge / 100)) * match.quantity).toFixed(2).replace(/\.?0+$/, '')}</> : <>{(data.selling_price + (data.selling_price * data.gst_charge) / 100) * match.quantity} </>}
+                                                                            INR {singleProductPrice.price ? <>{((singleProductPrice.price * (1 + data.gst_charge / 100)) * match.quantity).toFixed(2).replace(/\.?0+$/, '')}</> : <>{(data.selling_price + (data.selling_price * data.gst_charge) / 100) * match.quantity} </>}
                                                                         </a>
                                                                         <FontAwesomeIcon icon={faTrash} style={{ color: '#EA4B48' }} className='ps-3 delete_id'
                                                                             onClick={() => {
@@ -247,7 +248,7 @@ function Purchase() {
                                                 <h3 className=''>Total :</h3>
                                             </div>
                                             <div className='col-6 text-end'>
-                                                <h3 className=''>{formatToatl}</h3>
+                                                <h3 className=''>INR {formatToatl}</h3>
                                             </div>
                                         </div>
                                         <div className='text-center'>

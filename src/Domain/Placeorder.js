@@ -116,7 +116,7 @@ function Placeorder() {
                                                             readonly={true}
                                                         />
                                                         <br />
-                                                        <span className='price pe-2'>INR {singleProductPrice ? <>{singleProductPrice}</> : <>{data.selling_price}</>}</span>
+                                                        <span className='price pe-2'>INR {singleProductPrice.price ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span>
                                                         <span className='text-decoration-line-through rate'>INR {data.original_price}</span>
                                                         <button className='sales-offer'>{data.discount}% offer</button>
                                                         <h6 className='cate my-2'>Category: <span className='ms-2'>{data.category_id[0].name}</span></h6>
@@ -179,7 +179,7 @@ function Placeorder() {
                                                             return (
                                                                 match && (
                                                                     <span key={data.id}>
-                                                                        {singleProductPrice ? <>{singleProductPrice * match.quantity}</> : <>{(data.selling_price * match.quantity)}</>}
+                                                                        {singleProductPrice.price ? <>{singleProductPrice.price * match.quantity}</> : <>{(data.selling_price * match.quantity)}</>}
                                                                     </span>
                                                                 )
                                                             );
@@ -206,7 +206,7 @@ function Placeorder() {
                                                             return (
                                                                 match && (
                                                                     <span key={data.id}>
-                                                                        {singleProductPrice ? <>{((singleProductPrice * data.gst_charge) / 100) * match.quantity}</> : <>{((data.selling_price * data.gst_charge) / 100) * match.quantity} </>}
+                                                                        {singleProductPrice.price ? <>{((singleProductPrice.price * data.gst_charge) / 100) * match.quantity}</> : <>{((data.selling_price * data.gst_charge) / 100) * match.quantity} </>}
                                                                     </span>
                                                                 )
                                                             );
@@ -251,7 +251,7 @@ function Placeorder() {
                                                         return (
                                                             match && (
                                                                 <span key={data.id}>
-                                                                    {singleProductPrice ? <>{(((singleProductPrice * match.quantity) + ((singleProductPrice * data.gst_charge) / 100)* match.quantity)+60)} </> : <>{(((data.selling_price * match.quantity) + ((data.selling_price * data.gst_charge) / 100)* match.quantity) + 60)} </>}
+                                                                    {singleProductPrice.price ? <>{(((singleProductPrice.price * match.quantity) + ((singleProductPrice.price * data.gst_charge) / 100)* match.quantity)+60)} </> : <>{(((data.selling_price * match.quantity) + ((data.selling_price * data.gst_charge) / 100)* match.quantity) + 60)} </>}
                                                                 </span>
                                                             )
                                                         );

@@ -9,7 +9,7 @@ import Rating from 'react-rating';
 import '../assets/css/main.css'
 
 
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleProductView, settotallikes, setCategoryBook, setUserIdShop, setUserIdLike } from '../../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setsingleProductView, settotallikes, setCategoryBook, setUserIdShop, setUserIdLike, setAuthorsName } from '../../Redux/CreateSlice';
 
 // function call 
 
@@ -77,7 +77,8 @@ const BestSeller = () => {
             navigate('/login')
         }
     }
-    const author_name = () => {
+    const author_name = (name) => {
+        dispatch(setAuthorsName(name))
         navigate('/authors')
     }
     const click_view = (book) => {
@@ -138,7 +139,7 @@ const BestSeller = () => {
                                     <div className={userIdShop && userIdShop.length > 0 ? (userIdShop.some(cartId => cartId.book_id === book.id) ? 'normal-box seller-book position-relative' : 'box-view seller-book position-relative') : 'box-view seller-book position-relative'}>
                                         <div className='best-seller'>
                                             <img src={book.image} height='300px' className='w-100 p-lg-2 p-md-2 p-0 border-rounded' onClick={(id) => click_view(book)} />
-                                            <span className='selles-offer'>Offer 60%</span>
+                                            <span className='selles-offer'>{book.discount}%</span>
 
                                             {/* <span className='like-position float-end m-2' onClick={() => handleLikeClick(book)} >
                                                     <span className={` ${isLiked ? 'likes' : 'unlikes'} `}>
@@ -193,12 +194,12 @@ const BestSeller = () => {
                                             }
                                             <div className='book-details px-3'>
                                                 <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                                 <div className='d-flex '>
                                                     <div className='rate-details'>
-                                                        <span className='new-rate'>₹{book.original_price}</span> <span className='ps-2 old-rate'>₹ 440</span><br />
+                                                        <span className='new-rate'>₹{book.selling_price}</span> <span className='ps-2 old-rate'>₹ {book.original_price}</span><br />
                                                         <Rating
-                                                            initialRating={5}
+                                                            initialRating={book.avg_rating}
                                                             emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                             fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                             readonly={true}

@@ -16,13 +16,13 @@ import plant1 from '../Common/assets/image/description4.png'
 import cancel from '../Common/assets/image/cancel.png'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setClass1Hide, setLikedProducts, setShopProducts, setUserIdLike, setUserIdShop, setallBookDetails, setlikescount, setshopcount } from '../Redux/CreateSlice';
+import { setAuthorsName, setClass1Hide, setLikedProducts, setShopProducts, setSingleProductPrice, setUserIdLike, setUserIdShop, setallBookDetails, setlikescount, setshopcount } from '../Redux/CreateSlice';
 import { addTocard_list, allbooks, cardTolike_list, removeTocard_list, removeTolike_list } from '../Common/pages/apiBaseurl';
 import { useNavigate } from 'react-router-dom';
 
 
 function Wishlist() {
-    const { allbookDetails, userIdShop, likedProducts, likescount, shopcount, shopProducts, userIdLike } = useSelector((state) => state.usedbookr_product);
+    const { allbookDetails, userIdShop, likedProducts, likescount, shopcount, shopProducts, userIdLike,singleProductPrice } = useSelector((state) => state.usedbookr_product);
 
     const [statuslevel, setStatusLevel] = useState(true);
     const dispatch = useDispatch();
@@ -55,6 +55,7 @@ function Wishlist() {
     // shop product click fn 
     const totalshops = shopProducts.map((data) => data.id);
     const handleShopClick = async (product, id, price) => {
+        console.log(product)
         const auth_login = localStorage.getItem('usedbookrtoken')
         const auth_uesrlogin = localStorage.getItem('isLoginAuth')
         if (auth_login || auth_uesrlogin == true) {
@@ -64,6 +65,7 @@ function Wishlist() {
                 window.location.reload();
             } else {
                 const set_iddetails = await addTocard_list(product, 1);
+                dispatch(setSingleProductPrice(price))
                 dispatch(setUserIdShop(set_iddetails))
                 navigate('/Purchase');
             }
@@ -72,9 +74,13 @@ function Wishlist() {
             navigate('/login')
         }
     }
-    const deleteitem = (id) => {
-
-    };
+    const click_view = async(book) => {
+        navigate(`/Description/${book.id}`, { state: book })
+    }
+    const author_name = (name) => {
+        dispatch(setAuthorsName(name))
+        navigate('/authors')
+    }
     useEffect(() => {
         book_details();
         window.scrollTo(0, 0);
@@ -112,11 +118,11 @@ function Wishlist() {
                                                                     <td className='wish-product'>
                                                                         <div className='row m-0 pt-2'>
                                                                             <div className='col-4 p-0'>
-                                                                                <img src={data.image} alt={data.title_long.slice(0, 10)} className='w-100' />
+                                                                                <img src={data.image} alt={data.title_long.slice(0, 10)} className='w-100' onClick={(id) => click_view(data)}/>
                                                                             </div>
                                                                             <div className='col-8 py-4'>
                                                                                 <h5 title={data.title_long}>{data.title_long.slice(0, 20)}...</h5>
-                                                                                {data.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={data.author}>{data.author.slice(0, 10)}</h5></>}
+                                                                                {data.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={data.author} onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author.slice(0, 10)}</h5></>}
                                                                                 <Rating
                                                                                     initialRating={data.avg_rating}
                                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -126,7 +132,9 @@ function Wishlist() {
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td className='py-5'><h6>INR {data.original_price}</h6></td>
+                                                                    <td className='py-5'>
+                                                                        <h6 className='price pe-2'>INR {data.selling_price}</h6>
+                                                                        </td>
                                                                     <td className='py-5'><h3>In Stock</h3></td>
                                                                     <td className='py-5'>
                                                                         {userIdShop && userIdShop.length > 0 ? (
@@ -222,11 +230,11 @@ function Wishlist() {
                                                                     <td className='wish-product'>
                                                                         <div className='row m-0 pt-2'>
                                                                             <div className='col-4 p-0'>
-                                                                                <img src={data.image} alt='plant1' className='w-100' />
+                                                                                <img src={data.image} alt='plant1' className='w-100' onClick={(id) => click_view(data)}/>
                                                                             </div>
                                                                             <div className='col-8 py-4'>
                                                                                 <h5>{data.title_long}</h5>
-                                                                                {data.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={data.author}>{data.author.slice(0, 10)}</h5></>}
+                                                                                {data.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={data.author} onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author.slice(0, 10)}</h5></>}
                                                                                 <Rating
                                                                                     initialRating={data.avg_rating}
                                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
@@ -236,7 +244,7 @@ function Wishlist() {
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td className='py-5'><h6>INR {data.original_price}</h6></td>
+                                                                    <td className='py-5'><h6>INR {data.selling_price}</h6></td>
                                                                     <td className='py-5'><h3>In Stock</h3></td>
                                                                     <td className='py-5'>
                                                                         {userIdShop && userIdShop.length > 0 ? (
@@ -324,19 +332,18 @@ function Wishlist() {
                                                     return (
                                                         <>
                                                             <div className='col-sm-4 col-12 text-center' style={{height:'200px'}}>
-                                                                <img src={data.image} alt='plant1' style={{ width: '70%', height: '100%', objectFit: 'contain' }} />
+                                                                <img src={data.image} alt='plant1' style={{ width: '70%', height: '100%', objectFit: 'contain' }} onClick={(id) => click_view(data)}/>
                                                             </div>
                                                             <div className='col-sm-5 col-8 mt-3 rate_details'>
                                                                 <h5 className=''><b>Title :</b> {data.title_long.slice(0, 20)}...</h5>
-                                                                {data.author === undefined ? <><h5 className='text-primary'>Author : No Author</h5></> : <><h5 className='text-primary' title={data.author}><b>Author : </b>{data.author.slice(0, 10)}</h5></>}
+                                                                {data.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={data.author} onClick={() => author_name(data.author)} style={{cursor:'pointer'}}>{data.author.slice(0, 10)}</h5></>}
                                                                 <Rating
                                                                     initialRating={data.avg_rating}
                                                                     emptySymbol={<i className="far fa-star" style={{ color: 'lightgray' }}></i>}
                                                                     fullSymbol={<i className="fas fa-star" style={{ color: '#FFA837' }}></i>}
                                                                     readonly={true}
                                                                 />
-                                                                <h6>INR {data.original_price}</h6>
-
+                                                                <h6>INR {data.selling_price}</h6>
                                                                 <h3>In Stock</h3>
                                                             </div>
                                                             <div className='col-sm-3 col-4 align-self-center'>

@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faHeart, faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView, setUserIdShop, setMegaMenu, setUserIdLike } from '../Redux/CreateSlice';
+import { setisAdded, setisIncrement, setisDecrement, setisLiked, setallBookDetails, setLikedProducts, setlikeProduct, setlikescount, setShopProducts, setshopcount, setproductIdDetails, setsingleProductView, setUserIdShop, setMegaMenu, setUserIdLike, setAuthorsName } from '../Redux/CreateSlice';
 import { Link, useNavigate } from 'react-router-dom'
 import { addTocard_list, addTowhish_list, allbooks, megamenu_list, removeTocard_list } from '../Common/pages/apiBaseurl';
 
@@ -93,11 +93,8 @@ function Newproduct() {
         )
     );
 
-
-
-
-
-    const author_name = () => {
+    const author_name = (name) => {
+        dispatch(setAuthorsName(name))
         navigate('/authors')
     }
     const click_view = (book) => {
@@ -224,7 +221,7 @@ function Newproduct() {
                                                                                             }
                                                                                             <div className='book-details p-1'>
                                                                                                 <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                                                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                                                                                {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                                                                                 <h5>{book.category_id[0].name}</h5>
                                                                                                 <div className='d-flex '>
                                                                                                     <div className='rate-details'>
@@ -357,7 +354,7 @@ function Newproduct() {
                                                                                         }
                                                                                         <div className='book-details p-1'>
                                                                                             <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                                                                            {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                                                                            {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                                                                             <h5>{book.category_id[0].name}</h5>
                                                                                             <div className='d-flex '>
                                                                                                 <div className='rate-details'>
@@ -508,7 +505,7 @@ function Newproduct() {
                                                                                     }
                                                                                     <div className='book-details p-1'>
                                                                                         <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                                                                        {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                                                                        {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                                                                         <h5>{book.category_id[0].name}</h5>
                                                                                         <div className='d-flex '>
                                                                                             <div className='rate-details'>
@@ -744,7 +741,7 @@ function Newproduct() {
                                                                                 }
                                                                                 <div className='book-details p-1'>
                                                                                     <h1 className='w-100' title={book.title} onClick={(id) => click_view(book)}>{book.title_long.slice(0, 20)}...</h1>
-                                                                                    {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name()}>{book.author.slice(0, 10)}</h5></>}
+                                                                                    {book.author === undefined ? <><h5 className='text-primary'>No Author</h5></> : <><h5 className='text-primary' title={book.author} onClick={() => author_name(book.author)} style={{cursor:'pointer'}}>{book.author.slice(0, 10)}</h5></>}
                                                                                     <h5>{book.category_id[0].name}</h5>
                                                                                     <div className='d-flex '>
                                                                                         <div className='rate-details'>
