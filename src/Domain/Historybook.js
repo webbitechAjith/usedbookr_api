@@ -40,9 +40,7 @@ function Historybook() {
     const params = useParams();
 
     const reviewUpdate = async (reviewDetails) => {
-        console.log(reviewDetails)
         const review = await reviewRating(reviewDetails);
-        console.log(18181,review)
         if (review.message) {
             alert("Review Successfully");
             handleClose(); // Close the modal after submission

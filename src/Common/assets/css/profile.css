@@ -141,7 +141,8 @@
     color: #241D60;
     font-size: 16px;
     font-weight: 600;
-    line-height: 26px;
+    line-height: 26px !important;
+    cursor: pointer;
 }
 
 
@@ -227,6 +228,8 @@
     font-weight: 600;
     line-height: 24px;
 }
+
+
 
 /* history css end  */
 
@@ -401,6 +404,9 @@ thead th {
     background: aliceblue !important;
     color: #000 !important;
 }
+.modal-dialog{
+    max-width: 50% !important;
+}
 
 /* puechase css end  */
 
@@ -457,6 +463,15 @@ thead th {
         font-size: 16px !important;
         font-weight: 600;
         line-height: 26px !important;
+    }
+    .modal-dialog{
+        max-width: 75% !important;
+    }
+    .profile-section .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15%;
     }
 }
 
@@ -542,6 +557,15 @@ thead th {
         font-size: 16px !important;
         font-weight: 600;
         line-height: 26px !important;
+    }
+    .modal-dialog{
+        max-width: 75% !important;
+    }
+    .profile-section .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius:15%;
     }
 }
 
@@ -656,6 +680,15 @@ thead th {
     .card-mobile h5{
         font-size: 16px;
         line-height: 26px !important;
+    }
+    .modal-dialog{
+        max-width: 100% !important;
+    }
+    .profile-section .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10%;
     }
 
 }

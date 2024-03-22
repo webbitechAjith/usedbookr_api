@@ -130,7 +130,7 @@ const Orderprocess = () => {
                                 <input
                                     type="text"
                                     className="form-control border-0 border-bottom"
-                                    id="username"
+                                    // id="username"
                                     name="name"
                                     placeholder="Enter your name"
                                     value={orderDetails.name}

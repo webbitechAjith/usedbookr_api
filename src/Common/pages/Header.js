@@ -320,7 +320,7 @@ function Header() {
                     </div>
                 </div>
                 <div className='nav-section'>
-                    <nav className="navbar navbar-expand-lg container-90 py-1">
+                    <nav className="navbar navbar-expand-lg container-90 py-2">
                         <div className="container-fluid p-0">
                             <a className="navbar-brand d-none" href="#"><img src={mobilelogo} /></a>
                             <div className='d-lg-block d-none'>

@@ -79,6 +79,23 @@ export const otpToken = async (registerToken) => {
   }
 }
 
+export const edituser_address = async (updateAddress) => {
+  console.log(updateAddress)
+  try {
+    const edit_user = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.post('/api/profileupdate',updateAddress, {
+      headers: {
+        Authorization: `Bearer ${edit_user}`,
+        'Accept': 'application/json',
+      }
+    });
+    console.log(333,data)
+    return data
+  } catch (error) {
+    console.log("error")
+  }
+}
+
 
 
 //login api 
