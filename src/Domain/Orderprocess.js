@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../Common/pages/Header';
 import Footer from '../Common/pages/Footer';
-import { setOrderDetails, setRegisterToken } from '../Redux/CreateSlice';
+import { setOrderDetails, setRegisterToken, setSingleBookDetails } from '../Redux/CreateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 
 
 // api call fn path 
-import { orderPlace, otpToken, userRegister } from '../Common/pages/apiBaseurl'
+import { orderPlace, otpToken, single_bookorder, userRegister } from '../Common/pages/apiBaseurl'
 import { useNavigate } from 'react-router-dom';
 
 
 const Orderprocess = () => {
-    const { orderDetails, registerToken, userLogin } = useSelector((state) => state.usedbookr_product)
+    const { orderDetails, registerToken, userLogin, singleBookDetails } = useSelector((state) => state.usedbookr_product)
     const [activeTab, setActiveTab] = useState(1);
 
     const dispatch = useDispatch();
@@ -26,10 +26,10 @@ const Orderprocess = () => {
         try {
             const localRegisterToken = localStorage.getItem('usedbookrtoken');
             const response_token = await otpToken(localRegisterToken);
-            // console.log(response_token)
             const data_value = response_token.user;
-            dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number, profile: data_value.profile_img }));
-            dispatch(setOrderDetails({ email: data_value.email, name: data_value.name, mobile_no: data_value.phone_number }));
+            dispatch(setRegisterToken({ username: data_value.username, email: data_value.email, name: data_value.name, phonenumber: data_value.phone_number, profile: data_value.profile_img, address: data_value.address, city: data_value.city, state: data_value.state, pincode: data_value.pincode }));
+            dispatch(setOrderDetails({ email: data_value.email, name: data_value.name, mobile_no: data_value.phone_number, address: data_value.address, state: data_value.state, city: data_value.city, pincode: data_value.pincode, paymentmode: 'ONLINE' }));
+
         } catch (error) {
             console.log('error', error)
         }
@@ -48,61 +48,117 @@ const Orderprocess = () => {
         cvv: '',
     });
     const handlePayment = (e) => {
-        dispatch(setOrderDetails({ ...orderDetails, paymentmode: e.target.value }));
+        dispatch(setOrderDetails({ ...orderDetails, paymentmode: 'ONLINE' }));
     };
 
+    const orderCheck = () => {
+        console.log("singleBookDetails", singleBookDetails)
+        if (singleBookDetails.quantity == 1 || singleBookDetails.quantity == 2 || singleBookDetails.extraquanity == 1 || singleBookDetails.extraquanity == 2) {
+            const orderaddress = {
+                name: orderDetails.name,
+                email: orderDetails.email,
+                mobile_no: orderDetails.mobile_no,
+                state: registerToken.state,
+                city: registerToken.city,
+                pincode: registerToken.pincode,
+                address: registerToken.address,
+                paymentmode: "ONLINE",
+                book_id: singleBookDetails.book_id,
+                quantity: singleBookDetails.extraquanity,
+                price: singleBookDetails.totalamount,
+
+            }
+            dispatch(setSingleBookDetails(orderaddress))
+        } else {
+            const initialOrderDetails = {
+                name: orderDetails.name,
+                email: orderDetails.email,
+                mobile_no: orderDetails.mobile_no,
+                state: registerToken.state,
+                city: registerToken.city,
+                pincode: registerToken.pincode,
+                address: registerToken.address,
+                paymentmode: "ONLINE"
+            };
+            dispatch(setOrderDetails(initialOrderDetails));
+        }
+
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Add your form submission logic here
         console.log(formData);
     };
+
     // useEffect(() => {
 
     // }, []); // Empty dependency array means this effect runs only once on component mount
     useEffect(() => {
         tokenGet()
+        orderCheck();
         window.scrollTo(0, 0);
-
 
         // Logic to fetch initial values from somewhere (localStorage, API, etc.)
         const initialOrderDetails = {
             name: orderDetails.name,
             email: orderDetails.email,
-            mobile_no: orderDetails.phonenumber,
-            state: "",
-            city: "",
-            pincode: "",
-            address: "",
-            paymentmode: ""
+            mobile_no: orderDetails.mobile_no,
+            state: orderDetails.address,
+            city: orderDetails.city,
+            pincode: orderDetails.pincode,
+            address: orderDetails.address,
+            paymentmode: orderDetails.paymnet
         };
         dispatch(setOrderDetails(initialOrderDetails));
     }, []);
+    console.log("singleBookDetails.quanity", singleBookDetails.quantity)
     const orderPlacess = async () => {
-        const isEmpty = Object.values(orderDetails).some(value => value === "");
-        if (isEmpty) {
-            alert("Please fill in all the fields.");
-            return;
+        if (singleBookDetails.quantity == 1 || singleBookDetails.quantity == 2 || singleBookDetails.extraquanity == 1 || singleBookDetails.extraquanity == 2) {
+            alert("ajith")
+            const isEmpty = Object.values(singleBookDetails).some(value => value === "");
+            if (isEmpty) {
+                alert("Please fill in all the fields.");
+                return;
+            } else {
+                try {
+                    const response = await single_bookorder(singleBookDetails);
+                    console.log("response", response)
+                    if (response.success == true) {
+                        alert(response.message);
+                    }
+                    if (response.message == 'Please redirect to url') {
+                        window.location.href = response.data.redirect_url;
+                    }
+                    // Handle the API response
+                } catch (error) {
+                    console.log(error);
+                }
+            }
         } else {
-            try {
-                const response = await orderPlace(orderDetails);
-                console.log("response",response)
-                if (response.success == true) {
-                    alert(response.message);
+            alert("kumar")
+            const isEmpty = Object.values(orderDetails).some(value => value === "");
+            if (isEmpty) {
+                alert("Please fill in all the fields.");
+                return;
+            } else {
+                try {
+                    const response = await orderPlace(orderDetails);
+                    console.log("response", response)
+                    if (response.success == true) {
+                        alert(response.message);
+                    }
+                    if (response.message == 'Please redirect to url') {
+                        window.location.href = response.data.redirect_url;
+
+                    }
+                } catch (error) {
+                    console.log(error);
                 }
-                if (response.message == 'Please redirect to url') {
-                    // window.location.href = response.data.redirect_url;
-                    window.open(response.data.redirect_url, '_blank')
-                    // alert("ajith")
-                    // navigate('/paymentinvoice');
-                }
-                // Handle the API response
-            } catch (error) {
-                console.log(error);
             }
         }
     }
-    // console.log(1010101, orderDetails)
+    console.log(singleBookDetails)
     window.addEventListener("beforeunload", (event) => {
         tokenGet();
         console.log("API call before page reload", registerToken);
@@ -177,38 +233,85 @@ const Orderprocess = () => {
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Address</label>
                             <div className="input-group">
-                                <textarea type="text" className="form-control border-0 border-bottom" placeholder="Enter your Address" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, address: e.target.value }))}></textarea>
+                                {/* <textarea type="text" className="form-control border-0 border-bottom" placeholder="Enter your Address" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, address: e.target.value }))}></textarea> */}
+                                <textarea
+                                    type="email"
+                                    className="form-control border-0 border-bottom"
+                                    id="address"
+                                    name="address"
+                                    placeholder="Enter your email"
+                                    value={registerToken.address}
+                                    required
+                                    onChange={handleChange}
+                                >
+                                </textarea>
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">City</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" placeholder="Enter your City" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, city: e.target.value }))} />
+                                {/* <input type="text" className="form-control border-0 border-bottom" placeholder="Enter your City" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, city: e.target.value }))} /> */}
+                                <input
+                                    type="text"
+                                    className="form-control border-0 border-bottom"
+                                    id="city"
+                                    name="city"
+                                    placeholder="Enter your city"
+                                    value={registerToken.city}
+                                    required
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">State</label>
                             <div className="input-group">
-                                <input type="text" className="form-control border-0 border-bottom" placeholder="Enter your State" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, state: e.target.value }))} />
+                                {/* <input type="text" className="form-control border-0 border-bottom" placeholder="Enter your State" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, state: e.target.value }))} /> */}
+                                <input
+                                    type="text"
+                                    className="form-control border-0 border-bottom"
+                                    id="state"
+                                    name="state"
+                                    placeholder="Enter your state"
+                                    value={registerToken.state}
+                                    required
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
                         <div className="my-3">
                             <label htmlFor="text" className="form-label">Pincode</label>
                             <div className="input-group">
-                                <input type="number" className="form-control border-0 border-bottom" placeholder="Enter your Pincode" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, pincode: e.target.value }))} />
+                                {/* <input type="text" className="form-control border-0 border-bottom" placeholder="Enter your State" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, state: e.target.value }))} /> */}
+                                <input
+                                    type="text"
+                                    className="form-control border-0 border-bottom"
+                                    id="pincode"
+                                    name="pincode"
+                                    placeholder="Enter your pincode"
+                                    value={registerToken.pincode}
+                                    required
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
                         <div className="my-3">
-                            <label htmlFor="text" className="form-label">Paymentmode</label>
+                            <label htmlFor="text" className="form-label">Payment Method</label>
                             <div className="input-group">
-                                <select onChange={handlePayment} className='form-control'>
-                                    <option>Select the payment method</option>
-                                    {/* <option value="COD">COD</option> */}
-                                    <option value="ONLINE">ONLINE</option>
-                                </select>
-                                {/* <input type="text"  ="form-control border-0 border-bottom" id="email" placeholder="Enter your Pincode" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, paymentmode: e.target.value }))} /> */}
+                                {/* <input type="number" className="form-control border-0 border-bottom" placeholder="Enter your Pincode" required onChange={(e) => dispatch(setOrderDetails({ ...orderDetails, pincode: e.target.value }))} /> */}
+                                <input
+                                    type="text"
+                                    className="form-control border-0 border-bottom"
+                                    id="paymentmode"
+                                    name="paymentmode"
+                                    placeholder="Enter your Phone number"
+                                    value="ONLINE"
+                                    required
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
+
                         <div className='order-confirm text-end'>
                             <button type='button' onClick={() => orderPlacess()}>OrderConfirm</button>
                         </div>

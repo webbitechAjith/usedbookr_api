@@ -66,7 +66,7 @@ const Allbooks = () => {
                 await removeTocard_list(id);
                 window.location.reload();
             } else {
-                const set_iddetails = await addTocard_list(product, 1);
+                const set_iddetails = await addTocard_list(product, 1,price);
                 dispatch(setUserIdShop(set_iddetails));
                 window.location.reload();
                 // navigate('/Purchase');
@@ -208,7 +208,7 @@ const Allbooks = () => {
                                                                             value={book.id}
                                                                             onClick={() => {
                                                                                 const cartId = userIdShop.find(cart => cart.book_id === book.id);
-                                                                                handleShopClick(book, cartId.id, book.original_price);
+                                                                                handleShopClick(book, cartId.id, book.selling_price);
                                                                             }}
                                                                         >
                                                                             <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
@@ -220,7 +220,7 @@ const Allbooks = () => {
                                                                             className='box-view1 float-end'
                                                                             id={book.id}
                                                                             value={book.id}
-                                                                            onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                                            onClick={() => handleShopClick(book, book.id, book.selling_price)}
                                                                         >
                                                                             <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
                                                                         </span>
@@ -232,7 +232,7 @@ const Allbooks = () => {
                                                                 className={totalshops.includes(book.id) ? 'normal-box1 float-end' : 'box-view1 float-end'}
                                                                 id={book.id}
                                                                 value={book.id}
-                                                                onClick={() => handleShopClick(book, book.id, book.original_price)}
+                                                                onClick={() => handleShopClick(book, book.id, book.selling_price)}
                                                             >
                                                                 <FontAwesomeIcon icon={faBagShopping} className='mr-fixed' />
                                                             </span>

@@ -188,12 +188,13 @@ export const wish_list = async () => {
 }
 
 // addtocard list api start 
-export const addTocard_list = async (isBookId, updatedQty) => {
+export const addTocard_list = async (isBookId, updatedQty,price) => {
   try {
     const tokenId_get = localStorage.getItem('usedbookrtoken');
     const { data } = await apiBaseurl.post('api/addtocart', {
       book_id: isBookId.id,
       quantity: updatedQty,
+      price:price
     }, {
       headers: {
         Authorization: `Bearer ${tokenId_get}`,
@@ -291,6 +292,22 @@ export const removeTolike_list = async (id) => {
   }
 }
 
+// single book update api call 
+export const single_bookorder = async (singleBookDetails) => {
+  try {
+    const tokenId_get = localStorage.getItem('usedbookrtoken');
+    const { data } = await apiBaseurl.post('/api/singleplaceorder', singleBookDetails, {
+      headers: {
+        Authorization: `Bearer ${tokenId_get}`,
+        'Accept': 'application/json',
+      }
+    });
+    return data;
+
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // orderplace api call 
 export const orderPlace = async (orderDetails) => {

@@ -19,12 +19,12 @@ import description4 from '../Common/assets/image/description4.png'
 // import Rating from '../Common/assets/image/Rating.png'
 
 // state change action 
-import { setallBookDetails, setproductIdDetails, setUserIdShop, setsingleItemCount, setsingleItemPrice, setSingleProductPrice } from '../Redux/CreateSlice';
+import { setallBookDetails, setproductIdDetails, setUserIdShop, setsingleItemCount, setsingleItemPrice, setSingleProductPrice, setSingleBookDetails } from '../Redux/CreateSlice';
 import { addTocard_list, allbooks } from '../Common/pages/apiBaseurl';
 
 
 function Placeorder() {
-    const { allbookDetails, productIdDetails, singleProductPrice, userIdShop } = useSelector((state) => state.usedbookr_product)
+    const { allbookDetails, productIdDetails, singleBookDetails, singleProductPrice, userIdShop } = useSelector((state) => state.usedbookr_product)
     const [activeTab, setActiveTab] = useState('tab1');
     const [orderBooks, setOrderBooks] = useState('')
     const [totalPrice, setTotalPrice] = useState(0);
@@ -52,41 +52,59 @@ function Placeorder() {
         setOrderBooks([bookDetail])
     }
 
-
-    // increment in product count 
-    const itemIncrement = async (data) => {
-        const updatedBooks = userIdShop.map(book => {
-            if (book.book_id === data.id) {
-                return { ...book, quantity: book.quantity + 1 };
-            }
-            return book;
-        });
-        dispatch(setUserIdShop(updatedBooks));
-        const updatedBook = updatedBooks.find(book => book.book_id === data.id);
-        if (updatedBook) {
-            await addTocard_list(data, updatedBook.quantity);
+    const singlebook_view = async () => {
+        const single_book = await allbooks();
+        dispatch(setallBookDetails(single_book))
+        const bookDetail = single_book.find(data => data.id == params.id);
+        const book = {
+            name: "",
+            email: "",
+            mobile_no: "",
+            state: "",
+            city: "",
+            pincode: "",
+            address: "",
+            paymentmode: "",
+            book_id: bookDetail.id,
+            price: bookDetail.selling_price,
+            extraquanity: 1,
+            totalamount:bookDetail.selling_price
         }
-    };
-    // decrement in product count 
-    const itemDecrement = async (data) => {
-        const updatedBooks = userIdShop.map(book => {
-            if (book.book_id === data.id) {
-                return { ...book, quantity: book.quantity - 1 };
-            }
-            return book;
-        });
-        dispatch(setUserIdShop(updatedBooks));
-        const updatedBook = updatedBooks.find(book => book.book_id === data.id);
-        if (updatedBook) {
-            await addTocard_list(data, updatedBook.quantity);
-        }
-    };
+        dispatch(setSingleBookDetails(book))
+        dispatch(setallBookDetails(bookDetail))
+    }
+    // console.log("kumar", singleBookDetails)
 
+
+    const itemIncrement = () => {
+        const updatedExtraQuantity = singleBookDetails.extraquanity + 1;
+        const totalAmount = ((singleBookDetails.price * updatedExtraQuantity) + (((singleBookDetails.price * allbookDetails.gst_charge) / 100) * updatedExtraQuantity) + 60);
+        
+        dispatch(
+            setSingleBookDetails({
+                ...singleBookDetails,
+                extraquanity: updatedExtraQuantity,
+                totalamount: totalAmount
+            })
+        );
+    };
+    const itemDecrement = async () => {
+        dispatch(
+            setSingleBookDetails(
+                {
+                    ...singleBookDetails,
+                    extraquanity: singleBookDetails.extraquanity - 1
+                }
+            )
+        );
+    };
     useEffect(() => {
         allbook_view();
+        singlebook_view();
         dispatch(setproductIdDetails(productIdDetails))
-        // dispatch(setsingleItemPrice(productIdDetails[0].total_price))
-    }, [])
+    }, []);
+    // console.log(singleBookDetails);
+    // console.log(allbookDetails)
     return (
         <div>
             <div className='description-section'>
@@ -100,11 +118,10 @@ function Placeorder() {
 
                                         {orderBooks && orderBooks.map((data) => {
                                             const match = userIdShop?.find(item => item.book_id === data.id);
-
                                             return (
                                                 <div className='row m-0 gy-2' key={data.id}>
                                                     <div className='col-lg-6 col-12 text-center'>
-                                                        <img src={data.image} alt={data.title_long} style={{width:'200px',height:'350px',objectFit:'fill'}}/>
+                                                        <img src={data.image} alt={data.title_long} style={{ width: '200px', height: '350px', objectFit: 'fill' }} />
                                                     </div>
                                                     <div className='col-lg-6 col-12 description-details'>
                                                         <h1>{data.title_long}</h1>
@@ -119,17 +136,17 @@ function Placeorder() {
                                                         <span className='price pe-2'>INR {singleProductPrice.price ? <>{singleProductPrice.price}</> : <>{data.selling_price}</>}</span>
                                                         <span className='text-decoration-line-through rate'>INR {data.original_price}</span>
                                                         <button className='sales-offer'>{data.discount}% offer</button>
-                                                        <h6 className='cate my-2'>Category: <span className='ms-2'>{data.category_id[0].name}</span></h6>
-                                                        <h6 className='cate my-2'>Sub Category: <span className='ms-2'>{data.subcategory_id[0].name}</span></h6>
+                                                        {/* <h6 className='cate my-2'>Category: <span className='ms-2'>{data.category_id[0].name}</span></h6> */}
+                                                        {/* <h6 className='cate my-2'>Sub Category: <span className='ms-2'>{data.subcategory_id[0].name}</span></h6> */}
                                                         <hr />
-                                                        <p>{data.synopsis}</p>
-                                                        {match && (
-                                                            <div>
-                                                                {match.quantity > 1 ? <><span class="minus" onClick={() => itemDecrement(data)}>-</span></> : <><span class="minus">-</span></>}
-                                                                <span class="num"><a className='mx-2 text-decoration-none'>{match.quantity}</a></span>
-                                                                <span class="plus" onClick={() => itemIncrement(data)}>+</span>
-                                                            </div>
-                                                        )}
+                                                        {/* <p>{data.synopsis}</p> */}
+                                                        {/* {match && ( */}
+                                                        <div>
+                                                            {singleBookDetails.extraquanity > 1 ? <><span class="minus" onClick={() => itemDecrement()}>-</span></> : <><span class="minus">-</span></>}
+                                                            <span class="num"><a className='mx-2 text-decoration-none'>{singleBookDetails.extraquanity}</a></span>
+                                                            {singleBookDetails.extraquanity < 2 ? <><span class="minus" onClick={() => itemIncrement()}>+</span></> : <><span class="minus">+</span></>}
+                                                        </div>
+                                                        {/* )} */}
                                                         <hr />
                                                     </div>
                                                 </div>
@@ -154,39 +171,16 @@ function Placeorder() {
                                     <div className='row m-0'>
                                         <div className='col-6'>
                                             <h6 className=''>Price
-                                                {orderBooks?.length > 0 ? (
-                                                    <>
-                                                        {orderBooks.map((data) => {
-                                                            const match = userIdShop?.find(item => item.book_id === data.id);
-                                                            return (
-                                                                match && (
-                                                                    <span key={data.id}>
-                                                                        ({match.quantity} item)
-                                                                    </span>
-                                                                )
-                                                            );
-                                                        })}
-                                                    </>
-                                                ) : null}
+                                                
+                                                ({singleBookDetails.extraquanity}) :
+
                                             </h6>
                                         </div>
                                         <div className='col-6 text-end'>
                                             <h6 className=''>
-                                                {orderBooks?.length > 0 ?
-                                                    <>
-                                                        {orderBooks && orderBooks.map((data) => {
-                                                            const match = userIdShop?.find(item => item.book_id === data.id);
-                                                            return (
-                                                                match && (
-                                                                    <span key={data.id}>
-                                                                        {singleProductPrice.price ? <>{singleProductPrice.price * match.quantity}</> : <>{(data.selling_price * match.quantity)}</>}
-                                                                    </span>
-                                                                )
-                                                            );
-                                                        })}
-                                                    </>
-                                                    :
-                                                    <></>}
+                                                
+                                                    {singleProductPrice.price ? <>{(singleProductPrice.price * singleBookDetails.extraquanity).toLocaleString()}</> : <>{(singleBookDetails.price * singleBookDetails.extraquanity).toLocaleString()}</>}
+                                                    
 
                                             </h6>
                                         </div>
@@ -199,22 +193,7 @@ function Placeorder() {
                                         </div>
                                         <div className='col-6 text-end'>
                                             <h6 className=''>
-                                                {orderBooks?.length > 0 ?
-                                                    <>
-                                                        {orderBooks && orderBooks.map((data) => {
-                                                            const match = userIdShop?.find(item => item.book_id === data.id);
-                                                            return (
-                                                                match && (
-                                                                    <span key={data.id}>
-                                                                        {singleProductPrice.price ? <>{((singleProductPrice.price * data.gst_charge) / 100) * match.quantity}</> : <>{((data.selling_price * data.gst_charge) / 100) * match.quantity} </>}
-                                                                    </span>
-                                                                )
-                                                            );
-                                                        })}
-                                                    </>
-                                                    :
-                                                    <></>}
-
+                                                {singleProductPrice.price ? <>{((singleProductPrice.price * allbookDetails.gst_charge) / 100) * singleBookDetails.extraquanity}</> : <>{((singleBookDetails.price * allbookDetails.gst_charge) / 100) * singleBookDetails.extraquanity} </>}
                                             </h6>
                                         </div>
                                     </div>
@@ -244,21 +223,8 @@ function Placeorder() {
                                                 }
                                                 return tempTotalPrice;
                                             })()} */}
-                                            {orderBooks?.length > 0 ?
-                                                <>
-                                                    {orderBooks && orderBooks.map((data) => {
-                                                        const match = userIdShop?.find(item => item.book_id === data.id);
-                                                        return (
-                                                            match && (
-                                                                <span key={data.id}>
-                                                                    {singleProductPrice.price ? <>{(((singleProductPrice.price * match.quantity) + ((singleProductPrice.price * data.gst_charge) / 100)* match.quantity)+60)} </> : <>{(((data.selling_price * match.quantity) + ((data.selling_price * data.gst_charge) / 100)* match.quantity) + 60)} </>}
-                                                                </span>
-                                                            )
-                                                        );
-                                                    })}
-                                                </>
-                                                :
-                                                <></>}
+                                            {singleProductPrice.price ? <>{((singleProductPrice.price * allbookDetails.gst_charge) / 100) * singleBookDetails.extraquanity}</> : <>{(singleBookDetails.price * singleBookDetails.extraquanity)+((((singleBookDetails.price * allbookDetails.gst_charge) / 100) * singleBookDetails.extraquanity))+60} </>}
+                                            
                                         </h3>
                                     </div>
 

@@ -91,7 +91,7 @@ function Description() {
         }
     }
     const buynow = async (data, id, price) => {
-        await addTocard_list(data, 1);
+        // await addTocard_list(data, 1);
         const loginUser = localStorage.getItem('usedbookrtoken');
         if (loginUser) {
             navigate(`/Placeorder/${data.id}`, { state: data })
