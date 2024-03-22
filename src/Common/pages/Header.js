@@ -468,7 +468,7 @@ function Header() {
                                                 <ul className={`dropdown-menu w-100 ${isSearchexpanded ? 'show' : ''}`} aria-labelledby="dropdownMenuButton1">
                                                     <li className='search-fixed'>
                                                         <div className="input-group">
-                                                            <input type="text" className="form-control " placeholder="Search our shop" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ ...searchProduct, searchItem: val.target.value })); handleChange(val) }} />
+                                                            <input type="text" className="form-control " placeholder="search our book" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ ...searchProduct, searchItem: val.target.value })); handleChange(val) }} />
                                                             <span className="input-group-text search-btn" id="basic-addon2">Search</span>
                                                         </div>
                                                     </li>
@@ -632,8 +632,8 @@ function Header() {
                                         </div>
                                         <div className='col-lg-2 d-flex align-items-center text-end'>
                                             <div className="input-group">
-                                                <input type="text" className="form-control " placeholder="Search our shop" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ ...searchProduct, searchItem: val.target.value })); handleChange(val) }} />
-                                                {/* <input type="text" className="form-control " placeholder="Search our shop" aria-label="Recipient's username" aria-describedby="basic-addon2" value={searchProduct.length > 0 ? searchProduct : ''} onChange={(event) => { dispatch(setsearchProduct(event.target.value)) }} /> */}
+                                                <input type="text" className="form-control " placeholder="search our book" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(val) => { dispatch(setsearchProduct({ ...searchProduct, searchItem: val.target.value })); handleChange(val) }} />
+                                                {/* <input type="text" className="form-control " placeholder="search our book" aria-label="Recipient's username" aria-describedby="basic-addon2" value={searchProduct.length > 0 ? searchProduct : ''} onChange={(event) => { dispatch(setsearchProduct(event.target.value)) }} /> */}
                                                 {/* <span className="input-group-text search-btn" id="basic-addon2" onClick={seacrch_product}>Search</span> */}
                                             </div>
                                         </div>

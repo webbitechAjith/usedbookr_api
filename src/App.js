@@ -38,6 +38,9 @@ import Newproduct from './Domain/Newproduct';
 import Invoice from './Common/pages/Invoice';
 import Historybook from './Domain/Historybook';
 import NewSellers from './Domain/NewSellers';
+import Faq from './Common/pages/Faq';
+import Termsconditions from './Common/pages/Termsconditions';
+import Privacypolicy from './Common/pages/Privacypolicy';
 
 function App() {
   const {id} = useParams();
@@ -87,6 +90,9 @@ function App() {
         <Route path='/newarrival' element={<Newproduct />} />
         <Route path='/newseller' element={<NewSellers />} />
         <Route path='/about' element={<About />} />
+        <Route path='/faq' element={<Faq />} />
+        <Route path='/termsconditions' element={<Termsconditions />} />
+        <Route path='/privacypolicy' element={<Privacypolicy />} />
         <Route path='/bookhistory/:id' element={<Historybook />} />
         <Route path='/paymentinvoice/:id' element={<Invoice />} />
         <Route path='*' element={<Error />} />

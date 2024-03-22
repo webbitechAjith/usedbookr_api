@@ -341,7 +341,7 @@ function Home() {
                 <div className='contact-box'>
                   <img src={contact} alt='location' />
                   <h4>Call Us </h4>
-                  <p className='number'>+91 6300201360</p>
+                  <p className='number pb-2'>+91 6300201360</p>
                 </div>
               </div>
               <div className='col-lg-6 col-md-12 col-12 my-lg-0 my-2'>

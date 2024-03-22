@@ -58,21 +58,6 @@ function Description() {
     // like product click fn 
     const totallikes = likedProducts.map((data) => data.id);
 
-    const handleLikeClick = (product) => {
-        const isLikeds = product.id;
-        // Check if the product ID is in the likedProducts array
-        if (totallikes.includes(isLikeds)) {
-            // If it's already liked, remove it from the likedProducts array
-            dispatch(setLikedProducts(likedProducts.filter((likedProduct) => likedProduct.id !== isLikeds)));
-            dispatch(setlikescount(likescount - 1))
-        } else {
-            // If it's not liked, add it to the likedProducts array
-            dispatch(setLikedProducts([...likedProducts, product]));
-            dispatch(setlikescount(likescount + 1))
-
-        }
-    };
-
     // shop product click fn 
     const totalshops = shopProducts.map((data) => data.id);
     const handleShopClick = async (product, id, price) => {

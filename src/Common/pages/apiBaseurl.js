@@ -361,4 +361,34 @@ export const profileImage = async (userProfileImage) => {
 }
 
 
+// faqs api start 
+export const faq_list = async () => {
+  try {
+    const { data } = await apiBaseurl.get('/api/faqs')
+    return data.page;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// terms and condition api start 
+export const terms_condition = async () => {
+  try {
+    const { data } = await apiBaseurl.get('/api/termscondition')
+    return data.page;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// privacy_policyprivacypolicy api start 
+export const privacy_policy = async () => {
+  try {
+    const { data } = await apiBaseurl.get('/api/privacypolicy')
+    return data.page;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export default apiBaseurl; // Exporting the axios instance for general use

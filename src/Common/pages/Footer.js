@@ -9,15 +9,21 @@ import icon3 from '../assets/image/twitter 1.png'
 import icon4 from '../assets/image/pinterest 1.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
+import { NavLink, useLocation } from 'react-router-dom'
 
 
 function Footer() {
+    const location = useLocation();
+
+    const { pathname, search, hash } = location;
+
+
     return (
         <>
             <footer className='footer-section'>
                 <div className='container-60 pt-5 pb-2'>
                     <div className='text-center'>
-                        <img src={logo} className='footer-logo' width={200}/>
+                        <img src={logo} className='footer-logo' width={200} />
                         <h6>Contact Us</h6>
                         <hr style={{ width: '20px', margin: '0 auto', border: '5px soild #FFF', color: '#FFF' }} />
                         <p>2nd Floor, 105/3, Athipalayam Road, chinnavedampatti, Coimbatore,Tamil Nadu, 641049</p>
@@ -60,15 +66,32 @@ function Footer() {
                     <div className='container-95'>
                         <div className='row m-0 align-items-center'>
                             <div className='col-lg-3 col-12 text-center'>
-                                <p>Copyright ©2024 Usedbookr.<br/>All Rights Reserved</p>
+                                <p>Copyright ©2024 Usedbookr.<br />All Rights Reserved</p>
                             </div>
                             <div className='col-lg-6 col-12 my-lg-0 my-2 footer-list '>
                                 <ul className='text-center mb-0 p-0'>
                                     {/* <li>Track Order</li> */}
-                                    <li>FAQ’s</li>
-                                    <li>About</li>
-                                    <li>Terms & Condition</li>
-                                    <li>Privacy Policy</li>
+                                    <li>
+                                        <NavLink exact to={{ pathname: '/faq' }} className={`${pathname === '/faq' ? 'active' : 'custom-active'} text-white text-decoration-none`}>
+                                            FAQ'S
+                                        </NavLink>
+                                    </li>
+                                    <li className='nav-items align-items-center'>
+                                        <NavLink exact to={{ pathname: '/about' }} className={`${pathname === '/about' ? 'active' : 'custom-active'} text-white text-decoration-none`}>
+                                            About
+                                        </NavLink>
+
+                                    </li>
+                                    <li>
+                                        <NavLink exact to={{ pathname: '/termsconditions' }} className={`${pathname === '/termsconditions' ? 'active' : 'custom-active'} text-white text-decoration-none`}>
+                                            Terms & Conditions
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink exact to={{ pathname: '/privacypolicy' }} className={`${pathname === '/privacypolicy' ? 'active' : 'custom-active'} text-white text-decoration-none`}>
+                                            Privacy Policy
+                                        </NavLink>
+                                    </li>
                                 </ul>
                             </div>
                             <div className='col-lg-3 col-12 text-center'>
